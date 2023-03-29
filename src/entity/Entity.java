@@ -23,8 +23,8 @@ public abstract class Entity {
     // TODO CHANGE TO PROTECTED LATER WHEN WE DONT CREATE OBJECT IN GAMEPANEL
     public void drawHitbox(Graphics g){
         //For Debugging hitbox
-        g.setColor(Color.BLACK);
-        g.drawRect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
+        //g.setColor(Color.BLACK);
+        //g.drawRect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
     }
 
     protected void updateHitbox(){

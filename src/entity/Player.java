@@ -23,7 +23,7 @@ public class Player extends Entity {
     private boolean movingUp;
     private boolean movingDown;
     private boolean isMoving = false;
-    private float playerSpeed = 2.0f;
+    private float playerSpeed = 1.2f;
 
     public Player(float x, float y, int width, int heigth) {
         super(x, y, width, heigth);
