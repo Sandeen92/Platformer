@@ -1,3 +1,5 @@
+package main;
+
 public class Game implements Runnable{
     private GameWindow gameWindow;
     private GamePanel gamePanel;
@@ -5,12 +7,12 @@ public class Game implements Runnable{
     private final int FPS_SET = 120;
     private long lastCheck = System.currentTimeMillis();
     private int frames = 0;
+
     public Game(){
         gamePanel = new GamePanel();
-        gameWindow = new GameWindow(400,400, gamePanel);
-        gamePanel.requestFocus();
+        gameWindow = new GameWindow(gamePanel);
         startGameLoop();
-
+        gamePanel.requestFocus();
     }
 
     private void startGameLoop(){
