@@ -5,6 +5,7 @@ public class Game implements Runnable{
     private GamePanel gamePanel;
     private Thread gameThread;
     private final int FPS_SET = 120;
+    private final int UPS_SET = 200;
     private long lastCheck = System.currentTimeMillis();
     private int frames = 0;
 
@@ -23,6 +24,7 @@ public class Game implements Runnable{
     @Override
     public void run() {
         double timePerFrame = 1000000000.0/ FPS_SET;
+        double timePerUpdate = 1000000000.0/ UPS_SET;
         long lastFrame = System.nanoTime();
         long now = System.nanoTime();
 
