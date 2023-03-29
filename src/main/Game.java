@@ -22,7 +22,7 @@ public class Game implements Runnable{
     }
 
     private void initClasses() {
-        player = new Player(200,200, 128,80);
+        player = new Player(200,598, 128,80);
     }
 
     private void startGameLoop(){

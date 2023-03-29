@@ -9,6 +9,7 @@ import java.io.InputStream;
 import static utils.Constants.Directions.LEFT;
 import static utils.Constants.Directions.RIGHT;
 import static utils.Constants.PlayerConstants.*;
+import static utils.AssistanceMethods.canMoveHere;
 
 public class Player extends Entity {
 
@@ -31,26 +32,40 @@ public class Player extends Entity {
 
     public void updatePlayer() {
         updatePlayerPosition();
+        updateHitbox();
         updateAnimationTick();
         setPlayerAnimation();
     }
 
     public void renderPlayer(Graphics g) {
         g.drawImage(playerAnimations[playerAction][animationIndex], (int)x, (int)y,width,heigth, null);
+        drawHitbox(g);
     }
 
     private void updatePlayerPosition() {
         isMoving = false;
+        if(!movingLeft && !movingRight){
+            return;
+        }
+        float xSpeed = 0;
+        float ySpeed = 0;
 
         if(movingLeft && !movingRight){
-            x -= playerSpeed;
-            isMoving = true;
+            xSpeed = -playerSpeed;
+
         } else if (movingRight && !movingLeft){
-            x += playerSpeed;
-            isMoving = true;
+            xSpeed = playerSpeed;
+
         }
 
         //ADD FOR UP AND DOWN
+
+        //TODO FIX LATER
+        if(canMoveHere(x+xSpeed, y+ySpeed, width,heigth)){
+            this.x += xSpeed;
+            this.y += ySpeed;
+            isMoving =true;
+        }
     }
 
     private void setPlayerAnimation() {
