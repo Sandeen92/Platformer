@@ -36,10 +36,14 @@ public class GamePanel extends JPanel {
         }
     }
 
+    public void updateGame(){
+        //Everything to update the game goes here
+    }
+
     public void paintComponent(Graphics g){
         super.paintComponent(g);
+        //TODO remove later
         g.drawImage(backgroundImage, 0, 0, null);
-
         g.setColor(Color.BLUE);
         g.fillRect(50+(int)xDelta,598+(int)yDelta,64,64);
     }
