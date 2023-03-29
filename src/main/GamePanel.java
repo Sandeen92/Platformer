@@ -9,16 +9,21 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class GamePanel extends JPanel {
-    private float xDelta = 0;
-    private float yDelta = 0;
-    private BufferedImage backgroundImage;
+import static utils.Constants.PlayerConstants.*;
+import static utils.Constants.Directions.*;
 
-    public GamePanel(){
+public class GamePanel extends JPanel {
+    private BufferedImage backgroundImage;
+    private Game game;
+
+    public GamePanel(Game game){
         addKeyListener(new KeyBoardInputs(this));
         setPanelSize();
+        this.game = game;
         importBackGroundImage();
+
     }
+
 
 
     public void setPanelSize(){
@@ -38,21 +43,16 @@ public class GamePanel extends JPanel {
 
     public void updateGame(){
         //Everything to update the game goes here
+
     }
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        //TODO remove later
         g.drawImage(backgroundImage, 0, 0, null);
-        g.setColor(Color.BLUE);
-        g.fillRect(50+(int)xDelta,598+(int)yDelta,64,64);
+        game.renderEverything(g);
     }
 
-    public void changeYDelta(int change){
-        yDelta+=change;
-    }
-
-    public void changeXDelta(int change){
-        xDelta+=change;
+    public Game getGame(){
+        return game;
     }
 }
