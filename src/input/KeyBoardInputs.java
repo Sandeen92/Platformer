@@ -19,14 +19,14 @@ public class KeyBoardInputs implements KeyListener {
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()){
 
-            case KeyEvent.VK_LEFT:
+            case KeyEvent.VK_A:
                 gamePanel.getGame().getPlayer().setMovingLeft(true);
                 break;
-            case KeyEvent.VK_RIGHT:
+            case KeyEvent.VK_D:
                 gamePanel.getGame().getPlayer().setMovingRight(true);
                 break;
             case KeyEvent.VK_SPACE:
-                gamePanel.getGame().getPlayer().setMovingUp(true);
+                gamePanel.getGame().getPlayer().setJumping(true);
                 break;
             case KeyEvent.VK_SHIFT:
                 gamePanel.getGame().getPlayer().setMovingDown(true);
@@ -37,14 +37,14 @@ public class KeyBoardInputs implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         switch (e.getKeyCode()){
-            case KeyEvent.VK_LEFT:
+            case KeyEvent.VK_A:
                 gamePanel.getGame().getPlayer().setMovingLeft(false);
                 break;
-            case KeyEvent.VK_RIGHT:
+            case KeyEvent.VK_D:
                 gamePanel.getGame().getPlayer().setMovingRight(false);
                 break;
             case KeyEvent.VK_SPACE:
-                gamePanel.getGame().getPlayer().setMovingUp(false);
+                gamePanel.getGame().getPlayer().setJumping(false);
                 break;
             case KeyEvent.VK_SHIFT:
                 gamePanel.getGame().getPlayer().setMovingDown(false);
