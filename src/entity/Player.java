@@ -1,5 +1,7 @@
 package entity;
 
+import main.Game;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -12,7 +14,6 @@ import static utils.Constants.PlayerConstants.*;
 import static utils.AssistanceMethods.canMoveHere;
 
 public class Player extends Entity {
-
     private BufferedImage[][] playerAnimations;
     private int animationTick;
     private int animationIndex;
@@ -22,6 +23,9 @@ public class Player extends Entity {
     private boolean movingRight;
     private boolean movingUp;
     private boolean movingDown;
+    private int[][] lvlData;
+    private float xDrawOffset = 21 * Game.SCALE;
+    private float yDrawOffset = 4 * Game.SCALE;
     private boolean isMoving = false;
     private boolean jumping;
     private float playerSpeed = 1.2f;
@@ -36,17 +40,17 @@ public class Player extends Entity {
     public Player(float x, float y, int width, int heigth) {
         super(x, y, width, heigth);
         loadPlayerAnimations();
+        initialiseHitbox(x,y, 20 * Game.SCALE, 28 * Game.SCALE);
     }
 
     public void updatePlayer() {
         updatePlayerPosition();
-        updateHitbox();
         updateAnimationTick();
         setPlayerAnimation();
     }
 
     public void renderPlayer(Graphics g) {
-        g.drawImage(playerAnimations[playerAction][animationIndex], (int)x, (int)y,width,heigth, null);
+        g.drawImage(playerAnimations[playerAction][animationIndex], (int) (hitbox.x - xDrawOffset), (int)(hitbox.y - yDrawOffset), width,heigth, null);
         drawHitbox(g);
     }
 
@@ -71,12 +75,10 @@ public class Player extends Entity {
             ySpeed = playerSpeed;
         }
 
-        //ADD FOR UP AND DOWN
 
-        //TODO FIX LATER
-        if(canMoveHere(x+xSpeed, y+ySpeed, width,heigth)){
-            this.x += xSpeed;
-            this.y += ySpeed;
+        if(canMoveHere(hitbox.x + xSpeed, hitbox.y + ySpeed, hitbox.width, hitbox.height, lvlData)){
+            hitbox.x += xSpeed;
+            hitbox.y += ySpeed;
             isMoving =true;
         }
     }
@@ -122,6 +124,10 @@ public class Player extends Entity {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    public void loadLvlData(int [][] lvlData){
+        this.lvlData = lvlData;
     }
 
     public boolean isMovingLeft() {

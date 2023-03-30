@@ -28,6 +28,9 @@ public class KeyBoardInputs implements KeyListener {
             case KeyEvent.VK_SPACE:
                 gamePanel.getGame().getPlayer().setMovingUp(true);
                 break;
+            case KeyEvent.VK_SHIFT:
+                gamePanel.getGame().getPlayer().setMovingDown(true);
+                break;
         }
     }
 
@@ -42,6 +45,9 @@ public class KeyBoardInputs implements KeyListener {
                 break;
             case KeyEvent.VK_SPACE:
                 gamePanel.getGame().getPlayer().setMovingUp(false);
+                break;
+            case KeyEvent.VK_SHIFT:
+                gamePanel.getGame().getPlayer().setMovingDown(false);
                 break;
         }
 

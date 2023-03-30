@@ -4,11 +4,11 @@ import main.Game;
 
 public class AssistanceMethods {
     //Change box for level later
-    public static boolean canMoveHere(float x, float y, int width, int heigth){
-        if(!isSolid(x,y)){
-            if(!isSolid(x + width,y + heigth)){
-               if(!isSolid(x + width, y)){
-                   if(!isSolid(x, y + heigth)){
+    public static boolean canMoveHere(float x, float y, float width, float heigth, int[][] levelData){
+        if(!isSolid(x,y, levelData)){
+            if(!isSolid(x + width,y + heigth, levelData)){
+               if(!isSolid(x + width, y, levelData)){
+                   if(!isSolid(x, y + heigth, levelData)){
                        return true;
                    }
                }
@@ -17,19 +17,25 @@ public class AssistanceMethods {
         return false;
     }
     //Implement later
-    private static boolean isSolid(float x, float y){
-        // TODO Change 1280 later for an variable
-        if(x < 0 || x >= 1280){
+    private static boolean isSolid(float x, float y, int [][] levelData){
+
+        if(x < 0 || x >= Game.GAME_WIDTH){
             return true;
         }
-        // TODO Change 800 later for an variable
-        if(y < 0 || y >= 800){
+
+        if(y < 0 || y >= Game.GAME_HEIGHT){
             return true;
         }
-        //TODO CHANGE LATER
-        if(y > 800){
+        float xIndex = x/Game.TILES_SIZE;
+        float yIndex = y/Game.TILES_SIZE;
+
+        int value = levelData[(int)yIndex][(int) xIndex];
+
+        if(value >= 48 || value <0 || value != 11){
             return true;
+        } else {
+            return false;
         }
-        return false;
+
     }
 }
