@@ -27,7 +27,7 @@ public class AssistanceMethods {
             return true;
         }
         //TODO CHANGE LATER
-        if(y<598){
+        if(y > 800){
             return true;
         }
         return false;

@@ -23,7 +23,15 @@ public class Player extends Entity {
     private boolean movingUp;
     private boolean movingDown;
     private boolean isMoving = false;
+    private boolean jumping;
     private float playerSpeed = 1.2f;
+    //Kan detta flyttas till en physics clas??
+    private float airSpeed = 0f;
+    private float gravity = 0.04f; // multiply with gameScale later
+    private float jumpSpeed = -2.25f; // Multiply with gameScale later
+    private float fallSpeedAfterCollision = 0.5f; // Multiply with gameScale later
+    private boolean inAir = false;
+
 
     public Player(float x, float y, int width, int heigth) {
         super(x, y, width, heigth);
@@ -44,7 +52,7 @@ public class Player extends Entity {
 
     private void updatePlayerPosition() {
         isMoving = false;
-        if(!movingLeft && !movingRight){
+        if(!movingLeft && !movingRight && !movingUp && !movingDown){
             return;
         }
         float xSpeed = 0;
@@ -55,7 +63,12 @@ public class Player extends Entity {
 
         } else if (movingRight && !movingLeft){
             xSpeed = playerSpeed;
+        }
 
+        if(movingUp && !movingDown){
+            ySpeed = -playerSpeed;
+        } else if (!movingUp && movingDown){
+            ySpeed = playerSpeed;
         }
 
         //ADD FOR UP AND DOWN
@@ -146,6 +159,8 @@ public class Player extends Entity {
     public void allMovingBooleansFalse() {
         setMovingRight(false);
         setMovingLeft(false);
+        setMovingUp(false);
+        setMovingDown(false);
         isMoving = false;
     }
 }
