@@ -22,7 +22,7 @@ public class GamePanel extends JPanel {
         addKeyListener(new KeyBoardInputs(this));
         setPanelSize();
         this.game = game;
-        importBackGroundImage();
+        //importBackGroundImage();
         testBox = new entity.Box(0,678,1280,1);
         testObject = new entity.Box(750,598,100,80);
 
@@ -31,7 +31,7 @@ public class GamePanel extends JPanel {
 
 
     public void setPanelSize(){
-        Dimension panelSize = new Dimension(1280, 800);
+        Dimension panelSize = new Dimension(Game.GAME_WIDTH, Game.GAME_HEIGHT);
         setPreferredSize(panelSize);
     }
 
