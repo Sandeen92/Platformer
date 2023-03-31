@@ -32,6 +32,8 @@ public class Player extends Entity {
     private float jumpSpeed = -2.25f * Game.SCALE;
     private float fallSpeedAfterCollision = 0.5f * Game.SCALE;
     private boolean inAir = false;
+    private int flipX = 0;
+    private int flipW = 1;
 
 
     public Player(float x, float y, int width, int heigth) {
@@ -47,7 +49,11 @@ public class Player extends Entity {
     }
 
     public void renderPlayer(Graphics g) {
-        g.drawImage(playerAnimations[playerAction][animationIndex], (int) (hitbox.x - xDrawOffset), (int)(hitbox.y - yDrawOffset), width,heigth, null);
+        g.drawImage(playerAnimations[playerAction][animationIndex],
+                (int) (hitbox.x - xDrawOffset) + flipX,
+                (int) (hitbox.y - yDrawOffset),
+                width * flipW,
+                height, null);
         //drawHitbox(g);
     }
 
@@ -64,8 +70,12 @@ public class Player extends Entity {
 
         if(movingLeft){
             xSpeed -=playerSpeed;
+            flipX = width;
+            flipW = -1;
         } else if (movingRight){
             xSpeed += playerSpeed;
+            flipX = 0;
+            flipW = 1;
         }
 
         if(!inAir){

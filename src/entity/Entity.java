@@ -7,13 +7,13 @@ public abstract class Entity {
     protected   float x;
     protected float y;
     protected int width;
-    protected int heigth;
+    protected int height;
     protected Rectangle2D.Float hitbox;
 
-    public Entity(float x, float y,int width, int heigth){
+    public Entity(float x, float y,int width, int height){
         this.x = x;
         this.y = y;
-        this.heigth = heigth;
+        this.height = height;
         this.width = width;
     }
 
