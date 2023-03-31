@@ -116,6 +116,9 @@ public class Player extends Entity {
     }
 
     private void setPlayerAnimation() {
+
+        int startAnimation = playerAction;
+
         if (isMoving) {
             playerAction = RUNNING;
         } else {
@@ -124,6 +127,15 @@ public class Player extends Entity {
         if(inAir) {
             playerAction = JUMP;
         }
+
+        if (startAnimation != playerAction){
+            resetAnimationTick();
+        }
+    }
+
+    private void resetAnimationTick(){
+        animationTick = 0;
+        animationIndex = 0;
     }
 
 
