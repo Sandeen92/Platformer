@@ -28,7 +28,7 @@ public class Player extends Entity {
     private float playerSpeed = 1.2f;
     //Kan detta flyttas till en physics clas??
     private float airSpeed = 0f;
-    private float gravity = 0.04f * Game.SCALE;
+    private float gravity = 0.03f * Game.SCALE;
     private float jumpSpeed = -2.25f * Game.SCALE;
     private float fallSpeedAfterCollision = 0.5f * Game.SCALE;
     private boolean inAir = false;
