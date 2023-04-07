@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 
 public class PauseOverlay {
 
-    private BufferedImage pausedBackground;
+    private BufferedImage pausedBackground; //används om vi vill ha en statisk pausad bild av spelet i bakgrunden
 
     public PauseOverlay(){
 

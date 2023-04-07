@@ -12,7 +12,7 @@ public class Playing extends State implements StateMethods{
 
     private Player player;
     private LevelManager levelManager;
-    private boolean paused;
+    private boolean paused;   //används om vi vill ha en statisk pausad bild av spelet i bakgrunden
 
 
     public Playing(Game game){
