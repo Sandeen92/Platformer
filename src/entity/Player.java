@@ -8,7 +8,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import static utils.Constants.PlayerConstants.*;
-import static utils.AssistanceMethods.*;
 
 public class Player extends Entity {
     private BufferedImage[][] playerAnimations;
@@ -67,29 +66,8 @@ public class Player extends Entity {
             flipW = 1;
         }
 
-        if(!inAir){
-            if(!IsEntityOnFloor(hitbox, lvlData)){
-                inAir = true;
-            }
-        }
-
-        if(inAir){
-            if(canMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData )){
-                hitbox.y += airSpeed;
-                airSpeed += gravity;
-                updateXPosition(xSpeed);
-            } else {
-                hitbox.y = GetEntityYPosUnderOrAboveTile(hitbox, airSpeed);
-                if(airSpeed > 0){
-                    resetInAir();
-                } else {
-                    airSpeed = fallSpeedAfterCollision;
-                }
-                updateXPosition(xSpeed);
-            }
-        } else {
-            updateXPosition(xSpeed);
-        }
+        isEntityInAir();
+        moveEntity();
         isMoving = true;
     }
 

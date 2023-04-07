@@ -8,7 +8,7 @@ import java.awt.geom.Rectangle2D;
 import static utils.AssistanceMethods.*;
 
 public abstract class Entity {
-    protected   float x;
+    protected float x;
     protected float y;
     protected int width;
     protected int height;
@@ -40,14 +40,16 @@ public abstract class Entity {
         hitbox = new Rectangle2D.Float(x, y,width,heigth);
     }
 
+    //For Debugging hitbox
     protected void drawHitbox(Graphics g){
-        //For Debugging hitbox
         g.setColor(Color.BLACK);
         g.drawRect((int) hitbox.x, (int) hitbox.y, (int) hitbox.width, (int) hitbox.height);
     }
 
+    // the movement of the entity, varies for each subclass
     protected abstract void updateEntityPos(int[][] lvldata);
 
+    // used to set jump to true
     protected void jump() {
         if(inAir){
             return;
@@ -56,6 +58,7 @@ public abstract class Entity {
         airSpeed = jumpSpeed;
     }
 
+    //Updates the Xpos of the entity by taking in the speed
     protected void updateXPosition(float xSpeed) {
         if(canMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData)){
             hitbox.x += xSpeed;
@@ -64,11 +67,13 @@ public abstract class Entity {
         }
     }
 
+    // used when entity no longer is in air
     protected void resetInAir() {
         inAir = false;
         airSpeed = 0;
     }
 
+    //Loads in the current leveldata
     public void loadLvlData(int [][] lvlData){
         this.lvlData = lvlData;
         if(!IsEntityOnFloor(hitbox,lvlData)){
@@ -76,6 +81,35 @@ public abstract class Entity {
         }
     }
 
+    // Checks if the entity is in air and changes the boolean to true or false
+    protected void isEntityInAir(){
+        if(!inAir){
+            if(!IsEntityOnFloor(hitbox, lvlData)){
+                inAir = true;
+            }
+        }
+    }
+
+    // moves the entity and makes all the nessecary checks
+    protected void moveEntity(){
+        if(inAir){
+            if(canMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData )){
+                hitbox.y += airSpeed;
+                airSpeed += gravity;
+                updateXPosition(xSpeed);
+            } else {
+                hitbox.y = GetEntityYPosUnderOrAboveTile(hitbox, airSpeed);
+                if(airSpeed > 0){
+                    resetInAir();
+                } else {
+                    airSpeed = fallSpeedAfterCollision;
+                }
+                updateXPosition(xSpeed);
+            }
+        } else {
+            updateXPosition(xSpeed);
+        }
+    }
 
     public Rectangle2D.Float getHitbox(){
         return hitbox;
