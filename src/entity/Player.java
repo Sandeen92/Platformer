@@ -47,15 +47,16 @@ public class Player extends Entity {
     // Updates the players position and checks for collisions
     protected void updateEntityPos(int [][] lvlData) {
         isMoving = false;
+
         if(jumping){
             jump();
         }
+
         if(!movingLeft && !movingRight && ! inAir){
             return;
         }
 
         xSpeed = 0;
-
         if(movingLeft){
             xSpeed -=playerSpeed;
             flipX = width;
