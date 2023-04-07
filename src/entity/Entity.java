@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 import static utils.AssistanceMethods.*;
+import static utils.Constants.PlayerConstants.*;
 
 public abstract class Entity {
     protected float x;
@@ -13,6 +14,10 @@ public abstract class Entity {
     protected int width;
     protected int height;
     protected Rectangle2D.Float hitbox;
+    protected int animationIndex;
+    protected int animationTick;
+    protected int animationSpeed = 30;
+    protected int entityState = IDLE;
     protected int[][] lvlData; //Stores the leveldata in each Entity
     protected float airSpeed; // the airspeed of the entity
     protected float gravity; // the gravity of the entity, this is multiplied with game.Scale
@@ -111,9 +116,73 @@ public abstract class Entity {
         }
     }
 
+    protected void resetAnimationTick(){
+        animationTick = 0;
+        animationIndex = 0;
+    }
+
+    protected void updateAnimationTick() {
+        animationTick++;
+        if (animationTick >= animationSpeed) {
+            animationTick = 0;
+            animationIndex++;
+            if (animationIndex >= GetSpriteAmount(entityState)) {
+                animationIndex = 0;
+            }
+        }
+    }
+    // Sets the player animation based on current state
+    protected void setEntityAnimation() {
+
+        int startAnimation = entityState;
+
+        if (isMoving) {
+            entityState = RUNNING;
+        } else {
+            entityState = IDLE;
+        }
+        if(inAir) {
+            entityState = JUMP;
+        }
+
+        if (startAnimation != entityState){
+            resetAnimationTick();
+        }
+    }
+
     public Rectangle2D.Float getHitbox(){
         return hitbox;
     }
 
+
+    public boolean isMovingLeft() {
+        return movingLeft;
+    }
+
+    public void setMovingLeft(boolean movingLeft) {
+        this.movingLeft = movingLeft;
+    }
+
+    public boolean isMovingRight() {
+        return movingRight;
+    }
+
+    public void setMovingRight(boolean movingRight) {
+        this.movingRight = movingRight;
+    }
+
+    public boolean isJumping() {
+        return jumping;
+    }
+
+    public void setJumping(boolean jumping) {
+        this.jumping = jumping;
+    }
+
+    public void allMovingBooleansFalse() {
+        setMovingRight(false);
+        setMovingLeft(false);
+        isMoving = false;
+    }
 
 }

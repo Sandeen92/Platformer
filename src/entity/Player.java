@@ -7,14 +7,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import static utils.Constants.PlayerConstants.*;
 
 public class Player extends Entity {
     private BufferedImage[][] playerAnimations;
-    private int animationTick;
-    private int animationIndex;
-    private int animationSpeed = 30;
-    private int playerAction = IDLE;
     private float xDrawOffset = 21 * Game.SCALE;
     private float yDrawOffset = 4 * Game.SCALE;
     private float playerSpeed = 1.2f;
@@ -32,12 +27,12 @@ public class Player extends Entity {
     public void updatePlayer() {
         updateEntityPos(lvlData);
         updateAnimationTick();
-        setPlayerAnimation();
+        setEntityAnimation();
     }
 
     // Renders the player
     public void renderPlayer(Graphics g) {
-        g.drawImage(playerAnimations[playerAction][animationIndex],
+        g.drawImage(playerAnimations[entityState][animationIndex],
                 (int) (hitbox.x - xDrawOffset) + flipX,
                 (int) (hitbox.y - yDrawOffset),
                 width * flipW,
@@ -72,42 +67,6 @@ public class Player extends Entity {
         isMoving = true;
     }
 
-    // Sets the player animation based on current state
-    private void setPlayerAnimation() {
-
-        int startAnimation = playerAction;
-
-        if (isMoving) {
-            playerAction = RUNNING;
-        } else {
-            playerAction = IDLE;
-        }
-        if(inAir) {
-            playerAction = JUMP;
-        }
-
-        if (startAnimation != playerAction){
-            resetAnimationTick();
-        }
-    }
-
-
-    private void resetAnimationTick(){
-        animationTick = 0;
-        animationIndex = 0;
-    }
-
-    private void updateAnimationTick() {
-        animationTick++;
-        if (animationTick >= animationSpeed) {
-            animationTick = 0;
-            animationIndex++;
-            if (animationIndex >= GetSpriteAmount(playerAction)) {
-                animationIndex = 0;
-            }
-        }
-    }
-
     //loads the players animations
     public void loadPlayerAnimations() {
 
@@ -131,33 +90,4 @@ public class Player extends Entity {
         }
     }
 
-    public boolean isMovingLeft() {
-        return movingLeft;
-    }
-
-    public void setMovingLeft(boolean movingLeft) {
-        this.movingLeft = movingLeft;
-    }
-
-    public boolean isMovingRight() {
-        return movingRight;
-    }
-
-    public void setMovingRight(boolean movingRight) {
-        this.movingRight = movingRight;
-    }
-
-    public boolean isJumping() {
-        return jumping;
-    }
-
-    public void setJumping(boolean jumping) {
-        this.jumping = jumping;
-    }
-
-    public void allMovingBooleansFalse() {
-        setMovingRight(false);
-        setMovingLeft(false);
-        isMoving = false;
-    }
 }
