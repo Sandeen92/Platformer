@@ -14,7 +14,6 @@ public abstract class Entity {
     protected int height;
     protected Rectangle2D.Float hitbox;
     protected int[][] lvlData; //Stores the leveldata in each Entity
-    // Gravity
     protected float airSpeed; // the airspeed of the entity
     protected float gravity; // the gravity of the entity, this is multiplied with game.Scale
     protected float jumpSpeed; // The speed of the entity jump, this is multiplied with game.Scale
