@@ -1,6 +1,7 @@
 package main;
 
 import input.KeyBoardInputs;
+import input.MouseInputs;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -19,6 +20,7 @@ public class GamePanel extends JPanel {
 
     public GamePanel(Game game){
         addKeyListener(new KeyBoardInputs(this));
+        addMouseListener(new MouseInputs(this));
         setPanelSize();
         this.game = game;
         //importBackGroundImage();

@@ -1,7 +1,8 @@
 package main;
 
-import entity.Player;
-import levels.LevelManager;
+import gamestates.Gamestate;
+import gamestates.Playing;
+import gamestates.Menu;
 
 import java.awt.*;
 
@@ -12,8 +13,9 @@ public class Game implements Runnable{
     private final int FPS_SET = 120;
     private final int UPS_SET = 200;
     private int frames = 0;
-    private Player player;
-    private LevelManager levelManager;
+
+    private Playing playing;
+    private Menu menu;
 
     public final static int TILES_DEFAULT_SIZE = 32;
     public final static float SCALE = 2f;
@@ -32,9 +34,8 @@ public class Game implements Runnable{
     }
 
     private void initClasses() {
-        levelManager = new LevelManager(this);
-        player = new Player(200,200, (int) (64 * Game.SCALE),(int)(40 * Game.SCALE));
-        player.loadLvlData(levelManager.getCurrentLevel().getLvlData());
+        menu = new Menu(this);
+        playing = new Playing(this);
     }
 
     private void startGameLoop(){
@@ -43,13 +44,41 @@ public class Game implements Runnable{
     }
 
     public void updateEverything(){
-        gamePanel.updateGame();
-        player.updatePlayer();
-        levelManager.updateLevel();
+
+        switch (Gamestate.state){
+
+            case PLAYING:
+                playing.update();
+                break;
+
+            case MENU:
+                menu.update();
+                break;
+
+            case OPTIONS:
+            case QUIT:
+            default:
+                System.exit(0);
+                break;
+
+        }
     }
     public void renderEverything(Graphics g){
-        levelManager.drawLevel(g);
-        player.renderPlayer(g);
+
+        switch (Gamestate.state){
+
+            case PLAYING:
+                playing.draw(g);
+                break;
+
+            case MENU:
+                menu.draw(g);
+                break;
+
+            default:
+                break;
+
+        }
     }
 
 
@@ -94,9 +123,16 @@ public class Game implements Runnable{
 
     }
     public void windowFocusLost(){
-        player.allMovingBooleansFalse();
+        if (Gamestate.state == Gamestate.PLAYING){
+            playing.getPlayer().allMovingBooleansFalse();
+        }
     }
-    public Player getPlayer(){
-        return player;
+
+    public Menu getMenu(){
+        return menu;
+    }
+
+    public Playing getPlaying(){
+        return playing;
     }
 }
