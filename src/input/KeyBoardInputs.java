@@ -28,13 +28,8 @@ public class KeyBoardInputs implements KeyListener {
             case MENU:
                 gamePanel.getGame().getMenu().keyPressed(e);
                 break;
-<<<<<<< HEAD
 
             default:
-=======
-            case KeyEvent.VK_SPACE:
-                gamePanel.getGame().getPlayer().setJumping(true);
->>>>>>> main
                 break;
         }
     }
@@ -50,13 +45,8 @@ public class KeyBoardInputs implements KeyListener {
             case MENU:
                 gamePanel.getGame().getMenu().keyReleased(e);
                 break;
-<<<<<<< HEAD
 
             default:
-=======
-            case KeyEvent.VK_SPACE:
-                gamePanel.getGame().getPlayer().setJumping(false);
->>>>>>> main
                 break;
         }
     }
