@@ -1,5 +1,6 @@
 package gamestates;
 
+import entity.EnemyManager;
 import entity.Player;
 import levels.LevelManager;
 import main.Game;
@@ -12,6 +13,7 @@ public class Playing extends State implements StateMethods{
 
     private Player player;
     private LevelManager levelManager;
+    private EnemyManager enemyManager;
     private boolean paused;   //används om vi vill ha en statisk pausad bild av spelet i bakgrunden
 
 
@@ -23,6 +25,7 @@ public class Playing extends State implements StateMethods{
 
     private void initClasses() {
         levelManager = new LevelManager(game);
+        enemyManager = new EnemyManager(this);
         player = new Player(200,200, (int) (64 * Game.SCALE),(int)(40 * Game.SCALE));
         player.loadLvlData(levelManager.getCurrentLevel().getLvlData());
     }
@@ -32,12 +35,14 @@ public class Playing extends State implements StateMethods{
     public void update() {
         levelManager.updateLevel();
         player.updatePlayer();
+        enemyManager.update(levelManager.getCurrentLevel().getLvlData());
     }
 
     @Override
     public void draw(Graphics g) {
         levelManager.drawLevel(g);
         player.renderPlayer(g);
+        enemyManager.draw(g);
     }
 
     @Override

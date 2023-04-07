@@ -8,10 +8,13 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static utils.AssistanceMethods.IsEntityOnFloor;
+
 public class Player extends Entity {
     private BufferedImage[][] playerAnimations;
     private float xDrawOffset = 21 * Game.SCALE;
     private float yDrawOffset = 4 * Game.SCALE;
+    private int[][] lvlData;
     private float playerSpeed = 1.2f;
     private int flipX = 0;
     private int flipW = 1;
@@ -62,8 +65,11 @@ public class Player extends Entity {
             flipW = 1;
         }
 
-        isEntityInAir();
-        moveEntity();
+        if(!inAir){
+            isEntityInAir(lvlData);
+        }
+
+        moveEntity(lvlData);
         isMoving = true;
     }
 
@@ -87,6 +93,13 @@ public class Player extends Entity {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+        }
+    }
+
+    public void loadLvlData(int [][] lvlData){
+        this.lvlData = lvlData;
+        if(!IsEntityOnFloor(hitbox,lvlData)){
+            inAir = true;
         }
     }
 

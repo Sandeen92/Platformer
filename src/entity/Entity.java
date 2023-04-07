@@ -18,7 +18,6 @@ public abstract class Entity {
     protected int animationTick;
     protected int animationSpeed = 30;
     protected int entityState = IDLE;
-    protected int[][] lvlData; //Stores the leveldata in each Entity
     protected float airSpeed; // the airspeed of the entity
     protected float gravity; // the gravity of the entity, this is multiplied with game.Scale
     protected float jumpSpeed; // The speed of the entity jump, this is multiplied with game.Scale
@@ -64,7 +63,7 @@ public abstract class Entity {
     }
 
     //Updates the Xpos of the entity by taking in the speed
-    protected void updateXPosition(float xSpeed) {
+    protected void updateXPosition(float xSpeed, int [][] lvlData) {
         if(canMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData)){
             hitbox.x += xSpeed;
         } else {
@@ -78,30 +77,20 @@ public abstract class Entity {
         airSpeed = 0;
     }
 
-    //Loads in the current leveldata
-    public void loadLvlData(int [][] lvlData){
-        this.lvlData = lvlData;
-        if(!IsEntityOnFloor(hitbox,lvlData)){
+    // Checks if the entity is in air and changes the boolean to true or false
+    protected void isEntityInAir(int[][] lvlData){
+        if(!IsEntityOnFloor(hitbox, lvlData)){
             inAir = true;
         }
     }
 
-    // Checks if the entity is in air and changes the boolean to true or false
-    protected void isEntityInAir(){
-        if(!inAir){
-            if(!IsEntityOnFloor(hitbox, lvlData)){
-                inAir = true;
-            }
-        }
-    }
-
     // moves the entity and makes all the nessecary checks
-    protected void moveEntity(){
+    protected void moveEntity(int[][] lvlData){
         if(inAir){
             if(canMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData )){
                 hitbox.y += airSpeed;
                 airSpeed += gravity;
-                updateXPosition(xSpeed);
+                updateXPosition(xSpeed, lvlData);
             } else {
                 hitbox.y = GetEntityYPosUnderOrAboveTile(hitbox, airSpeed);
                 if(airSpeed > 0){
@@ -109,10 +98,10 @@ public abstract class Entity {
                 } else {
                     airSpeed = fallSpeedAfterCollision;
                 }
-                updateXPosition(xSpeed);
+                updateXPosition(xSpeed, lvlData);
             }
         } else {
-            updateXPosition(xSpeed);
+            updateXPosition(xSpeed, lvlData);
         }
     }
 
