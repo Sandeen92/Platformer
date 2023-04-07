@@ -16,8 +16,7 @@ import static utils.Constants.Directions.*;
 public class GamePanel extends JPanel {
     private BufferedImage backgroundImage;
     private Game game;
-    private entity.Box testBox;
-    private entity.Box testObject;
+
 
     public GamePanel(Game game){
         addKeyListener(new KeyBoardInputs(this));
@@ -25,8 +24,7 @@ public class GamePanel extends JPanel {
         setPanelSize();
         this.game = game;
         //importBackGroundImage();
-        testBox = new entity.Box(0,678,1280,1);
-        testObject = new entity.Box(750,598,100,80);
+
 
     }
 
