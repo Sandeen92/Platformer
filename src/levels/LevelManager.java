@@ -14,6 +14,7 @@ public class LevelManager {
     private Game game;
     private BufferedImage[] levelSprite;
     private Level levelOne;
+    private BufferedImage levelBackground;
 
     /**
      * Constructor for LevelManager
@@ -23,6 +24,7 @@ public class LevelManager {
         this.game = game;
         importOutsideSprites();
         levelOne = new Level(LoadSave.GetLevelData());
+        levelBackground = LoadSave.GetLevelBackground("background_test.png");
     }
 
     /**
@@ -41,7 +43,7 @@ public class LevelManager {
      * This method draws the level
      */
     public void drawLevel(Graphics g) {
-        g.drawImage(LoadSave.GetLevelBackground("background_test.png"),0,0, Game.GAME_WIDTH, Game.GAME_HEIGHT, null);
+        g.drawImage(levelBackground,0,0, Game.GAME_WIDTH, Game.GAME_HEIGHT, null);
         for (int j = 0; j < Game.TILES_IN_HEIGHT; j++)
             for (int i = 0; i < Game.TILES_IN_WIDTH; i++) {
                 int index = levelOne.getSpriteIndex(i, j);
