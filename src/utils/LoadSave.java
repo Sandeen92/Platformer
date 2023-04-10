@@ -14,13 +14,13 @@ import static utils.Constants.EnemyConstants.CRABBY;
 
 public class LoadSave {
 
-    public static final String LEVEL_ATLAS = "levelSprites.png";
+    public static final String LEVEL_ATLAS = "level_one_sprites.png";
     public static final String LEVEL_ONE_DATA = "level_one_data.png";
     public static final String TESTENEMY = "crabby_sprite.png";
     public static final String MENU_BACKGROUND = "menu.png";
     public static final String MENU_BUTTONS = "button_atlas.png";
     public static final String PAUSE_BACKGROUND = "pausemenu.png";
-    public static final String LEVEL_BACKGROUND = "background_test.png";
+
 
 
     public static BufferedImage GetSpriteAtlas(String fileName) {
