@@ -1,10 +1,13 @@
+/**
+ * This abstract class is used to keep the general functionality of all entities
+ * @author Linus Magnusson
+ */
+
 package entity;
 
 import main.Game;
-
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-
 import static utils.AssistanceMethods.*;
 import static utils.Constants.PlayerConstants.*;
 
@@ -29,6 +32,9 @@ public abstract class Entity {
     protected boolean movingLeft; // check if entity moving left
     protected boolean movingRight; // check if entity moving right
 
+    /**
+     * Constructor for the entity-class initializes all the important variables
+     */
     public Entity(float x, float y,int width, int height){
         this.x = x;
         this.y = y;
@@ -40,6 +46,13 @@ public abstract class Entity {
         fallSpeedAfterCollision = 0.5f * Game.SCALE;
     }
 
+    /**
+     * This method initializes the hitbox of the entity
+     * @param x
+     * @param y
+     * @param width
+     * @param heigth
+     */
     protected void initialiseHitbox(float x, float y, float width, float heigth) {
         hitbox = new Rectangle2D.Float(x, y,width,heigth);
     }
@@ -50,10 +63,16 @@ public abstract class Entity {
         g.drawRect((int) hitbox.x, (int) hitbox.y, (int) hitbox.width, (int) hitbox.height);
     }
 
-    // the movement of the entity, varies for each subclass
+    /**
+     * Abstract method that is used to handle logic of the movement of different
+     * entities therefore it should be declared in each class
+     * @param lvldata
+     */
     protected abstract void updateEntityPos(int[][] lvldata);
 
-    // used to set jump to true
+    /**
+     * This method sets the boolean jump to true
+     */
     protected void jump() {
         if(inAir){
             return;
@@ -62,7 +81,12 @@ public abstract class Entity {
         airSpeed = jumpSpeed;
     }
 
-    //Updates the Xpos of the entity by taking in the speed
+    /**
+     * This method updates the x position of the entity by taking in the speed and leveldata to check
+     * if the move is valid
+     * @param xSpeed
+     * @param lvlData
+     */
     protected void updateXPosition(float xSpeed, int [][] lvlData) {
         if(canMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData)){
             hitbox.x += xSpeed;
@@ -71,20 +95,30 @@ public abstract class Entity {
         }
     }
 
-    // used when entity no longer is in air
+    /**
+     * This method is used to set the inAir variable to false when
+     * the entity is no longer in the air
+     */
     protected void resetInAir() {
         inAir = false;
         airSpeed = 0;
     }
 
-    // Checks if the entity is in air and changes the boolean to true or false
+    /**
+     * This method checks if the entity is in air and changes the boolean to true or false
+     * @param lvlData
+     */
     protected void isEntityInAir(int[][] lvlData){
         if(!IsEntityOnFloor(hitbox, lvlData)){
             inAir = true;
         }
     }
 
-    // moves the entity and makes all the nessecary checks
+    /**
+     * This method is used to move the entity with all the checks that is needed to be done
+     * Makes the physics and collisions work
+     * @param lvlData
+     */
     protected void moveEntity(int[][] lvlData){
         isEntityInAir(lvlData);
         if(inAir){
@@ -106,11 +140,18 @@ public abstract class Entity {
         }
     }
 
+    /**
+     * This method resets the variables for the animations
+     */
     protected void resetAnimationTick(){
         animationTick = 0;
         animationIndex = 0;
     }
 
+    /**
+     * This method updates the animationtick to keep track of which stage of the animation
+     * is the next
+     */
     protected void updateAnimationTick() {
         animationTick++;
         if (animationTick >= animationSpeed) {
@@ -121,7 +162,10 @@ public abstract class Entity {
             }
         }
     }
-    // Sets the player animation based on current state
+
+    /**
+     * This method sets the player animation based on current state
+     */
     protected void setEntityAnimation() {
 
         int startAnimation = entityState;
@@ -140,10 +184,13 @@ public abstract class Entity {
         }
     }
 
+    /**
+     * This method returns the hitbox of the entity
+     * @return
+     */
     public Rectangle2D.Float getHitbox(){
         return hitbox;
     }
-
 
     public boolean isMovingLeft() {
         return movingLeft;
@@ -169,6 +216,9 @@ public abstract class Entity {
         this.jumping = jumping;
     }
 
+    /**
+     * This method sets all moving booleans to false
+     */
     public void allMovingBooleansFalse() {
         setMovingRight(false);
         setMovingLeft(false);

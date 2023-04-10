@@ -1,9 +1,15 @@
+/**
+ * This class is responsible for the logic through the entire game
+ * @author Linus Magnusson
+ * @author Simon Sandén
+ * @author Casper Johannesson
+ */
+
 package main;
 
 import gamestates.Gamestate;
 import gamestates.Playing;
 import gamestates.Menu;
-
 import java.awt.*;
 
 public class Game implements Runnable{
@@ -25,6 +31,9 @@ public class Game implements Runnable{
     public final static int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
     public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
 
+    /**
+     * Constructor for Game, initializes classes and starts the gameloop
+     */
     public Game(){
         initClasses();
         gamePanel = new GamePanel(this);
@@ -33,16 +42,26 @@ public class Game implements Runnable{
         startGameLoop();
     }
 
+    /**
+     * This method initializes classes
+     */
     private void initClasses() {
         menu = new Menu(this);
         playing = new Playing(this);
     }
 
+    /**
+     * This method creates the gameloop thread and starts the gameloop
+     */
     private void startGameLoop(){
         gameThread = new Thread(this);
         gameThread.start();
     }
 
+    /**
+     * This method is responsible for deciding what to update based on the current
+     * game state and then updating it
+     */
     public void updateEverything(){
 
         switch (Gamestate.state){
@@ -63,6 +82,10 @@ public class Game implements Runnable{
 
         }
     }
+    /**
+     * This method is responsible for deciding what to render based on the current
+     * game state and then rendering it
+     */
     public void renderEverything(Graphics g){
 
         switch (Gamestate.state){
@@ -81,7 +104,11 @@ public class Game implements Runnable{
         }
     }
 
-
+    /**
+     * This method gets called when the thread is started and is responsible for keeping
+     * the game at 120FPS and 200Ups and correcting the updates if they are lower
+     * this is to prevent lag
+     */
     @Override
     public void run() {
         double timePerFrame = 1000000000.0/ FPS_SET;
@@ -122,6 +149,10 @@ public class Game implements Runnable{
         }
 
     }
+
+    /**
+     * This method is responsible for stopping the game if windowsfocus is lost
+     */
     public void windowFocusLost(){
         if (Gamestate.state == Gamestate.PLAYING){
             playing.getPlayer().allMovingBooleansFalse();
