@@ -32,6 +32,7 @@ public class LevelManager {
     }
 
     public void drawLevel(Graphics g) {
+        g.drawImage(LoadSave.GetLevelBackground("background_test.png"),0,0, Game.GAME_WIDTH, Game.GAME_HEIGHT, null);
         for (int j = 0; j < Game.TILES_IN_HEIGHT; j++)
             for (int i = 0; i < Game.TILES_IN_WIDTH; i++) {
                 int index = levelOne.getSpriteIndex(i, j);

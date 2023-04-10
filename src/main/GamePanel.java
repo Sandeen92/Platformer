@@ -14,7 +14,6 @@ import static utils.Constants.PlayerConstants.*;
 import static utils.Constants.Directions.*;
 
 public class GamePanel extends JPanel {
-    private BufferedImage backgroundImage;
     private Game game;
 
 
@@ -23,9 +22,6 @@ public class GamePanel extends JPanel {
         addMouseListener(new MouseInputs(this));
         setPanelSize();
         this.game = game;
-        //importBackGroundImage();
-
-
     }
 
 
@@ -35,15 +31,6 @@ public class GamePanel extends JPanel {
         setPreferredSize(panelSize);
     }
 
-    private void importBackGroundImage() {
-        InputStream is = getClass().getResourceAsStream("/DEMO_BG.png");
-
-        try {
-            backgroundImage = ImageIO.read(is);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void updateGame(){
         //Everything to update the game goes here
@@ -52,7 +39,6 @@ public class GamePanel extends JPanel {
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        g.drawImage(backgroundImage, 0, 0, null);
         game.renderEverything(g);
     }
 
