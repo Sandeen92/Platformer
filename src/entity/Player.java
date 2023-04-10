@@ -1,13 +1,16 @@
+/**
+ * This class is responsible for the players attributes and functions
+ * @author Linus Magnusson
+ */
+
 package entity;
 
 import main.Game;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-
 import static utils.AssistanceMethods.IsEntityOnFloor;
 
 public class Player extends Entity {
@@ -19,21 +22,32 @@ public class Player extends Entity {
     private int flipX = 0;
     private int flipW = 1;
 
-
+    /**
+     * Constructor for Player
+     * @param x
+     * @param y
+     * @param width
+     * @param heigth
+     */
     public Player(float x, float y, int width, int heigth) {
         super(x, y, width, heigth);
         loadPlayerAnimations();
         initialiseHitbox(x,y, 20 * Game.SCALE, 27 * Game.SCALE);
     }
 
-    // Gets called to update the players pos and animation
+    /**
+     * This method is responsible for updating the player
+     */
     public void updatePlayer() {
         updateEntityPos(lvlData);
         updateAnimationTick();
         setEntityAnimation();
     }
 
-    // Renders the player
+    /**
+     * This method renders the player
+     * @param g
+     */
     public void renderPlayer(Graphics g) {
         g.drawImage(playerAnimations[entityState][animationIndex],
                 (int) (hitbox.x - xDrawOffset) + flipX,
@@ -42,14 +56,15 @@ public class Player extends Entity {
                 height, null);
     }
 
-    // Updates the players position and checks for collisions
+    /**
+     *  This method updates the players position and checks for collisions
+     */
     protected void updateEntityPos(int [][] lvlData) {
         isMoving = false;
 
         if(jumping){
             jump();
         }
-
         if(!movingLeft && !movingRight && ! inAir){
             return;
         }
@@ -73,7 +88,9 @@ public class Player extends Entity {
         isMoving = true;
     }
 
-    //loads the players animations
+    /**
+     * This method loads the players animations into a 2d array of bufferedimages
+     */
     public void loadPlayerAnimations() {
 
         InputStream is = getClass().getResourceAsStream("/Test.png");
@@ -96,6 +113,10 @@ public class Player extends Entity {
         }
     }
 
+    /**
+     * This method loads the leveldata into the player
+     * @param lvlData
+     */
     public void loadLvlData(int [][] lvlData){
         this.lvlData = lvlData;
         if(!IsEntityOnFloor(hitbox,lvlData)){

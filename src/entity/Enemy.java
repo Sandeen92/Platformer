@@ -1,7 +1,11 @@
+/**
+ * This abstract class is responsible for the general functions of the enemies
+ * @author Linus Magnusson
+ */
+
 package entity;
 
 import main.Game;
-
 import static utils.AssistanceMethods.canMoveHere;
 import static utils.AssistanceMethods.IsFloor;
 import static utils.Constants.EnemyConstants.*;
