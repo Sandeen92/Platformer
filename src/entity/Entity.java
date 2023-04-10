@@ -86,6 +86,7 @@ public abstract class Entity {
 
     // moves the entity and makes all the nessecary checks
     protected void moveEntity(int[][] lvlData){
+        isEntityInAir(lvlData);
         if(inAir){
             if(canMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData )){
                 hitbox.y += airSpeed;

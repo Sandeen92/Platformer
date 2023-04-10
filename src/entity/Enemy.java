@@ -52,7 +52,7 @@ public abstract class Enemy extends Entity{
                 setEnemyToPatrol();
                 if(canMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData)){
                     if(IsFloor(hitbox, xSpeed, lvlData)){
-                        hitbox.x += xSpeed;
+
                         return;
                     }
                 }
