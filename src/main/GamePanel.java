@@ -3,25 +3,27 @@ package main;
 import input.KeyBoardInputs;
 import input.MouseInputs;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-
-import static utils.Constants.PlayerConstants.*;
-import static utils.Constants.Directions.*;
 
 public class GamePanel extends JPanel {
     private Game game;
-
+    public static JLabel LBL_FPS_COUNTER = null; // Temporär FPS-counter
 
     public GamePanel(Game game){
         addKeyListener(new KeyBoardInputs(this));
         addMouseListener(new MouseInputs(this));
+
         setPanelSize();
+        initFpsCounter();
         this.game = game;
+    }
+
+    private void initFpsCounter() {
+        LBL_FPS_COUNTER = new JLabel();
+        LBL_FPS_COUNTER.setFont(new Font("DialogInput", Font.BOLD, 25));
+        LBL_FPS_COUNTER.setForeground(Color.yellow);
+        add(LBL_FPS_COUNTER);
     }
 
     public void setPanelSize(){
