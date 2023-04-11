@@ -18,6 +18,7 @@ public class LoadSave {
     public static final String TESTENEMY = "crabby_sprite.png";
     public static final String STARTMENU_BACKGROUND = "startmenu_background.png";
     public static final String MENU_BUTTONS = "button_atlas.png";
+    public static final String STARTMENU_BUTTONS = "startmenubutton_atlas.png";
     public static final String PAUSE_BACKGROUND = "pause_menu.png";
 
 

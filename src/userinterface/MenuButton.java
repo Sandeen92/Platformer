@@ -32,7 +32,7 @@ public class MenuButton {
 
     private void loadImages(){
         images = new BufferedImage[3];
-        BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.MENU_BUTTONS);
+        BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.STARTMENU_BUTTONS);
 
         for (int i = 0; i < images.length; i++){
             images[i] = temp.getSubimage(
