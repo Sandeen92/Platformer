@@ -4,6 +4,7 @@ import entity.EnemyManager;
 import entity.Player;
 import levels.LevelManager;
 import main.Game;
+import userinterface.PauseOverlay;
 import utils.LoadSave;
 
 import java.awt.*;
@@ -14,8 +15,9 @@ public class Playing extends State implements StateMethods{
 
     private Player player;
     private LevelManager levelManager;
+    private PauseOverlay pauseOverlay;
     private EnemyManager enemyManager;
-    private boolean paused;   //används om vi vill ha en statisk pausad bild av spelet i bakgrunden
+    private boolean paused;
     private int currentLevelOffsetX;
     private int cameraLeftBorder = (int) (0.3 * Game.GAME_WIDTH);
     private int cameraRightBorder = (int) (0.7 * Game.GAME_WIDTH);
@@ -34,15 +36,21 @@ public class Playing extends State implements StateMethods{
         enemyManager = new EnemyManager(this);
         player = new Player(200,200, (int) (64 * Game.SCALE),(int)(40 * Game.SCALE));
         player.loadLvlData(levelManager.getCurrentLevel().getLvlData());
+        pauseOverlay = new PauseOverlay(this);
     }
 
 
     @Override
     public void update() {
-        levelManager.updateLevel();
-        player.updatePlayer();
-        checkIfPlayerIsCloseToCameraBorder();
-        enemyManager.update(levelManager.getCurrentLevel().getLvlData());
+        if (paused == false) {
+            levelManager.updateLevel();
+            player.updatePlayer();
+            checkIfPlayerIsCloseToCameraBorder();
+            enemyManager.update(levelManager.getCurrentLevel().getLvlData());
+        }
+        else {
+            pauseOverlay.update();
+        }
     }
 
     /**
@@ -69,9 +77,15 @@ public class Playing extends State implements StateMethods{
 
     @Override
     public void draw(Graphics g) {
+
         levelManager.drawLevel(g, currentLevelOffsetX);
         player.renderPlayer(g, currentLevelOffsetX);
         enemyManager.draw(g, currentLevelOffsetX);
+
+        if (paused == true) {
+            pauseOverlay.draw(g);
+        }
+
     }
 
     @Override
@@ -108,7 +122,12 @@ public class Playing extends State implements StateMethods{
                 player.setJumping(true);
                 break;
             case KeyEvent.VK_ESCAPE:
-                Gamestate.state = Gamestate.MENU;
+                if (paused == false) {
+                    paused = true;
+                }
+                else if (paused == true){
+                    paused = false;
+                }
                 break;
         }
     }
