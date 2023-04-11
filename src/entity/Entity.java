@@ -58,9 +58,9 @@ public abstract class Entity {
     }
 
     //For Debugging hitbox
-    protected void drawHitbox(Graphics g){
+    protected void drawHitbox(Graphics g, int levelOffset){
         g.setColor(Color.BLACK);
-        g.drawRect((int) hitbox.x, (int) hitbox.y, (int) hitbox.width, (int) hitbox.height);
+        g.drawRect((int) hitbox.x - levelOffset, (int) hitbox.y, (int) hitbox.width, (int) hitbox.height);
     }
 
     /**

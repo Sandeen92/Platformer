@@ -48,9 +48,9 @@ public class Player extends Entity {
      * This method renders the player
      * @param g
      */
-    public void renderPlayer(Graphics g) {
+    public void renderPlayer(Graphics g, int levelOffset) {
         g.drawImage(playerAnimations[entityState][animationIndex],
-                (int) (hitbox.x - xDrawOffset) + flipX,
+                (int) (hitbox.x - xDrawOffset) + flipX - levelOffset,
                 (int) (hitbox.y - yDrawOffset),
                 width * flipW,
                 height, null);

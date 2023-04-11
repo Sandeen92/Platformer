@@ -4,6 +4,7 @@ import entity.EnemyManager;
 import entity.Player;
 import levels.LevelManager;
 import main.Game;
+import utils.LoadSave;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -15,7 +16,12 @@ public class Playing extends State implements StateMethods{
     private LevelManager levelManager;
     private EnemyManager enemyManager;
     private boolean paused;   //används om vi vill ha en statisk pausad bild av spelet i bakgrunden
-
+    private int currentLevelOffsetX;
+    private int cameraLeftBorder = (int) (0.3 * Game.GAME_WIDTH);
+    private int cameraRightBorder = (int) (0.7 * Game.GAME_WIDTH);
+    private int levelTilesWidth = LoadSave.GetLevelData()[0].length;
+    private int maxTilesOffset = levelTilesWidth - Game.TILES_IN_WIDTH;
+    private int maxLevelOffsetX = maxTilesOffset * Game.TILES_SIZE;
 
     public Playing(Game game){
         super(game);
@@ -35,14 +41,37 @@ public class Playing extends State implements StateMethods{
     public void update() {
         levelManager.updateLevel();
         player.updatePlayer();
+        checkIfPlayerIsCloseToCameraBorder();
         enemyManager.update(levelManager.getCurrentLevel().getLvlData());
+    }
+
+    /**
+     * This method checks if the player is close to the edge of the screen.
+     */
+    private void checkIfPlayerIsCloseToCameraBorder() {
+        int playerPositionX = (int) player.getHitbox().x;
+        int currentPlayerPositionX = playerPositionX - currentLevelOffsetX;
+
+        if (currentPlayerPositionX > cameraRightBorder){
+            currentLevelOffsetX += currentPlayerPositionX - cameraRightBorder;
+        }
+        else if (currentPlayerPositionX < cameraLeftBorder){
+            currentLevelOffsetX += currentPlayerPositionX - cameraLeftBorder;
+        }
+
+        if (currentLevelOffsetX > maxLevelOffsetX){
+            currentLevelOffsetX = maxLevelOffsetX;
+        }
+        else if (currentLevelOffsetX < 0){
+            currentLevelOffsetX = 0;
+        }
     }
 
     @Override
     public void draw(Graphics g) {
-        levelManager.drawLevel(g);
-        player.renderPlayer(g);
-        enemyManager.draw(g);
+        levelManager.drawLevel(g, currentLevelOffsetX);
+        player.renderPlayer(g, currentLevelOffsetX);
+        enemyManager.draw(g, currentLevelOffsetX);
     }
 
     @Override

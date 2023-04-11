@@ -41,7 +41,8 @@ public class AssistanceMethods {
      * @return
      */
     private static boolean isSolid(float x, float y, int [][] levelData){
-        if(x < 0 || x >= Game.GAME_WIDTH){
+        int maxLevelWidth = levelData[0].length * Game.TILES_SIZE;
+        if(x < 0 || x >= maxLevelWidth){
             return true;
         }
         if(y < 0 || y >= Game.GAME_HEIGHT){

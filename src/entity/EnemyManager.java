@@ -48,18 +48,18 @@ public class EnemyManager {
      * This method is called to draw the enemies
      * @param g
      */
-    public void draw(Graphics g){
-        drawCrabs(g);
+    public void draw(Graphics g, int levelOffset){
+        drawCrabs(g, levelOffset);
     }
 
     /**
      * This method iterates through the enemy list and draws the enemy
      * @param g
      */
-    private void drawCrabs(Graphics g) {
+    private void drawCrabs(Graphics g, int levelOffset) {
         for(Crabby c : crabbies){
-            g.drawImage(crabbyArr[c.getEnemyState()][c.getAnimationIndex()], (int) c.getHitbox().x - CRABBY_DRAW_OFFSET_X, (int) c.getHitbox().y - CRABBY_DRAW_OFFSET_Y, CRABBY_WIDTH, CRABBY_HEIGHT, null );
-            c.drawHitbox(g);
+            g.drawImage(crabbyArr[c.getEnemyState()][c.getAnimationIndex()], (int) c.getHitbox().x - CRABBY_DRAW_OFFSET_X - levelOffset, (int) c.getHitbox().y - CRABBY_DRAW_OFFSET_Y, CRABBY_WIDTH, CRABBY_HEIGHT, null );
+            c.drawHitbox(g, levelOffset);
         }
     }
 
