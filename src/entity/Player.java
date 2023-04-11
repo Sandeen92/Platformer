@@ -17,7 +17,7 @@ public class Player extends Entity {
     private BufferedImage[][] playerAnimations;
     private float xDrawOffset = 21 * Game.SCALE;
     private float yDrawOffset = 4 * Game.SCALE;
-    private int[][] lvlData;
+    private int[][] levelData;
     private float playerSpeed = 1.2f;
     private int flipX = 0;
     private int flipW = 1;
@@ -39,7 +39,7 @@ public class Player extends Entity {
      * This method is responsible for updating the player
      */
     public void updatePlayer() {
-        updateEntityPos(lvlData);
+        updateEntityPos(levelData);
         updateAnimationTick();
         setEntityAnimation();
     }
@@ -118,7 +118,7 @@ public class Player extends Entity {
      * @param lvlData
      */
     public void loadLvlData(int [][] lvlData){
-        this.lvlData = lvlData;
+        this.levelData = lvlData;
         if(!IsEntityOnFloor(hitbox,lvlData)){
             inAir = true;
         }
