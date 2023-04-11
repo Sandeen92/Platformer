@@ -19,6 +19,9 @@ public class GamePanel extends JPanel {
         this.game = game;
     }
 
+    /**
+     * Temporary FPS counter
+     */
     private void initFpsCounter() {
         LBL_FPS_COUNTER = new JLabel();
         LBL_FPS_COUNTER.setFont(new Font("DialogInput", Font.BOLD, 25));
