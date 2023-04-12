@@ -34,7 +34,7 @@ public class Playing extends State implements StateMethods{
     private void initClasses() {
         levelManager = new LevelManager(game);
         enemyManager = new EnemyManager(this);
-        player = new Player(200,200, (int) (64 * Game.SCALE),(int)(40 * Game.SCALE));
+        player = new Player(200,200, (int) (64 * Game.SCALE),(int)(40 * Game.SCALE), 10, 2);
         player.loadLvlData(levelManager.getCurrentLevel().getLvlData());
         pauseOverlay = new PauseOverlay(this);
     }
@@ -155,4 +155,5 @@ public class Playing extends State implements StateMethods{
     public void mouseMoved(MouseEvent e) {
 
     }
+
 }

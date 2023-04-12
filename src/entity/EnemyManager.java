@@ -9,6 +9,7 @@ import gamestates.Playing;
 import utils.LoadSave;
 import static utils.Constants.EnemyConstants.*;
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -41,6 +42,19 @@ public class EnemyManager {
     public void update(int[][] lvldata){
         for(Crabby c : crabbies){
             c.update(lvldata);
+            c.checkPlayerHit(c,playing.getPlayer());
+        }
+    }
+
+    public void checkIfEnemyIsHit(Rectangle2D.Float attackBox){
+        for (Crabby c : crabbies){
+            if(attackBox.intersects(c.getHitbox())){
+                c.entityTakeDamage(2);
+                if(c.isEntityDead()){
+                    crabbies.remove(c);
+                }
+                return;
+            }
         }
     }
 
