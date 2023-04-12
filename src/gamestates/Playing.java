@@ -24,6 +24,7 @@ public class Playing extends State implements StateMethods{
     private int levelTilesWidth = LoadSave.GetLevelData()[0].length;
     private int maxTilesOffset = levelTilesWidth - Game.TILES_IN_WIDTH;
     private int maxLevelOffsetX = maxTilesOffset * Game.TILES_SIZE;
+    private boolean firstJumpThisKeyPress;
 
     public Playing(Game game){
         super(game);
@@ -34,9 +35,10 @@ public class Playing extends State implements StateMethods{
     private void initClasses() {
         levelManager = new LevelManager(game);
         enemyManager = new EnemyManager(this);
-        player = new Player(200,200, (int) (64 * Game.SCALE),(int)(40 * Game.SCALE));
+        player = new Player(200,200, (int) (64 * Game.SCALE),(int)(40 * Game.SCALE), 10, 2);
         player.loadLvlData(levelManager.getCurrentLevel().getLvlData());
         pauseOverlay = new PauseOverlay(this);
+        firstJumpThisKeyPress = true;
     }
 
 
@@ -100,9 +102,17 @@ public class Playing extends State implements StateMethods{
             case KeyEvent.VK_D:
                 player.setMovingRight(true);
                 break;
+
+
             case KeyEvent.VK_SPACE:
-                player.setJumping(true);
+                if(firstJumpThisKeyPress){
+                    player.setJumping(true);
+                    firstJumpThisKeyPress = false;
+                    break;
+                }
+                player.setJumping(false);
                 break;
+
             case KeyEvent.VK_ESCAPE:
                 if (paused == false) {
                     paused = true;
@@ -125,6 +135,7 @@ public class Playing extends State implements StateMethods{
                 break;
             case KeyEvent.VK_SPACE:
                 player.setJumping(false);
+                firstJumpThisKeyPress = true;
                 break;
         }
     }
@@ -155,4 +166,5 @@ public class Playing extends State implements StateMethods{
     public void mouseMoved(MouseEvent e) {
 
     }
+
 }

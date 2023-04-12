@@ -6,6 +6,9 @@
 package entity;
 
 import main.Game;
+
+import java.awt.geom.Rectangle2D;
+
 import static utils.AssistanceMethods.canMoveHere;
 import static utils.AssistanceMethods.IsFloor;
 import static utils.Constants.EnemyConstants.*;
@@ -16,6 +19,9 @@ public abstract class Enemy extends Entity{
     private final float patrolSpeed = 0.3f * Game.SCALE;
     private boolean firstUpdate = true;
     private int walkDir = LEFT;
+    private boolean canAttack;
+    private TimerThread timer;
+
 
     /**
      * Constructor for enemy
@@ -25,10 +31,23 @@ public abstract class Enemy extends Entity{
      * @param height
      * @param enemyType
      */
-    public Enemy(float x, float y, int width, int height, int enemyType) {
-        super(x, y, width, height);
+    public Enemy(float x, float y, int width, int height, int enemyType, int maxHealth, int attackDamage) {
+        super(x, y, width, height, maxHealth, attackDamage);
         this.enemyType = enemyType;
-        initialiseHitbox(x, y, width, height);
+        canAttack = true;
+    }
+
+    protected void checkPlayerHit(Enemy enemy, Player player){
+        if(enemy.attackBox.intersects(player.hitbox) && canAttack){
+            player.currentHealth -= enemy.attackDamage;
+            if(player.isEntityDead()){
+                System.out.println("Player died");
+            }
+            canAttack = false;
+            timer = new TimerThread();
+            timer.start();
+        }
+
     }
 
     /**
@@ -51,6 +70,7 @@ public abstract class Enemy extends Entity{
      */
     public void update(int[][] lvlData){
         updateEntityPos(lvlData);
+        updateAttackBox();
         updateAnimationTick();
     }
 
@@ -107,11 +127,28 @@ public abstract class Enemy extends Entity{
         }
     }
 
+    public void updateAttackBox(){
+        attackBox = hitbox;
+    }
+
     public int getAnimationIndex(){
         return animationIndex;
     }
 
     public int getEnemyState(){
         return entityState;
+    }
+
+
+    private class TimerThread extends Thread{
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(1500);
+                canAttack = true;
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

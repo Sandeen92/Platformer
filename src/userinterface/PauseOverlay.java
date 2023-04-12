@@ -27,9 +27,9 @@ public class PauseOverlay {
     }
 
     private void loadMenuButtons(){
-        menuButtons[0] = new MenuButton(Game.GAME_WIDTH / 2, (int) (210*Game.SCALE), 0, Gamestate.PLAYING);
-        menuButtons[1] = new MenuButton(Game.GAME_WIDTH / 2, (int) (260*Game.SCALE), 1, Gamestate.QUIT);
-        menuButtons[2] = new MenuButton(Game.GAME_WIDTH / 2, (int) (310*Game.SCALE), 2, Gamestate.OPTIONS);
+        menuButtons[0] = new MenuButton(Game.GAME_WIDTH / 2, (int) (150*Game.SCALE), 0, Gamestate.PLAYING);
+        menuButtons[1] = new MenuButton(Game.GAME_WIDTH / 2, (int) (220*Game.SCALE), 1, Gamestate.QUIT);
+        menuButtons[2] = new MenuButton(Game.GAME_WIDTH / 2, (int) (290*Game.SCALE), 2, Gamestate.OPTIONS);
     }
 
     private void loadPauseMenuImage() {
@@ -37,7 +37,7 @@ public class PauseOverlay {
         pauseMenuWidth = (int) (pauseMenuImage.getWidth() * Game.SCALE);
         pauseMenuHeight = (int) (pauseMenuImage.getHeight() * Game.SCALE);
         pauseMenuXPos = Game.GAME_WIDTH / 2 - pauseMenuWidth / 2;
-        pauseMenuYPos = 0;
+        pauseMenuYPos = 50;
     }
 
     public void update(){
