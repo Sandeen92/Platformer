@@ -12,6 +12,16 @@ public class Constants {
             public static final int BTN_WIDTH = (int) (BTN_WIDTH_DEFAULT * Game.SCALE);
             public static final int BTN_HEIGHT = (int) (BTN_HEIGHT_DEFAULT * Game.SCALE);
         }
+
+        public static class SoundButtons{
+            public static final int SOUNDBTN_SIZE_DEFAULT = 42;
+            public static final int SOUNDBTN_SIZE = (int) (SOUNDBTN_SIZE_DEFAULT * Game.SCALE);
+        }
+
+        public static class OptionButtons{
+            public static final int OPTIONBTN_DEFAULT_SIZE = 56;
+            public static final int OPTIONBTN_SIZE = (int) (OPTIONBTN_DEFAULT_SIZE * Game.SCALE);
+        }
     }
     public static class Directions{
         public static final int LEFT = 0;

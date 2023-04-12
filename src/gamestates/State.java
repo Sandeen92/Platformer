@@ -2,6 +2,7 @@ package gamestates;
 
 import main.Game;
 import userinterface.MenuButton;
+import userinterface.OptionButton;
 
 import java.awt.event.MouseEvent;
 
@@ -15,6 +16,10 @@ public class State {
 
     public boolean isUserInsideBtnBounds(MouseEvent e, MenuButton mb){
         return mb.getBtnBounds().contains(e.getX(), e.getY());
+    }
+
+    public boolean isUserInsideBtnBounds(MouseEvent e, OptionButton ob){
+        return ob.getBtnBounds().contains(e.getX(),e.getY());
     }
 
 
