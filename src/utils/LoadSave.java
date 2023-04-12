@@ -5,6 +5,7 @@ import main.Game;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -20,6 +21,8 @@ public class LoadSave {
     public static final String MENU_BUTTONS = "button_atlas.png";
     public static final String STARTMENU_BUTTONS = "startmenubutton_atlas.png";
     public static final String PAUSE_BACKGROUND = "pause_menu.png";
+
+    public static final String STARTMENU_MUSIC = "C:/kurser/da339a/HT22/lab/Platformer/resources/ohboy.wav";
 
 
 

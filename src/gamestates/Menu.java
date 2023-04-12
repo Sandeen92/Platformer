@@ -4,10 +4,13 @@ import main.Game;
 import userinterface.MenuButton;
 import utils.LoadSave;
 
+import javax.sound.sampled.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class Menu extends State implements StateMethods{
 
@@ -15,11 +18,29 @@ public class Menu extends State implements StateMethods{
     private MenuButton[] menuButtons = new MenuButton[3];
     private BufferedImage menuBackground;
     private int menuX, menuY, menuWidth, menuHeight;
+    private File audioFile;
+    private AudioInputStream audioInputStream;
+    private Clip clip;
 
     public Menu(Game game) {
         super(game);
         loadMenuButtons();
         loadMenuBackground();
+        loadMenuAudio();
+    }
+
+    private void loadMenuAudio(){
+        audioFile = new File(LoadSave.STARTMENU_MUSIC);
+        try {
+            if (audioFile != null) {
+                audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                clip = AudioSystem.getClip();
+                clip.open(audioInputStream);
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
+            }
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadMenuBackground(){
@@ -33,7 +54,19 @@ public class Menu extends State implements StateMethods{
     private void loadMenuButtons(){
         menuButtons[0] = new MenuButton(Game.GAME_WIDTH / 2, (int) (230*Game.SCALE), 0, Gamestate.PLAYING);
         menuButtons[1] = new MenuButton(Game.GAME_WIDTH / 2, (int) (300*Game.SCALE), 1, Gamestate.QUIT);
-        menuButtons[2] = new MenuButton(Game.GAME_WIDTH / 2, (int) (380*Game.SCALE), 2, Gamestate.OPTIONS);
+        menuButtons[2] = new MenuButton(Game.GAME_WIDTH / 2, (int) (370*Game.SCALE), 2, Gamestate.OPTIONS);
+    }
+
+    private void silenceAudio(){
+        try {
+            audioInputStream.close();
+            clip.stop();
+            clip.close();
+            clip = null;
+            audioInputStream = null;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -68,6 +101,7 @@ public class Menu extends State implements StateMethods{
             if (isUserInsideBtnBounds(e,mb)){
                 if (mb.isMousePressed()){
                     mb.applyGamestate();
+                    silenceAudio();
                     break;
                 }
             }
