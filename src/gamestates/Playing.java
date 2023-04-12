@@ -114,6 +114,7 @@ public class Playing extends State implements StateMethods{
         }
     }
 
+    public boolean isPaused() {return paused;}
     public void setPaused(boolean paused) {this.paused = paused;}
 
     public void windowFocusLost(){

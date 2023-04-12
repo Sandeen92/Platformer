@@ -38,6 +38,9 @@ public class Options extends State implements StateMethods {
     }
 
     public void draw(Graphics g){
+        if (game.getPlaying().isPaused() == true){
+            game.getPlaying().draw(g);
+        }
         g.drawImage(optionsBackgroundImage, optionsMenuXPos, optionsMenuYPos, optionsMenuWidth, optionsMenuHeight, null);
     }
 

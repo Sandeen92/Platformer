@@ -18,7 +18,6 @@ public class Pausemenu extends State implements StateMethods {
     private int pauseMenuHeight;
     private MenuButton[] pauseMenuButtons = new MenuButton[3];
     private Playing playing;
-    private boolean insideOptions;
 
     public Pausemenu(Game game, Playing playing) {
         super(game);
@@ -80,7 +79,9 @@ public class Pausemenu extends State implements StateMethods {
             if (isUserInsideBtnBounds(e,mb)){
                 if (mb.isMousePressed()){
                     mb.applyGamestate();
-                    playing.setPaused(false);
+                    if (Gamestate.state == Gamestate.PLAYING) {
+                        playing.setPaused(false);
+                    }
                     break;
                 }
             }
