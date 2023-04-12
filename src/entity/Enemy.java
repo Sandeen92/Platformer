@@ -40,6 +40,9 @@ public abstract class Enemy extends Entity{
     protected void checkPlayerHit(Enemy enemy, Player player){
         if(enemy.attackBox.intersects(player.hitbox) && canAttack){
             player.currentHealth -= enemy.attackDamage;
+            if(player.isEntityDead()){
+                System.out.println("Player died");
+            }
             canAttack = false;
             timer = new TimerThread();
             timer.start();
