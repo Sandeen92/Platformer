@@ -21,6 +21,7 @@ public class Player extends Entity {
     private float playerSpeed = 1.2f;
     private int flipX = 0;
     private int flipW = 1;
+    private boolean jumpOnce;
 
     /**
      * Constructor for Player
@@ -44,6 +45,20 @@ public class Player extends Entity {
         setEntityAnimation();
     }
 
+    protected void jump() {
+        if(inAir){
+            return;
+        } else if (jumpOnce){
+            inAir = true;
+            airSpeed = jumpSpeed;
+            jumpOnce = false;
+        }
+
+    }
+
+    public void resetJumpOnce(){
+        this.jumpOnce = true;
+    }
     /**
      * This method renders the player
      * @param g

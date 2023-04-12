@@ -105,13 +105,8 @@ public class Playing extends State implements StateMethods{
 
 
             case KeyEvent.VK_SPACE:
-                if(firstJumpThisKeyPress){
                     player.setJumping(true);
-                    firstJumpThisKeyPress = false;
                     break;
-                }
-                player.setJumping(false);
-                break;
 
             case KeyEvent.VK_ESCAPE:
                 if (paused == false) {
@@ -135,7 +130,7 @@ public class Playing extends State implements StateMethods{
                 break;
             case KeyEvent.VK_SPACE:
                 player.setJumping(false);
-                firstJumpThisKeyPress = true;
+                player.resetJumpOnce();
                 break;
         }
     }
