@@ -25,7 +25,7 @@ public abstract class Entity {
     protected float gravity; // the gravity of the entity, this is multiplied with game.Scale
     protected float jumpSpeed; // The speed of the entity jump, this is multiplied with game.Scale
     protected float fallSpeedAfterCollision; // The speed the enity is falling in after a collision, this is multiplied with game.Scale
-    protected boolean inAir = false; // check if in air
+    protected boolean   inAir = false; // check if in air
     protected boolean jumping = false; // check if jumping
     protected boolean isMoving = false; // check if moving
     protected float xSpeed; // speed of the entity to the left or right
