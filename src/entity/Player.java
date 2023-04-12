@@ -34,6 +34,7 @@ public class Player extends Entity {
         super(x, y, width, heigth, maxHealth, attackDamage);
         loadPlayerAnimations();
         initialiseHitbox(x,y, 20 * Game.SCALE, 27 * Game.SCALE);
+        jumpOnce = true;
     }
 
     /**
@@ -99,7 +100,9 @@ public class Player extends Entity {
             isEntityInAir(lvlData);
         }
 
+
         moveEntity(lvlData);
+
         isMoving = true;
     }
 
