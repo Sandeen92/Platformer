@@ -7,10 +7,8 @@
 
 package main;
 
-import gamestates.Gamestate;
-import gamestates.Options;
-import gamestates.Playing;
-import gamestates.Menu;
+import gamestates.*;
+
 import java.awt.*;
 
 public class Game implements Runnable{
@@ -20,11 +18,10 @@ public class Game implements Runnable{
     private final int FPS_SET = 120;
     private final int UPS_SET = 200;
     private int frames = 0;
-
     private Playing playing;
-    private Menu menu;
+    private Startmenu startmenu;
+    private Pausemenu pausemenu;
     private Options options;
-
     public final static int TILES_DEFAULT_SIZE = 32;
     public final static float SCALE = 2f;
     public final static int TILES_IN_WIDTH = 26;
@@ -48,8 +45,9 @@ public class Game implements Runnable{
      * This method initializes classes
      */
     private void initClasses() {
-        menu = new Menu(this);
+        startmenu = new Startmenu(this);
         playing = new Playing(this);
+        pausemenu = new Pausemenu(this,playing);
         options = new Options(this);
     }
 
@@ -74,7 +72,11 @@ public class Game implements Runnable{
                 break;
 
             case MENU:
-                menu.update();
+                startmenu.update();
+                break;
+
+            case PAUSE:
+                pausemenu.update();
                 break;
 
             case OPTIONS:
@@ -101,7 +103,11 @@ public class Game implements Runnable{
                 break;
 
             case MENU:
-                menu.draw(g);
+                startmenu.draw(g);
+                break;
+
+            case PAUSE:
+                pausemenu.draw(g);
                 break;
 
             case OPTIONS:
@@ -169,13 +175,13 @@ public class Game implements Runnable{
         }
     }
 
-    public Menu getMenu(){
-        return menu;
+    public Startmenu getMenu(){
+        return startmenu;
     }
 
     public Playing getPlaying(){
         return playing;
     }
 
-    public Options getOptions(){return options;}
+    public Pausemenu getPausemenu(){return pausemenu;}
 }

@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Menu extends State implements StateMethods{
+public class Startmenu extends State implements StateMethods{
 
 
     private MenuButton[] menuButtons = new MenuButton[3];
@@ -22,7 +22,7 @@ public class Menu extends State implements StateMethods{
     private AudioInputStream audioInputStream;
     private Clip clip;
 
-    public Menu(Game game) {
+    public Startmenu(Game game) {
         super(game);
         loadMenuButtons();
         loadMenuBackground();
@@ -53,8 +53,8 @@ public class Menu extends State implements StateMethods{
 
     private void loadMenuButtons(){
         menuButtons[0] = new MenuButton(Game.GAME_WIDTH / 2, (int) (230*Game.SCALE), 0, Gamestate.PLAYING);
-        menuButtons[1] = new MenuButton(Game.GAME_WIDTH / 2, (int) (300*Game.SCALE), 1, Gamestate.QUIT);
-        menuButtons[2] = new MenuButton(Game.GAME_WIDTH / 2, (int) (370*Game.SCALE), 2, Gamestate.OPTIONS);
+        menuButtons[1] = new MenuButton(Game.GAME_WIDTH / 2, (int) (300*Game.SCALE), 1, Gamestate.OPTIONS);
+        menuButtons[2] = new MenuButton(Game.GAME_WIDTH / 2, (int) (370*Game.SCALE), 2, Gamestate.QUIT);
     }
 
     private void silenceAudio(){
@@ -122,12 +122,12 @@ public class Menu extends State implements StateMethods{
             }
         }
     }
+
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode()== KeyEvent.VK_ESCAPE){
-            Gamestate.state = Gamestate.PLAYING;
-        }
+
     }
+
     @Override
     public void keyReleased(KeyEvent e) {}
 

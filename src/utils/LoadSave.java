@@ -22,7 +22,6 @@ public class LoadSave {
     public static final String STARTMENU_BUTTONS = "startmenubutton_atlas.png";
     public static final String PAUSE_BACKGROUND = "pauseimage.png";
     public static final String OPTIONS_BACKGROUND = "optionsmenu.png";
-
     public static final String STARTMENU_MUSIC = "resources/ohboy.wav";
 
 
