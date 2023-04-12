@@ -29,8 +29,8 @@ public class Player extends Entity {
      * @param width
      * @param heigth
      */
-    public Player(float x, float y, int width, int heigth) {
-        super(x, y, width, heigth);
+    public Player(float x, float y, int width, int heigth, int maxHealth, int attackDamage) {
+        super(x, y, width, heigth, maxHealth, attackDamage);
         loadPlayerAnimations();
         initialiseHitbox(x,y, 20 * Game.SCALE, 27 * Game.SCALE);
     }
@@ -123,5 +123,4 @@ public class Player extends Entity {
             inAir = true;
         }
     }
-
 }

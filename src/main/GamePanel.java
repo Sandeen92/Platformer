@@ -9,6 +9,7 @@ import java.awt.*;
 public class GamePanel extends JPanel {
     private Game game;
     public static JLabel LBL_FPS_COUNTER = null; // Temporär FPS-counter
+    public static JLabel LBL_PLAYER_HP = null; // temporär hp visare för spelare
 
     public GamePanel(Game game){
         addKeyListener(new KeyBoardInputs(this));
@@ -16,7 +17,15 @@ public class GamePanel extends JPanel {
 
         setPanelSize();
         initFpsCounter();
+        initPlayerHP();
         this.game = game;
+    }
+
+    private void initPlayerHP() {
+        LBL_PLAYER_HP = new JLabel();
+        LBL_PLAYER_HP.setFont(new Font("DialogInput", Font.BOLD, 25));
+        LBL_PLAYER_HP.setForeground(Color.yellow);
+        add(LBL_PLAYER_HP);
     }
 
     /**
@@ -37,7 +46,6 @@ public class GamePanel extends JPanel {
 
     public void updateGame(){
         //Everything to update the game goes here
-
     }
 
     public void paintComponent(Graphics g){
