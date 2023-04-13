@@ -8,6 +8,7 @@
 package main;
 
 import entity.Player;
+import gamestates.DeathScreen;
 import gamestates.Gamestate;
 import gamestates.Playing;
 import gamestates.Menu;
@@ -23,6 +24,7 @@ public class Game implements Runnable{
 
     private Playing playing;
     private Menu menu;
+    private DeathScreen deathScreen;
 
     public final static int TILES_DEFAULT_SIZE = 32;
     public final static float SCALE = 2f;
@@ -49,6 +51,7 @@ public class Game implements Runnable{
     private void initClasses() {
         menu = new Menu(this);
         playing = new Playing(this);
+        deathScreen = new DeathScreen(this);
     }
 
     /**
@@ -74,6 +77,9 @@ public class Game implements Runnable{
             case MENU:
                 menu.update();
                 break;
+            case DEATHSCREEN:
+                deathScreen.update();
+                break;
 
             case OPTIONS:
             case QUIT:
@@ -98,7 +104,9 @@ public class Game implements Runnable{
             case MENU:
                 menu.draw(g);
                 break;
-
+            case DEATHSCREEN:
+                deathScreen.draw(g);
+                break;
             default:
                 break;
 
