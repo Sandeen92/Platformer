@@ -31,14 +31,11 @@ public class Playing extends State implements StateMethods {
     }
 
 
-    private void initClasses() {
+    public void initClasses() {
         levelManager = new LevelManager(game);
         enemyManager = new EnemyManager(this);
-
         itemManager = new ItemManager(this);
-
         player = new Player(200, 200, (int) (64 * Game.SCALE), (int) (40 * Game.SCALE), 10, 2, enemyManager);
-
         player.loadLvlData(levelManager.getCurrentLevel().getLvlData());
     }
 
@@ -100,7 +97,9 @@ public class Playing extends State implements StateMethods {
             case KeyEvent.VK_F:
                 player.attack();
                 break;
-
+            case KeyEvent.VK_R:
+                initClasses();
+                break;
             case KeyEvent.VK_ESCAPE:
                 paused = true;
                 player.setJumping(false);

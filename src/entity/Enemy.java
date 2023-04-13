@@ -5,6 +5,7 @@
 
 package entity;
 
+import gamestates.Gamestate;
 import main.Game;
 import static utils.AssistanceMethods.canMoveHere;
 import static utils.AssistanceMethods.IsFloor;
@@ -37,6 +38,9 @@ public abstract class Enemy extends Entity{
     protected void checkPlayerHit(Enemy enemy, Player player){
         if(enemy.attackBox.intersects(player.hitbox) && canAttack){
             player.currentHealth -= enemy.attackDamage;
+            if(player.isEntityDead()){
+                Gamestate.state = Gamestate.DEATHSCREEN;
+            }
             canAttack = false;
             timer = new TimerThread();
             timer.start();

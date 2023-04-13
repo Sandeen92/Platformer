@@ -33,6 +33,9 @@ public class KeyBoardInputs implements KeyListener {
                 gamePanel.getGame().getPausemenu().keyPressed(e);
                 break;
 
+            case DEATHSCREEN:
+                gamePanel.getGame().getDeathScreen().keyPressed(e);
+
             case OPTIONS:
                 gamePanel.getGame().getOptions().keyPressed(e);
                 break;

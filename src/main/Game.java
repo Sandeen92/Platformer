@@ -12,6 +12,8 @@ import entity.Player;
 import gamestates.DeathScreen;
 import gamestates.Gamestate;
 import gamestates.Playing;
+import input.KeyBoardInputs;
+
 import java.awt.*;
 
 public class Game implements Runnable{
@@ -56,6 +58,9 @@ public class Game implements Runnable{
         options = new Options(this);
     }
 
+    public void resetLevel(){
+        playing.initClasses();
+    }
     /**
      * This method creates the gameloop thread and starts the gameloop
      */
@@ -83,6 +88,7 @@ public class Game implements Runnable{
             case PAUSE:
                 pausemenu.update();
                 break;
+
             case DEATHSCREEN:
                 deathScreen.update();
                 break;
@@ -121,6 +127,7 @@ public class Game implements Runnable{
             case OPTIONS:
                 options.draw(g);
                 break;
+
             case DEATHSCREEN:
                 deathScreen.draw(g);
                 break;
@@ -194,4 +201,5 @@ public class Game implements Runnable{
     }
     public Pausemenu getPausemenu(){return pausemenu;}
     public Options getOptions(){return options;}
+    public DeathScreen getDeathScreen(){return deathScreen;}
 }

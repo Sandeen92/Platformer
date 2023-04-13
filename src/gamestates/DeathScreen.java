@@ -26,7 +26,7 @@ public class DeathScreen extends State implements StateMethods{
     }
 
     public void draw(Graphics g){
-        g.drawImage(deathScreenBackground,1280,800,null);
+        g.drawImage(deathScreenBackground,0,0,null);
     }
 
     @Override
@@ -51,7 +51,12 @@ public class DeathScreen extends State implements StateMethods{
 
     @Override
     public void keyPressed(KeyEvent e) {
-
+        switch (e.getKeyCode()){
+            case KeyEvent.VK_R:
+                game.resetLevel();
+                Gamestate.state = Gamestate.PLAYING;
+                break;
+        }
     }
 
     @Override
