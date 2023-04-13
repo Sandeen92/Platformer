@@ -178,10 +178,9 @@ public class Game implements Runnable{
     public Startmenu getMenu(){
         return startmenu;
     }
-
     public Playing getPlaying(){
         return playing;
     }
-
     public Pausemenu getPausemenu(){return pausemenu;}
+    public Options getOptions(){return options;}
 }

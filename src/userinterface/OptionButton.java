@@ -14,8 +14,8 @@ public class OptionButton extends Button {
     private boolean mouseOver, mousePressed;
     private BufferedImage[] images;
 
-    public OptionButton(int x, int y, int btnWidth, int btnHeight, int rowIndex){
-        super(x, y, btnWidth,btnHeight);
+    public OptionButton(int x, int y, int width, int height, int rowIndex){
+        super(x, y, width, height);
         this.rowIndex = rowIndex;
         loadImages();
     }
@@ -27,7 +27,7 @@ public class OptionButton extends Button {
         for (int i = 0; i < images.length; i++){
             images[i] = temp.getSubimage(
                     i * OPTIONBTN_DEFAULT_SIZE,
-                    rowIndex * (OPTIONBTN_DEFAULT_SIZE - 30),
+                    rowIndex * OPTIONBTN_DEFAULT_SIZE,
                     OPTIONBTN_DEFAULT_SIZE,
                     OPTIONBTN_DEFAULT_SIZE);
         }
@@ -36,9 +36,11 @@ public class OptionButton extends Button {
     public void updateButtons(){
         index = 0;
         if (mouseOver){
+            System.out.println("Musen över i OptionButtons");
             index = 1;
         }
         if (mousePressed){
+            System.out.println("Musen pressad i OptionButtons");
             index = 2;
         }
     }

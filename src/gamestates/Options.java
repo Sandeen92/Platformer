@@ -2,7 +2,7 @@ package gamestates;
 
 import main.Game;
 import userinterface.OptionButton;
-import userinterface.SoundButton;
+import userinterface.Button;
 import utils.LoadSave;
 
 import java.awt.*;
@@ -18,7 +18,7 @@ public class Options extends State implements StateMethods {
     private int optionsMenuYPos;
     private int optionsMenuWidth;
     private int optionsMenuHeight;
-    private OptionButton optionButton;
+    private OptionButton returnButton, homeButton;
 
 
     public Options(Game game){
@@ -31,7 +31,8 @@ public class Options extends State implements StateMethods {
         int optionBtnX = ((Game.GAME_WIDTH / 3));
         int optionBtnY = (int) (340 * Game.SCALE);
 
-        optionButton = new OptionButton(optionBtnX,optionBtnY, OPTIONBTN_SIZE, OPTIONBTN_SIZE, 0);
+        returnButton = new OptionButton(optionBtnX,optionBtnY, OPTIONBTN_SIZE, OPTIONBTN_SIZE, 0);
+        homeButton = new OptionButton(optionBtnX + 430, optionBtnY, OPTIONBTN_SIZE, OPTIONBTN_SIZE, 1);
     }
 
     private void loadBackgroundImage(){
@@ -44,7 +45,8 @@ public class Options extends State implements StateMethods {
 
     @Override
     public void update() {
-        optionButton.updateButtons();
+        returnButton.updateButtons();
+        homeButton.updateButtons();
     }
 
     public void draw(Graphics g){
@@ -52,48 +54,64 @@ public class Options extends State implements StateMethods {
             game.getPlaying().draw(g);
         }
         g.drawImage(optionsBackgroundImage, optionsMenuXPos, optionsMenuYPos, optionsMenuWidth, optionsMenuHeight, null);
-        optionButton.drawButtons(g);
+        returnButton.drawButtons(g);
+        homeButton.drawButtons(g);
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (isUserInsideBtnBounds(e)){
+        if (isIn(e, returnButton)){
             System.out.println("Pressed funkar");
-            optionButton.setMousePressed(true);
+            returnButton.setMousePressed(true);
         }
-        else {
-            //Audio options senare
+        else if (isIn(e, homeButton)) {
+            System.out.println("Pressed funkar på home");
+            homeButton.setMousePressed(true);
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (isUserInsideBtnBounds(e)){
-            if (optionButton.isMousePressed()){
+        if (isIn(e, returnButton)){
+            if (returnButton.isMousePressed()){
                 Gamestate.state = Gamestate.PAUSE;
             }
         }
-        optionButton.resetBtnBooleans();
+        else if (isIn(e, homeButton)){
+            if (homeButton.isMousePressed()){
+                Gamestate.state = Gamestate.PAUSE;
+            }
+        }
+        returnButton.resetBtnBooleans();
+        homeButton.resetBtnBooleans();
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        optionButton.setMouseOver(false);
+        returnButton.setMouseOver(false);
 
-        if (isInsideBtnBounds(e, optionButton)){
-            optionButton.setMouseOver(true);
+        if (isIn(e, returnButton)){
+            returnButton.setMouseOver(true);
         }
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {}
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
+            Gamestate.state = Gamestate.PAUSE;
+        }
+    }
     @Override
-    public void keyReleased(KeyEvent e) {}
+    public void keyReleased(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
+            Gamestate.state = Gamestate.PAUSE;
+        }
+    }
     @Override
     public void mouseClicked(MouseEvent e) {}
 
 
-    public boolean isInsideBtnBounds(MouseEvent e, Button b){
+    public boolean isIn(MouseEvent e, Button b){
         System.out.println("Är inuti");
         return b.getBounds().contains(e.getX(), e.getY());
     }
