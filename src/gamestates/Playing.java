@@ -2,6 +2,7 @@ package gamestates;
 
 import entity.EnemyManager;
 import entity.Player;
+import items.ItemManager;
 import levels.LevelManager;
 import main.Game;
 import utils.LoadSave;
@@ -15,6 +16,7 @@ public class Playing extends State implements StateMethods{
     private Player player;
     private LevelManager levelManager;
     private EnemyManager enemyManager;
+    private ItemManager itemManager;
     private boolean paused;
     private int currentLevelOffsetX;
     private int cameraLeftBorder = (int) (0.3 * Game.GAME_WIDTH);
@@ -32,7 +34,11 @@ public class Playing extends State implements StateMethods{
     private void initClasses() {
         levelManager = new LevelManager(game);
         enemyManager = new EnemyManager(this);
-        player = new Player(200,200, (int) (64 * Game.SCALE),(int)(40 * Game.SCALE));
+
+        itemManager = new ItemManager(this);
+
+        player = new Player(200,200, (int) (64 * Game.SCALE),(int)(40 * Game.SCALE), 10, 2, enemyManager);
+
         player.loadLvlData(levelManager.getCurrentLevel().getLvlData());
     }
 
@@ -41,6 +47,7 @@ public class Playing extends State implements StateMethods{
     public void update() {
         if (paused == false) {
             levelManager.updateLevel();
+            itemManager.update();
             player.updatePlayer();
             checkIfPlayerIsCloseToCameraBorder();
             enemyManager.update(levelManager.getCurrentLevel().getLvlData());
@@ -74,6 +81,7 @@ public class Playing extends State implements StateMethods{
         levelManager.drawLevel(g, currentLevelOffsetX);
         player.renderPlayer(g, currentLevelOffsetX);
         enemyManager.draw(g, currentLevelOffsetX);
+        itemManager.draw(g, currentLevelOffsetX);
     }
 
 
@@ -88,9 +96,14 @@ public class Playing extends State implements StateMethods{
             case KeyEvent.VK_D:
                 player.setMovingRight(true);
                 break;
+
             case KeyEvent.VK_SPACE:
                 player.setJumping(true);
                 break;
+            case KeyEvent.VK_F:
+                player.attack();
+                break;
+
             case KeyEvent.VK_ESCAPE:
                 paused = true;
                 player.setJumping(false);
@@ -110,6 +123,7 @@ public class Playing extends State implements StateMethods{
                 break;
             case KeyEvent.VK_SPACE:
                 player.setJumping(false);
+                player.resetJumpOnce();
                 break;
         }
     }
@@ -124,6 +138,14 @@ public class Playing extends State implements StateMethods{
         return player;
     }
 
+    public ItemManager getItemManager() {
+        return itemManager;
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+
 
     @Override
     public void mouseClicked(MouseEvent e) {}
@@ -133,4 +155,7 @@ public class Playing extends State implements StateMethods{
     public void mouseReleased(MouseEvent e) {}
     @Override
     public void mouseMoved(MouseEvent e) {}
+    public void mouseMoved(MouseEvent e) {
+    }
+
 }

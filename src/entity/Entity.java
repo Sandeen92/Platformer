@@ -16,7 +16,11 @@ public abstract class Entity {
     protected float y;
     protected int width;
     protected int height;
+    protected int maxHealth;
+    protected int currentHealth;
+    protected int attackDamage;
     protected Rectangle2D.Float hitbox;
+    protected Rectangle2D.Float attackBox;
     protected int animationIndex;
     protected int animationTick;
     protected int animationSpeed = 30;
@@ -25,17 +29,18 @@ public abstract class Entity {
     protected float gravity; // the gravity of the entity, this is multiplied with game.Scale
     protected float jumpSpeed; // The speed of the entity jump, this is multiplied with game.Scale
     protected float fallSpeedAfterCollision; // The speed the enity is falling in after a collision, this is multiplied with game.Scale
-    protected boolean inAir = false; // check if in air
+    protected boolean   inAir = false; // check if in air
     protected boolean jumping = false; // check if jumping
     protected boolean isMoving = false; // check if moving
     protected float xSpeed; // speed of the entity to the left or right
     protected boolean movingLeft; // check if entity moving left
     protected boolean movingRight; // check if entity moving right
 
+
     /**
      * Constructor for the entity-class initializes all the important variables
      */
-    public Entity(float x, float y,int width, int height){
+    public Entity(float x, float y,int width, int height, int maxHealth, int attackDamage){
         this.x = x;
         this.y = y;
         this.height = height;
@@ -44,6 +49,9 @@ public abstract class Entity {
         gravity = 0.03f * Game.SCALE;
         jumpSpeed = -2.25f * Game.SCALE;
         fallSpeedAfterCollision = 0.5f * Game.SCALE;
+        this.maxHealth = maxHealth;
+        this.currentHealth = maxHealth;
+        this.attackDamage = attackDamage;
     }
 
     /**
@@ -57,10 +65,20 @@ public abstract class Entity {
         hitbox = new Rectangle2D.Float(x, y,width,heigth);
     }
 
+    protected void initialiseAttackBox(float x, float y, float width, float heigth){
+        attackBox = new Rectangle2D.Float(x, y, width, heigth);
+    }
+
     //For Debugging hitbox
     protected void drawHitbox(Graphics g, int levelOffset){
         g.setColor(Color.BLACK);
         g.drawRect((int) hitbox.x - levelOffset, (int) hitbox.y, (int) hitbox.width, (int) hitbox.height);
+    }
+
+    //For Debugging attackBox
+    protected void drawAttackBox(Graphics g,int levelOffset){
+        g.setColor(Color.GREEN);
+        g.drawRect((int)(attackBox.x - levelOffset), (int) attackBox.y, (int) attackBox.width, (int) attackBox.height);
     }
 
     /**
@@ -81,6 +99,17 @@ public abstract class Entity {
         airSpeed = jumpSpeed;
     }
 
+    protected void updateAttackBox(int offset, int facing){
+        if(facing == 0){
+            attackBox.x = hitbox.x - offset;
+            attackBox.y = hitbox.y;
+        } else if (facing == 1){
+            attackBox.x = hitbox.x + offset;
+            attackBox.y = hitbox.y;
+        }
+
+    }
+
     /**
      * This method updates the x position of the entity by taking in the speed and leveldata to check
      * if the move is valid
@@ -93,6 +122,17 @@ public abstract class Entity {
         } else {
             hitbox.x = GetEntityXPosNextToWall(hitbox, xSpeed);
         }
+    }
+
+    public void entityTakeDamage(int damage){
+        currentHealth -= damage;
+    }
+
+    public boolean isEntityDead(){
+        if(currentHealth <= 0){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -216,6 +256,22 @@ public abstract class Entity {
         this.jumping = jumping;
     }
 
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
+    }
+
+    public int getCurrentHealth() {
+        return currentHealth;
+    }
+
+    public void setCurrentHealth(int currentHealth) {
+        this.currentHealth = currentHealth;
+    }
+
     /**
      * This method sets all moving booleans to false
      */
@@ -224,5 +280,7 @@ public abstract class Entity {
         setMovingLeft(false);
         isMoving = false;
     }
+
+
 
 }
