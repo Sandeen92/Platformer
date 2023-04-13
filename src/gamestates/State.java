@@ -2,6 +2,7 @@ package gamestates;
 
 import main.Game;
 import userinterface.MenuButton;
+import userinterface.OptionButton;
 
 import java.awt.event.MouseEvent;
 
