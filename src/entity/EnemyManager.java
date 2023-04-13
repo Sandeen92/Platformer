@@ -51,6 +51,7 @@ public class EnemyManager {
         for (Crabby c : crabbies){
             if(attackBox.intersects(c.getHitbox())){
                 c.entityTakeDamage(2);
+                System.out.println(c.getCurrentHealth());
                 if(c.isEntityDead()){
                     crabbies.remove(c);
                 }
