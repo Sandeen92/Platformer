@@ -30,7 +30,7 @@ public class LevelManager {
         levels = new ArrayList<>();
         buildAllLevels();
         levelBackground = LoadSave.GetLevelBackground("background_test.png");
-        levelBackgroundHouses = LoadSave.GetLevelBackground("background_houses.png");
+        //levelBackgroundHouses = LoadSave.GetLevelBackground("background_houses.png");
     }
 
     private void buildAllLevels() {
