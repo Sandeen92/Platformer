@@ -36,6 +36,7 @@ public abstract class Entity {
     protected boolean movingLeft; // check if entity moving left
     protected boolean movingRight; // check if entity moving right
 
+
     /**
      * Constructor for the entity-class initializes all the important variables
      */
@@ -98,11 +99,11 @@ public abstract class Entity {
         airSpeed = jumpSpeed;
     }
 
-    protected void updateAttackBox(int offset, float xSpeed){
-        if(xSpeed < 0){
+    protected void updateAttackBox(int offset, int facing){
+        if(facing == 0){
             attackBox.x = hitbox.x - offset;
             attackBox.y = hitbox.y;
-        } else {
+        } else if (facing == 1){
             attackBox.x = hitbox.x + offset;
             attackBox.y = hitbox.y;
         }

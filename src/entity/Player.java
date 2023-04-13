@@ -25,6 +25,7 @@ public class Player extends Entity {
     private int flipW = 1;
     private boolean jumpOnce;
     private boolean canAttack;
+    private int facing;
 
     /**
      * Constructor for Player
@@ -41,6 +42,7 @@ public class Player extends Entity {
         this.enemyManager = enemyManager;
         jumpOnce = true;
         canAttack = true;
+        facing = 1;
     }
 
     /**
@@ -49,7 +51,7 @@ public class Player extends Entity {
     public void updatePlayer() {
         updateEntityPos(levelData);
         updateAnimationTick();
-        updateAttackBox(30, xSpeed);
+        updateAttackBox(30, facing);
         setEntityAnimation();
     }
 
@@ -110,10 +112,12 @@ public class Player extends Entity {
             xSpeed -=playerSpeed;
             flipX = width;
             flipW = -1;
+            facing = 0;
         } else if (movingRight){
             xSpeed += playerSpeed;
             flipX = 0;
             flipW = 1;
+            facing = 1;
         }
 
         if(!inAir){

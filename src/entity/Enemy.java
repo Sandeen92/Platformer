@@ -70,7 +70,7 @@ public abstract class Enemy extends Entity{
      */
     public void update(int[][] lvlData){
         updateEntityPos(lvlData);
-        updateAttackBox(0, xSpeed);
+        updateAttackBox(0, 0);
         updateAnimationTick();
     }
 
