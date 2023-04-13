@@ -65,6 +65,7 @@ public class Player extends Entity {
     }
 
     public void attack(){
+        //TODO add animation for attacking
         if(canAttack){
             enemyManager.checkIfEnemyIsHit(attackBox);
             canAttack = false;
