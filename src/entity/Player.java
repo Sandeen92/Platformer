@@ -49,7 +49,7 @@ public class Player extends Entity {
     public void updatePlayer() {
         updateEntityPos(levelData);
         updateAnimationTick();
-        updateAttackBox(30);
+        updateAttackBox(30, xSpeed);
         setEntityAnimation();
     }
 
@@ -163,7 +163,7 @@ public class Player extends Entity {
         @Override
         public void run() {
             try {
-                Thread.sleep(500);
+                Thread.sleep(1000);
                 canAttack = true;
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);

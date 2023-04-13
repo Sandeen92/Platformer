@@ -98,9 +98,15 @@ public abstract class Entity {
         airSpeed = jumpSpeed;
     }
 
-    protected void updateAttackBox(int offset){
-        attackBox.x = hitbox.x + offset;
-        attackBox.y = hitbox.y;
+    protected void updateAttackBox(int offset, float xSpeed){
+        if(xSpeed < 0){
+            attackBox.x = hitbox.x - offset;
+            attackBox.y = hitbox.y;
+        } else {
+            attackBox.x = hitbox.x + offset;
+            attackBox.y = hitbox.y;
+        }
+
     }
 
     /**
