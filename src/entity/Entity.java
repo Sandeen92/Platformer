@@ -98,6 +98,17 @@ public abstract class Entity {
         airSpeed = jumpSpeed;
     }
 
+    protected void updateAttackBox(int offset, float xSpeed){
+        if(xSpeed < 0){
+            attackBox.x = hitbox.x - offset;
+            attackBox.y = hitbox.y;
+        } else {
+            attackBox.x = hitbox.x + offset;
+            attackBox.y = hitbox.y;
+        }
+
+    }
+
     /**
      * This method updates the x position of the entity by taking in the speed and leveldata to check
      * if the move is valid
@@ -268,5 +279,7 @@ public abstract class Entity {
         setMovingLeft(false);
         isMoving = false;
     }
+
+
 
 }

@@ -36,8 +36,11 @@ public class Playing extends State implements StateMethods{
     private void initClasses() {
         levelManager = new LevelManager(game);
         enemyManager = new EnemyManager(this);
+
         itemManager = new ItemManager(this);
-        player = new Player(200,200, (int) (64 * Game.SCALE),(int)(40 * Game.SCALE), 10, 2);
+
+        player = new Player(200,200, (int) (64 * Game.SCALE),(int)(40 * Game.SCALE), 10, 2, enemyManager);
+
         player.loadLvlData(levelManager.getCurrentLevel().getLvlData());
         pauseOverlay = new PauseOverlay(this);
     }
@@ -107,8 +110,11 @@ public class Playing extends State implements StateMethods{
                 break;
 
             case KeyEvent.VK_SPACE:
-                    player.setJumping(true);
-                    break;
+                player.setJumping(true);
+                break;
+            case KeyEvent.VK_F:
+                player.attack();
+                break;
 
             case KeyEvent.VK_ESCAPE:
                 if (paused == false) {

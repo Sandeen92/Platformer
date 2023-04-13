@@ -46,6 +46,7 @@ public class EnemyManager {
         }
     }
 
+    //TODO add method to change animation
     public void checkIfEnemyIsHit(Rectangle2D.Float attackBox){
         for (Crabby c : crabbies){
             if(attackBox.intersects(c.getHitbox())){

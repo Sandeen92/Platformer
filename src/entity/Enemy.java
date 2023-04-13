@@ -70,7 +70,7 @@ public abstract class Enemy extends Entity{
      */
     public void update(int[][] lvlData){
         updateEntityPos(lvlData);
-        updateAttackBox();
+        updateAttackBox(0, xSpeed);
         updateAnimationTick();
     }
 
@@ -127,9 +127,6 @@ public abstract class Enemy extends Entity{
         }
     }
 
-    public void updateAttackBox(){
-        attackBox = hitbox;
-    }
 
     public int getAnimationIndex(){
         return animationIndex;
