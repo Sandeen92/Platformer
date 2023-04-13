@@ -11,7 +11,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-public class Playing extends State implements StateMethods{
+public class Playing extends State implements StateMethods {
 
     private Player player;
     private LevelManager levelManager;
@@ -25,7 +25,7 @@ public class Playing extends State implements StateMethods{
     private int maxTilesOffset = levelTilesWidth - Game.TILES_IN_WIDTH;
     private int maxLevelOffsetX = maxTilesOffset * Game.TILES_SIZE;
 
-    public Playing(Game game){
+    public Playing(Game game) {
         super(game);
         initClasses();
     }
@@ -37,7 +37,7 @@ public class Playing extends State implements StateMethods{
 
         itemManager = new ItemManager(this);
 
-        player = new Player(200,200, (int) (64 * Game.SCALE),(int)(40 * Game.SCALE), 10, 2, enemyManager);
+        player = new Player(200, 200, (int) (64 * Game.SCALE), (int) (40 * Game.SCALE), 10, 2, enemyManager);
 
         player.loadLvlData(levelManager.getCurrentLevel().getLvlData());
     }
@@ -61,17 +61,15 @@ public class Playing extends State implements StateMethods{
         int playerPositionX = (int) player.getHitbox().x;
         int currentPlayerPositionX = playerPositionX - currentLevelOffsetX;
 
-        if (currentPlayerPositionX > cameraRightBorder){
+        if (currentPlayerPositionX > cameraRightBorder) {
             currentLevelOffsetX += currentPlayerPositionX - cameraRightBorder;
-        }
-        else if (currentPlayerPositionX < cameraLeftBorder){
+        } else if (currentPlayerPositionX < cameraLeftBorder) {
             currentLevelOffsetX += currentPlayerPositionX - cameraLeftBorder;
         }
 
-        if (currentLevelOffsetX > maxLevelOffsetX){
+        if (currentLevelOffsetX > maxLevelOffsetX) {
             currentLevelOffsetX = maxLevelOffsetX;
-        }
-        else if (currentLevelOffsetX < 0){
+        } else if (currentLevelOffsetX < 0) {
             currentLevelOffsetX = 0;
         }
     }
@@ -85,10 +83,9 @@ public class Playing extends State implements StateMethods{
     }
 
 
-
     @Override
     public void keyPressed(KeyEvent e) {
-        switch (e.getKeyCode()){
+        switch (e.getKeyCode()) {
 
             case KeyEvent.VK_A:
                 player.setMovingLeft(true);
@@ -114,7 +111,7 @@ public class Playing extends State implements StateMethods{
 
     @Override
     public void keyReleased(KeyEvent e) {
-        switch (e.getKeyCode()){
+        switch (e.getKeyCode()) {
             case KeyEvent.VK_A:
                 player.setMovingLeft(false);
                 break;
@@ -128,13 +125,19 @@ public class Playing extends State implements StateMethods{
         }
     }
 
-    public boolean isPaused() {return paused;}
-    public void setPaused(boolean paused) {this.paused = paused;}
+    public boolean isPaused() {
+        return paused;
+    }
 
-    public void windowFocusLost(){
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
+
+    public void windowFocusLost() {
         player.allMovingBooleansFalse();
     }
-    public Player getPlayer(){
+
+    public Player getPlayer() {
         return player;
     }
 
@@ -144,18 +147,12 @@ public class Playing extends State implements StateMethods{
 
     @Override
     public void mouseClicked(MouseEvent e) {
+    }
 
-
-
-    @Override
-    public void mouseClicked(MouseEvent e) {}
     @Override
     public void mousePressed(MouseEvent e) {}
     @Override
     public void mouseReleased(MouseEvent e) {}
     @Override
     public void mouseMoved(MouseEvent e) {}
-    public void mouseMoved(MouseEvent e) {
-    }
-
 }
