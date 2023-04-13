@@ -36,11 +36,9 @@ public class OptionButton extends Button {
     public void updateButtons(){
         index = 0;
         if (mouseOver){
-            System.out.println("Musen över i OptionButtons");
             index = 1;
         }
         if (mousePressed){
-            System.out.println("Musen pressad i OptionButtons");
             index = 2;
         }
     }

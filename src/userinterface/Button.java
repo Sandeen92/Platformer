@@ -17,7 +17,6 @@ public class Button {
 
     private void createBounds() {
         bounds = new Rectangle(x, y, width, height);
-        System.out.println("Bounds created at: " + x + " + " + y + " with width: " + width + " and height: " + height);
     }
 
     public int getX() {
@@ -53,7 +52,6 @@ public class Button {
     }
 
     public Rectangle getBounds() {
-        System.out.println("Lämnar tillbaka bounds");
         return bounds;
     }
 

@@ -61,11 +61,9 @@ public class Options extends State implements StateMethods {
     @Override
     public void mousePressed(MouseEvent e) {
         if (isIn(e, returnButton)){
-            System.out.println("Pressed funkar");
             returnButton.setMousePressed(true);
         }
         else if (isIn(e, homeButton)) {
-            System.out.println("Pressed funkar på home");
             homeButton.setMousePressed(true);
         }
     }
@@ -112,7 +110,6 @@ public class Options extends State implements StateMethods {
 
 
     public boolean isIn(MouseEvent e, Button b){
-        System.out.println("Är inuti");
         return b.getBounds().contains(e.getX(), e.getY());
     }
 }
