@@ -7,7 +7,6 @@ public enum Gamestate {
     OPTIONS,
     DEATHSCREEN,
     PAUSE,
-    RESET,
     QUIT;
 
 
