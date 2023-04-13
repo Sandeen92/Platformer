@@ -18,10 +18,6 @@ public class State {
         return mb.getBtnBounds().contains(e.getX(), e.getY());
     }
 
-    public boolean isUserInsideBtnBounds(MouseEvent e, OptionButton ob){
-        return ob.getBtnBounds().contains(e.getX(),e.getY());
-    }
-
 
     public Game getGame(){
         return game;

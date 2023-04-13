@@ -1,10 +1,8 @@
 package gamestates;
 
 import main.Game;
-import userinterface.MenuButton;
 import userinterface.OptionButton;
 import userinterface.SoundButton;
-import utils.Constants;
 import utils.LoadSave;
 
 import java.awt.*;
@@ -21,7 +19,6 @@ public class Options extends State implements StateMethods {
     private int optionsMenuWidth;
     private int optionsMenuHeight;
     private OptionButton optionButton;
-    private SoundButton[] soundButtons = new SoundButton[2];
 
 
     public Options(Game game){
@@ -31,10 +28,10 @@ public class Options extends State implements StateMethods {
     }
 
     private void loadOptionButtons(){
-        int optionBtnX = ((Game.GAME_WIDTH / 2) + 50);
+        int optionBtnX = ((Game.GAME_WIDTH / 3));
         int optionBtnY = (int) (340 * Game.SCALE);
 
-        optionButton = new OptionButton(optionBtnX,optionBtnY, OPTIONBTN_SIZE, OPTIONBTN_SIZE, 2);
+        optionButton = new OptionButton(optionBtnX,optionBtnY, OPTIONBTN_SIZE, OPTIONBTN_SIZE, 0);
     }
 
     private void loadBackgroundImage(){
@@ -59,23 +56,19 @@ public class Options extends State implements StateMethods {
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
     public void mousePressed(MouseEvent e) {
-        if (isUserInsideBtnBounds(e, optionButton)){
+        if (isUserInsideBtnBounds(e)){
+            System.out.println("Pressed funkar");
             optionButton.setMousePressed(true);
         }
         else {
-
+            //Audio options senare
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (isUserInsideBtnBounds(e, optionButton)){
+        if (isUserInsideBtnBounds(e)){
             if (optionButton.isMousePressed()){
                 Gamestate.state = Gamestate.PAUSE;
             }
@@ -87,22 +80,21 @@ public class Options extends State implements StateMethods {
     public void mouseMoved(MouseEvent e) {
         optionButton.setMouseOver(false);
 
-        if (isUserInsideBtnBounds(e, optionButton)){
+        if (isInsideBtnBounds(e, optionButton)){
             optionButton.setMouseOver(true);
         }
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-
-    }
-
+    public void keyPressed(KeyEvent e) {}
     @Override
-    public void keyReleased(KeyEvent e) {
+    public void keyReleased(KeyEvent e) {}
+    @Override
+    public void mouseClicked(MouseEvent e) {}
 
-    }
 
-    public boolean isUserInsideBtnBounds(MouseEvent e, OptionButton ob){
-        return ob.getBtnBounds().contains(e.getX(), e.getY());
+    public boolean isInsideBtnBounds(MouseEvent e, Button b){
+        System.out.println("Är inuti");
+        return b.getBounds().contains(e.getX(), e.getY());
     }
 }
