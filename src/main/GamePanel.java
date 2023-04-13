@@ -10,6 +10,7 @@ public class GamePanel extends JPanel {
     private Game game;
     public static JLabel LBL_FPS_COUNTER = null; // Temporär FPS-counter
     public static JLabel LBL_PLAYER_HP = null; // temporär hp visare för spelare
+    public static JLabel LBL_INFO = null; //Temp för o visa info
 
     public GamePanel(Game game){
         addKeyListener(new KeyBoardInputs(this));
@@ -18,7 +19,16 @@ public class GamePanel extends JPanel {
         setPanelSize();
         initFpsCounter();
         initPlayerHP();
+        initInfo();
         this.game = game;
+    }
+
+    private void initInfo() {
+        LBL_INFO = new JLabel();
+        LBL_INFO.setFont(new Font("DialogInput", Font.BOLD, 25));
+        LBL_INFO.setForeground(Color.yellow);
+        LBL_INFO.setText("Press R to reset");
+        add(LBL_INFO);
     }
 
     private void initPlayerHP() {
