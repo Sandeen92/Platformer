@@ -15,6 +15,8 @@ import static utils.AssistanceMethods.IsEntityOnFloor;
 
 public class Player extends Entity {
     private BufferedImage[][] playerAnimations;
+    private EnemyManager enemyManager;
+    private AttackTimer attackTimer;
     private float xDrawOffset = 21 * Game.SCALE;
     private float yDrawOffset = 4 * Game.SCALE;
     private int[][] levelData;
@@ -22,6 +24,7 @@ public class Player extends Entity {
     private int flipX = 0;
     private int flipW = 1;
     private boolean jumpOnce;
+    private boolean canAttack;
 
     /**
      * Constructor for Player
@@ -30,11 +33,14 @@ public class Player extends Entity {
      * @param width
      * @param heigth
      */
-    public Player(float x, float y, int width, int heigth, int maxHealth, int attackDamage) {
+    public Player(float x, float y, int width, int heigth, int maxHealth, int attackDamage, EnemyManager enemyManager) {
         super(x, y, width, heigth, maxHealth, attackDamage);
         loadPlayerAnimations();
         initialiseHitbox(x,y, 20 * Game.SCALE, 27 * Game.SCALE);
+        initialiseAttackBox(x,y,20 * Game.SCALE, 27 * Game.SCALE);
+        this.enemyManager = enemyManager;
         jumpOnce = true;
+        canAttack = true;
     }
 
     /**
@@ -43,6 +49,7 @@ public class Player extends Entity {
     public void updatePlayer() {
         updateEntityPos(levelData);
         updateAnimationTick();
+        updateAttackBox(30);
         setEntityAnimation();
     }
 
@@ -53,6 +60,17 @@ public class Player extends Entity {
             inAir = true;
             airSpeed = jumpSpeed;
             jumpOnce = false;
+        }
+
+    }
+
+    public void attack(){
+        if(canAttack){
+            enemyManager.checkIfEnemyIsHit(attackBox);
+            canAttack = false;
+            attackTimer = new AttackTimer();
+            attackTimer.start();
+            System.out.println("Attacked");
         }
 
     }
@@ -70,6 +88,7 @@ public class Player extends Entity {
                 (int) (hitbox.y - yDrawOffset),
                 width * flipW,
                 height, null);
+        drawAttackBox(g, levelOffset);
     }
 
     /**
@@ -100,9 +119,7 @@ public class Player extends Entity {
             isEntityInAir(lvlData);
         }
 
-
         moveEntity(lvlData);
-
         isMoving = true;
     }
 
@@ -139,6 +156,18 @@ public class Player extends Entity {
         this.levelData = lvlData;
         if(!IsEntityOnFloor(hitbox,lvlData)){
             inAir = true;
+        }
+    }
+
+    private class AttackTimer extends Thread{
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(500);
+                canAttack = true;
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }
