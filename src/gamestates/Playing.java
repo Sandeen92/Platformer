@@ -6,7 +6,6 @@ import items.ItemManager;
 import levels.LevelManager;
 import main.Game;
 import userinterface.PauseOverlay;
-import utils.LoadSave;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -23,25 +22,39 @@ public class Playing extends State implements StateMethods{
     private int currentLevelOffsetX;
     private int cameraLeftBorder = (int) (0.3 * Game.GAME_WIDTH);
     private int cameraRightBorder = (int) (0.7 * Game.GAME_WIDTH);
-    private int levelTilesWidth = LoadSave.GetLevelData()[0].length;
-    private int maxTilesOffset = levelTilesWidth - Game.TILES_IN_WIDTH;
-    private int maxLevelOffsetX = maxTilesOffset * Game.TILES_SIZE;
+    private int maxLevelOffsetX;
 
     public Playing(Game game){
         super(game);
         initClasses();
+
+        calculatingLevelOffset();
+        loadStartLevel();
+    }
+
+    public void loadNextLevel(){
+        levelManager.loadNextLevel();
+        player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
+    }
+
+    private void loadStartLevel() {
+        enemyManager.loadEnemies(levelManager.getCurrentLevel());
+    }
+
+    private void calculatingLevelOffset() {
+        maxLevelOffsetX = levelManager.getCurrentLevel().getMaxLevelOffsetX();
     }
 
 
     private void initClasses() {
         levelManager = new LevelManager(game);
         enemyManager = new EnemyManager(this);
-
         itemManager = new ItemManager(this);
 
         player = new Player(200,200, (int) (64 * Game.SCALE),(int)(40 * Game.SCALE), 10, 2, enemyManager);
+        player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
+        player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
 
-        player.loadLvlData(levelManager.getCurrentLevel().getLvlData());
         pauseOverlay = new PauseOverlay(this);
     }
 
@@ -53,7 +66,7 @@ public class Playing extends State implements StateMethods{
             itemManager.update();
             player.updatePlayer();
             checkIfPlayerIsCloseToCameraBorder();
-            enemyManager.update(levelManager.getCurrentLevel().getLvlData());
+            enemyManager.update(levelManager.getCurrentLevel().getLevelData());
         }
         else {
             pauseOverlay.update();
@@ -93,8 +106,9 @@ public class Playing extends State implements StateMethods{
         if (paused == true) {
             pauseOverlay.draw(g);
         }
-
     }
+
+
 
 
 
@@ -153,6 +167,14 @@ public class Playing extends State implements StateMethods{
 
     public ItemManager getItemManager() {
         return itemManager;
+    }
+
+    public EnemyManager getEnemyManager() {
+        return enemyManager;
+    }
+
+    public void setMaxLevelOffsetX(int maxLevelOffsetX) {
+        this.maxLevelOffsetX = maxLevelOffsetX;
     }
 
     @Override

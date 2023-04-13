@@ -5,15 +5,18 @@
 
 package levels;
 
+import gamestates.Gamestate;
 import main.Game;
 import utils.LoadSave;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class LevelManager {
     private Game game;
     private BufferedImage[] levelSprite;
-    private Level levelOne;
+    private ArrayList<Level> levels;
+    private int levelIndex = 0;
     private BufferedImage levelBackground;
     private BufferedImage levelBackgroundHouses;
 
@@ -24,9 +27,30 @@ public class LevelManager {
     public LevelManager(Game game) {
         this.game = game;
         importOutsideSprites();
-        levelOne = new Level(LoadSave.GetLevelData());
+        levels = new ArrayList<>();
+        buildAllLevels();
         levelBackground = LoadSave.GetLevelBackground("background_test.png");
         levelBackgroundHouses = LoadSave.GetLevelBackground("background_houses.png");
+    }
+
+    private void buildAllLevels() {
+        BufferedImage[] allLevels = LoadSave.GetAllLevels();
+        for(BufferedImage img : allLevels){
+            levels.add(new Level(img));
+        }
+    }
+
+    public void loadNextLevel() {
+        levelIndex++;
+        if(levelIndex >= levels.size()){
+            levelIndex = 0;
+            Gamestate.state = Gamestate.MENU;
+        }
+
+        Level newLevel = levels.get(levelIndex);
+        game.getPlaying().getEnemyManager().loadEnemies(newLevel);
+        game.getPlaying().getPlayer().loadLvlData(newLevel.getLevelData());
+        game.getPlaying().setMaxLevelOffsetX(newLevel.getMaxLevelOffsetX());
     }
 
     /**
@@ -48,8 +72,8 @@ public class LevelManager {
         g.drawImage(levelBackground,0,0, Game.GAME_WIDTH, Game.GAME_HEIGHT, null);
         g.drawImage(levelBackgroundHouses,0,0, Game.GAME_WIDTH, Game.GAME_HEIGHT, null);
         for (int j = 0; j < Game.TILES_IN_HEIGHT; j++)
-            for (int i = 0; i < levelOne.getLvlData()[0].length; i++) {
-                int index = levelOne.getSpriteIndex(i, j);
+            for (int i = 0; i < levels.get(levelIndex).getLevelData()[0].length; i++) {
+                int index = levels.get(levelIndex).getSpriteIndex(i, j);
                 g.drawImage(levelSprite[index], Game.TILES_SIZE * i - levelOffset, Game.TILES_SIZE * j, Game.TILES_SIZE, Game.TILES_SIZE, null);
             }
     }
@@ -59,6 +83,12 @@ public class LevelManager {
     }
 
     public Level getCurrentLevel(){
-        return levelOne;
+        return levels.get(levelIndex);
     }
+
+    public int getAmountOfLevels(){
+        return levels.size();
+    }
+
+
 }

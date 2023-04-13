@@ -6,6 +6,7 @@
 package entity;
 
 import gamestates.Playing;
+import levels.Level;
 import utils.LoadSave;
 import static utils.Constants.EnemyConstants.*;
 import java.awt.*;
@@ -25,14 +26,13 @@ public class EnemyManager {
     public EnemyManager(Playing playing){
         this.playing = playing;
         loadEnemyImg();
-        addEnemies();
     }
 
     /**
      * This method calls a method in loadsave that reads in the enemies and adds them to the enemylist
      */
-    private void addEnemies() {
-        crabbies = LoadSave.getCrabbs();
+    public void loadEnemies(Level level) {
+        crabbies = level.getCrabs();
     }
 
     /**

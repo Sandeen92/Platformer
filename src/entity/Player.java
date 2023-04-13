@@ -45,6 +45,13 @@ public class Player extends Entity {
         facing = 1;
     }
 
+    public void setSpawn(Point spawn){
+        this.x = spawn.x;
+        this.y = spawn.y;
+        hitbox.x = x;
+        hitbox.y = y;
+    }
+
     /**
      * This method is responsible for updating the player
      */

@@ -24,11 +24,11 @@ public class ItemManager {
         consumables = new ArrayList<>();
         containers = new ArrayList<>();
 
-        consumables.add(new Consumable(100, 720, BLUE_POTION));
-        consumables.add(new Consumable(200, 720, RED_POTION));
+        //consumables.add(new Consumable(100, 720, BLUE_POTION));
+        //consumables.add(new Consumable(200, 720, RED_POTION));
 
-        containers.add(new Container(300, 720, BARREL));
-        containers.add(new Container(400, 733, BOX));
+        //containers.add(new Container(300, 720, BARREL));
+        //containers.add(new Container(400, 733, BOX));
     }
 
     private void loadImages() {
