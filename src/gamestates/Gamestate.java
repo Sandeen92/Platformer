@@ -7,8 +7,7 @@ public enum Gamestate {
     OPTIONS,
     DEATHSCREEN,
     PAUSE,
-    QUIT,
-    OPTIONS;
+    QUIT;
 
 
     public static Gamestate state = MENU;

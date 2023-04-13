@@ -22,7 +22,6 @@ public class Game implements Runnable{
     private final int UPS_SET = 200;
     private int frames = 0;
     private Playing playing;
-    private Menu menu;
     private DeathScreen deathScreen;
     private Startmenu startmenu;
     private Pausemenu pausemenu;
