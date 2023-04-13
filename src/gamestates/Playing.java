@@ -2,6 +2,7 @@ package gamestates;
 
 import entity.EnemyManager;
 import entity.Player;
+import items.ItemManager;
 import levels.LevelManager;
 import main.Game;
 import userinterface.PauseOverlay;
@@ -17,6 +18,7 @@ public class Playing extends State implements StateMethods{
     private LevelManager levelManager;
     private PauseOverlay pauseOverlay;
     private EnemyManager enemyManager;
+    private ItemManager itemManager;
     private boolean paused;
     private int currentLevelOffsetX;
     private int cameraLeftBorder = (int) (0.3 * Game.GAME_WIDTH);
@@ -34,6 +36,7 @@ public class Playing extends State implements StateMethods{
     private void initClasses() {
         levelManager = new LevelManager(game);
         enemyManager = new EnemyManager(this);
+        itemManager = new ItemManager(this);
         player = new Player(200,200, (int) (64 * Game.SCALE),(int)(40 * Game.SCALE), 10, 2);
         player.loadLvlData(levelManager.getCurrentLevel().getLvlData());
         pauseOverlay = new PauseOverlay(this);
@@ -44,6 +47,7 @@ public class Playing extends State implements StateMethods{
     public void update() {
         if (paused == false) {
             levelManager.updateLevel();
+            itemManager.update();
             player.updatePlayer();
             checkIfPlayerIsCloseToCameraBorder();
             enemyManager.update(levelManager.getCurrentLevel().getLvlData());
@@ -81,6 +85,7 @@ public class Playing extends State implements StateMethods{
         levelManager.drawLevel(g, currentLevelOffsetX);
         player.renderPlayer(g, currentLevelOffsetX);
         enemyManager.draw(g, currentLevelOffsetX);
+        itemManager.draw(g, currentLevelOffsetX);
 
         if (paused == true) {
             pauseOverlay.draw(g);
@@ -139,6 +144,11 @@ public class Playing extends State implements StateMethods{
     public Player getPlayer(){
         return player;
     }
+
+    public ItemManager getItemManager() {
+        return itemManager;
+    }
+
     @Override
     public void mouseClicked(MouseEvent e) {
 
