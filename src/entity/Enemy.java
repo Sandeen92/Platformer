@@ -36,14 +36,17 @@ public abstract class Enemy extends Entity{
     }
 
     protected void checkPlayerHit(Enemy enemy, Player player){
-        if(enemy.attackBox.intersects(player.hitbox) && canAttack){
-            player.currentHealth -= enemy.attackDamage;
-            if(player.isEntityDead()){
-                Gamestate.state = Gamestate.DEATHSCREEN;
+        if(enemy.attackBox.intersects(player.hitbox)){
+            if(canAttack){
+                player.currentHealth -= enemy.attackDamage;
+                if(player.isEntityDead()){
+                    Gamestate.state = Gamestate.DEATHSCREEN;
+                }
+                canAttack = false;
+                timer = new TimerThread();
+                timer.start();
             }
-            canAttack = false;
-            timer = new TimerThread();
-            timer.start();
+            player.knockbackPlayer(walkDir);
         }
 
     }

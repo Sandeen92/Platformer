@@ -12,6 +12,9 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import static utils.AssistanceMethods.IsEntityOnFloor;
+import static utils.AssistanceMethods.canMoveHere;
+import static utils.Constants.Directions.LEFT;
+import static utils.Constants.Directions.RIGHT;
 
 public class Player extends Entity {
     private BufferedImage[][] playerAnimations;
@@ -82,7 +85,6 @@ public class Player extends Entity {
             attackTimer.start();
             System.out.println("Attacked");
         }
-
     }
 
     public void resetJumpOnce(){
@@ -99,6 +101,19 @@ public class Player extends Entity {
                 width * flipW,
                 height, null);
         drawAttackBox(g, levelOffset); //TODO Remove later just for debugging
+    }
+
+    public void knockbackPlayer(int enemyFacing){
+        xSpeed = 0;
+        if(enemyFacing == RIGHT){
+            xSpeed = playerSpeed * 20;
+        } else if (enemyFacing == LEFT){
+            xSpeed = -playerSpeed * 20;
+        }
+
+        if(canMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, levelData)){
+            hitbox.x += xSpeed;
+        }
     }
 
     /**
