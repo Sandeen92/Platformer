@@ -20,8 +20,8 @@ public class Player extends Entity {
     private BufferedImage[][] playerAnimations;
     private EnemyManager enemyManager;
     private AttackTimer attackTimer;
-    private float xDrawOffset = 1 * Game.SCALE;
-    private float yDrawOffset = 1 * Game.SCALE;
+    private float xDrawOffset = 0 * Game.SCALE;
+    private float yDrawOffset = 11 * Game.SCALE;
     private int[][] levelData;
     private float playerSpeed = 1.2f;
     private int flipX = 0;
