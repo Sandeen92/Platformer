@@ -54,6 +54,12 @@ public abstract class Entity {
         this.currentHealth = maxHealth;
         this.attackDamage = attackDamage;
     }
+    public Entity(float x, float y,int width, int height){
+        this.x = x;
+        this.y = y;
+        this.height = height;
+        this.width = width;
+    }
 
     /**
      * This method initializes the hitbox of the entity
