@@ -15,6 +15,7 @@ import static utils.AssistanceMethods.IsEntityOnFloor;
 import static utils.AssistanceMethods.canMoveHere;
 import static utils.Constants.Directions.LEFT;
 import static utils.Constants.Directions.RIGHT;
+import static utils.Constants.EnemyConstants.HIT;
 
 public class Player extends Entity {
     private BufferedImage[][] playerAnimations;
@@ -28,7 +29,9 @@ public class Player extends Entity {
     private int flipW = 1;
     private boolean jumpOnce;
     private boolean canAttack;
+    private boolean isHit;
     private int facing;
+
 
     /**
      * Constructor for Player
@@ -45,6 +48,7 @@ public class Player extends Entity {
         this.enemyManager = enemyManager;
         jumpOnce = true;
         canAttack = true;
+        isHit = false;
         facing = 1;
     }
 
@@ -73,7 +77,12 @@ public class Player extends Entity {
             airSpeed = jumpSpeed;
             jumpOnce = false;
         }
+    }
 
+    public void playerHit(){
+        isHit = true;
+        HitTimer ht = new HitTimer();
+        ht.start();
     }
 
     public void attack(){
@@ -100,18 +109,18 @@ public class Player extends Entity {
                 (int) (hitbox.y - yDrawOffset),
                 width * flipW,
                 height, null);
-        drawAttackBox(g, levelOffset); //TODO Remove later just for debugging
+        drawHitbox(g,levelOffset);
+        //drawAttackBox(g, levelOffset); //TODO Remove later just for debugging
     }
 
-    //TODO få in spelarfacing och gör if-satser eller intersectsLine
-    public void knockbackPlayer(int enemyFacing){
+    //TODO få in spelarfacing och gör if-satser eller intersectsLine och gör ett entitystate hit som gör allt mer smooth
+    public void knockbackPlayer(Enemy enemy){
         xSpeed = 0;
-        if(enemyFacing == RIGHT){
-            xSpeed = playerSpeed * 20;
-        } else if (enemyFacing == LEFT){
-            xSpeed = -playerSpeed * 20;
+        if(hitbox.x > enemy.hitbox.x){
+            xSpeed = playerSpeed * 40;
+        } else if (hitbox.x < enemy.hitbox.x){
+            xSpeed = -playerSpeed * 40;
         }
-
         if(canMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, levelData)){
             hitbox.x += xSpeed;
         }
@@ -126,7 +135,8 @@ public class Player extends Entity {
         if(jumping){
             jump();
         }
-        if(!movingLeft && !movingRight && ! inAir){
+
+        if(!movingLeft && !movingRight && !inAir && !isHit){
             return;
         }
 
@@ -143,9 +153,15 @@ public class Player extends Entity {
             facing = 1;
         }
 
+        if(isHit){
+            xSpeed += 1.2 * 1.2;
+        }
+
         if(!inAir){
             isEntityInAir(lvlData);
         }
+
+
 
         moveEntity(lvlData);
         isMoving = true;
@@ -193,6 +209,18 @@ public class Player extends Entity {
             try {
                 Thread.sleep(1000);
                 canAttack = true;
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    private class HitTimer extends Thread{
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(500);
+                isHit = false;
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

@@ -7,9 +7,12 @@ package entity;
 
 import gamestates.Gamestate;
 import main.Game;
+import utils.Constants;
+
 import static utils.AssistanceMethods.canMoveHere;
 import static utils.AssistanceMethods.IsFloor;
 import static utils.Constants.EnemyConstants.*;
+import static utils.Constants.PlayerConstants.HIT;
 import static utils.Constants.Directions.*;
 
 public abstract class Enemy extends Entity{
@@ -46,7 +49,8 @@ public abstract class Enemy extends Entity{
                 timer = new TimerThread();
                 timer.start();
             }
-            player.knockbackPlayer(walkDir);
+            player.playerHit();
+            player.entityState = HIT;
         }
 
     }

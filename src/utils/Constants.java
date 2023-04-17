@@ -71,6 +71,7 @@ public class Constants {
         public static final int IDLE = 0;
         public static final int RUNNING = 1;
         public static final int JUMP = 2;
+        public static final int HIT = 5;
 
         public static int GetSpriteAmount(int player_action){
             switch (player_action){
@@ -80,6 +81,8 @@ public class Constants {
                     return 5;
                 case JUMP:
                     return 3;
+                case HIT:
+                    return 4;
                 default:
                     return 1;
             }
