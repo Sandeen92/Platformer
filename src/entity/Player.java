@@ -103,6 +103,7 @@ public class Player extends Entity {
         drawAttackBox(g, levelOffset); //TODO Remove later just for debugging
     }
 
+    //TODO få in spelarfacing och gör if-satser eller intersectsLine
     public void knockbackPlayer(int enemyFacing){
         xSpeed = 0;
         if(enemyFacing == RIGHT){
