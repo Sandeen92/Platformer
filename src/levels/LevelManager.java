@@ -18,7 +18,7 @@ public class LevelManager {
     private ArrayList<Level> levels;
     private int levelIndex = 0;
     private BufferedImage levelBackground;
-    private BufferedImage levelBackgroundHouses;
+    private BufferedImage levelBackgroundTree;
 
     /**
      * Constructor for LevelManager
@@ -29,8 +29,8 @@ public class LevelManager {
         importOutsideSprites();
         levels = new ArrayList<>();
         buildAllLevels();
-        levelBackground = LoadSave.GetLevelBackground("background_test.png");
-        //levelBackgroundHouses = LoadSave.GetLevelBackground("background_houses.png");
+        levelBackground = LoadSave.GetSpriteAtlas("background_test2.png");
+        levelBackgroundTree = LoadSave.GetSpriteAtlas("background_sprites.png");
     }
 
     private void buildAllLevels() {
@@ -70,12 +70,13 @@ public class LevelManager {
      */
     public void drawLevel(Graphics g, int levelOffset) {
         g.drawImage(levelBackground,0,0, Game.GAME_WIDTH, Game.GAME_HEIGHT, null);
-        g.drawImage(levelBackgroundHouses,0,0, Game.GAME_WIDTH, Game.GAME_HEIGHT, null);
-        for (int j = 0; j < Game.TILES_IN_HEIGHT; j++)
+        g.drawImage(levelBackgroundTree,0,0, Game.GAME_WIDTH, Game.GAME_HEIGHT, null);
+        for (int j = 0; j < Game.TILES_IN_HEIGHT; j++) {
             for (int i = 0; i < levels.get(levelIndex).getLevelData()[0].length; i++) {
                 int index = levels.get(levelIndex).getSpriteIndex(i, j);
                 g.drawImage(levelSprite[index], Game.TILES_SIZE * i - levelOffset, Game.TILES_SIZE * j, Game.TILES_SIZE, Game.TILES_SIZE, null);
             }
+        }
     }
 
     public void updateLevel() {

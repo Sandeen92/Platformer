@@ -99,7 +99,6 @@ public class Playing extends State implements StateMethods {
         enemyManager.draw(g, currentLevelOffsetX);
         itemManager.draw(g, currentLevelOffsetX);
         interactablesManager.draw(g, currentLevelOffsetX);
-
     }
 
     @Override
