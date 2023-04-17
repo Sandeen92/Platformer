@@ -128,7 +128,6 @@ public class Player extends Entity {
             hitbox.x += xSpeed;
         }
     }
-
     /**
      *  This method updates the players position and checks for collisions
      */
@@ -204,6 +203,14 @@ public class Player extends Entity {
         if(!IsEntityOnFloor(hitbox,lvlData)){
             inAir = true;
         }
+    }
+
+    public void setSpeed(float speed){
+        playerSpeed = speed;
+    }
+
+    public float getPlayerSpeed(){
+        return playerSpeed;
     }
 
     private class AttackTimer extends Thread{
