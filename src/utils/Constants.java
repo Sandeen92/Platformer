@@ -75,7 +75,7 @@ public class Constants {
         public static int GetSpriteAmount(int player_action){
             switch (player_action){
                 case RUNNING:
-                    return 13;
+                    return 9;
                 case IDLE:
                     return 4;
                 case JUMP:
