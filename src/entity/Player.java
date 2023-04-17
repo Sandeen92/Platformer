@@ -21,8 +21,8 @@ public class Player extends Entity {
     private BufferedImage[][] playerAnimations;
     private EnemyManager enemyManager;
     private AttackTimer attackTimer;
-    private float xDrawOffset = 21 * Game.SCALE;
-    private float yDrawOffset = 4 * Game.SCALE;
+    private float xDrawOffset = 24 * Game.SCALE;
+    private float yDrawOffset = 14 * Game.SCALE;
     private int[][] levelData;
     private float playerSpeed = 1.2f;
     private int flipX = 0;
@@ -43,7 +43,7 @@ public class Player extends Entity {
     public Player(float x, float y, int width, int heigth, int maxHealth, int attackDamage, EnemyManager enemyManager) {
         super(x, y, width, heigth, maxHealth, attackDamage);
         loadPlayerAnimations();
-        initialiseHitbox(x,y, 20 * Game.SCALE, 27 * Game.SCALE);
+        initialiseHitbox(x,y, 22 * Game.SCALE, 30 * Game.SCALE);
         initialiseAttackBox(x,y,20 * Game.SCALE, 27 * Game.SCALE);
         this.enemyManager = enemyManager;
         jumpOnce = true;
@@ -105,11 +105,13 @@ public class Player extends Entity {
      * @param g
      */
     public void renderPlayer(Graphics g, int levelOffset) {
+
         g.drawImage(playerAnimations[entityState][animationIndex],
                 (int) (hitbox.x - xDrawOffset) + flipX - levelOffset,
                 (int) (hitbox.y - yDrawOffset),
                 width * flipW,
                 height, null);
+
         drawHitbox(g,levelOffset);
         //drawAttackBox(g, levelOffset); //TODO Remove later just for debugging
     }
@@ -173,13 +175,13 @@ public class Player extends Entity {
      */
     public void loadPlayerAnimations() {
 
-        InputStream is = getClass().getResourceAsStream("/Test.png");
+        InputStream is = getClass().getResourceAsStream("/Gubbe_1_Test.png");
         try {
             BufferedImage player = ImageIO.read(is);
-            playerAnimations = new BufferedImage[9][6];
+            playerAnimations = new BufferedImage[5][8];
             for (int i = 0; i < playerAnimations.length; i++) {
                 for (int j = 0; j < playerAnimations[i].length; j++) {
-                    playerAnimations[i][j] = player.getSubimage(j * 64, i * 40, 64, 40);
+                    playerAnimations[i][j] = player.getSubimage(j * 64, i * 64, 64,64 );
                 }
             }
         } catch (IOException e) {

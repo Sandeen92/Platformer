@@ -53,7 +53,7 @@ public class Playing extends State implements StateMethods {
         itemManager = new ItemManager(this);
         loadStartLevel();
 
-        player = new Player(200,200, (int) (64 * Game.SCALE),(int)(40 * Game.SCALE), 10, 2, enemyManager);
+        player = new Player(200,200, (int) (70 * Game.SCALE),(int)(45 * Game.SCALE), 10, 2, enemyManager);
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
     }
@@ -109,7 +109,6 @@ public class Playing extends State implements StateMethods {
             case KeyEvent.VK_D:
                 player.setMovingRight(true);
                 break;
-
             case KeyEvent.VK_SPACE:
                 player.setJumping(true);
                 break;

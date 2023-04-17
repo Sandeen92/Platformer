@@ -29,6 +29,7 @@ public class Game implements Runnable{
     private Pausemenu pausemenu;
     private Options options;
     public final static int TILES_DEFAULT_SIZE = 32;
+
     public final static float SCALE = 2f;
     public final static int TILES_IN_WIDTH = 26;
     public final static int TILES_IN_HEIGHT = 14;
@@ -131,6 +132,7 @@ public class Game implements Runnable{
             case DEATHSCREEN:
                 deathScreen.draw(g);
                 break;
+
             default:
                 break;
 
@@ -144,8 +146,8 @@ public class Game implements Runnable{
      */
     @Override
     public void run() {
-        double timePerFrame = 1000000000.0/ FPS_SET;
-        double timePerUpdate = 1000000000.0/ UPS_SET;
+        double timePerFrame = 1000000000.0 / FPS_SET;
+        double timePerUpdate = 1000000000.0 / UPS_SET;
 
         long previousTime = System.nanoTime();
         int updates = 0;
@@ -185,7 +187,7 @@ public class Game implements Runnable{
     }
 
     /**
-     * This method is responsible for stopping the game if windowsfocus is lost
+     * This method is responsible for stopping the game if window focus is lost
      */
     public void windowFocusLost(){
         if (Gamestate.state == Gamestate.PLAYING){
