@@ -20,8 +20,8 @@ public class Player extends Entity {
     private BufferedImage[][] playerAnimations;
     private EnemyManager enemyManager;
     private AttackTimer attackTimer;
-    private float xDrawOffset = 0 * Game.SCALE;
-    private float yDrawOffset = 11 * Game.SCALE;
+    private float xDrawOffset = 24 * Game.SCALE;
+    private float yDrawOffset = 14 * Game.SCALE;
     private int[][] levelData;
     private float playerSpeed = 1.2f;
     private int flipX = 0;
@@ -40,7 +40,7 @@ public class Player extends Entity {
     public Player(float x, float y, int width, int heigth, int maxHealth, int attackDamage, EnemyManager enemyManager) {
         super(x, y, width, heigth, maxHealth, attackDamage);
         loadPlayerAnimations();
-        initialiseHitbox(x,y, 20 * Game.SCALE, 27 * Game.SCALE);
+        initialiseHitbox(x,y, 22 * Game.SCALE, 30 * Game.SCALE);
         initialiseAttackBox(x,y,20 * Game.SCALE, 27 * Game.SCALE);
         this.enemyManager = enemyManager;
         jumpOnce = true;
