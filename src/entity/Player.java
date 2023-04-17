@@ -105,7 +105,7 @@ public class Player extends Entity {
          */
 
         //New render
-        g.drawImage(playerAnimations[entityState][animationIndex], 20, 20, null);
+        g.drawImage(playerAnimations[entityState][animationIndex], (int)hitbox.x - levelOffset, (int)hitbox.y, null);
 
         drawAttackBox(g, levelOffset); //TODO Remove later just for debugging
     }
