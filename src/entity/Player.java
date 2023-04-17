@@ -162,7 +162,7 @@ public class Player extends Entity {
      */
     public void loadPlayerAnimations() {
 
-        InputStream is = getClass().getResourceAsStream("/Player_Sprite.png");
+        InputStream is = getClass().getResourceAsStream("/Gubbe_1_Test.png");
         try {
             BufferedImage player = ImageIO.read(is);
             playerAnimations = new BufferedImage[5][13];
