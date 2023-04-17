@@ -162,7 +162,7 @@ public class Player extends Entity {
         InputStream is = getClass().getResourceAsStream("/Gubbe_1_Test.png");
         try {
             BufferedImage player = ImageIO.read(is);
-            playerAnimations = new BufferedImage[5][9];
+            playerAnimations = new BufferedImage[5][8];
             for (int i = 0; i < playerAnimations.length; i++) {
                 for (int j = 0; j < playerAnimations[i].length; j++) {
                     playerAnimations[i][j] = player.getSubimage(j * 64, i * 64, 64,64 );
