@@ -20,8 +20,8 @@ public class Player extends Entity {
     private BufferedImage[][] playerAnimations;
     private EnemyManager enemyManager;
     private AttackTimer attackTimer;
-    private float xDrawOffset = 0 * Game.SCALE;
-    private float yDrawOffset = 0 * Game.SCALE;
+    private float xDrawOffset = 1 * Game.SCALE;
+    private float yDrawOffset = 1 * Game.SCALE;
     private int[][] levelData;
     private float playerSpeed = 1.2f;
     private int flipX = 0;
@@ -95,19 +95,16 @@ public class Player extends Entity {
      * @param g
      */
     public void renderPlayer(Graphics g, int levelOffset) {
-        // OLD RENDER
-        /*
+
         g.drawImage(playerAnimations[entityState][animationIndex],
                 (int) (hitbox.x - xDrawOffset) + flipX - levelOffset,
                 (int) (hitbox.y - yDrawOffset),
                 width * flipW,
                 height, null);
-         */
 
-        //New render
-        g.drawImage(playerAnimations[entityState][animationIndex], (int)hitbox.x - levelOffset, (int)hitbox.y, null);
 
-        drawAttackBox(g, levelOffset); //TODO Remove later just for debugging
+        drawHitbox(g, levelOffset);
+        //drawAttackBox(g, levelOffset); //TODO Remove later just for debugging
     }
 
     public void knockbackPlayer(int enemyFacing){
