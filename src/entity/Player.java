@@ -29,7 +29,6 @@ public class Player extends Entity {
     private int flipW = 1;
     private boolean jumpOnce;
     private boolean canAttack;
-    private boolean isHit;
     private int facing;
 
 

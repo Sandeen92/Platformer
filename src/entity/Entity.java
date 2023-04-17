@@ -32,6 +32,7 @@ public abstract class Entity {
     protected boolean   inAir = false; // check if in air
     protected boolean jumping = false; // check if jumping
     protected boolean isMoving = false; // check if moving
+    protected boolean isHit;
     protected float xSpeed; // speed of the entity to the left or right
     protected boolean movingLeft; // check if entity moving left
     protected boolean movingRight; // check if entity moving right
@@ -209,8 +210,9 @@ public abstract class Entity {
     protected void setEntityAnimation() {
 
         int startAnimation = entityState;
-
-        if (isMoving) {
+        if(isHit){
+            entityState = HIT;
+        } else if (isMoving) {
             entityState = RUNNING;
         } else {
             entityState = IDLE;
