@@ -131,6 +131,7 @@ public class Game implements Runnable{
             case DEATHSCREEN:
                 deathScreen.draw(g);
                 break;
+
             default:
                 break;
 
@@ -144,8 +145,8 @@ public class Game implements Runnable{
      */
     @Override
     public void run() {
-        double timePerFrame = 1000000000.0/ FPS_SET;
-        double timePerUpdate = 1000000000.0/ UPS_SET;
+        double timePerFrame = 1000000000.0 / FPS_SET;
+        double timePerUpdate = 1000000000.0 / UPS_SET;
 
         long previousTime = System.nanoTime();
         int updates = 0;
@@ -185,7 +186,7 @@ public class Game implements Runnable{
     }
 
     /**
-     * This method is responsible for stopping the game if windowsfocus is lost
+     * This method is responsible for stopping the game if window focus is lost
      */
     public void windowFocusLost(){
         if (Gamestate.state == Gamestate.PLAYING){
