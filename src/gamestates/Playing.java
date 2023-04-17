@@ -1,6 +1,7 @@
 package gamestates;
 
 import entity.EnemyManager;
+import entity.InteractablesManager;
 import entity.Player;
 import items.ItemManager;
 import levels.LevelManager;
@@ -19,6 +20,7 @@ public class Playing extends State implements StateMethods {
     private LevelManager levelManager;
     private EnemyManager enemyManager;
     private ItemManager itemManager;
+    private InteractablesManager interactablesManager;
     private boolean paused;
     private int currentLevelOffsetX;
     private int cameraLeftBorder = (int) (0.3 * Game.GAME_WIDTH);
@@ -48,12 +50,14 @@ public class Playing extends State implements StateMethods {
 
 
     public void initClasses() {
-        levelManager = new LevelManager(game);
         enemyManager = new EnemyManager(this);
+        player = new Player(200,200, (int) (70 * Game.SCALE),(int)(45 * Game.SCALE), 10, 2, enemyManager);
+        levelManager = new LevelManager(game);
         itemManager = new ItemManager(this);
+        interactablesManager = new InteractablesManager(this);
         loadStartLevel();
 
-        player = new Player(200,200, (int) (70 * Game.SCALE),(int)(45 * Game.SCALE), 10, 2, enemyManager);
+
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
     }
@@ -65,6 +69,7 @@ public class Playing extends State implements StateMethods {
             levelManager.updateLevel();
             itemManager.update();
             player.updatePlayer();
+            interactablesManager.update();
             checkIfPlayerIsCloseToCameraBorder();
             enemyManager.update(levelManager.getCurrentLevel().getLevelData());
         }
@@ -96,6 +101,7 @@ public class Playing extends State implements StateMethods {
         player.renderPlayer(g, currentLevelOffsetX);
         enemyManager.draw(g, currentLevelOffsetX);
         itemManager.draw(g, currentLevelOffsetX);
+        interactablesManager.draw(g, currentLevelOffsetX);
 
     }
 
@@ -165,6 +171,7 @@ public class Playing extends State implements StateMethods {
     public EnemyManager getEnemyManager() {
         return enemyManager;
     }
+    public LevelManager getLevelManager(){return levelManager;}
 
     public void setMaxLevelOffsetX(int maxLevelOffsetX) {
         this.maxLevelOffsetX = maxLevelOffsetX;
