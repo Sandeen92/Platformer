@@ -196,7 +196,6 @@ public class Game implements Runnable{
 
     public static void setPreviousGamestate(){
         Gamestate.previousState = Gamestate.state;
-        System.out.println(Gamestate.previousState);
     }
     public Startmenu getMenu(){
         return startmenu;
