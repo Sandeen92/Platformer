@@ -8,8 +8,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static utils.AssistanceMethods.IsEntityOnFloor;
-import static utils.Constants.PlayerConstants.PUSHING;
 
 
 public class Box extends Entity{

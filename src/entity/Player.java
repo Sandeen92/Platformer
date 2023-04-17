@@ -119,13 +119,14 @@ public class Player extends Entity {
     //TODO få in spelarfacing och gör if-satser eller intersectsLine och gör ett entitystate hit som gör allt mer smooth
     public void knockbackPlayer(Enemy enemy){
         xSpeed = 0;
+
         if(hitbox.x > enemy.hitbox.x){
-            xSpeed = 1.2f * 1.2f;
+            xSpeed = 0.4f * 1.2f;
         } else if (hitbox.x < enemy.hitbox.x){
-            xSpeed = -1.2f * 1.2f;
+            xSpeed = -0.4f * 1.2f;
         }
         if(canMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, levelData)){
-            hitbox.x += xSpeed;
+                hitbox.x += xSpeed;
         }
     }
     /**
@@ -177,7 +178,7 @@ public class Player extends Entity {
         InputStream is = getClass().getResourceAsStream("/Gubbe_1_Test.png");
         try {
             BufferedImage player = ImageIO.read(is);
-            playerAnimations = new BufferedImage[5][8];
+            playerAnimations = new BufferedImage[4][8];
             for (int i = 0; i < playerAnimations.length; i++) {
                 for (int j = 0; j < playerAnimations[i].length; j++) {
                     playerAnimations[i][j] = player.getSubimage(j * 64, i * 64, 64,64 );
