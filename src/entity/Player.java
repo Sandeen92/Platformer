@@ -30,6 +30,7 @@ public class Player extends Entity {
     private boolean jumpOnce;
     private boolean canAttack;
     private int facing;
+    private Enemy attackingEnemy;
 
 
     /**
@@ -78,7 +79,8 @@ public class Player extends Entity {
         }
     }
 
-    public void playerHit(){
+    public void playerHit(Enemy attackingEnemy){
+        this.attackingEnemy = attackingEnemy;
         isHit = true;
         HitTimer ht = new HitTimer();
         ht.start();
@@ -116,9 +118,9 @@ public class Player extends Entity {
     public void knockbackPlayer(Enemy enemy){
         xSpeed = 0;
         if(hitbox.x > enemy.hitbox.x){
-            xSpeed = playerSpeed * 40;
+            xSpeed = 1.2f * 1.2f;
         } else if (hitbox.x < enemy.hitbox.x){
-            xSpeed = -playerSpeed * 40;
+            xSpeed = -1.2f * 1.2f;
         }
         if(canMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, levelData)){
             hitbox.x += xSpeed;
@@ -153,7 +155,7 @@ public class Player extends Entity {
         }
 
         if(isHit){
-            xSpeed += 1.2 * 1.2;
+            knockbackPlayer(attackingEnemy);
         }
 
         if(!inAir){

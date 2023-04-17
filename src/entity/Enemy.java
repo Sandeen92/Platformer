@@ -49,7 +49,7 @@ public abstract class Enemy extends Entity{
                 timer = new TimerThread();
                 timer.start();
             }
-            player.playerHit();
+            player.playerHit(enemy);
             player.entityState = HIT;
         }
 
