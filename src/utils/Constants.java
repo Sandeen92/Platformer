@@ -82,7 +82,7 @@ public class Constants {
                 case JUMP:
                     return 3;
                 case HIT:
-                    return 6;
+                    return 4;
                 default:
                     return 1;
             }

@@ -112,7 +112,7 @@ public class Player extends Entity {
                 width * flipW,
                 height, null);
 
-        drawHitbox(g,levelOffset);
+        //drawHitbox(g,levelOffset);
         //drawAttackBox(g, levelOffset); //TODO Remove later just for debugging
     }
 
@@ -129,6 +129,8 @@ public class Player extends Entity {
                 hitbox.x += xSpeed;
         }
     }
+
+
     /**
      *  This method updates the players position and checks for collisions
      */
