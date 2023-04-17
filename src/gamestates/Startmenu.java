@@ -12,6 +12,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import static main.Game.setPreviousGamestate;
+
 public class Startmenu extends State implements StateMethods{
 
 
@@ -29,18 +31,36 @@ public class Startmenu extends State implements StateMethods{
         loadMenuAudio();
     }
 
-    private void loadMenuAudio(){
-        audioFile = new File(LoadSave.STARTMENU_MUSIC);
-        try {
-            if (audioFile != null) {
-                audioInputStream = AudioSystem.getAudioInputStream(audioFile);
-                clip = AudioSystem.getClip();
-                clip.open(audioInputStream);
-                clip.loop(Clip.LOOP_CONTINUOUSLY);
+    public void loadMenuAudio(){
+        if (clip == null) {
+            if (Gamestate.previousState != Gamestate.STARTMENU) {
+                audioFile = null;
+                audioInputStream = null;
+                clip = null;
             }
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            e.printStackTrace();
+            audioFile = new File(LoadSave.STARTMENU_MUSIC);
+            try {
+                if (audioFile != null) {
+                    audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                    clip = AudioSystem.getClip();
+                    clip.open(audioInputStream);
+                    clip.loop(Clip.LOOP_CONTINUOUSLY);
+                }
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+    public void replayStartmenuAudio(){
+        try {
+            audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+            clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+        } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
+            throw new RuntimeException(e);
+        }
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
     private void loadMenuBackground(){
@@ -57,13 +77,13 @@ public class Startmenu extends State implements StateMethods{
         menuButtons[2] = new MenuButton(Game.GAME_WIDTH / 2, (int) (370*Game.SCALE), 2, Gamestate.QUIT);
     }
 
-    private void silenceAudio(){
+    public void silenceAudio(){
         try {
             audioInputStream.close();
             clip.stop();
             clip.close();
-            clip = null;
-            audioInputStream = null;
+            //clip = null;
+            //audioInputStream = null;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -84,6 +104,8 @@ public class Startmenu extends State implements StateMethods{
             mb.drawButtons(g);
         }
     }
+
+
     @Override
     public void mouseClicked(MouseEvent e) {}
     @Override
@@ -100,8 +122,11 @@ public class Startmenu extends State implements StateMethods{
         for (MenuButton mb : menuButtons){
             if (isUserInsideBtnBounds(e,mb)){
                 if (mb.isMousePressed()){
+                    setPreviousGamestate();
                     mb.applyGamestate();
-                    silenceAudio();
+                    if (Gamestate.state == Gamestate.PLAYING){
+                        silenceAudio();
+                    }
                     break;
                 }
             }

@@ -3,13 +3,14 @@ package gamestates;
 public enum Gamestate {
 
     PLAYING,
-    MENU,
+    STARTMENU,
     OPTIONS,
     DEATHSCREEN,
-    PAUSE,
+    PAUSEMENU,
     QUIT;
 
 
-    public static Gamestate state = MENU;
+    public static Gamestate state = STARTMENU;
+    public static Gamestate previousState = STARTMENU;
 
 }

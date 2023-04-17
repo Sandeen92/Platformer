@@ -8,11 +8,9 @@
 package main;
 
 import gamestates.*;
-import entity.Player;
 import gamestates.DeathScreen;
 import gamestates.Gamestate;
 import gamestates.Playing;
-import input.KeyBoardInputs;
 
 import java.awt.*;
 
@@ -76,17 +74,18 @@ public class Game implements Runnable{
      */
     public void updateEverything(){
 
+
         switch (Gamestate.state){
 
             case PLAYING:
                 playing.update();
                 break;
 
-            case MENU:
+            case STARTMENU:
                 startmenu.update();
                 break;
 
-            case PAUSE:
+            case PAUSEMENU:
                 pausemenu.update();
                 break;
 
@@ -117,11 +116,11 @@ public class Game implements Runnable{
                 playing.draw(g);
                 break;
 
-            case MENU:
+            case STARTMENU:
                 startmenu.draw(g);
                 break;
 
-            case PAUSE:
+            case PAUSEMENU:
                 pausemenu.draw(g);
                 break;
 
@@ -195,6 +194,10 @@ public class Game implements Runnable{
         }
     }
 
+    public static void setPreviousGamestate(){
+        Gamestate.previousState = Gamestate.state;
+        System.out.println(Gamestate.previousState);
+    }
     public Startmenu getMenu(){
         return startmenu;
     }

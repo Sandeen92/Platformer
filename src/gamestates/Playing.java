@@ -6,8 +6,6 @@ import items.ItemManager;
 import levels.LevelManager;
 import main.Game;
 
-import utils.LoadSave;
-
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -28,7 +26,6 @@ public class Playing extends State implements StateMethods {
     public Playing(Game game) {
         super(game);
         initClasses();
-
         calculatingLevelOffset();
         loadStartLevel();
     }
@@ -121,7 +118,7 @@ public class Playing extends State implements StateMethods {
             case KeyEvent.VK_ESCAPE:
                 paused = true;
                 player.setJumping(false);
-                Gamestate.state = Gamestate.PAUSE;
+                Gamestate.state = Gamestate.PAUSEMENU;
                 break;
         }
     }

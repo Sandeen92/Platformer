@@ -9,6 +9,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
+import static main.Game.setPreviousGamestate;
+
 public class Pausemenu extends State implements StateMethods {
 
     private BufferedImage pauseMenuImage;
@@ -78,9 +80,16 @@ public class Pausemenu extends State implements StateMethods {
         for (MenuButton mb : pauseMenuButtons){
             if (isUserInsideBtnBounds(e,mb)){
                 if (mb.isMousePressed()){
+                    setPreviousGamestate();
                     mb.applyGamestate();
                     if (Gamestate.state == Gamestate.PLAYING) {
                         playing.setPaused(false);
+                        game.getMenu().silenceAudio();
+                    }
+                    else if (Gamestate.state == Gamestate.STARTMENU){
+                        game.getPlaying().setPaused(false);
+                        game.getMenu().loadMenuAudio();
+                        game.getPlaying().initClasses();
                     }
                     break;
                 }

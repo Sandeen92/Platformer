@@ -44,7 +44,7 @@ public class LevelManager {
         levelIndex++;
         if(levelIndex >= levels.size()){
             levelIndex = 0;
-            Gamestate.state = Gamestate.MENU;
+            Gamestate.state = Gamestate.STARTMENU;
         }
 
         Level newLevel = levels.get(levelIndex);

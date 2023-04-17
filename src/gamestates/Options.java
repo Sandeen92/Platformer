@@ -9,6 +9,8 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+
+import static main.Game.setPreviousGamestate;
 import static utils.Constants.UserInterface.OptionButtons.OPTIONBTN_SIZE;
 
 public class Options extends State implements StateMethods {
@@ -53,9 +55,15 @@ public class Options extends State implements StateMethods {
         if (game.getPlaying().isPaused() == true){
             game.getPlaying().draw(g);
         }
+        else {
+            game.getMenu().draw(g);
+        }
+
         g.drawImage(optionsBackgroundImage, optionsMenuXPos, optionsMenuYPos, optionsMenuWidth, optionsMenuHeight, null);
         returnButton.drawButtons(g);
-        homeButton.drawButtons(g);
+        if (Gamestate.previousState != Gamestate.STARTMENU) {
+            homeButton.drawButtons(g);
+        }
     }
 
     @Override
@@ -72,12 +80,27 @@ public class Options extends State implements StateMethods {
     public void mouseReleased(MouseEvent e) {
         if (isIn(e, returnButton)){
             if (returnButton.isMousePressed()){
-                Gamestate.state = Gamestate.PAUSE;
+                if (Gamestate.previousState == Gamestate.PAUSEMENU) {
+                    setPreviousGamestate();
+                    Gamestate.state = Gamestate.PAUSEMENU;
+                }
+                else if (Gamestate.previousState == Gamestate.STARTMENU){
+                    setPreviousGamestate();
+                    Gamestate.state = Gamestate.STARTMENU;
+                    game.getPlaying().setPaused(false);
+                    game.getMenu().loadMenuAudio();
+                    game.getPlaying().initClasses();
+                }
             }
         }
         else if (isIn(e, homeButton)){
             if (homeButton.isMousePressed()){
-                Gamestate.state = Gamestate.PAUSE;
+                if (Gamestate.previousState != Gamestate.STARTMENU) {
+                    Gamestate.state = Gamestate.STARTMENU;
+                    game.getPlaying().setPaused(false);
+                    game.getMenu().replayStartmenuAudio();
+                    game.getPlaying().initClasses();
+                }
             }
         }
         returnButton.resetBtnBooleans();
@@ -96,13 +119,13 @@ public class Options extends State implements StateMethods {
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
-            Gamestate.state = Gamestate.PAUSE;
+            Gamestate.state = Gamestate.PAUSEMENU;
         }
     }
     @Override
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
-            Gamestate.state = Gamestate.PAUSE;
+            Gamestate.state = Gamestate.PAUSEMENU;
         }
     }
     @Override
