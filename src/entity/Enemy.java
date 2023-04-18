@@ -85,10 +85,8 @@ public abstract class Enemy extends Entity{
      */
     @Override
     protected void updateEntityPos(int[][] lvlData) {
-        if(firstUpdate){
             isEntityInAir(lvlData);
-            firstUpdate = false;
-        }
+
         moveEntity(lvlData);
 
         switch (entityState){

@@ -33,7 +33,7 @@ public class InteractablesManager {
     }
 
     public void addBoxes(){
-        boxes.add(new Box(2400,700, (int)(25 * Game.SCALE), (int)(25 * Game.SCALE), playing.getPlayer()));
+        boxes.add(new Box(2100,700, (int)(25 * Game.SCALE), (int)(25 * Game.SCALE), playing.getPlayer()));
     }
 
 
