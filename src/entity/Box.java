@@ -46,7 +46,7 @@ public class Box extends Entity{
                 if(player.getStandingOnInteractable() == false){
                     player.setStandingOnInteractable(true);
 
-                    System.out.println("Set interactable standing true");
+                    System.out.println("Set interactable sltanding true");
                 }
                 player.resetInAir();
             }
