@@ -172,7 +172,10 @@ public abstract class Entity {
         if(inAir){
             if(canMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData )){
                 hitbox.y += airSpeed;
-                airSpeed += gravity;
+                if(airSpeed < 4.5f){
+                    airSpeed += gravity;
+                }
+
                 updateXPosition(xSpeed, lvlData);
             } else {
                 hitbox.y = GetEntityYPosUnderOrAboveTile(hitbox, airSpeed);
