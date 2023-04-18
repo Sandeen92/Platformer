@@ -31,6 +31,7 @@ public class Player extends Entity {
     private boolean canAttack;
     private int facing;
     private Enemy attackingEnemy;
+    private boolean standingOnInteractable;
 
 
     /**
@@ -50,6 +51,7 @@ public class Player extends Entity {
         canAttack = true;
         isHit = false;
         facing = 1;
+        standingOnInteractable = false;
     }
 
     public void setSpawn(Point spawn){
@@ -112,7 +114,7 @@ public class Player extends Entity {
                 width * flipW,
                 height, null);
 
-        //drawHitbox(g,levelOffset);
+        drawHitbox(g,levelOffset);
         //drawAttackBox(g, levelOffset); //TODO Remove later just for debugging
     }
 
@@ -161,10 +163,12 @@ public class Player extends Entity {
         if(isHit){
             knockbackPlayer(attackingEnemy);
         }
-
-        if(!inAir){
-            isEntityInAir(lvlData);
+        if(standingOnInteractable == false){
+            if(inAir == false ){
+                isEntityInAir(lvlData);
+            }
         }
+
 
 
 
@@ -214,6 +218,14 @@ public class Player extends Entity {
 
     public float getPlayerSpeed(){
         return playerSpeed;
+    }
+
+    public void setStandingOnInteractable(boolean b){
+        this.standingOnInteractable = b;
+    }
+
+    public boolean getStandingOnInteractable(){
+        return standingOnInteractable;
     }
 
     private class AttackTimer extends Thread{

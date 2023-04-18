@@ -10,7 +10,6 @@ import static utils.Constants.ObjectConstants.BOX;
 
 public class InteractablesManager {
     private ArrayList<Box> boxes;
-    private int[][] ContainerImages;
     private Playing playing;
 
     public InteractablesManager(Playing playing){
