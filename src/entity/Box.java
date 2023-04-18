@@ -101,6 +101,6 @@ public class Box extends Entity{
 
     public void draw(Graphics g, int xOffset){
         g.drawImage(box, (int) hitbox.x- xOffset, (int) hitbox.y+1, (int) width, (int) height, null);
-        drawHitbox(g,xOffset);
+        //drawHitbox(g,xOffset);
     }
 }

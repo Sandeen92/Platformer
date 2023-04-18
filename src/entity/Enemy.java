@@ -9,6 +9,8 @@ import gamestates.Gamestate;
 import main.Game;
 import utils.Constants;
 
+import java.security.PublicKey;
+
 import static utils.AssistanceMethods.canMoveHere;
 import static utils.AssistanceMethods.IsFloor;
 import static utils.Constants.EnemyConstants.*;
@@ -22,6 +24,8 @@ public abstract class Enemy extends Entity{
     private int walkDir = LEFT;
     private boolean canAttack;
     private TimerThread timer;
+    private int flipX = 0;
+    private int flipW = 1;
 
 
     /**
@@ -98,7 +102,6 @@ public abstract class Enemy extends Entity{
                 setEnemyToPatrol();
                 if(canMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData)){
                     if(IsFloor(hitbox, xSpeed, lvlData)){
-
                         return;
                     }
                 }
@@ -114,8 +117,12 @@ public abstract class Enemy extends Entity{
     public void changeWalkDir() {
         if(walkDir == LEFT){
             walkDir = RIGHT;
+            flipX = 0;
+            flipW = 1;
         } else {
             walkDir = LEFT;
+            flipX = width+20;
+            flipW = -1;
         }
     }
 
@@ -143,6 +150,13 @@ public abstract class Enemy extends Entity{
         return entityState;
     }
 
+    public int getFlipX() {
+        return flipX;
+    }
+
+    public int getFlipW() {
+        return flipW;
+    }
 
     private class TimerThread extends Thread{
         @Override

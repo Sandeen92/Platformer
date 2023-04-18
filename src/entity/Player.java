@@ -118,7 +118,7 @@ public class Player extends Entity {
                 width * flipW,
                 height, null);
 
-        drawHitbox(g,levelOffset);
+        //drawHitbox(g,levelOffset);
         //drawAttackBox(g, levelOffset); //TODO Remove later just for debugging
     }
 

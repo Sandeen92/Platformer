@@ -171,7 +171,7 @@ public abstract class Entity {
         if(inAir){
             if(canMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData )){
                 hitbox.y += airSpeed;
-                if(airSpeed < 4.5f){
+                if(airSpeed < 4.3f){
                     airSpeed += gravity;
                 }
 
