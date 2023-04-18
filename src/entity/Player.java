@@ -32,6 +32,7 @@ public class Player extends Entity {
     private int facing;
     private Enemy attackingEnemy;
     private boolean standingOnInteractable;
+    private boolean isPushing;
 
 
     /**
@@ -52,6 +53,7 @@ public class Player extends Entity {
         isHit = false;
         facing = 1;
         standingOnInteractable = false;
+        isPushing = false;
     }
 
     public void setSpawn(Point spawn){
@@ -75,9 +77,11 @@ public class Player extends Entity {
         if(inAir){
             return;
         } else if (jumpOnce){
-            inAir = true;
-            airSpeed = jumpSpeed;
-            jumpOnce = false;
+            if(isPushing == false){
+                inAir = true;
+                airSpeed = jumpSpeed;
+                jumpOnce = false;
+            }
         }
     }
 
@@ -226,6 +230,14 @@ public class Player extends Entity {
 
     public boolean getStandingOnInteractable(){
         return standingOnInteractable;
+    }
+
+    public boolean isPushing() {
+        return isPushing;
+    }
+
+    public void setPushing(boolean pushing) {
+        isPushing = pushing;
     }
 
     private class AttackTimer extends Thread{

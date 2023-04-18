@@ -41,9 +41,11 @@ public class Box extends Entity{
                     xSpeed -= moveSpeed;
                 }
                 player.setSpeed(moveSpeed);
+                player.setPushing(true);
             } else if(hitbox.y -1 > player.hitbox.y+height){
                 if(player.getStandingOnInteractable() == false){
                     player.setStandingOnInteractable(true);
+
                     System.out.println("Set interactable standing true");
                 }
                 player.resetInAir();
@@ -51,6 +53,7 @@ public class Box extends Entity{
         } else if (player.getPlayerSpeed() != 1.2 || player.getStandingOnInteractable() == true){
             player.setSpeed(1.2f);
             player.setStandingOnInteractable(false);
+            player.setPushing(false);
         }
     }
 
