@@ -18,9 +18,8 @@ public class Box extends Entity{
     private BufferedImage box;
     private Player player;
     private boolean firstUpdate;
-    public Box(int x, int y, int width, int height, Player player){
+    public Box(int x, int y, int width, int height){
         super(x,y,width,height);
-        this.player = player;
         airSpeed = 0f;
         gravity = 0.03f * Game.SCALE;
         jumpSpeed = -2.25f * Game.SCALE;
@@ -28,6 +27,10 @@ public class Box extends Entity{
         loadImg();
         initialiseHitbox(x,y,width,height);
         firstUpdate = true;
+    }
+
+    public void initPlayerToBox(Player player){
+        this.player = player;
     }
 
     public void checkPlayerHit(Box box, Player player){

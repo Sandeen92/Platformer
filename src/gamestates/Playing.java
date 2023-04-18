@@ -58,6 +58,7 @@ public class Playing extends State implements StateMethods {
      */
     private void loadStartLevel() {
         enemyManager.loadEnemies(levelManager.getCurrentLevel());
+        interactablesManager.loadBoxes(levelManager.getCurrentLevel());
     }
 
     /**
@@ -240,6 +241,8 @@ public class Playing extends State implements StateMethods {
      * @return the LevelManager object of the game
      */
     public LevelManager getLevelManager(){return levelManager;}
+
+    public InteractablesManager getInteractablesManager(){return interactablesManager;}
 
     /**
      * Sets the maximum level offset in the x direction.

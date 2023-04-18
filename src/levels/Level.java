@@ -1,5 +1,6 @@
 package levels;
 
+import entity.Box;
 import entity.Crabby;
 import main.Game;
 
@@ -13,6 +14,7 @@ public class Level {
     private int [][] levelData;
     private BufferedImage img;
     private ArrayList<Crabby> crabs;
+    private ArrayList<Box> boxes;
     private int levelTilesWidth;
     private int maxTilesOffset;
     private int maxLevelOffsetX;
@@ -22,6 +24,7 @@ public class Level {
         this.img = img;
         createLevelData();
         createEnemies();
+        createBoxes();
         calculateLevelOffset();
         calculatePlayerSpawn();
     }
@@ -43,7 +46,9 @@ public class Level {
     private void createEnemies() {
         crabs = GetCrabs(img);
     }
-
+    private void createBoxes(){
+        boxes = GetBoxes(img);
+    }
     public int getSpriteIndex(int x, int y){
             return levelData[y][x];
     }
@@ -58,6 +63,10 @@ public class Level {
 
     public ArrayList<Crabby> getCrabs() {
         return crabs;
+    }
+
+    public ArrayList<Box> getBoxes(){
+        return boxes;
     }
 
     public Point getPlayerSpawn() {

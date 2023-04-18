@@ -1,6 +1,7 @@
 package entity;
 
 import gamestates.Playing;
+import levels.Level;
 import main.Game;
 
 import java.awt.*;
@@ -8,14 +9,15 @@ import java.util.ArrayList;
 
 import static utils.Constants.ObjectConstants.BOX;
 
+
 public class InteractablesManager {
     private ArrayList<Box> boxes;
     private Playing playing;
 
+
     public InteractablesManager(Playing playing){
         this.playing = playing;
         boxes = new ArrayList<>();
-        addBoxes();
     }
 
     public void draw(Graphics g, int xOffset){
@@ -32,8 +34,11 @@ public class InteractablesManager {
         }
     }
 
-    public void addBoxes(){
-        boxes.add(new Box(2100,700, (int)(25 * Game.SCALE), (int)(25 * Game.SCALE), playing.getPlayer()));
+    public void loadBoxes(Level level){
+        boxes = level.getBoxes();
+        for(Box b : boxes){
+            b.initPlayerToBox(playing.getPlayer());
+        }
     }
 
 
