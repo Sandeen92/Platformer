@@ -86,9 +86,16 @@ public class Constants {
                     return 1;
             }
         }
+    }
 
+    public static class InteractabelConstants{
+        public static final int BOX = 55;
+        public static final float BOX_WIDTH = 25*Game.SCALE;
+        public static final float BOX_Heigth = 25*Game.SCALE;
 
     }
+
+
 
     public static class ObjectConstants{
 
