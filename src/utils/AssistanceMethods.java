@@ -5,6 +5,7 @@
 
 package utils;
 
+import entity.Box;
 import entity.Crabby;
 import main.Game;
 
@@ -14,6 +15,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import static utils.Constants.EnemyConstants.CRABBY;
+import static utils.Constants.InteractabelConstants.*;
 
 public class AssistanceMethods {
 
@@ -177,6 +179,20 @@ public class AssistanceMethods {
                 int value = color.getGreen();
                 if (value == CRABBY) {
                     list.add(new Crabby(i * Game.TILES_SIZE, j * Game.TILES_SIZE));
+                }
+            }
+        }
+        return list;
+    }
+
+    public static ArrayList<Box> GetBoxes(BufferedImage img){
+        ArrayList<Box> list = new ArrayList<>();
+        for (int j = 0; j < img.getHeight(); j++) {
+            for (int i = 0; i < img.getWidth(); i++) {
+                Color color = new Color(img.getRGB(i, j));
+                int value = color.getBlue();
+                if (value == BOX) {
+                    list.add(new Box(i * Game.TILES_SIZE, j * Game.TILES_SIZE,(int) BOX_WIDTH, (int) BOX_Heigth));
                 }
             }
         }
