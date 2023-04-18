@@ -121,7 +121,7 @@ public abstract class Enemy extends Entity{
             flipW = 1;
         } else {
             walkDir = LEFT;
-            flipX = width;
+            flipX = width+20;
             flipW = -1;
         }
     }
