@@ -1,5 +1,12 @@
 package gamestates;
 
+
+/**
+ * This class is a container of constants for different gamestates.
+ * Also keeps track of current and previous state.
+ *
+ * @author Simon Sandén
+ */
 public enum Gamestate {
 
     PLAYING,
