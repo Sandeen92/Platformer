@@ -190,8 +190,8 @@ public class AssistanceMethods {
         for (int j = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++) {
                 Color color = new Color(img.getRGB(i, j));
-                int value = color.getBlue();
-                if (value == BOX) {
+                int value = color.getGreen();
+                if (value == 55) {
                     list.add(new Box(i * Game.TILES_SIZE, j * Game.TILES_SIZE,(int) BOX_WIDTH, (int) BOX_Heigth));
                 }
             }
