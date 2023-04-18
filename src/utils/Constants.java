@@ -80,7 +80,7 @@ public class Constants {
                 case IDLE:
                     return 4;
                 case JUMP:
-                    return 3;
+                    return 5;
                 case HIT:
                     return 4;
                 default:
