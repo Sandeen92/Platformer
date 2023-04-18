@@ -4,7 +4,6 @@ import main.Game;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -91,7 +90,7 @@ public class Box extends Entity{
 
 
     private void loadImg() {
-        InputStream is = getClass().getResourceAsStream("/Box-1.png");
+        InputStream is = getClass().getResourceAsStream("/Box_dark.png");
         try{
             box = ImageIO.read(is);
         } catch (IOException e){
