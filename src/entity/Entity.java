@@ -168,6 +168,7 @@ public abstract class Entity {
      */
     protected void moveEntity(int[][] lvlData){
         isEntityInAir(lvlData);
+        //TODO fix with airspeed, causing the bug with getting stuck after along jump
         if(inAir){
             if(canMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData )){
                 hitbox.y += airSpeed;
