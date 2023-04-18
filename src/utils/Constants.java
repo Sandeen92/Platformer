@@ -44,8 +44,8 @@ public class Constants {
         public static final int RAT_WIDTH = (int) (RAT_WIDTH_DEFAULT * Game.SCALE);
         public static final int RAT_HEIGHT = (int) (RAT_HEIGHT_DEFAULT * Game.SCALE);
 
-        public static final int CRABBY_DRAW_OFFSET_X = (int) (26 * Game.SCALE);
-        public static final int CRABBY_DRAW_OFFSET_Y = (int) (9 * Game.SCALE);
+        public static final int RAT_DRAW_OFFSET_X = (int) (23 * Game.SCALE);
+        public static final int RAT_DRAW_OFFSET_Y = (int) (4 * Game.SCALE);
 
         public static int GetSpriteAmount(int enemyType, int enemyState){
             switch (enemyType){
