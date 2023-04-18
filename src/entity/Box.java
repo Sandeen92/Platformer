@@ -8,7 +8,9 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
+import static utils.Constants.Directions.LEFT;
 
 
 public class Box extends Entity{
@@ -49,6 +51,19 @@ public class Box extends Entity{
         } else if (player.getPlayerSpeed() != 1.2 || player.getStandingOnInteractable() == true){
             player.setSpeed(1.2f);
             player.setStandingOnInteractable(false);
+        }
+    }
+
+    public void checkIfEnemyIsHit(ArrayList<Crabby> crabbies){
+        for(Crabby c : crabbies){
+            if (hitbox.intersects(c.hitbox)) {
+                if(c.getWalkDir() == LEFT) {
+                       c.hitbox.x += 3;
+                } else {
+                    c.hitbox.x -= 3;
+                }
+                c.changeWalkDir();
+            }
         }
     }
 

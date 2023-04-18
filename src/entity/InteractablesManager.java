@@ -28,11 +28,12 @@ public class InteractablesManager {
         for(Box box : boxes){
             box.update(playing.getLevelManager().getCurrentLevel().getLevelData());
             box.checkPlayerHit(box, playing.getPlayer());
+            box.checkIfEnemyIsHit(playing.getEnemyManager().getCrabbies());
         }
     }
 
     public void addBoxes(){
-        boxes.add(new Box(1400,700, (int)(25 * Game.SCALE), (int)(25 * Game.SCALE), playing.getPlayer()));
+        boxes.add(new Box(2400,700, (int)(25 * Game.SCALE), (int)(25 * Game.SCALE), playing.getPlayer()));
     }
 
 

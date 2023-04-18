@@ -92,5 +92,11 @@ public class EnemyManager {
         }
     }
 
+    public ArrayList<Crabby> getCrabbies() {
+        return crabbies;
+    }
 
+    public void setCrabbies(ArrayList<Crabby> crabbies) {
+        this.crabbies = crabbies;
+    }
 }

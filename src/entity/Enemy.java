@@ -113,12 +113,16 @@ public abstract class Enemy extends Entity{
     /**
      * This method changes the walking direction for the enemy
      */
-    private void changeWalkDir() {
+    public void changeWalkDir() {
         if(walkDir == LEFT){
             walkDir = RIGHT;
         } else {
             walkDir = LEFT;
         }
+    }
+
+    public int getWalkDir(){
+       return walkDir;
     }
 
     /**
