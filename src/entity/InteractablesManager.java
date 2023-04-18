@@ -10,7 +10,6 @@ import static utils.Constants.ObjectConstants.BOX;
 
 public class InteractablesManager {
     private ArrayList<Box> boxes;
-    private int[][] ContainerImages;
     private Playing playing;
 
     public InteractablesManager(Playing playing){
@@ -29,11 +28,12 @@ public class InteractablesManager {
         for(Box box : boxes){
             box.update(playing.getLevelManager().getCurrentLevel().getLevelData());
             box.checkPlayerHit(box, playing.getPlayer());
+            box.checkIfEnemyIsHit(playing.getEnemyManager().getCrabbies());
         }
     }
 
     public void addBoxes(){
-        boxes.add(new Box(1400,700, (int)(25 * Game.SCALE), (int)(25 * Game.SCALE), playing.getPlayer()));
+        boxes.add(new Box(2100,700, (int)(25 * Game.SCALE), (int)(25 * Game.SCALE), playing.getPlayer()));
     }
 
 

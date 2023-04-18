@@ -31,6 +31,8 @@ public class Player extends Entity {
     private boolean canAttack;
     private int facing;
     private Enemy attackingEnemy;
+    private boolean standingOnInteractable;
+    private boolean isPushing;
 
 
     /**
@@ -50,6 +52,8 @@ public class Player extends Entity {
         canAttack = true;
         isHit = false;
         facing = 1;
+        standingOnInteractable = false;
+        isPushing = false;
     }
 
     public void setSpawn(Point spawn){
@@ -73,9 +77,11 @@ public class Player extends Entity {
         if(inAir){
             return;
         } else if (jumpOnce){
-            inAir = true;
-            airSpeed = jumpSpeed;
-            jumpOnce = false;
+            if(isPushing == false){
+                inAir = true;
+                airSpeed = jumpSpeed;
+                jumpOnce = false;
+            }
         }
     }
 
@@ -112,7 +118,7 @@ public class Player extends Entity {
                 width * flipW,
                 height, null);
 
-        //drawHitbox(g,levelOffset);
+        drawHitbox(g,levelOffset);
         //drawAttackBox(g, levelOffset); //TODO Remove later just for debugging
     }
 
@@ -161,10 +167,12 @@ public class Player extends Entity {
         if(isHit){
             knockbackPlayer(attackingEnemy);
         }
-
-        if(!inAir){
-            isEntityInAir(lvlData);
+        if(standingOnInteractable == false){
+            if(inAir == false ){
+                isEntityInAir(lvlData);
+            }
         }
+
 
 
 
@@ -214,6 +222,22 @@ public class Player extends Entity {
 
     public float getPlayerSpeed(){
         return playerSpeed;
+    }
+
+    public void setStandingOnInteractable(boolean b){
+        this.standingOnInteractable = b;
+    }
+
+    public boolean getStandingOnInteractable(){
+        return standingOnInteractable;
+    }
+
+    public boolean isPushing() {
+        return isPushing;
+    }
+
+    public void setPushing(boolean pushing) {
+        isPushing = pushing;
     }
 
     private class AttackTimer extends Thread{
