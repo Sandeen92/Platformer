@@ -77,6 +77,7 @@ public class Playing extends State implements StateMethods {
         levelManager = new LevelManager(game);
         itemManager = new ItemManager(this);
         interactablesManager = new InteractablesManager(this);
+        loadStartLevel();
 
 
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
