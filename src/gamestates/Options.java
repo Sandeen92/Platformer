@@ -1,18 +1,26 @@
 package gamestates;
-
+//Imports from within project
 import main.Game;
 import userinterface.OptionButton;
 import userinterface.Button;
 import utils.LoadSave;
-
+//Imports from Javas library
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-
+//Imports of static variables and methods
 import static main.Game.setPreviousGamestate;
 import static utils.Constants.UserInterface.OptionButtons.OPTIONBTN_SIZE;
 
+/**
+ * The Options class represents the game's options screen.
+ * It extends the State class and implements the StateMethods interface.
+ * It contains an options image, options buttons, and methods for updating,
+ * drawing, and handling mouse and keyboard input for the options.
+ *
+ * @author Simon Sandén
+ */
 public class Options extends State implements StateMethods {
 
     private BufferedImage optionsBackgroundImage;
@@ -20,15 +28,22 @@ public class Options extends State implements StateMethods {
     private int optionsMenuYPos;
     private int optionsMenuWidth;
     private int optionsMenuHeight;
-    private OptionButton returnButton, homeButton;
+    private OptionButton returnButton;
+    private OptionButton homeButton;
 
-
+    /**
+     * Constructor for gamestate Options, initializes background and buttons for menu
+     * @param game the Game object that represents the whole game.
+     */
     public Options(Game game){
         super(game);
         loadBackgroundImage();
         loadOptionButtons();
     }
 
+    /**
+     * This method creates and places buttons for Options within borders of background image
+     */
     private void loadOptionButtons(){
         int optionBtnX = ((Game.GAME_WIDTH / 3));
         int optionBtnY = (int) (340 * Game.SCALE);
@@ -37,6 +52,10 @@ public class Options extends State implements StateMethods {
         homeButton = new OptionButton(optionBtnX + 430, optionBtnY, OPTIONBTN_SIZE, OPTIONBTN_SIZE, 1);
     }
 
+    /**
+     * This method gets the background image from resources-package and calculates variables
+     * needed for image to be drawn in the middle of the frame
+     */
     private void loadBackgroundImage(){
         optionsBackgroundImage = LoadSave.GetSpriteAtlas(LoadSave.OPTIONS_BACKGROUND);
         optionsMenuWidth = (int) (optionsBackgroundImage.getWidth() * Game.SCALE);
@@ -45,12 +64,20 @@ public class Options extends State implements StateMethods {
         optionsMenuYPos = 50;
     }
 
+    /**
+     * This method calls each buttons update method which reacts to user interaction
+     */
     @Override
     public void update() {
         returnButton.updateButtons();
         homeButton.updateButtons();
     }
 
+    /**
+     * This method draws backdrop of either the paused game or the startmenu depending on if game was paused.
+     * Also draws background image for menu in options aswell as the buttons depending on previous gamestate.
+     * @param g the graphics object to use for drawing
+     */
     public void draw(Graphics g){
         if (game.getPlaying().isPaused() == true){
             game.getPlaying().draw(g);
@@ -66,6 +93,11 @@ public class Options extends State implements StateMethods {
         }
     }
 
+    /**
+     * Responds to a mouse press event by setting the appropriate button's
+     * "mouse pressed" state if the event occurred within that button's bounds.
+     * @param e the MouseEvent representing the mouse press event
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         if (isIn(e, returnButton)){
@@ -76,6 +108,12 @@ public class Options extends State implements StateMethods {
         }
     }
 
+    /**
+     * Responds to a mouse release event by performing an action based on whether it was previously
+     * in the "mouse pressed" state. Resets the "mouse pressed" state for all buttons.
+     *
+     * @param e the MouseEvent representing the mouse release event
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
         if (isIn(e, returnButton)){
@@ -107,6 +145,13 @@ public class Options extends State implements StateMethods {
         homeButton.resetBtnBooleans();
     }
 
+    /**
+     * Responds to a mouse move event by setting the "mouse over" state for the
+     * return button if the mouse is currently over that button's bounds.
+     *
+     * @param e the MouseEvent representing the mouse move event
+     */
+
     @Override
     public void mouseMoved(MouseEvent e) {
         returnButton.setMouseOver(false);
@@ -116,22 +161,50 @@ public class Options extends State implements StateMethods {
         }
     }
 
+    /**
+     * Responds to a key press event by changing the gamestate to the pausemenu
+     * state if the escape key is pressed and the game was previously in the pause
+     * menustate.
+     *
+     * @param e the KeyEvent representing the key press event
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
-            Gamestate.state = Gamestate.PAUSEMENU;
+            if (Gamestate.previousState == Gamestate.PAUSEMENU){
+                Gamestate.state = Gamestate.PAUSEMENU;
+            }
         }
     }
+
+    /**
+     * Responds to a key release event by changing the gamestate to the pausemenu
+     * state if the escape key is released and the game was previously in the pausemenu state.
+     *
+     * @param e the KeyEvent representing the key release event
+     */
     @Override
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
-            Gamestate.state = Gamestate.PAUSEMENU;
+            if (Gamestate.previousState == Gamestate.PAUSEMENU){
+                Gamestate.state = Gamestate.PAUSEMENU;
+            }
         }
     }
+
+
     @Override
     public void mouseClicked(MouseEvent e) {}
 
-
+    /**
+     * This method returns a boolean value indicating whether the mouse event
+     * occurred within the bounds of a given button.
+     *
+     * @param e the MouseEvent representing the mouse event to check
+     * @param b the Button to check against
+     * @return true if the mouse event occurred within the bounds of the button,
+     *         false otherwise
+     */
     public boolean isIn(MouseEvent e, Button b){
         return b.getBounds().contains(e.getX(), e.getY());
     }
