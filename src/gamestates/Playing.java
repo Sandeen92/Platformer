@@ -78,11 +78,18 @@ public class Playing extends State implements StateMethods {
         levelManager = new LevelManager(game);
         itemManager = new ItemManager(this);
         interactablesManager = new InteractablesManager(this);
-        loadStartLevel();
 
 
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
+    }
+
+    /**
+     * This method restarts the game.
+     */
+    public void restartLevel(){
+        initClasses();
+        loadStartLevel();
     }
 
     /**
@@ -158,7 +165,7 @@ public class Playing extends State implements StateMethods {
                 player.attack();
                 break;
             case KeyEvent.VK_R:
-                initClasses();
+                restartLevel();
                 break;
             case KeyEvent.VK_ESCAPE:
                 paused = true;
