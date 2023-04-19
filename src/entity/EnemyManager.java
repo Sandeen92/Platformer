@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class EnemyManager {
     private Playing playing;
-    private BufferedImage[][] crabbyArr;
+    private BufferedImage[][] ratImageArray;
     private ArrayList<EnemyRat> rats = new ArrayList<>();
 
     /**
@@ -47,16 +47,28 @@ public class EnemyManager {
     }
 
     //TODO add method to change animation
+
+    /**
+     * This method checks if an enemys hitbox is intersecting with the players attackbox
+     * @param attackBox
+     */
     public void checkIfEnemyIsHit(Rectangle2D.Float attackBox){
         for (EnemyRat rat : rats){
-            if(attackBox.intersects(rat.getHitbox())){
+            if(attackBox.intersects(rat.getHitbox()) == true){
                 rat.entityTakeDamage(2);
-                System.out.println(rat.getCurrentHealth());
-                if(rat.isEntityDead()){
-                    rats.remove(rat);
-                }
+                checkIfEnemyIsDead(rat);
                 return;
             }
+        }
+    }
+
+    /**
+     * This method checks if the rat is dead and removes it
+     * @param rat
+     */
+    private void checkIfEnemyIsDead(EnemyRat rat){
+        if(rat.isEntityDead() == true){
+            rats.remove(rat);
         }
     }
 
@@ -65,16 +77,16 @@ public class EnemyManager {
      * @param g
      */
     public void draw(Graphics g, int levelOffset){
-        drawCrabs(g, levelOffset);
+        drawEnemies(g, levelOffset);
     }
 
     /**
      * This method iterates through the enemy list and draws the enemy
      * @param g
      */
-    private void drawCrabs(Graphics g, int levelOffset) {
+    private void drawEnemies(Graphics g, int levelOffset) {
         for(EnemyRat c : rats){
-            g.drawImage(crabbyArr[c.getEnemyState()][c.getAnimationIndex()], (int) c.getHitbox().x - RAT_DRAW_OFFSET_X - levelOffset + c.getFlipX(), (int) c.getHitbox().y - RAT_DRAW_OFFSET_Y, RAT_WIDTH * c.getFlipW(), RAT_HEIGHT, null );
+            g.drawImage(ratImageArray[c.getEnemyState()][c.getAnimationIndex()], (int) c.getHitbox().x - RAT_DRAW_OFFSET_X - levelOffset + c.getFlipX(), (int) c.getHitbox().y - RAT_DRAW_OFFSET_Y, RAT_WIDTH * c.getFlipW(), RAT_HEIGHT, null );
             //c.drawHitbox(g, levelOffset);
         }
     }
@@ -83,11 +95,11 @@ public class EnemyManager {
      * This method loads the sprite atlas for the enemy and saves it as a 2d array of bufferedImages
      */
     private void loadEnemyImg() {
-        crabbyArr = new BufferedImage[3][5];
+        ratImageArray = new BufferedImage[3][5];
         BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.RATENEMY);
-        for(int i = 0; i < crabbyArr.length; i++)  {
-            for (int j = 0; j < crabbyArr[i].length; j++){
-                crabbyArr[i][j] = temp.getSubimage(j * RAT_WIDTH_DEFAULT, i * RAT_HEIGHT_DEFAULT, RAT_WIDTH_DEFAULT, RAT_HEIGHT_DEFAULT);
+        for(int i = 0; i < ratImageArray.length; i++)  {
+            for (int j = 0; j < ratImageArray[i].length; j++){
+                ratImageArray[i][j] = temp.getSubimage(j * RAT_WIDTH_DEFAULT, i * RAT_HEIGHT_DEFAULT, RAT_WIDTH_DEFAULT, RAT_HEIGHT_DEFAULT);
             }
         }
     }
