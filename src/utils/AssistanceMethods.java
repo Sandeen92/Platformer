@@ -168,18 +168,19 @@ public class AssistanceMethods {
 
 
     public static Point GetPlayerSpawn(BufferedImage img) {
-        ArrayList<Crabby> list = new ArrayList<>();
-
         for (int j = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++) {
                 Color color = new Color(img.getRGB(i, j));
-                int value = color.getGreen();
-                if (value == 100) {
-                    return new Point(i * TILES_SIZE, j * TILES_SIZE);
+                if (color.getGreen() == 100) {
+                    return calculatePlayerSpawn(i, j);
                 }
             }
         }
         return null;
+    }
+
+    public static Point calculatePlayerSpawn(int pointX, int pointY){
+        return new Point(pointX * TILES_SIZE, pointY * TILES_SIZE);
     }
 
 
