@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class EnemyManager {
     private Playing playing;
     private BufferedImage[][] crabbyArr;
-    private ArrayList<Crabby> crabbies = new ArrayList<>();
+    private ArrayList<EnemyRat> crabbies = new ArrayList<>();
 
     /**
      * Constructor for EnemyManager
@@ -40,7 +40,7 @@ public class EnemyManager {
      * @param lvldata
      */
     public void update(int[][] lvldata){
-        for(Crabby c : crabbies){
+        for(EnemyRat c : crabbies){
             c.update(lvldata);
             c.checkPlayerHit(c,playing.getPlayer());
         }
@@ -48,7 +48,7 @@ public class EnemyManager {
 
     //TODO add method to change animation
     public void checkIfEnemyIsHit(Rectangle2D.Float attackBox){
-        for (Crabby c : crabbies){
+        for (EnemyRat c : crabbies){
             if(attackBox.intersects(c.getHitbox())){
                 c.entityTakeDamage(2);
                 System.out.println(c.getCurrentHealth());
@@ -73,7 +73,7 @@ public class EnemyManager {
      * @param g
      */
     private void drawCrabs(Graphics g, int levelOffset) {
-        for(Crabby c : crabbies){
+        for(EnemyRat c : crabbies){
             g.drawImage(crabbyArr[c.getEnemyState()][c.getAnimationIndex()], (int) c.getHitbox().x - RAT_DRAW_OFFSET_X - levelOffset + c.getFlipX(), (int) c.getHitbox().y - RAT_DRAW_OFFSET_Y, RAT_WIDTH * c.getFlipW(), RAT_HEIGHT, null );
             //c.drawHitbox(g, levelOffset);
         }
@@ -92,11 +92,11 @@ public class EnemyManager {
         }
     }
 
-    public ArrayList<Crabby> getCrabbies() {
+    public ArrayList<EnemyRat> getCrabbies() {
         return crabbies;
     }
 
-    public void setCrabbies(ArrayList<Crabby> crabbies) {
+    public void setCrabbies(ArrayList<EnemyRat> crabbies) {
         this.crabbies = crabbies;
     }
 }

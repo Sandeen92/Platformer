@@ -1,7 +1,7 @@
 package levels;
 
 import entity.Box;
-import entity.Crabby;
+import entity.EnemyRat;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -13,7 +13,7 @@ import static utils.Constants.GameConstants.*;
 public class Level {
     private int [][] levelData;
     private BufferedImage levelDataImage;
-    private ArrayList<Crabby> crabs;
+    private ArrayList<EnemyRat> crabs;
     private ArrayList<Box> boxes;
     private int levelTilesWidth;
     private int maxTilesOffset;
@@ -65,7 +65,7 @@ public class Level {
         return maxLevelOffsetX;
     }
 
-    public ArrayList<Crabby> getCrabs() {
+    public ArrayList<EnemyRat> getCrabs() {
         return crabs;
     }
 

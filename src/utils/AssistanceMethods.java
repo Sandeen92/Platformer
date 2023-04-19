@@ -6,7 +6,7 @@
 package utils;
 
 import entity.Box;
-import entity.Crabby;
+import entity.EnemyRat;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -196,14 +196,14 @@ public class AssistanceMethods {
             return levelData;
         }
 
-    public static ArrayList<Crabby> GetCrabs(BufferedImage img) {
-        ArrayList<Crabby> list = new ArrayList<>();
+    public static ArrayList<EnemyRat> GetCrabs(BufferedImage img) {
+        ArrayList<EnemyRat> list = new ArrayList<>();
         for (int j = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++) {
                 Color color = new Color(img.getRGB(i, j));
                 int value = color.getGreen();
                 if (value == CRABBY) {
-                    list.add(new Crabby(i * TILES_SIZE, j * TILES_SIZE));
+                    list.add(new EnemyRat(i * TILES_SIZE, j * TILES_SIZE));
                 }
             }
         }

@@ -45,6 +45,8 @@ public class Constants {
 
         public static final int RAT_DRAW_OFFSET_X = (int) (23 * SCALE);
         public static final int RAT_DRAW_OFFSET_Y = (int) (4 * SCALE);
+        public static final int RAT_HEALTHPOINTS = 6;
+        public static final int RAT_ATTACKDAMAGE = 2;
 
         public static int GetSpriteAmount(int enemyType, int enemyState){
             switch (enemyType){

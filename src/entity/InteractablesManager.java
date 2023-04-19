@@ -2,12 +2,9 @@ package entity;
 
 import gamestates.Playing;
 import levels.Level;
-import main.Game;
 
 import java.awt.*;
 import java.util.ArrayList;
-
-import static utils.Constants.ObjectConstants.BOX;
 
 
 public class InteractablesManager {
@@ -29,15 +26,15 @@ public class InteractablesManager {
     public void update(){
         for(Box box : boxes){
             box.update(playing.getLevelManager().getCurrentLevel().getLevelData());
-            box.checkPlayerHit(box, playing.getPlayer());
-            box.checkIfEnemyIsHit(playing.getEnemyManager().getCrabbies());
+            box.checkIfPlayerCollidesWithBox(box, playing.getPlayer());
+            box.checkIfEnemyIsCollidingWithBox(playing.getEnemyManager().getCrabbies());
         }
     }
 
     public void loadBoxes(Level level){
         boxes = level.getBoxes();
         for(Box b : boxes){
-            b.initPlayerToBox(playing.getPlayer());
+            b.initialisePlayerToBox(playing.getPlayer());
         }
     }
 
