@@ -44,8 +44,8 @@ public class LevelManager {
      */
     private void buildAllLevels() {
         BufferedImage[] allLevels = LoadSave.GetAllLevels();
-        for(BufferedImage img : allLevels){
-            this.allLevels.add(new Level(img));
+        for(BufferedImage levelData : allLevels){
+            this.allLevels.add(new Level(levelData));
         }
     }
 

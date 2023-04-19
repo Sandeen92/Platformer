@@ -2,7 +2,6 @@ package levels;
 
 import entity.Box;
 import entity.Crabby;
-import main.Game;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -13,7 +12,7 @@ import static utils.Constants.GameConstants.*;
 
 public class Level {
     private int [][] levelData;
-    private BufferedImage img;
+    private BufferedImage levelDataImage;
     private ArrayList<Crabby> crabs;
     private ArrayList<Box> boxes;
     private int levelTilesWidth;
@@ -21,8 +20,12 @@ public class Level {
     private int maxLevelOffsetX;
     private Point playerSpawn;
 
-    public Level(BufferedImage img){
-        this.img = img;
+    public Level(BufferedImage levelDataImage){
+        this.levelDataImage = levelDataImage;
+        initClasses();
+    }
+
+    private void initClasses(){
         createLevelData();
         createEnemies();
         createBoxes();
@@ -31,24 +34,24 @@ public class Level {
     }
 
     private void calculatePlayerSpawn() {
-        playerSpawn = GetPlayerSpawn(img);
+        playerSpawn = GetPlayerSpawn(levelDataImage);
     }
 
     private void createLevelData() {
-        levelData = GetLevelData(img);
+        levelData = GetLevelData(levelDataImage);
     }
 
     private void calculateLevelOffset() {
-        levelTilesWidth = img.getWidth();
+        levelTilesWidth = levelDataImage.getWidth();
         maxTilesOffset = levelTilesWidth - TILES_IN_WIDTH;
         maxLevelOffsetX = TILES_SIZE * maxTilesOffset;
     }
 
     private void createEnemies() {
-        crabs = GetCrabs(img);
+        crabs = GetCrabs(levelDataImage);
     }
     private void createBoxes(){
-        boxes = GetBoxes(img);
+        boxes = GetBoxes(levelDataImage);
     }
     public int getSpriteIndex(int x, int y){
             return levelData[y][x];
