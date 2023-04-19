@@ -4,6 +4,16 @@ import main.Game;
 
 public class Consumable extends GameItem{
 
+
+    /**
+     *
+     *
+     * ------------------------------- GRANSKA EJ DENNA KLASS! --------------------------------------
+     *
+     *
+     */
+
+
     public Consumable(int x, int y, int objectType) {
         super(x, y, objectType);
         doAnimation = true;

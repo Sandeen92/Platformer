@@ -4,11 +4,23 @@ import main.Game;
 
 import static utils.Constants.ObjectConstants.*;
 
+
+
+/**
+ *
+ *
+ * ------------------------------- GRANSKA EJ DENNA KLASS! --------------------------------------
+ *
+ *
+ */
+
+
 public class Container extends GameItem{
     public Container(int x, int y, int objectType) {
         super(x, y, objectType);
         createHitbox();
     }
+
 
     private void createHitbox(){
 

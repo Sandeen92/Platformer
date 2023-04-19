@@ -8,6 +8,14 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import static utils.Constants.ObjectConstants.*;
 
+/**
+ *
+ *
+ * ------------------------------- GRANSKA EJ DENNA KLASS! --------------------------------------
+ *
+ *
+ */ 
+
 public class ItemManager {
 
     private Playing playing;

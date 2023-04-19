@@ -7,6 +7,15 @@ import java.awt.geom.Rectangle2D;
 
 import static utils.Constants.ObjectConstants.*;
 
+
+/**
+ *
+ *
+ * ------------------------------- GRANSKA EJ DENNA KLASS! --------------------------------------
+ *
+ *
+ */
+
 public class GameItem {
 
     protected int x;
