@@ -13,15 +13,16 @@ import java.io.InputStream;
 import static utils.AssistanceMethods.IsEntityOnFloor;
 import static utils.Constants.GameConstants.*;
 import static utils.AssistanceMethods.canMoveHere;
+import static utils.Constants.PlayerConstants.*;
 
 public class Player extends Entity {
     private BufferedImage[][] playerAnimations;
     private EnemyManager enemyManager;
     private AttackTimer attackTimer;
-    private float xDrawOffset = 24 * SCALE;
-    private float yDrawOffset = 14 * SCALE;
+    private float xDrawOffset = PLAYER_X_DRAW_OFFSET;
+    private float yDrawOffset = PLAYER_Y_DRAW_OFFSET;
     private int[][] levelData;
-    private float playerSpeed = 1.2f;
+    private float playerSpeed = PLAYER_SPEED;
     private int flipX = 0;
     private int flipW = 1;
     private boolean jumpOnce;
@@ -47,16 +48,21 @@ public class Player extends Entity {
         initialiseAttackBox(x,y,20 * SCALE, 27 * SCALE);
         this.enemyManager = enemyManager;
         initialiseVariables();
-
     }
 
+    /**
+     * This method sets the spawnpoint for the player
+     * @param spawn
+     */
     public void setSpawn(Point spawn){
         this.x = spawn.x;
         this.y = spawn.y;
         hitbox.x = x;
         hitbox.y = y;
     }
-
+    /**
+     * This method initialises the variables of the player
+     */
     private void initialiseVariables(){
         jumpOnce = true;
         canAttack = true;
@@ -77,18 +83,33 @@ public class Player extends Entity {
         setEntityAnimation();
     }
 
+    /**
+     * this method makes the player jump
+     */
     protected void jump() {
-        if(inAir){
+        if(inAir == true){
             return;
-        } else if (jumpOnce){
-            if(isPushing == false){
-                inAir = true;
-                airSpeed = jumpSpeed;
-                jumpOnce = false;
-            }
+        } else if (jumpOnce == true){
+            checkIfPlayerIsPushing();
         }
     }
 
+    /**
+     * This method checks if the player is pushing something, if not
+     * makes the player jump
+     */
+    private void checkIfPlayerIsPushing(){
+        if(isPushing == false){
+            inAir = true;
+            airSpeed = jumpSpeed;
+            jumpOnce = false;
+        }
+    }
+
+    /**
+     * This method sets the variables for when the player is hit
+     * @param attackingEnemy
+     */
     public void playerHit(Enemy attackingEnemy){
         this.attackingEnemy = attackingEnemy;
         isHit = true;
@@ -96,20 +117,33 @@ public class Player extends Entity {
         ht.start();
     }
 
+    /**
+     * This method makes the player attack
+     */
     public void attack(){
         //TODO add animation for attacking
-        if(canAttack){
+        if(canAttack == true){
             enemyManager.checkIfEnemyIsHit(attackBox);
-            canAttack = false;
-            attackTimer = new AttackTimer();
-            attackTimer.start();
-            System.out.println("Attacked");
+            startAttackCooldown();
         }
     }
 
+    /**
+     * This method starts the attack cooldown
+     */
+    private void startAttackCooldown(){
+        canAttack = false;
+        attackTimer = new AttackTimer();
+        attackTimer.start();
+    }
+
+    /**
+     * This method resets the variable jumponce to make the player able to jump again
+     */
     public void resetJumpOnce(){
         this.jumpOnce = true;
     }
+
     /**
      * This method renders the player
      * @param g
@@ -126,25 +160,29 @@ public class Player extends Entity {
         //drawAttackBox(g, levelOffset); //TODO Remove later just for debugging
     }
 
-    //TODO få in spelarfacing och gör if-satser eller intersectsLine och gör ett entitystate hit som gör allt mer smooth
+    /**
+     * This method knocks the player back
+     * @param enemy
+     */
     public void knockbackPlayer(Enemy enemy){
         horizontalSpeed = 0;
         getKnockbackDirection(enemy);
-        if(canMoveHere(hitbox.x + horizontalSpeed, hitbox.y, hitbox.width, hitbox.height, levelData)){
+        if(canMoveHere(hitbox.x + horizontalSpeed, hitbox.y, hitbox.width, hitbox.height, levelData) == true){
                 hitbox.x += horizontalSpeed;
         }
     }
 
+    /**
+     * This method gets the knockback direction for the player
+     * @param enemy
+     */
     private void getKnockbackDirection(Enemy enemy){
         if(hitbox.x < enemy.hitbox.x){
-            setHorizontalSpeed(-0.48f);
+            setHorizontalKnockbackSpeed(PLAYER_KNOCKBACK_LEFT);
         } else if (hitbox.x > enemy.hitbox.x){
-            setHorizontalSpeed(0.48f);
+            setHorizontalKnockbackSpeed(PLAYER_KNOCKBACK_RIGHT);
         }
     }
-
-
-
 
     /**
      *  This method updates the players position and checks for collisions
@@ -159,26 +197,42 @@ public class Player extends Entity {
 
         horizontalSpeed = 0;
         changeMovingDirection();
-
-        if(isHit){
-            knockbackPlayer(attackingEnemy);
-        }
-
+        knockbackPlayerIfHit();
         checkIfPlayerIsStandingOnInteractable(levelData);
         moveEntity(levelData);
         isMoving = true;
     }
 
-    private boolean checkIfPlayerIsMoving() {
-        return !movingLeft && !movingRight && !inAir && !isHit;
+    /**
+     * This method calls the method for knocking the player back if
+     * the player is hit
+     */
+    private void knockbackPlayerIfHit(){
+        if(isHit == true){
+            knockbackPlayer(attackingEnemy);
+        }
     }
 
+    /**
+     * This method checks if the player is moving in any way
+     * @return
+     */
+    private boolean checkIfPlayerIsMoving() {
+        return movingLeft == false && movingRight == false && inAir == false && isHit == false;
+    }
+
+    /**
+     * This method checks if the player is currently jumping
+     */
     private void checkIfPlayerIsJumping(){
-        if(jumping){
+        if(jumping == true){
             jump();
         }
     }
 
+    /**
+     * This method flips the player to the left
+     */
     private void flipPlayerLeft(){
         horizontalSpeed -=playerSpeed;
         flipX = width;
@@ -186,6 +240,9 @@ public class Player extends Entity {
         facing = 0;
     }
 
+    /**
+     * This method flips the player to the rigth
+     */
     private void flipPlayerRight(){
         horizontalSpeed += playerSpeed;
         flipX = 0;
@@ -193,21 +250,36 @@ public class Player extends Entity {
         facing = 1;
     }
 
+    /**
+     * This method changes the moving direction for the player and calls the methods
+     * to flip the player the same way the player is moving
+     */
     private void changeMovingDirection(){
-        if(movingLeft){
+        if(movingLeft == true){
             flipPlayerLeft();
-        } else if (movingRight) {
+        } else if (movingRight == true) {
             flipPlayerRight();
         }
     }
 
+    /**
+     * This method checks if the player is standing on an interactable
+     * @param lvlData
+     */
     private void checkIfPlayerIsStandingOnInteractable(int[][] lvlData){
         if(standingOnInteractable == false){
-            if(inAir == false ){
-                isEntityInAir(lvlData);
-            }
+            checkIfPlayerIsInAirWhileNotJumping(lvlData);
         }
+    }
 
+    /**
+     * This method checks if the player is in the air if the player is not jumping
+     * @param lvlData
+     */
+    private void checkIfPlayerIsInAirWhileNotJumping(int[][] lvlData){
+        if(inAir == false ){
+            isEntityInAir(lvlData);
+        }
     }
 
     /**
@@ -241,17 +313,21 @@ public class Player extends Entity {
      */
     public void loadLvlData(int [][] lvlData){
         this.levelData = lvlData;
-        if(!IsEntityOnFloor(hitbox,lvlData)){
+        if(IsEntityOnFloor(hitbox,lvlData) == false){
             inAir = true;
         }
     }
 
-    private void setHorizontalSpeed(float knockbackSpeed) {
+    /**
+     * This method sets the horixontal speed of the player
+     * @param knockbackSpeed
+     */
+    private void setHorizontalKnockbackSpeed(float knockbackSpeed) {
         horizontalSpeed = knockbackSpeed;
         hitbox.x += horizontalSpeed;
     }
 
-    public void setSpeed(float speed){
+    public void setHorizontalSpeed(float speed){
         playerSpeed = speed;
     }
 

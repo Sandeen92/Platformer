@@ -128,7 +128,7 @@ public class Box extends Entity{
         } else if (hitbox.x < player.hitbox.x){
             horizontalSpeed -= moveSpeed;
         }
-        player.setSpeed(moveSpeed);
+        player.setHorizontalSpeed(moveSpeed);
         player.setPushing(true);
     }
 
@@ -146,7 +146,7 @@ public class Box extends Entity{
      * This method resets the variables changed in player from this class
      */
     private void resetPlayerVariables(){
-        player.setSpeed(1.2f);
+        player.setHorizontalSpeed(1.2f);
         player.setStandingOnInteractable(false);
         player.setPushing(false);
     }
