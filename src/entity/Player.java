@@ -14,9 +14,6 @@ import java.io.InputStream;
 import static utils.AssistanceMethods.IsEntityOnFloor;
 import static utils.Constants.GameConstants.*;
 import static utils.AssistanceMethods.canMoveHere;
-import static utils.Constants.Directions.LEFT;
-import static utils.Constants.Directions.RIGHT;
-import static utils.Constants.EnemyConstants.HIT;
 
 public class Player extends Entity {
     private BufferedImage[][] playerAnimations;
@@ -34,6 +31,7 @@ public class Player extends Entity {
     private Enemy attackingEnemy;
     private boolean standingOnInteractable;
     private boolean isPushing;
+    private float knockbackSpeed;
 
 
     /**
@@ -49,12 +47,8 @@ public class Player extends Entity {
         initialiseHitbox(x,y, 22 * SCALE, 30 * SCALE);
         initialiseAttackBox(x,y,20 * SCALE, 27 * SCALE);
         this.enemyManager = enemyManager;
-        jumpOnce = true;
-        canAttack = true;
-        isHit = false;
-        facing = 1;
-        standingOnInteractable = false;
-        isPushing = false;
+        initialiseVariables();
+
     }
 
     public void setSpawn(Point spawn){
@@ -62,6 +56,16 @@ public class Player extends Entity {
         this.y = spawn.y;
         hitbox.x = x;
         hitbox.y = y;
+    }
+
+    private void initialiseVariables(){
+        jumpOnce = true;
+        canAttack = true;
+        isHit = false;
+        facing = 1;
+        standingOnInteractable = false;
+        isPushing = false;
+        knockbackSpeed = 0.4f * 1.2f;
     }
 
     /**
@@ -125,17 +129,22 @@ public class Player extends Entity {
 
     //TODO få in spelarfacing och gör if-satser eller intersectsLine och gör ett entitystate hit som gör allt mer smooth
     public void knockbackPlayer(Enemy enemy){
-        xSpeed = 0;
-
-        if(hitbox.x > enemy.hitbox.x){
-            xSpeed = 0.4f * 1.2f;
-        } else if (hitbox.x < enemy.hitbox.x){
-            xSpeed = -0.4f * 1.2f;
-        }
-        if(canMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, levelData)){
-                hitbox.x += xSpeed;
+        horizontalSpeed = 0;
+        getKnockbackDirection(enemy);
+        if(canMoveHere(hitbox.x + horizontalSpeed, hitbox.y, hitbox.width, hitbox.height, levelData)){
+                hitbox.x += horizontalSpeed;
         }
     }
+
+    private void getKnockbackDirection(Enemy enemy){
+        if(hitbox.x > enemy.hitbox.x){
+            setHorizontalSpeed(knockbackSpeed);
+        } else if (hitbox.x < enemy.hitbox.x){
+            setHorizontalSpeed(knockbackSpeed);
+        }
+    }
+
+
 
 
     /**
@@ -144,41 +153,62 @@ public class Player extends Entity {
     protected void updateEntityPos(int [][] lvlData) {
         isMoving = false;
 
-        if(jumping){
-            jump();
-        }
-
-        if(!movingLeft && !movingRight && !inAir && !isHit){
+        checkIfPlayerIsJumping();
+        if(checkIfPlayerIsMoving() == true){
             return;
         }
 
-        xSpeed = 0;
-        if(movingLeft){
-            xSpeed -=playerSpeed;
-            flipX = width;
-            flipW = -1;
-            facing = 0;
-        } else if (movingRight){
-            xSpeed += playerSpeed;
-            flipX = 0;
-            flipW = 1;
-            facing = 1;
-        }
+        horizontalSpeed = 0;
+        changeMovingDirection();
 
         if(isHit){
             knockbackPlayer(attackingEnemy);
         }
+
+        checkIfPlayerIsStandingOnInteractable(levelData);
+        moveEntity(levelData);
+        isMoving = true;
+    }
+
+    private boolean checkIfPlayerIsMoving() {
+        return !movingLeft && !movingRight && !inAir && !isHit;
+    }
+
+    private void checkIfPlayerIsJumping(){
+        if(jumping){
+            jump();
+        }
+    }
+
+    private void flipPlayerLeft(){
+        horizontalSpeed -=playerSpeed;
+        flipX = width;
+        flipW = -1;
+        facing = 0;
+    }
+
+    private void flipPlayerRight(){
+        horizontalSpeed += playerSpeed;
+        flipX = 0;
+        flipW = 1;
+        facing = 1;
+    }
+
+    private void changeMovingDirection(){
+        if(movingLeft){
+            flipPlayerLeft();
+        } else if (movingRight) {
+            flipPlayerRight();
+        }
+    }
+
+    private void checkIfPlayerIsStandingOnInteractable(int[][] lvlData){
         if(standingOnInteractable == false){
             if(inAir == false ){
                 isEntityInAir(lvlData);
             }
         }
 
-
-
-
-        moveEntity(lvlData);
-        isMoving = true;
     }
 
     /**
@@ -215,6 +245,11 @@ public class Player extends Entity {
         if(!IsEntityOnFloor(hitbox,lvlData)){
             inAir = true;
         }
+    }
+
+    private void setHorizontalSpeed(float knockbackSpeed) {
+        horizontalSpeed = knockbackSpeed;
+        hitbox.x += horizontalSpeed;
     }
 
     public void setSpeed(float speed){

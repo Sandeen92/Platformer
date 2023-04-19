@@ -110,6 +110,7 @@ public class Game implements Runnable{
 
         }
     }
+
     /**
      * This method is responsible for deciding what to render based on the current
      * game state and then rendering it

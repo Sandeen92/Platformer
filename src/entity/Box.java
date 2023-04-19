@@ -1,7 +1,6 @@
 package entity;
 
 import main.Game;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -13,13 +12,18 @@ import static utils.Constants.Directions.LEFT;
 
 
 public class Box extends Entity{
-
     public static float moveSpeed = 0.6f;
-    private BufferedImage box;
+    private BufferedImage boxImage;
     private Player player;
     private boolean firstUpdate;
     public Box(int x, int y, int width, int height){
         super(x,y,width,height);
+        initialiseVariables();
+        loadImg();
+        initialiseHitbox(x,y,width,height);
+    }
+
+    public void initialiseVariables(){
         airSpeed = 0f;
         gravity = 0.03f * SCALE;
         jumpSpeed = -2.25f * SCALE;
@@ -34,28 +38,11 @@ public class Box extends Entity{
     }
 
     public void checkPlayerHit(Box box, Player player){
-        xSpeed = 0;
+        horizontalSpeed = 0;
         if(box.hitbox.intersects(player.hitbox)){
-            if((hitbox.y < player.hitbox.y+height)){
-                if(hitbox.x > player.hitbox.x){
-                    xSpeed += moveSpeed;
-                } else if (hitbox.x < player.hitbox.x){
-                    xSpeed -= moveSpeed;
-                }
-                player.setSpeed(moveSpeed);
-                player.setPushing(true);
-            } else if(hitbox.y -1 > player.hitbox.y+height){
-                if(player.getStandingOnInteractable() == false){
-                    player.setStandingOnInteractable(true);
-
-                    System.out.println("Set interactable sltanding true");
-                }
-                player.resetInAir();
-            }
+            checkIfPlayerIsAboveBox();
         } else if (player.getPlayerSpeed() != 1.2 || player.getStandingOnInteractable() == true){
-            player.setSpeed(1.2f);
-            player.setStandingOnInteractable(false);
-            player.setPushing(false);
+            resetPlayerVariables();
         }
     }
 
@@ -78,7 +65,6 @@ public class Box extends Entity{
             isEntityInAir(lvldata);
             firstUpdate = false;
         }
-
         if(!inAir){
             isEntityInAir(lvldata);
         }
@@ -90,19 +76,49 @@ public class Box extends Entity{
         updateEntityPos(lvlData);
     }
 
+    private void checkPushdirection(){
+        if(hitbox.x > player.hitbox.x){
+            horizontalSpeed += moveSpeed;
+        } else if (hitbox.x < player.hitbox.x){
+            horizontalSpeed -= moveSpeed;
+        }
+        player.setSpeed(moveSpeed);
+        player.setPushing(true);
+    }
+
+    private void setPlayerStandingOnInteractable (){
+        if(player.getStandingOnInteractable() == false){
+            player.setStandingOnInteractable(true);
+        }
+        player.resetInAir();
+    }
+
+    private void resetPlayerVariables(){
+        player.setSpeed(1.2f);
+        player.setStandingOnInteractable(false);
+        player.setPushing(false);
+    }
+
+    private void checkIfPlayerIsAboveBox(){
+        if((hitbox.y < player.hitbox.y+height)){
+            checkPushdirection();
+        } else if(hitbox.y > player.hitbox.y+height){
+            setPlayerStandingOnInteractable();
+        }
+    }
 
 
     private void loadImg() {
         InputStream is = getClass().getResourceAsStream("/Box_dark.png");
         try{
-            box = ImageIO.read(is);
+            boxImage = ImageIO.read(is);
         } catch (IOException e){
             e.printStackTrace();
         }
     }
 
     public void draw(Graphics g, int xOffset){
-        g.drawImage(box, (int) hitbox.x- xOffset, (int) hitbox.y+1, (int) width, (int) height, null);
+        g.drawImage(boxImage, (int) hitbox.x- xOffset, (int) hitbox.y+1, (int) width, (int) height, null);
         //drawHitbox(g,xOffset);
     }
 }
