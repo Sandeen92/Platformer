@@ -70,7 +70,6 @@ public class LoadSave {
 
 
     public static File[] sortLevelDataList(File[] levelDataList){
-
         File[] levelDataListSorted = new File[levelDataList.length];
 
         for(int i = 0; i < levelDataListSorted.length; i++){

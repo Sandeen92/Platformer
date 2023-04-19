@@ -1,11 +1,8 @@
 package utils;
 
-import main.Game;
-
 import static utils.Constants.GameConstants.SCALE;
 
 public class Constants {
-
 
     public static class UserInterface{
         public static class Buttons{
@@ -15,15 +12,15 @@ public class Constants {
             public static final int BTN_HEIGHT = (int) (BTN_HEIGHT_DEFAULT * SCALE);
         }
 
-        public static class SoundButtons{
-            public static final int SOUNDBTN_SIZE_DEFAULT = 42;
-            public static final int SOUNDBTN_SIZE = (int) (SOUNDBTN_SIZE_DEFAULT * SCALE);
-        }
+    public static class SoundButtons{
+        public static final int SOUNDBTN_SIZE_DEFAULT = 42;
+        public static final int SOUNDBTN_SIZE = (int) (SOUNDBTN_SIZE_DEFAULT * SCALE);
+    }
 
-        public static class OptionButtons{
-            public static final int OPTIONBTN_DEFAULT_SIZE = 56;
-            public static final int OPTIONBTN_SIZE = (int) (OPTIONBTN_DEFAULT_SIZE * SCALE);
-        }
+    public static class OptionButtons{
+        public static final int OPTIONBTN_DEFAULT_SIZE = 56;
+        public static final int OPTIONBTN_SIZE = (int) (OPTIONBTN_DEFAULT_SIZE * SCALE);
+    }
     }
     public static class Directions{
         public static final int LEFT = 0;
@@ -90,7 +87,7 @@ public class Constants {
         }
     }
 
-    public static class InteractabelConstants{
+    public static class InteractableConstants {
         public static final int BOX = 55;
         public static final float BOX_WIDTH = 25* SCALE;
         public static final float BOX_Heigth = 25* SCALE;
@@ -109,7 +106,6 @@ public class Constants {
 
 
     public static class ObjectConstants{
-
         public static final int RED_POTION = 0;
         public static final int BLUE_POTION = 1;
         public static final int BARREL = 2;

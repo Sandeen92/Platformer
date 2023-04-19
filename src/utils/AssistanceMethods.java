@@ -7,7 +7,6 @@ package utils;
 
 import entity.Box;
 import entity.Crabby;
-import main.Game;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -16,7 +15,7 @@ import java.util.ArrayList;
 
 import static utils.Constants.EnemyConstants.CRABBY;
 import static utils.Constants.GameConstants.*;
-import static utils.Constants.InteractabelConstants.*;
+import static utils.Constants.InteractableConstants.*;
 
 public class AssistanceMethods {
 

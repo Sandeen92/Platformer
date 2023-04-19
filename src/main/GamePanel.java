@@ -56,11 +56,6 @@ public class GamePanel extends JPanel {
         setPreferredSize(panelSize);
     }
 
-
-    public void updateGame(){
-        //Everything to update the game goes here
-    }
-
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         game.draw(g);
