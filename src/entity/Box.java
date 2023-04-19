@@ -35,7 +35,7 @@ public class Box extends Entity{
     }
 
     public void checkPlayerHit(Box box, Player player){
-        xSpeed = 0;
+        horizontalSpeed = 0;
         if(box.hitbox.intersects(player.hitbox)){
             checkIfPlayerIsAboveBox();
         } else if (player.getPlayerSpeed() != 1.2 || player.getStandingOnInteractable() == true){
@@ -75,9 +75,9 @@ public class Box extends Entity{
 
     private void checkPushdirection(){
         if(hitbox.x > player.hitbox.x){
-            xSpeed += moveSpeed;
+            horizontalSpeed += moveSpeed;
         } else if (hitbox.x < player.hitbox.x){
-            xSpeed -= moveSpeed;
+            horizontalSpeed -= moveSpeed;
         }
         player.setSpeed(moveSpeed);
         player.setPushing(true);

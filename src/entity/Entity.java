@@ -33,7 +33,7 @@ public abstract class Entity {
     protected boolean jumping = false; // check if jumping
     protected boolean isMoving = false; // check if moving
     protected boolean isHit;
-    protected float xSpeed; // speed of the entity to the left or right
+    protected float horizontalSpeed; // speed of the entity to the left or right
     protected boolean movingLeft; // check if entity moving left
     protected boolean movingRight; // check if entity moving right
 
@@ -175,7 +175,7 @@ public abstract class Entity {
                     airSpeed += gravity;
                 }
 
-                updateXPosition(xSpeed, lvlData);
+                updateXPosition(horizontalSpeed, lvlData);
             } else {
                 hitbox.y = GetEntityYPosUnderOrAboveTile(hitbox, airSpeed);
                 if(airSpeed > 0){
@@ -183,10 +183,10 @@ public abstract class Entity {
                 } else {
                     airSpeed = fallSpeedAfterCollision;
                 }
-                updateXPosition(xSpeed, lvlData);
+                updateXPosition(horizontalSpeed, lvlData);
             }
         } else {
-            updateXPosition(xSpeed, lvlData);
+            updateXPosition(horizontalSpeed, lvlData);
         }
     }
 
