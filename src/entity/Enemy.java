@@ -7,9 +7,6 @@ package entity;
 
 import gamestates.Gamestate;
 import main.Game;
-import utils.Constants;
-
-import java.security.PublicKey;
 
 import static utils.AssistanceMethods.canMoveHere;
 import static utils.AssistanceMethods.IsFloor;
@@ -98,10 +95,10 @@ public abstract class Enemy extends Entity{
                 entityState = RUNNING;
                 break;
             case RUNNING:
-                xSpeed = 0;
+                horizontalSpeed = 0;
                 setEnemyToPatrol();
-                if(canMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData)){
-                    if(IsFloor(hitbox, xSpeed, lvlData)){
+                if(canMoveHere(hitbox.x + horizontalSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData)){
+                    if(IsFloor(hitbox, horizontalSpeed, lvlData)){
                         return;
                     }
                 }
@@ -135,9 +132,9 @@ public abstract class Enemy extends Entity{
      */
     public void setEnemyToPatrol(){
         if(walkDir == LEFT){
-            xSpeed = -patrolSpeed;
+            horizontalSpeed = -patrolSpeed;
         } else {
-            xSpeed = patrolSpeed;
+            horizontalSpeed = patrolSpeed;
         }
     }
 

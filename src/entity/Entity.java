@@ -33,7 +33,7 @@ public abstract class Entity {
     protected boolean jumping = false; // check if jumping
     protected boolean isMoving = false; // check if moving
     protected boolean isHit;
-    protected float xSpeed; // speed of the entity to the left or right
+    protected float horizontalSpeed; // speed of the entity to the left or right
     protected boolean movingLeft; // check if entity moving left
     protected boolean movingRight; // check if entity moving right
 
@@ -120,14 +120,14 @@ public abstract class Entity {
     /**
      * This method updates the x position of the entity by taking in the speed and leveldata to check
      * if the move is valid
-     * @param xSpeed
+     * @param horizontalSpeed
      * @param lvlData
      */
-    protected void updateXPosition(float xSpeed, int [][] lvlData) {
-        if(canMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData)){
-            hitbox.x += xSpeed;
+    protected void updateXPosition(float horizontalSpeed, int [][] lvlData) {
+        if(canMoveHere(hitbox.x + horizontalSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData)){
+            hitbox.x += horizontalSpeed;
         } else {
-            hitbox.x = GetEntityXPosNextToWall(hitbox, xSpeed);
+            hitbox.x = GetEntityXPosNextToWall(hitbox, horizontalSpeed);
         }
     }
 
@@ -167,7 +167,6 @@ public abstract class Entity {
      * @param lvlData
      */
     protected void moveEntity(int[][] lvlData){
-        //TODO fix with airspeed, causing the bug with getting stuck after along jump
         if(inAir){
             if(canMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData )){
                 hitbox.y += airSpeed;
@@ -175,7 +174,7 @@ public abstract class Entity {
                     airSpeed += gravity;
                 }
 
-                updateXPosition(xSpeed, lvlData);
+                updateXPosition(horizontalSpeed, lvlData);
             } else {
                 hitbox.y = GetEntityYPosUnderOrAboveTile(hitbox, airSpeed);
                 if(airSpeed > 0){
@@ -183,10 +182,10 @@ public abstract class Entity {
                 } else {
                     airSpeed = fallSpeedAfterCollision;
                 }
-                updateXPosition(xSpeed, lvlData);
+                updateXPosition(horizontalSpeed, lvlData);
             }
         } else {
-            updateXPosition(xSpeed, lvlData);
+            updateXPosition(horizontalSpeed, lvlData);
         }
     }
 
