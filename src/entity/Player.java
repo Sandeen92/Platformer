@@ -129,13 +129,17 @@ public class Player extends Entity {
     //TODO få in spelarfacing och gör if-satser eller intersectsLine och gör ett entitystate hit som gör allt mer smooth
     public void knockbackPlayer(Enemy enemy){
         horizontalSpeed = 0;
+        getKnockbackDirection(enemy);
+        if(canMoveHere(hitbox.x + horizontalSpeed, hitbox.y, hitbox.width, hitbox.height, levelData)){
+                hitbox.x += horizontalSpeed;
+        }
+    }
+
+    private void getKnockbackDirection(Enemy enemy){
         if(hitbox.x > enemy.hitbox.x){
             setHorizontalSpeed(knockbackSpeed);
         } else if (hitbox.x < enemy.hitbox.x){
             setHorizontalSpeed(knockbackSpeed);
-        }
-        if(canMoveHere(hitbox.x + horizontalSpeed, hitbox.y, hitbox.width, hitbox.height, levelData)){
-                hitbox.x += horizontalSpeed;
         }
     }
 
@@ -166,10 +170,7 @@ public class Player extends Entity {
     }
 
     private boolean checkIfPlayerIsMoving() {
-        if(!movingLeft && !movingRight && !inAir && !isHit){
-            return true;
-        }
-        return false;
+        return !movingLeft && !movingRight && !inAir && !isHit;
     }
 
     private void checkIfPlayerIsJumping(){
