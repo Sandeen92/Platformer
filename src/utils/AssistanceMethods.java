@@ -69,7 +69,7 @@ public class AssistanceMethods {
         if(x < 0 || x >= maxLevelWidth){
             return true;
         }
-        if(y < 0 || y >= Game.GAME_HEIGHT){
+        if(y < 0 || y >= GAME_HEIGHT){
             return true;
         }
         return false;
@@ -105,8 +105,8 @@ public class AssistanceMethods {
     }
 
     private static float calculatePosNextToWall(int currentTile, Rectangle2D.Float hitbox){
-        int tileXPos = currentTile * Game.TILES_SIZE;
-        int xOffset = (int)(Game.TILES_SIZE - hitbox.width);
+        int tileXPos = currentTile * TILES_SIZE;
+        int xOffset = (int)(TILES_SIZE - hitbox.width);
         return tileXPos + xOffset - 1;
     }
 
@@ -131,8 +131,8 @@ public class AssistanceMethods {
     }
 
     private static float calculatePosUnderOrAboveTile(int currentTile, Rectangle2D.Float hitbox){
-        int tileYPos = currentTile * Game.TILES_SIZE;
-        int yOffset = (int)(Game.TILES_SIZE - hitbox.height);
+        int tileYPos = currentTile * TILES_SIZE;
+        int yOffset = (int)(TILES_SIZE - hitbox.height);
         return tileYPos + yOffset - 1;
     }
 
