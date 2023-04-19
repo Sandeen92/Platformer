@@ -51,23 +51,33 @@ public class AssistanceMethods {
      */
     private static boolean isSolid(float x, float y, int [][] levelData){
         int maxLevelWidth = levelData[0].length * Game.TILES_SIZE;
-        if(x < 0 || x >= maxLevelWidth){
-            return true;
-        }
-        if(y < 0 || y >= Game.GAME_HEIGHT){
+        if(checkIfInsideBorder(x, y, maxLevelWidth) == true){
             return true;
         }
 
         float xIndex = x/Game.TILES_SIZE;
         float yIndex = y/Game.TILES_SIZE;
         int value = levelData[(int)yIndex][(int) xIndex];
+        return checkIfValidColor(value);
+    }
 
+    private static boolean checkIfInsideBorder(float x, float y, int maxLevelWidth) {
+        if(x < 0 || x >= maxLevelWidth){
+            return true;
+        }
+        if(y < 0 || y >= Game.GAME_HEIGHT){
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean checkIfValidColor(int value){
+        //TODO Kan jag ändra denna till !=11 bara
         if(value >= 48 || value <0 || value != 11){
             return true;
         } else {
             return false;
         }
-
     }
 
     /**
