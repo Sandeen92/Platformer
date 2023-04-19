@@ -158,7 +158,7 @@ public class Player extends Entity {
         if(isHit){
             knockbackPlayer(attackingEnemy);
         }
-        
+
         checkIfPlayerIsStandingOnInteractable(lvlData);
         moveEntity(lvlData);
         isMoving = true;
