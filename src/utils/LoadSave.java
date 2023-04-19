@@ -25,7 +25,6 @@ public class LoadSave {
     public static final String STARTMENU_MUSIC = "resources/ohboy.wav";
 
 
-
     public static BufferedImage GetSpriteAtlas(String fileName) {
         BufferedImage img = null;
         InputStream is = LoadSave.class.getResourceAsStream("/" + fileName);
@@ -46,53 +45,44 @@ public class LoadSave {
     
     public static BufferedImage[] GetAllLevels(){
         URL url = LoadSave.class.getResource("/levelres");
-        File file = null;
+        File levelData = null;
 
         try {
-            file = new File(url.toURI());
+            levelData = new File(url.toURI());
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
 
-        File[] files = file.listFiles();
-        File[] filesSorted = new File[files.length];
+        File[] levelDataList = levelData.listFiles();
+        File[] levelDataListSorted = sortLevelDataList(levelDataList);
 
-        for(int i = 0; i < filesSorted.length; i++){
-            for(int j = 0; j < files.length; j++){
-                if(files[j].getName().equals((i + 1) + ".png")){
-                    filesSorted[i] = files[j];
+        BufferedImage[] levelDataImages = new BufferedImage[levelDataListSorted.length];
+
+        try {
+            for(int i = 0; i < levelDataImages.length; i++) {
+                levelDataImages[i] = ImageIO.read(levelDataListSorted[i]);
+            }
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+        return levelDataImages;
+    }
+
+
+    public static File[] sortLevelDataList(File[] levelDataList){
+
+        File[] levelDataListSorted = new File[levelDataList.length];
+
+        for(int i = 0; i < levelDataListSorted.length; i++){
+            for(int j = 0; j < levelDataList.length; j++){
+                if(levelDataList[j].getName().equals((i + 1) + ".png")){
+                    levelDataListSorted[i] = levelDataList[j];
                 }
             }
         }
-
-        BufferedImage[] imgs = new BufferedImage[filesSorted.length];
-
-        for(int i = 0; i < imgs.length; i++){
-            try {
-                imgs[i] = ImageIO.read(filesSorted[i]);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return imgs;
+        return levelDataListSorted;
     }
 
-    public static BufferedImage GetLevelBackground(String fileName) {
-        BufferedImage img = null;
-        InputStream is = LoadSave.class.getResourceAsStream("/" + fileName);
-        try {
-            img = ImageIO.read(is);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                is.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return img;
-    }
 }
 
