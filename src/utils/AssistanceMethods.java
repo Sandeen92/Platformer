@@ -51,23 +51,33 @@ public class AssistanceMethods {
      */
     private static boolean isSolid(float x, float y, int [][] levelData){
         int maxLevelWidth = levelData[0].length * Game.TILES_SIZE;
-        if(x < 0 || x >= maxLevelWidth){
-            return true;
-        }
-        if(y < 0 || y >= Game.GAME_HEIGHT){
+        if(checkIfInsideBorder(x, y, maxLevelWidth) == true){
             return true;
         }
 
         float xIndex = x/Game.TILES_SIZE;
         float yIndex = y/Game.TILES_SIZE;
         int value = levelData[(int)yIndex][(int) xIndex];
+        return checkIfValidColor(value);
+    }
 
+    private static boolean checkIfInsideBorder(float x, float y, int maxLevelWidth) {
+        if(x < 0 || x >= maxLevelWidth){
+            return true;
+        }
+        if(y < 0 || y >= Game.GAME_HEIGHT){
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean checkIfValidColor(int value){
+        //TODO Kan jag ändra denna till !=11 bara
         if(value >= 48 || value <0 || value != 11){
             return true;
         } else {
             return false;
         }
-
     }
 
     /**
@@ -81,14 +91,17 @@ public class AssistanceMethods {
         int currentTile = (int) hitbox.x/Game.TILES_SIZE;
         if(xSpeed > 0){
             //Rigth
-            int tileXPos = currentTile * Game.TILES_SIZE;
-            int xOffset = (int)(Game.TILES_SIZE - hitbox.width);
-            return tileXPos + xOffset - 1;
+            return calculatePosNextToWall(currentTile,hitbox);
         } else {
             //Left
             return currentTile * Game.TILES_SIZE;
         }
+    }
 
+    private static float calculatePosNextToWall(int currentTile, Rectangle2D.Float hitbox){
+        int tileXPos = currentTile * Game.TILES_SIZE;
+        int xOffset = (int)(Game.TILES_SIZE - hitbox.width);
+        return tileXPos + xOffset - 1;
     }
 
     /**
@@ -102,13 +115,17 @@ public class AssistanceMethods {
         int currentTile = (int) hitbox.y/Game.TILES_SIZE;
         if(airSpeed > 0){
             //Falling
-            int tileYPos = currentTile * Game.TILES_SIZE;
-            int yOffset = (int)(Game.TILES_SIZE - hitbox.height);
-            return tileYPos + yOffset - 1;
+            return calculatePosUnderOrAboveTile(currentTile,hitbox);
         } else {
             //Jumping
             return currentTile * Game.TILES_SIZE;
         }
+    }
+
+    private static float calculatePosUnderOrAboveTile(int currentTile, Rectangle2D.Float hitbox){
+        int tileYPos = currentTile * Game.TILES_SIZE;
+        int yOffset = (int)(Game.TILES_SIZE - hitbox.height);
+        return tileYPos + yOffset - 1;
     }
 
     /**
