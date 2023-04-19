@@ -100,7 +100,6 @@ public class Playing extends State implements StateMethods {
     @Override
     public void update() {
         if (paused == false) {
-            levelManager.updateLevel();
             itemManager.update();
             player.updatePlayer();
             interactablesManager.update();

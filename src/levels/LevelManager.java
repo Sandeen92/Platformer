@@ -73,6 +73,7 @@ public class LevelManager {
                 levelSprite[index] = img.getSubimage(i * 32, j * 32, 32, 32);
             }
     }
+
     /**
      * This method draws the level
      */
@@ -97,10 +98,6 @@ public class LevelManager {
 
     public int calculateImageYPosition(int yValue){
         return TILES_SIZE * yValue;
-    }
-
-    public void updateLevel() {
-
     }
 
     public Level getCurrentLevel(){
