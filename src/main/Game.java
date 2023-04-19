@@ -58,7 +58,7 @@ public class Game implements Runnable{
     }
 
     public void resetLevel(){
-        playing.initClasses();
+        playing.restartGame();
     }
     /**
      * This method creates the gameloop thread and starts the gameloop
