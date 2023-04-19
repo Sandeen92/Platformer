@@ -113,18 +113,28 @@ public class Playing extends State implements StateMethods {
     private void checkIfPlayerIsCloseToCameraBorder() {
         int playerPositionX = (int) player.getHitbox().x;
         int currentPlayerPositionX = playerPositionX - currentLevelOffsetX;
+        findBorderClosestToPlayer(currentPlayerPositionX);
+        changeCurrentLevelOffsetX();
+    }
 
+    private void findBorderClosestToPlayer(int currentPlayerPositionX){
         if (currentPlayerPositionX > cameraRightBorder) {
-            currentLevelOffsetX += currentPlayerPositionX - cameraRightBorder;
+            setCurrentLevelOffsetX(currentPlayerPositionX,cameraRightBorder);
         } else if (currentPlayerPositionX < cameraLeftBorder) {
-            currentLevelOffsetX += currentPlayerPositionX - cameraLeftBorder;
+            setCurrentLevelOffsetX(currentPlayerPositionX,cameraLeftBorder);
         }
+    }
 
+    private void changeCurrentLevelOffsetX(){
         if (currentLevelOffsetX > maxLevelOffsetX) {
             currentLevelOffsetX = maxLevelOffsetX;
         } else if (currentLevelOffsetX < 0) {
             currentLevelOffsetX = 0;
         }
+    }
+
+    private void setCurrentLevelOffsetX(int currentPlayerPositionX, int cameraBorder){
+        currentLevelOffsetX += currentPlayerPositionX - cameraBorder;
     }
 
     /**

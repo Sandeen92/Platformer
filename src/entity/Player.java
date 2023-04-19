@@ -176,7 +176,6 @@ public class Player extends Entity {
         if(jumping){
             jump();
         }
-
     }
 
     private void flipPlayerLeft(){
