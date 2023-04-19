@@ -3,6 +3,7 @@ package items;
 import main.Game;
 
 import static utils.Constants.ObjectConstants.*;
+import static utils.Constants.GameConstants.*;
 
 
 
@@ -27,14 +28,14 @@ public class Container extends GameItem{
         if(objectType == BOX){
             initialiseHitbox(25, 18);
 
-            xDrawOffset = (int) (7 * Game.SCALE);
-            yDrawOffset = (int) (12 * Game.SCALE);
+            xDrawOffset = (int) (7 * SCALE);
+            yDrawOffset = (int) (12 * SCALE);
         }
         else if(objectType == BARREL){
             initialiseHitbox(23, 25);
 
-            xDrawOffset = (int) (8 * Game.SCALE);
-            yDrawOffset = (int) (5 * Game.SCALE);
+            xDrawOffset = (int) (8 * SCALE);
+            yDrawOffset = (int) (5 * SCALE);
         }
     }
 

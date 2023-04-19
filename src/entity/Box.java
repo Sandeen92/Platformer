@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-
+import static utils.Constants.GameConstants.*;
 import static utils.Constants.Directions.LEFT;
 
 
@@ -21,9 +21,9 @@ public class Box extends Entity{
     public Box(int x, int y, int width, int height){
         super(x,y,width,height);
         airSpeed = 0f;
-        gravity = 0.03f * Game.SCALE;
-        jumpSpeed = -2.25f * Game.SCALE;
-        fallSpeedAfterCollision = 0.5f * Game.SCALE;
+        gravity = 0.03f * SCALE;
+        jumpSpeed = -2.25f * SCALE;
+        fallSpeedAfterCollision = 0.5f * SCALE;
         loadImg();
         initialiseHitbox(x,y,width,height);
         firstUpdate = true;

@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 //Imports of static variables and methods
 import static main.Game.setPreviousGamestate;
+import static utils.Constants.GameConstants.*;
 import static utils.Constants.UserInterface.OptionButtons.OPTIONBTN_SIZE;
 
 /**
@@ -45,8 +46,8 @@ public class Options extends State implements StateMethods {
      * This method creates and places buttons for Options within borders of background image
      */
     private void loadOptionButtons(){
-        int optionBtnX = ((Game.GAME_WIDTH / 3));
-        int optionBtnY = (int) (340 * Game.SCALE);
+        int optionBtnX = ((GAME_WIDTH / 3));
+        int optionBtnY = (int) (340 * SCALE);
 
         returnButton = new OptionButton(optionBtnX,optionBtnY, OPTIONBTN_SIZE, OPTIONBTN_SIZE, 0);
         homeButton = new OptionButton(optionBtnX + 430, optionBtnY, OPTIONBTN_SIZE, OPTIONBTN_SIZE, 1);
@@ -58,9 +59,9 @@ public class Options extends State implements StateMethods {
      */
     private void loadBackgroundImage(){
         optionsBackgroundImage = LoadSave.GetSpriteAtlas(LoadSave.OPTIONS_BACKGROUND);
-        optionsMenuWidth = (int) (optionsBackgroundImage.getWidth() * Game.SCALE);
-        optionsMenuHeight = (int) (optionsBackgroundImage.getHeight() * Game.SCALE);
-        optionsMenuXPos = Game.GAME_WIDTH / 2 - optionsMenuWidth / 2;
+        optionsMenuWidth = (int) (optionsBackgroundImage.getWidth() * SCALE);
+        optionsMenuHeight = (int) (optionsBackgroundImage.getHeight() * SCALE);
+        optionsMenuXPos = GAME_WIDTH / 2 - optionsMenuWidth / 2;
         optionsMenuYPos = 50;
     }
 
@@ -83,7 +84,7 @@ public class Options extends State implements StateMethods {
             game.getPlaying().draw(g);
         }
         else {
-            game.getMenu().draw(g);
+            game.getStartmenu().draw(g);
         }
 
         g.drawImage(optionsBackgroundImage, optionsMenuXPos, optionsMenuYPos, optionsMenuWidth, optionsMenuHeight, null);
@@ -118,32 +119,48 @@ public class Options extends State implements StateMethods {
     public void mouseReleased(MouseEvent e) {
         if (isIn(e, returnButton)){
             if (returnButton.isMousePressed()){
-                if (Gamestate.previousState == Gamestate.PAUSEMENU) {
-                    setPreviousGamestate();
-                    Gamestate.state = Gamestate.PAUSEMENU;
-                }
-                else if (Gamestate.previousState == Gamestate.STARTMENU){
-                    setPreviousGamestate();
-                    Gamestate.state = Gamestate.STARTMENU;
-                    game.getPlaying().setPaused(false);
-                    game.getMenu().loadMenuAudio();
-                    game.getPlaying().initClasses();
-                }
+                returnButtonPressed();
             }
         }
         else if (isIn(e, homeButton)){
             if (homeButton.isMousePressed()){
-                if (Gamestate.previousState != Gamestate.STARTMENU) {
-                    Gamestate.state = Gamestate.STARTMENU;
-                    game.getPlaying().setPaused(false);
-                    game.getMenu().replayStartmenuAudio();
-                    game.getPlaying().initClasses();
-                }
+                homeButtonPressed();
             }
         }
         returnButton.resetBtnBooleans();
         homeButton.resetBtnBooleans();
     }
+
+    /**
+     * This method executes different actions depending on previous gamestate when the returnButton is pressed by user
+     */
+
+    private void returnButtonPressed(){
+        if (Gamestate.previousState == Gamestate.PAUSEMENU) {
+            setPreviousGamestate();
+            Gamestate.state = Gamestate.PAUSEMENU;
+        }
+        else if (Gamestate.previousState == Gamestate.STARTMENU){
+            setPreviousGamestate();
+            Gamestate.state = Gamestate.STARTMENU;
+            game.getPlaying().setPaused(false);
+            game.getPlaying().restartGame();
+        }
+    }
+
+    /**
+     * This method executes different actions depending on previous gamestate when the homeButton is pressed by user
+     */
+
+    private void homeButtonPressed(){
+        if (Gamestate.previousState != Gamestate.STARTMENU) {
+            Gamestate.state = Gamestate.STARTMENU;
+            game.getPlaying().setPaused(false);
+            game.getStartmenu().replayStartmenuAudio();
+            game.getPlaying().restartGame();
+        }
+    }
+
 
     /**
      * Responds to a mouse move event by setting the "mouse over" state for the

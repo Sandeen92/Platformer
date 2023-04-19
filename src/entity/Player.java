@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import static utils.AssistanceMethods.IsEntityOnFloor;
+import static utils.Constants.GameConstants.*;
 import static utils.AssistanceMethods.canMoveHere;
 import static utils.Constants.Directions.LEFT;
 import static utils.Constants.Directions.RIGHT;
@@ -21,8 +22,8 @@ public class Player extends Entity {
     private BufferedImage[][] playerAnimations;
     private EnemyManager enemyManager;
     private AttackTimer attackTimer;
-    private float xDrawOffset = 24 * Game.SCALE;
-    private float yDrawOffset = 14 * Game.SCALE;
+    private float xDrawOffset = 24 * SCALE;
+    private float yDrawOffset = 14 * SCALE;
     private int[][] levelData;
     private float playerSpeed = 1.2f;
     private int flipX = 0;
@@ -45,8 +46,8 @@ public class Player extends Entity {
     public Player(float x, float y, int width, int heigth, int maxHealth, int attackDamage, EnemyManager enemyManager) {
         super(x, y, width, heigth, maxHealth, attackDamage);
         loadPlayerAnimations();
-        initialiseHitbox(x,y, 22 * Game.SCALE, 30 * Game.SCALE);
-        initialiseAttackBox(x,y,20 * Game.SCALE, 27 * Game.SCALE);
+        initialiseHitbox(x,y, 22 * SCALE, 30 * SCALE);
+        initialiseAttackBox(x,y,20 * SCALE, 27 * SCALE);
         this.enemyManager = enemyManager;
         jumpOnce = true;
         canAttack = true;

@@ -24,7 +24,7 @@ public class MouseInputs implements MouseListener {
                 break;
 
             case STARTMENU:
-                gamePanel.getGame().getMenu().mouseClicked(e);
+                gamePanel.getGame().getStartmenu().mouseClicked(e);
                 break;
 
             case PAUSEMENU:
@@ -48,7 +48,7 @@ public class MouseInputs implements MouseListener {
                 break;
 
             case STARTMENU:
-                gamePanel.getGame().getMenu().mouseMoved(e);
+                gamePanel.getGame().getStartmenu().mouseMoved(e);
                 break;
 
             case PAUSEMENU:
@@ -69,7 +69,7 @@ public class MouseInputs implements MouseListener {
                 break;
 
             case STARTMENU:
-                gamePanel.getGame().getMenu().mousePressed(e);
+                gamePanel.getGame().getStartmenu().mousePressed(e);
                 break;
 
             case PAUSEMENU:
@@ -94,7 +94,7 @@ public class MouseInputs implements MouseListener {
                 break;
 
             case STARTMENU:
-                gamePanel.getGame().getMenu().mouseReleased(e);
+                gamePanel.getGame().getStartmenu().mouseReleased(e);
                 break;
 
             case PAUSEMENU:

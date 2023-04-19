@@ -2,6 +2,8 @@ package utils;
 
 import main.Game;
 
+import static utils.Constants.GameConstants.SCALE;
+
 public class Constants {
 
 
@@ -9,18 +11,18 @@ public class Constants {
         public static class Buttons{
             public static final int BTN_WIDTH_DEFAULT = 140;
             public static final int BTN_HEIGHT_DEFAULT = 56;
-            public static final int BTN_WIDTH = (int) (BTN_WIDTH_DEFAULT * Game.SCALE);
-            public static final int BTN_HEIGHT = (int) (BTN_HEIGHT_DEFAULT * Game.SCALE);
+            public static final int BTN_WIDTH = (int) (BTN_WIDTH_DEFAULT * SCALE);
+            public static final int BTN_HEIGHT = (int) (BTN_HEIGHT_DEFAULT * SCALE);
         }
 
         public static class SoundButtons{
             public static final int SOUNDBTN_SIZE_DEFAULT = 42;
-            public static final int SOUNDBTN_SIZE = (int) (SOUNDBTN_SIZE_DEFAULT * Game.SCALE);
+            public static final int SOUNDBTN_SIZE = (int) (SOUNDBTN_SIZE_DEFAULT * SCALE);
         }
 
         public static class OptionButtons{
             public static final int OPTIONBTN_DEFAULT_SIZE = 56;
-            public static final int OPTIONBTN_SIZE = (int) (OPTIONBTN_DEFAULT_SIZE * Game.SCALE);
+            public static final int OPTIONBTN_SIZE = (int) (OPTIONBTN_DEFAULT_SIZE * SCALE);
         }
     }
     public static class Directions{
@@ -41,11 +43,11 @@ public class Constants {
         public static final int RAT_WIDTH_DEFAULT = 60;
         public static final int RAT_HEIGHT_DEFAULT = 20;
 
-        public static final int RAT_WIDTH = (int) (RAT_WIDTH_DEFAULT * Game.SCALE);
-        public static final int RAT_HEIGHT = (int) (RAT_HEIGHT_DEFAULT * Game.SCALE);
+        public static final int RAT_WIDTH = (int) (RAT_WIDTH_DEFAULT * SCALE);
+        public static final int RAT_HEIGHT = (int) (RAT_HEIGHT_DEFAULT * SCALE);
 
-        public static final int RAT_DRAW_OFFSET_X = (int) (23 * Game.SCALE);
-        public static final int RAT_DRAW_OFFSET_Y = (int) (4 * Game.SCALE);
+        public static final int RAT_DRAW_OFFSET_X = (int) (23 * SCALE);
+        public static final int RAT_DRAW_OFFSET_Y = (int) (4 * SCALE);
 
         public static int GetSpriteAmount(int enemyType, int enemyState){
             switch (enemyType){
@@ -90,11 +92,20 @@ public class Constants {
 
     public static class InteractabelConstants{
         public static final int BOX = 55;
-        public static final float BOX_WIDTH = 25*Game.SCALE;
-        public static final float BOX_Heigth = 25*Game.SCALE;
+        public static final float BOX_WIDTH = 25* SCALE;
+        public static final float BOX_Heigth = 25* SCALE;
 
     }
 
+    public static class GameConstants{
+        public final static float SCALE = 2f;
+        public final static int TILES_DEFAULT_SIZE = 32;
+        public final static int TILES_IN_WIDTH = 26;
+        public final static int TILES_IN_HEIGHT = 14;
+        public final static int TILES_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
+        public final static int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
+        public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
+    }
 
 
     public static class ObjectConstants{
@@ -108,13 +119,13 @@ public class Constants {
         public static final int BLUE_POTION_VALUE = 10;
         public static final int CONTAINER_WIDTH_DEFAULT = 40;
         public static final int CONTAINER_HEIGHT_DEFAULT = 30;
-        public static final int CONTAINER_WIDTH = (int) (Game.SCALE * CONTAINER_WIDTH_DEFAULT);
-        public static final int CONTAINER_HEIGHT = (int) (Game.SCALE * CONTAINER_HEIGHT_DEFAULT);
+        public static final int CONTAINER_WIDTH = (int) (SCALE * CONTAINER_WIDTH_DEFAULT);
+        public static final int CONTAINER_HEIGHT = (int) (SCALE * CONTAINER_HEIGHT_DEFAULT);
 
         public static final int POTION_WIDTH_DEFAULT = 12;
         public static final int POTION_HEIGHT_DEFAULT = 16;
-        public static final int POTION_WIDTH = (int) (Game.SCALE * POTION_WIDTH_DEFAULT);
-        public static final int POTION_HEIGHT = (int) (Game.SCALE * POTION_HEIGHT_DEFAULT);
+        public static final int POTION_WIDTH = (int) (SCALE * POTION_WIDTH_DEFAULT);
+        public static final int POTION_HEIGHT = (int) (SCALE * POTION_HEIGHT_DEFAULT);
 
         public static int GetSpriteAmount(int objectType){
             switch (objectType) {

@@ -53,7 +53,7 @@ public class DeathScreen extends State implements StateMethods{
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()){
             case KeyEvent.VK_R:
-                game.resetLevel();
+                game.restartGane();
                 Gamestate.state = Gamestate.PLAYING;
                 break;
         }

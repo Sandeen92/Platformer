@@ -6,6 +6,8 @@ import input.MouseInputs;
 import javax.swing.*;
 import java.awt.*;
 
+import static utils.Constants.GameConstants.*;
+
 public class GamePanel extends JPanel {
     private Game game;
     public static JLabel LBL_FPS_COUNTER = null; // Temporär FPS-counter
@@ -50,7 +52,7 @@ public class GamePanel extends JPanel {
     }
 
     public void setPanelSize(){
-        Dimension panelSize = new Dimension(Game.GAME_WIDTH, Game.GAME_HEIGHT);
+        Dimension panelSize = new Dimension(GAME_WIDTH, GAME_HEIGHT);
         setPreferredSize(panelSize);
     }
 
@@ -61,7 +63,7 @@ public class GamePanel extends JPanel {
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        game.renderEverything(g);
+        game.draw(g);
     }
 
     public Game getGame(){

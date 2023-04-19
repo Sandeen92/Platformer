@@ -15,6 +15,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import static utils.Constants.EnemyConstants.CRABBY;
+import static utils.Constants.GameConstants.*;
 import static utils.Constants.InteractabelConstants.*;
 
 public class AssistanceMethods {
@@ -50,16 +51,16 @@ public class AssistanceMethods {
      * @return
      */
     private static boolean isSolid(float x, float y, int [][] levelData){
-        int maxLevelWidth = levelData[0].length * Game.TILES_SIZE;
+        int maxLevelWidth = levelData[0].length * TILES_SIZE;
         if(x < 0 || x >= maxLevelWidth){
             return true;
         }
-        if(y < 0 || y >= Game.GAME_HEIGHT){
+        if(y < 0 || y >= GAME_HEIGHT){
             return true;
         }
 
-        float xIndex = x/Game.TILES_SIZE;
-        float yIndex = y/Game.TILES_SIZE;
+        float xIndex = x/TILES_SIZE;
+        float yIndex = y/TILES_SIZE;
         int value = levelData[(int)yIndex][(int) xIndex];
 
         if(value >= 48 || value <0 || value != 11){
@@ -78,15 +79,15 @@ public class AssistanceMethods {
      * @return
      */
     public static float GetEntityXPosNextToWall(Rectangle2D.Float hitbox, float xSpeed){
-        int currentTile = (int) hitbox.x/Game.TILES_SIZE;
+        int currentTile = (int) hitbox.x/TILES_SIZE;
         if(xSpeed > 0){
             //Rigth
-            int tileXPos = currentTile * Game.TILES_SIZE;
-            int xOffset = (int)(Game.TILES_SIZE - hitbox.width);
+            int tileXPos = currentTile * TILES_SIZE;
+            int xOffset = (int)(TILES_SIZE - hitbox.width);
             return tileXPos + xOffset - 1;
         } else {
             //Left
-            return currentTile * Game.TILES_SIZE;
+            return currentTile * TILES_SIZE;
         }
 
     }
@@ -99,15 +100,15 @@ public class AssistanceMethods {
      * @return
      */
     public static float GetEntityYPosUnderOrAboveTile(Rectangle2D.Float hitbox, float airSpeed){
-        int currentTile = (int) hitbox.y/Game.TILES_SIZE;
+        int currentTile = (int) hitbox.y/TILES_SIZE;
         if(airSpeed > 0){
             //Falling
-            int tileYPos = currentTile * Game.TILES_SIZE;
-            int yOffset = (int)(Game.TILES_SIZE - hitbox.height);
+            int tileYPos = currentTile * TILES_SIZE;
+            int yOffset = (int)(TILES_SIZE - hitbox.height);
             return tileYPos + yOffset - 1;
         } else {
             //Jumping
-            return currentTile * Game.TILES_SIZE;
+            return currentTile * TILES_SIZE;
         }
     }
 
@@ -150,7 +151,7 @@ public class AssistanceMethods {
                 Color color = new Color(img.getRGB(i, j));
                 int value = color.getGreen();
                 if (value == 100) {
-                    return new Point(i * Game.TILES_SIZE, j * Game.TILES_SIZE);
+                    return new Point(i * TILES_SIZE, j * TILES_SIZE);
                 }
             }
         }
@@ -178,7 +179,7 @@ public class AssistanceMethods {
                 Color color = new Color(img.getRGB(i, j));
                 int value = color.getGreen();
                 if (value == CRABBY) {
-                    list.add(new Crabby(i * Game.TILES_SIZE, j * Game.TILES_SIZE));
+                    list.add(new Crabby(i * TILES_SIZE, j * TILES_SIZE));
                 }
             }
         }
@@ -192,7 +193,7 @@ public class AssistanceMethods {
                 Color color = new Color(img.getRGB(i, j));
                 int value = color.getGreen();
                 if (value == 55) {
-                    list.add(new Box(i * Game.TILES_SIZE, j * Game.TILES_SIZE,(int) BOX_WIDTH, (int) BOX_Heigth));
+                    list.add(new Box(i * TILES_SIZE, j * TILES_SIZE,(int) BOX_WIDTH, (int) BOX_Heigth));
                 }
             }
         }

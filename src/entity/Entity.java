@@ -9,6 +9,7 @@ import main.Game;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import static utils.AssistanceMethods.*;
+import static utils.Constants.GameConstants.*;
 import static utils.Constants.PlayerConstants.*;
 
 public abstract class Entity {
@@ -47,9 +48,9 @@ public abstract class Entity {
         this.height = height;
         this.width = width;
         airSpeed = 0f;
-        gravity = 0.03f * Game.SCALE;
-        jumpSpeed = -2.25f * Game.SCALE;
-        fallSpeedAfterCollision = 0.5f * Game.SCALE;
+        gravity = 0.03f * SCALE;
+        jumpSpeed = -2.25f * SCALE;
+        fallSpeedAfterCollision = 0.5f * SCALE;
         this.maxHealth = maxHealth;
         this.currentHealth = maxHealth;
         this.attackDamage = attackDamage;

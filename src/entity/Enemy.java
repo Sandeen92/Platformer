@@ -10,7 +10,7 @@ import main.Game;
 import utils.Constants;
 
 import java.security.PublicKey;
-
+import static utils.Constants.GameConstants.*;
 import static utils.AssistanceMethods.canMoveHere;
 import static utils.AssistanceMethods.IsFloor;
 import static utils.Constants.EnemyConstants.*;
@@ -19,7 +19,7 @@ import static utils.Constants.Directions.*;
 
 public abstract class Enemy extends Entity{
     private int enemyType;
-    private final float patrolSpeed = 0.3f * Game.SCALE;
+    private final float patrolSpeed = 0.3f * SCALE;
     private boolean firstUpdate = true;
     private int walkDir = LEFT;
     private boolean canAttack;

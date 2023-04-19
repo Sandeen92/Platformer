@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import static utils.AssistanceMethods.*;
+import static utils.Constants.GameConstants.*;
 
 public class Level {
     private int [][] levelData;
@@ -39,8 +40,8 @@ public class Level {
 
     private void calculateLevelOffset() {
         levelTilesWidth = img.getWidth();
-        maxTilesOffset = levelTilesWidth - Game.TILES_IN_WIDTH;
-        maxLevelOffsetX = Game.TILES_SIZE * maxTilesOffset;
+        maxTilesOffset = levelTilesWidth - TILES_IN_WIDTH;
+        maxLevelOffsetX = TILES_SIZE * maxTilesOffset;
     }
 
     private void createEnemies() {

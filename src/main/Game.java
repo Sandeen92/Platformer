@@ -15,33 +15,35 @@ import gamestates.Playing;
 import java.awt.*;
 
 public class Game implements Runnable{
+    //GUI
     private GameWindow gameWindow;
     private GamePanel gamePanel;
+    //Variables for gameloop
     private Thread gameThread;
     private final int FPS_SET = 120;
     private final int UPS_SET = 200;
+    private long previousTime = System.nanoTime();
+    private long lastCheck = System.currentTimeMillis();
+    private double timePerFrame = 1000000000.0 / FPS_SET;
+    private double timePerUpdate = 1000000000.0 / UPS_SET;
+    private long currentTime = System.nanoTime();
+    private int updates = 0;
+    private double deltaU = 0;
+    private double deltaF = 0;
     private int frames = 0;
+    //Gamestates
     private Playing playing;
     private DeathScreen deathScreen;
     private Startmenu startmenu;
     private Pausemenu pausemenu;
     private Options options;
-    public final static int TILES_DEFAULT_SIZE = 32;
 
-    public final static float SCALE = 2f;
-    public final static int TILES_IN_WIDTH = 26;
-    public final static int TILES_IN_HEIGHT = 14;
-    public final static int TILES_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
-    public final static int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
-    public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
 
     /**
      * Constructor for Game, initializes classes and starts the gameloop
      */
     public Game(){
         initClasses();
-        gamePanel = new GamePanel(this);
-        gameWindow = new GameWindow(gamePanel);
         gamePanel.requestFocus();
         startGameLoop();
     }
@@ -55,11 +57,15 @@ public class Game implements Runnable{
         deathScreen = new DeathScreen(this);
         pausemenu = new Pausemenu(this,playing);
         options = new Options(this);
+        gamePanel = new GamePanel(this);
+        gameWindow = new GameWindow(gamePanel);
     }
 
-    public void resetLevel(){
+    public void restartGane(){
         playing.restartGame();
     }
+
+
     /**
      * This method creates the gameloop thread and starts the gameloop
      */
@@ -72,7 +78,7 @@ public class Game implements Runnable{
      * This method is responsible for deciding what to update based on the current
      * game state and then updating it
      */
-    public void updateEverything(){
+    public void update(){
 
 
         switch (Gamestate.state){
@@ -108,7 +114,7 @@ public class Game implements Runnable{
      * This method is responsible for deciding what to render based on the current
      * game state and then rendering it
      */
-    public void renderEverything(Graphics g){
+    public void draw(Graphics g){
 
         switch (Gamestate.state){
 
@@ -145,33 +151,9 @@ public class Game implements Runnable{
      */
     @Override
     public void run() {
-        double timePerFrame = 1000000000.0 / FPS_SET;
-        double timePerUpdate = 1000000000.0 / UPS_SET;
-
-        long previousTime = System.nanoTime();
-        int updates = 0;
-        long lastCheck = System.currentTimeMillis();
-
-        double deltaU = 0;
-        double deltaF = 0;
-
         while (true){
-            long currentTime = System.nanoTime();
 
-            deltaU += (currentTime - previousTime)/timePerUpdate;
-            deltaF += (currentTime - previousTime)/timePerFrame;
-            previousTime = currentTime;
-            if(deltaU >= 1){
-                updateEverything();
-                updates++;
-                deltaU--;
-            }
-
-            if(deltaF >= 1){
-                gamePanel.repaint();
-                frames++;
-                deltaF--;
-            }
+            checkDeltaValuesAndCalculate();
 
             if(System.currentTimeMillis() - lastCheck >= 1000){
                 lastCheck = System.currentTimeMillis();
@@ -182,6 +164,40 @@ public class Game implements Runnable{
             }
         }
     }
+
+    /**
+     * This method calculates the time elapsed between updates and frames, and updates the game if necessary.
+     * Called every frame to ensure the game runs smoothly at a consistent speed.
+     */
+
+    private void checkDeltaValuesAndCalculate(){
+        calculateTimeAndAddToDeltas();
+
+        if(deltaU >= 1){
+            update();
+            updates++;
+            deltaU--;
+        }
+
+        if(deltaF >= 1){
+            gamePanel.repaint();
+            frames++;
+            deltaF--;
+        }
+    }
+
+    /**
+     * This method assigns current time to variable and calculates time passed for each update.
+     */
+
+    private void calculateTimeAndAddToDeltas(){
+        currentTime = System.nanoTime();
+        deltaU += (currentTime - previousTime)/timePerUpdate;
+        deltaF += (currentTime - previousTime)/timePerFrame;
+        previousTime = currentTime;
+    }
+
+
 
     /**
      * This method is responsible for stopping the game if window focus is lost
@@ -195,7 +211,7 @@ public class Game implements Runnable{
     public static void setPreviousGamestate(){
         Gamestate.previousState = Gamestate.state;
     }
-    public Startmenu getMenu(){
+    public Startmenu getStartmenu(){
         return startmenu;
     }
     public Playing getPlaying(){

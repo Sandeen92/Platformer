@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 //Imports of static variables and methods
 import static main.Game.setPreviousGamestate;
+import static utils.Constants.GameConstants.*;
 
 /**
  * The Startemenu class represents the game's starting menu screen.
@@ -93,8 +94,8 @@ public class Startmenu extends State implements StateMethods{
      */
     private void loadMenuBackground(){
         menuBackground = LoadSave.GetSpriteAtlas(LoadSave.STARTMENU_BACKGROUND);
-        menuWidth = (int) (menuBackground.getWidth() - Game.SCALE);
-        menuHeight = (int) (menuBackground.getHeight() - Game.SCALE);
+        menuWidth = (int) (menuBackground.getWidth() - SCALE);
+        menuHeight = (int) (menuBackground.getHeight() - SCALE);
         menuX =  30;
         menuY =  0;
     }
@@ -103,9 +104,9 @@ public class Startmenu extends State implements StateMethods{
      * Loads and positions the MenuButton objects for the pause menu.
      */
     private void loadMenuButtons(){
-        menuButtons[0] = new MenuButton(Game.GAME_WIDTH / 2, (int) (230*Game.SCALE), 0, Gamestate.PLAYING);
-        menuButtons[1] = new MenuButton(Game.GAME_WIDTH / 2, (int) (300*Game.SCALE), 1, Gamestate.OPTIONS);
-        menuButtons[2] = new MenuButton(Game.GAME_WIDTH / 2, (int) (370*Game.SCALE), 2, Gamestate.QUIT);
+        menuButtons[0] = new MenuButton(GAME_WIDTH / 2, (int) (230*SCALE), 0, Gamestate.PLAYING);
+        menuButtons[1] = new MenuButton(GAME_WIDTH / 2, (int) (300*SCALE), 1, Gamestate.OPTIONS);
+        menuButtons[2] = new MenuButton(GAME_WIDTH / 2, (int) (370*SCALE), 2, Gamestate.QUIT);
     }
 
     /**

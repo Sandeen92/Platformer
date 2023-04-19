@@ -1,6 +1,7 @@
 package items;
 
 import main.Game;
+import static utils.Constants.GameConstants.*;
 
 public class Consumable extends GameItem{
 
@@ -18,8 +19,8 @@ public class Consumable extends GameItem{
         super(x, y, objectType);
         doAnimation = true;
         initialiseHitbox(7, 14);
-        xDrawOffset = (int) (3 * Game.SCALE);
-        yDrawOffset = (int) (2 * Game.SCALE);
+        xDrawOffset = (int) (3 * SCALE);
+        yDrawOffset = (int) (2 * SCALE);
     }
 
     public void update(){

@@ -12,6 +12,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import static utils.Constants.GameConstants.*;
+
 public class LevelManager {
     private Game game;
     private BufferedImage[] levelSprite;
@@ -70,12 +72,12 @@ public class LevelManager {
      * This method draws the level
      */
     public void drawLevel(Graphics g, int levelOffset) {
-        g.drawImage(levelBackground,0,0, Game.GAME_WIDTH, Game.GAME_HEIGHT, null);
-        g.drawImage(levelBackgroundTree,(int) (1 * Game.SCALE) - levelOffset, (int) (0 * Game.SCALE) , (int) (1664 * Game.SCALE), (int) (448 * Game.SCALE), null);
-        for (int j = 0; j < Game.TILES_IN_HEIGHT; j++) {
+        g.drawImage(levelBackground,0,0, GAME_WIDTH, GAME_HEIGHT, null);
+        g.drawImage(levelBackgroundTree,(int) (1 * SCALE) - levelOffset, (int) (0 * SCALE) , (int) (1664 * SCALE), (int) (448 * SCALE), null);
+        for (int j = 0; j < TILES_IN_HEIGHT; j++) {
             for (int i = 0; i < levels.get(levelIndex).getLevelData()[0].length; i++) {
                 int index = levels.get(levelIndex).getSpriteIndex(i, j);
-                g.drawImage(levelSprite[index], Game.TILES_SIZE * i - levelOffset, Game.TILES_SIZE * j, Game.TILES_SIZE, Game.TILES_SIZE, null);
+                g.drawImage(levelSprite[index], TILES_SIZE * i - levelOffset, TILES_SIZE * j, TILES_SIZE, TILES_SIZE, null);
             }
         }
     }

@@ -24,7 +24,7 @@ public class KeyBoardInputs implements KeyListener {
                 break;
 
             case STARTMENU:
-                gamePanel.getGame().getMenu().keyPressed(e);
+                gamePanel.getGame().getStartmenu().keyPressed(e);
                 break;
 
             case PAUSEMENU:
@@ -52,7 +52,7 @@ public class KeyBoardInputs implements KeyListener {
                 break;
 
             case STARTMENU:
-                gamePanel.getGame().getMenu().keyReleased(e);
+                gamePanel.getGame().getStartmenu().keyReleased(e);
                 break;
 
             case PAUSEMENU:

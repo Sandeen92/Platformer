@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 //Imports of static variables and methods
 import static main.Game.setPreviousGamestate;
+import static utils.Constants.GameConstants.*;
 
 /**
  * The Pausemenu class represents the game's pause menu screen.
@@ -48,9 +49,9 @@ public class Pausemenu extends State implements StateMethods {
      * Loads and positions the MenuButton objects for the pause menu.
      */
     private void loadMenuButtons(){
-        pauseMenuButtons[0] = new MenuButton(Game.GAME_WIDTH / 2, (int) (150*Game.SCALE), 0, Gamestate.PLAYING);
-        pauseMenuButtons[1] = new MenuButton(Game.GAME_WIDTH / 2, (int) (220*Game.SCALE), 1, Gamestate.OPTIONS);
-        pauseMenuButtons[2] = new MenuButton(Game.GAME_WIDTH / 2, (int) (290*Game.SCALE), 2, Gamestate.QUIT);
+        pauseMenuButtons[0] = new MenuButton(GAME_WIDTH / 2, (int) (150*SCALE), 0, Gamestate.PLAYING);
+        pauseMenuButtons[1] = new MenuButton(GAME_WIDTH / 2, (int) (220*SCALE), 1, Gamestate.OPTIONS);
+        pauseMenuButtons[2] = new MenuButton(GAME_WIDTH / 2, (int) (290*SCALE), 2, Gamestate.QUIT);
     }
 
     /**
@@ -59,9 +60,9 @@ public class Pausemenu extends State implements StateMethods {
      */
     private void loadPauseMenuImage() {
         pauseMenuImage = LoadSave.GetSpriteAtlas(LoadSave.PAUSE_BACKGROUND);
-        pauseMenuWidth = (int) (pauseMenuImage.getWidth() * Game.SCALE);
-        pauseMenuHeight = (int) (pauseMenuImage.getHeight() * Game.SCALE);
-        pauseMenuXPos = Game.GAME_WIDTH / 2 - pauseMenuWidth / 2;
+        pauseMenuWidth = (int) (pauseMenuImage.getWidth() * SCALE);
+        pauseMenuHeight = (int) (pauseMenuImage.getHeight() * SCALE);
+        pauseMenuXPos = GAME_WIDTH / 2 - pauseMenuWidth / 2;
         pauseMenuYPos = 50;
     }
 
@@ -126,20 +127,28 @@ public class Pausemenu extends State implements StateMethods {
                 if (mb.isMousePressed()){
                     setPreviousGamestate();
                     mb.applyGamestate();
-                    if (Gamestate.state == Gamestate.PLAYING) {
-                        playing.setPaused(false);
-                        game.getMenu().silenceAudio();
-                    }
-                    else if (Gamestate.state == Gamestate.STARTMENU){
-                        game.getPlaying().setPaused(false);
-                        game.getMenu().loadMenuAudio();
-                        game.getPlaying().initClasses();
-                    }
+                    checkStatesAndReactAccordingly();
                     break;
                 }
             }
         }
         resetButtons();
+    }
+
+    /**
+     * This method checks current state and reacts accordingly depending on state bound to menubutton
+     */
+
+    private void checkStatesAndReactAccordingly(){
+        if (Gamestate.state == Gamestate.PLAYING) {
+            playing.setPaused(false);
+            game.getStartmenu().silenceAudio();
+        }
+        else if (Gamestate.state == Gamestate.STARTMENU){
+            game.getPlaying().setPaused(false);
+            game.getStartmenu().loadMenuAudio();
+            game.getPlaying().restartGame();
+        }
     }
 
     /**

@@ -10,6 +10,8 @@ import main.Game;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+//Imports of static variables and methods
+import static utils.Constants.GameConstants.*;
 
 /**
  * The Playing class represents the state of the game when the player is actively playing.
@@ -29,8 +31,8 @@ public class Playing extends State implements StateMethods {
     private InteractablesManager interactablesManager;
     private boolean paused;
     private int currentLevelOffsetX;
-    private int cameraLeftBorder = (int) (0.3 * Game.GAME_WIDTH);
-    private int cameraRightBorder = (int) (0.7 * Game.GAME_WIDTH);
+    private int cameraLeftBorder = (int) (0.3 * GAME_WIDTH);
+    private int cameraRightBorder = (int) (0.7 * GAME_WIDTH);
     private int maxLevelOffsetX;
 
     /**
@@ -74,7 +76,7 @@ public class Playing extends State implements StateMethods {
      */
     public void initClasses() {
         enemyManager = new EnemyManager(this);
-        player = new Player(200,200, (int) (70 * Game.SCALE),(int)(45 * Game.SCALE), 10, 2, enemyManager);
+        player = new Player(200,200, (int) (70 * SCALE),(int)(45 * SCALE), 10, 2, enemyManager);
         levelManager = new LevelManager(game);
         itemManager = new ItemManager(this);
         interactablesManager = new InteractablesManager(this);
