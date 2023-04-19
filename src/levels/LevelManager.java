@@ -1,6 +1,7 @@
 /**
  * This class is responsible for keeping track of the levels and drawing them
  * @author Simon Sandén
+ * @author Casper Johannesson
  */
 
 package levels;
@@ -20,7 +21,7 @@ public class LevelManager {
     private ArrayList<Level> levels;
     private int levelIndex = 0;
     private BufferedImage levelBackground;
-    private BufferedImage levelBackgroundTree;
+    private BufferedImage levelBackgroundSprites;
 
     /**
      * Constructor for LevelManager
@@ -28,11 +29,15 @@ public class LevelManager {
      */
     public LevelManager(Game game) {
         this.game = game;
+        initClasses();
+    }
+
+    private void initClasses(){
         importOutsideSprites();
         levels = new ArrayList<>();
         buildAllLevels();
         levelBackground = LoadSave.GetSpriteAtlas("background_test2.png");
-        levelBackgroundTree = LoadSave.GetSpriteAtlas("background_sprites.png");
+        levelBackgroundSprites = LoadSave.GetSpriteAtlas("background_sprites.png");
     }
 
     private void buildAllLevels() {
@@ -83,7 +88,7 @@ public class LevelManager {
 
     public void drawLevelBackground(Graphics g, int levelOffset){
         g.drawImage(levelBackground,0,0, GAME_WIDTH, GAME_HEIGHT, null);
-        g.drawImage(levelBackgroundTree,(int) (1 * SCALE) - levelOffset, (int) (0 * SCALE) , (int) (1664 * SCALE), (int) (448 * SCALE), null);
+        g.drawImage(levelBackgroundSprites,(int) (1 * SCALE) - levelOffset, (int) (0 * SCALE) , (int) (1664 * SCALE), (int) (448 * SCALE), null);
     }
 
     public int calculateImageXPosition(int xValue, int levelOffset){
