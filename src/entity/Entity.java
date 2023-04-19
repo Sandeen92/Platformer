@@ -120,14 +120,14 @@ public abstract class Entity {
     /**
      * This method updates the x position of the entity by taking in the speed and leveldata to check
      * if the move is valid
-     * @param xSpeed
+     * @param horizontalSpeed
      * @param lvlData
      */
-    protected void updateXPosition(float xSpeed, int [][] lvlData) {
-        if(canMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData)){
-            hitbox.x += xSpeed;
+    protected void updateXPosition(float horizontalSpeed, int [][] lvlData) {
+        if(canMoveHere(hitbox.x + horizontalSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData)){
+            hitbox.x += horizontalSpeed;
         } else {
-            hitbox.x = GetEntityXPosNextToWall(hitbox, xSpeed);
+            hitbox.x = GetEntityXPosNextToWall(hitbox, horizontalSpeed);
         }
     }
 
@@ -167,7 +167,6 @@ public abstract class Entity {
      * @param lvlData
      */
     protected void moveEntity(int[][] lvlData){
-        //TODO fix with airspeed, causing the bug with getting stuck after along jump
         if(inAir){
             if(canMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData )){
                 hitbox.y += airSpeed;

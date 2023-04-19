@@ -78,8 +78,6 @@ public class Playing extends State implements StateMethods {
         levelManager = new LevelManager(game);
         itemManager = new ItemManager(this);
         interactablesManager = new InteractablesManager(this);
-
-
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
     }

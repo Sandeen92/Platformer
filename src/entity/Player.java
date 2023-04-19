@@ -47,6 +47,7 @@ public class Player extends Entity {
         initialiseAttackBox(x,y,20 * Game.SCALE, 27 * Game.SCALE);
         this.enemyManager = enemyManager;
         initialiseVariables();
+
     }
 
     public void setSpawn(Point spawn){
@@ -159,13 +160,13 @@ public class Player extends Entity {
             knockbackPlayer(attackingEnemy);
         }
 
-        checkIfPlayerIsStandingOnInteractable(lvlData);
-        moveEntity(lvlData);
+        checkIfPlayerIsStandingOnInteractable(levelData);
+        moveEntity(levelData);
         isMoving = true;
     }
 
     private boolean checkIfPlayerIsMoving() {
-        if(!movingLeft && movingRight && !inAir && !isHit){
+        if(!movingLeft && !movingRight && !inAir && !isHit){
             return true;
         }
         return false;
@@ -175,6 +176,7 @@ public class Player extends Entity {
         if(jumping){
             jump();
         }
+
     }
 
     private void flipPlayerLeft(){
@@ -205,6 +207,7 @@ public class Player extends Entity {
                 isEntityInAir(lvlData);
             }
         }
+
     }
 
     /**
