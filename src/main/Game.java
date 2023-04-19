@@ -61,7 +61,10 @@ public class Game implements Runnable{
         gameWindow = new GameWindow(gamePanel);
     }
 
-    public void restartGane(){
+    /**
+     * This method calls the restartGame from playing
+     */
+    public void restartGame(){
         playing.restartGame();
     }
 
@@ -79,7 +82,6 @@ public class Game implements Runnable{
      * game state and then updating it
      */
     public void update(){
-
 
         switch (Gamestate.state){
 

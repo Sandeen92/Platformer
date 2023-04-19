@@ -118,6 +118,11 @@ public class Playing extends State implements StateMethods {
         changeCurrentLevelOffsetX();
     }
 
+    /**
+     * This method gets the current closest border to the player
+     * and sets the offset to that border
+     * @param currentPlayerPositionX
+     */
     private void findBorderClosestToPlayer(int currentPlayerPositionX){
         if (currentPlayerPositionX > cameraRightBorder) {
             setCurrentLevelOffsetX(currentPlayerPositionX,cameraRightBorder);
@@ -126,6 +131,9 @@ public class Playing extends State implements StateMethods {
         }
     }
 
+    /**
+     * This method changes the current levelOffset
+     */
     private void changeCurrentLevelOffsetX(){
         if (currentLevelOffsetX > maxLevelOffsetX) {
             currentLevelOffsetX = maxLevelOffsetX;
@@ -134,6 +142,11 @@ public class Playing extends State implements StateMethods {
         }
     }
 
+    /**
+     * this method sets the currentlevelOffsetX
+     * @param currentPlayerPositionX
+     * @param cameraBorder
+     */
     private void setCurrentLevelOffsetX(int currentPlayerPositionX, int cameraBorder){
         currentLevelOffsetX += currentPlayerPositionX - cameraBorder;
     }

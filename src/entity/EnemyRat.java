@@ -11,7 +11,7 @@ import static utils.Constants.GameConstants.*;
 public class EnemyRat extends Enemy{
 
     public EnemyRat(float x, float y) {
-        super(x, y, RAT_WIDTH, RAT_HEIGHT, CRABBY, RAT_HEALTHPOINTS, RAT_ATTACKDAMAGE);
+        super(x, y, RAT_WIDTH, RAT_HEIGHT, RAT, RAT_HEALTHPOINTS, RAT_ATTACKDAMAGE);
         initialiseHitbox(x, y, (int) (23 * SCALE),(int) (15 * SCALE));
         initialiseAttackBox(x, y, (int) (23 * SCALE),(int) (15 * SCALE));
     }

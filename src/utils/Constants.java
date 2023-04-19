@@ -33,7 +33,7 @@ public class Constants {
         public static final float MAX_AIR_SPEED = 4.3f;
     }
     public static class EnemyConstants{
-        public static final int CRABBY = 0;
+        public static final int RAT = 0;
         public static final int IDLE = 0;
         public static final int RUNNING = 1;
         public static final int ATTACK = 2;
@@ -53,7 +53,7 @@ public class Constants {
 
         public static int GetSpriteAmount(int enemyType, int enemyState){
             switch (enemyType){
-                case CRABBY:
+                case RAT:
                     switch (enemyState){
                         case IDLE:
                             return 1;

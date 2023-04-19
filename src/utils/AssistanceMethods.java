@@ -13,7 +13,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import static utils.Constants.EnemyConstants.CRABBY;
+import static utils.Constants.EnemyConstants.RAT;
 import static utils.Constants.GameConstants.*;
 import static utils.Constants.InteractableConstants.*;
 
@@ -30,10 +30,10 @@ public class AssistanceMethods {
      * @return
      */
     public static boolean canMoveHere(float x, float y, float width, float heigth, int[][] levelData){
-        if(!isSolid(x,y, levelData)){
-            if(!isSolid(x + width,y + heigth, levelData)){
-               if(!isSolid(x + width, y, levelData)){
-                   if(!isSolid(x, y + heigth, levelData)){
+        if(isSolid(x,y, levelData) == false){
+            if(isSolid(x + width,y + heigth, levelData) == false){
+               if(isSolid(x + width, y, levelData) == false){
+                   if(isSolid(x, y + heigth, levelData) == false){
                        return true;
                    }
                }
@@ -51,12 +51,7 @@ public class AssistanceMethods {
      */
     private static boolean isSolid(float x, float y, int [][] levelData){
         int maxLevelWidth = levelData[0].length * TILES_SIZE;
-        if(x < 0 || x >= maxLevelWidth){
-            return true;
-        }
-        if(y < 0 || y >= GAME_HEIGHT){
-            return true;
-        }
+        checkIfInsideBorder(x,y,maxLevelWidth);
 
         float xIndex = x/TILES_SIZE;
         float yIndex = y/TILES_SIZE;
@@ -64,16 +59,25 @@ public class AssistanceMethods {
         return checkIfValidColor(value);
     }
 
+    /**
+     * This method checks if the player is inside of the gamewindow border
+     * @param x
+     * @param y
+     * @param maxLevelWidth
+     * @return
+     */
     private static boolean checkIfInsideBorder(float x, float y, int maxLevelWidth) {
         if(x < 0 || x >= maxLevelWidth){
             return true;
         }
-        if(y < 0 || y >= GAME_HEIGHT){
-            return true;
-        }
-        return false;
+        return y < 0 || y >= GAME_HEIGHT;
     }
 
+    /**
+     * This method checks if the value is a valid color for a tile if not returns false
+     * @param value
+     * @return
+     */
     private static boolean checkIfValidColor(int value){
         //TODO Kan jag ändra denna till !=11 bara
         if(value >= 48 || value <0 || value != 11){
@@ -90,19 +94,23 @@ public class AssistanceMethods {
      * @param xSpeed
      * @return
      */
-    public static float GetEntityXPosNextToWall(Rectangle2D.Float hitbox, float xSpeed){
-        int currentTile = (int) hitbox.x/TILES_SIZE;
-        if(xSpeed > 0){
+    public static float GetEntityXPosNextToWall(Rectangle2D.Float hitbox, float xSpeed) {
+        int currentTile = (int) hitbox.x / TILES_SIZE;
+        if (xSpeed > 0) {
             //Rigth
-            int tileXPos = currentTile * TILES_SIZE;
-            int xOffset = (int)(TILES_SIZE - hitbox.width);
-            return tileXPos + xOffset - 1;
+            return calculatePosNextToWall(currentTile, hitbox);
         } else {
             //Left
             return currentTile * TILES_SIZE;
         }
     }
 
+    /**
+     * This method returns the position closest to the wall
+     * @param currentTile
+     * @param hitbox
+     * @return
+     */
     private static float calculatePosNextToWall(int currentTile, Rectangle2D.Float hitbox){
         int tileXPos = currentTile * TILES_SIZE;
         int xOffset = (int)(TILES_SIZE - hitbox.width);
@@ -120,15 +128,19 @@ public class AssistanceMethods {
         int currentTile = (int) hitbox.y/TILES_SIZE;
         if(airSpeed > 0){
             //Falling
-            int tileYPos = currentTile * TILES_SIZE;
-            int yOffset = (int)(TILES_SIZE - hitbox.height);
-            return tileYPos + yOffset - 1;
+            return calculatePosUnderOrAboveTile(currentTile, hitbox);
         } else {
             //Jumping
             return currentTile * TILES_SIZE;
         }
     }
 
+    /**
+     * This method returns the positions closest to the ground or roof
+     * @param currentTile
+     * @param hitbox
+     * @return
+     */
     private static float calculatePosUnderOrAboveTile(int currentTile, Rectangle2D.Float hitbox){
         int tileYPos = currentTile * TILES_SIZE;
         int yOffset = (int)(TILES_SIZE - hitbox.height);
@@ -143,8 +155,8 @@ public class AssistanceMethods {
      */
     public static boolean IsEntityOnFloor(Rectangle2D.Float hitbox, int[][] lvlData){
         //Check the pixel below bottom left and bottom right
-        if(!isSolid(hitbox.x, hitbox.y + hitbox.height + 1, lvlData)){
-            if(!isSolid(hitbox.x + hitbox.width, hitbox.y + hitbox.height + 1, lvlData)){
+        if(isSolid(hitbox.x, hitbox.y + hitbox.height + 1, lvlData) == false){
+            if(isSolid(hitbox.x + hitbox.width, hitbox.y + hitbox.height + 1, lvlData) == false){
                 return false;
             }
         }
@@ -159,7 +171,7 @@ public class AssistanceMethods {
      * @return
      */
     public static boolean IsFloor(Rectangle2D.Float hitbox, float xSpeed, int[][] lvlData){
-        if(isSolid(hitbox.x + xSpeed + hitbox.width, hitbox.y + hitbox.height + 1, lvlData) && isSolid(hitbox.x + xSpeed, hitbox.y + hitbox.height + 1, lvlData)){
+        if(isSolid(hitbox.x + xSpeed + hitbox.width, hitbox.y + hitbox.height + 1, lvlData) == true && isSolid(hitbox.x + xSpeed, hitbox.y + hitbox.height + 1, lvlData) == true){
             return true;
         }
         return false;
@@ -182,8 +194,12 @@ public class AssistanceMethods {
         return new Point(pointX * TILES_SIZE, pointY * TILES_SIZE);
     }
 
-
-        public static int[][] GetLevelData(BufferedImage img) {
+    /**
+     * This method saves the leveldata in the leveldata array
+     * @param img
+     * @return
+     */
+    public static int[][] GetLevelData(BufferedImage img) {
             int[][] levelData = new int[img.getHeight()][img.getWidth()];
             for (int j = 0; j < img.getHeight(); j++)
                 for (int i = 0; i < img.getWidth(); i++) {
@@ -196,13 +212,18 @@ public class AssistanceMethods {
             return levelData;
         }
 
+    /**
+     * this method gets the enemies from the leveldata and returns the arraylist
+     * @param img
+     * @return
+     */
     public static ArrayList<EnemyRat> GetCrabs(BufferedImage img) {
         ArrayList<EnemyRat> list = new ArrayList<>();
         for (int j = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++) {
                 Color color = new Color(img.getRGB(i, j));
                 int value = color.getGreen();
-                if (value == CRABBY) {
+                if (value == RAT) {
                     list.add(new EnemyRat(i * TILES_SIZE, j * TILES_SIZE));
                 }
             }
@@ -210,6 +231,11 @@ public class AssistanceMethods {
         return list;
     }
 
+    /**
+     * This method reads the boxes from the leveldata and returns as an arraylist
+     * @param img
+     * @return
+     */
     public static ArrayList<Box> GetBoxes(BufferedImage img){
         ArrayList<Box> list = new ArrayList<>();
         for (int j = 0; j < img.getHeight(); j++) {

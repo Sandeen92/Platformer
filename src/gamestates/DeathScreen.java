@@ -1,5 +1,6 @@
 /**
- * This class is re
+ * This class is responsible for the deathscreen
+ * @author Linus Magnusson
  */
 package gamestates;
 
@@ -13,23 +14,37 @@ import java.awt.image.BufferedImage;
 public class DeathScreen extends State implements StateMethods{
     private BufferedImage deathScreenBackground;
 
+    /**
+     * Constructor for Deathscreen
+     * @param game
+     */
     public DeathScreen(Game game){
         super(game);
         loadDeathScreenBackground();
     }
 
+    /**
+     * This method loads the deathscreenBackground
+     */
     private void loadDeathScreenBackground() {
         deathScreenBackground = LoadSave.GetSpriteAtlas(LoadSave.DEATHSCREEN);
     }
 
+    /**
+     * This method updates the deathsceen
+     */
     @Override
     public void update() {
-
     }
 
+    /**
+     * This method draws the deathscreen
+     * @param g
+     */
     public void draw(Graphics g){
         g.drawImage(deathScreenBackground,0,0,null);
     }
+
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -51,11 +66,15 @@ public class DeathScreen extends State implements StateMethods{
 
     }
 
+    /**
+     * This method checks for keys pressed and calls methods based on which key is pressed
+     * @param e
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()){
             case KeyEvent.VK_R:
-                game.restartGane();
+                game.restartGame();
                 Gamestate.state = Gamestate.PLAYING;
                 break;
         }
