@@ -72,14 +72,26 @@ public class LevelManager {
      * This method draws the level
      */
     public void drawLevel(Graphics g, int levelOffset) {
-        g.drawImage(levelBackground,0,0, GAME_WIDTH, GAME_HEIGHT, null);
-        g.drawImage(levelBackgroundTree,(int) (1 * SCALE) - levelOffset, (int) (0 * SCALE) , (int) (1664 * SCALE), (int) (448 * SCALE), null);
+        drawLevelBackground(g, levelOffset);
         for (int j = 0; j < TILES_IN_HEIGHT; j++) {
             for (int i = 0; i < levels.get(levelIndex).getLevelData()[0].length; i++) {
                 int index = levels.get(levelIndex).getSpriteIndex(i, j);
-                g.drawImage(levelSprite[index], TILES_SIZE * i - levelOffset, TILES_SIZE * j, TILES_SIZE, TILES_SIZE, null);
+                g.drawImage(levelSprite[index], calculateImageXPosition(i, levelOffset), calculateImageYPosition(j), TILES_SIZE, TILES_SIZE, null);
             }
         }
+    }
+
+    public void drawLevelBackground(Graphics g, int levelOffset){
+        g.drawImage(levelBackground,0,0, GAME_WIDTH, GAME_HEIGHT, null);
+        g.drawImage(levelBackgroundTree,(int) (1 * SCALE) - levelOffset, (int) (0 * SCALE) , (int) (1664 * SCALE), (int) (448 * SCALE), null);
+    }
+
+    public int calculateImageXPosition(int xValue, int levelOffset){
+        return TILES_SIZE * xValue - levelOffset;
+    }
+
+    public int calculateImageYPosition(int yValue){
+        return TILES_SIZE * yValue;
     }
 
     public void updateLevel() {
