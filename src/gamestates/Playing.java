@@ -87,7 +87,7 @@ public class Playing extends State implements StateMethods {
     /**
      * This method restarts the game.
      */
-    public void restartLevel(){
+    public void restartGame(){
         initClasses();
         loadStartLevel();
     }
@@ -165,7 +165,7 @@ public class Playing extends State implements StateMethods {
                 player.attack();
                 break;
             case KeyEvent.VK_R:
-                restartLevel();
+                restartGame();
                 break;
             case KeyEvent.VK_ESCAPE:
                 paused = true;
