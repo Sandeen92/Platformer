@@ -5,6 +5,7 @@
 
 package entity;
 
+import gamestates.Playing;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -115,8 +116,10 @@ public class Box extends Entity{
      * This method is responsible for running all the update methods in the class
      * @param lvlData
      */
-    public void update(int[][] lvlData){
+    public void update(int[][] lvlData, Box box, Playing playing ){
         updateEntityPos(lvlData);
+        box.checkIfPlayerCollidesWithBox(box, playing.getPlayer());
+        box.checkIfEnemyIsCollidingWithBox(playing.getEnemyManager().getRats());
     }
 
     /**
