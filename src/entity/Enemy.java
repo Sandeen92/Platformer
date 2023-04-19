@@ -6,10 +6,6 @@
 package entity;
 
 import gamestates.Gamestate;
-import main.Game;
-import utils.Constants;
-
-import java.security.PublicKey;
 import static utils.Constants.GameConstants.*;
 import static utils.AssistanceMethods.canMoveHere;
 import static utils.AssistanceMethods.IsFloor;
@@ -22,8 +18,8 @@ public abstract class Enemy extends Entity{
     private final float patrolSpeed = 0.3f * SCALE;
     private boolean firstUpdate = true;
     private int walkDir = LEFT;
-    private boolean canAttack;
-    private TimerThread timer;
+    private boolean canAttack = true;
+    private AttackCooldownThread attackCooldownTimer;
     private int flipX = 0;
     private int flipW = 1;
 
@@ -39,24 +35,61 @@ public abstract class Enemy extends Entity{
     public Enemy(float x, float y, int width, int height, int enemyType, int maxHealth, int attackDamage) {
         super(x, y, width, height, maxHealth, attackDamage);
         this.enemyType = enemyType;
-        canAttack = true;
     }
 
+    /**
+     * This metod checks if the player is hit by the Enemy by checking if the player hitbox
+     * and enemy attackbox intersects
+     * @param enemy
+     * @param player
+     */
     protected void checkPlayerHit(Enemy enemy, Player player){
-        if(enemy.attackBox.intersects(player.hitbox)){
-            if(canAttack){
-                player.currentHealth -= enemy.attackDamage;
-                if(player.isEntityDead()){
-                    Gamestate.state = Gamestate.DEATHSCREEN;
-                }
-                canAttack = false;
-                timer = new TimerThread();
-                timer.start();
+        if(enemy.attackBox.intersects(player.hitbox) == true){
+            if(canAttack == true){
+                enemyAttack(enemy, player);
             }
-            player.playerHit(enemy);
-            player.entityState = HIT;
+            changePlayerToHit(enemy,player);
         }
+    }
 
+    /**
+     * This method makes the enemy attack the player and calls for the cooldown to start
+     * @param enemy
+     * @param player
+     */
+    private void enemyAttack(Enemy enemy, Player player){
+        player.currentHealth -= enemy.attackDamage;
+        checkIfPlayerIsDead(player);
+        canAttack = false;
+        startAttackCooldown();
+    }
+
+    /**
+     * This method checks if the player is dead and if the player
+     * is dead the gamestate switches to DeathScreen
+     * @param player
+     */
+    private void checkIfPlayerIsDead(Player player){
+        if(player.isEntityDead() == true) {
+            Gamestate.state = Gamestate.DEATHSCREEN;
+        }
+    }
+    /**
+     * This method starts the attack cooldown
+     */
+    private void startAttackCooldown(){
+        attackCooldownTimer = new AttackCooldownThread();
+        attackCooldownTimer.start();
+    }
+
+    /**
+     * This method changes the players state to hit and calls for the playerHit method
+     * @param enemy
+     * @param player
+     */
+    private void changePlayerToHit(Enemy enemy, Player player){
+        player.playerHit(enemy);
+        player.entityState = HIT;
     }
 
     /**
@@ -89,8 +122,7 @@ public abstract class Enemy extends Entity{
      */
     @Override
     protected void updateEntityPos(int[][] lvlData) {
-            isEntityInAir(lvlData);
-
+        isEntityInAir(lvlData);
         moveEntity(lvlData);
 
         switch (entityState){
@@ -100,21 +132,28 @@ public abstract class Enemy extends Entity{
             case RUNNING:
                 horizontalSpeed = 0;
                 setEnemyToPatrol();
-                if(canMoveHere(hitbox.x + horizontalSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData)){
-                    if(IsFloor(hitbox, horizontalSpeed, lvlData)){
-                        return;
-                    }
-                }
-                changeWalkDir();
+                checkIfWalkDirectionShouldChange(lvlData);
                 break;
         }
+    }
 
+    /**
+     * This method checks if the walkdirection of the enemy should change
+     * @param lvlData
+     */
+    private void checkIfWalkDirectionShouldChange(int[][] lvlData){
+        if(canMoveHere(hitbox.x + horizontalSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData) == true){
+            if(IsFloor(hitbox, horizontalSpeed, lvlData) == true){
+                return;
+            }
+        }
+        changeWalkDirection();
     }
 
     /**
      * This method changes the walking direction for the enemy
      */
-    public void changeWalkDir() {
+    public void changeWalkDirection() {
         if(walkDir == LEFT){
             walkDir = RIGHT;
             flipX = 0;
@@ -124,10 +163,6 @@ public abstract class Enemy extends Entity{
             flipX = width+20;
             flipW = -1;
         }
-    }
-
-    public int getWalkDir(){
-       return walkDir;
     }
 
     /**
@@ -141,6 +176,9 @@ public abstract class Enemy extends Entity{
         }
     }
 
+    public int getWalkDir(){
+       return walkDir;
+    }
 
     public int getAnimationIndex(){
         return animationIndex;
@@ -158,7 +196,11 @@ public abstract class Enemy extends Entity{
         return flipW;
     }
 
-    private class TimerThread extends Thread{
+    private class AttackCooldownThread extends Thread{
+        /**
+         * This thread is responsible for the attackCooldown
+         * @author Linus Magnusson
+         */
         @Override
         public void run() {
             try {

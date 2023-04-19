@@ -91,7 +91,7 @@ public class Box extends Entity{
         } else {
             rat.hitbox.x -= 3;
         }
-        rat.changeWalkDir();
+        rat.changeWalkDirection();
     }
 
     /**

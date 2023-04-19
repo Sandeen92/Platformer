@@ -27,7 +27,7 @@ public class InteractablesManager {
         for(Box box : boxes){
             box.update(playing.getLevelManager().getCurrentLevel().getLevelData());
             box.checkIfPlayerCollidesWithBox(box, playing.getPlayer());
-            box.checkIfEnemyIsCollidingWithBox(playing.getEnemyManager().getCrabbies());
+            box.checkIfEnemyIsCollidingWithBox(playing.getEnemyManager().getRats());
         }
     }
 

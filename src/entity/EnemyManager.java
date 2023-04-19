@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class EnemyManager {
     private Playing playing;
     private BufferedImage[][] crabbyArr;
-    private ArrayList<EnemyRat> crabbies = new ArrayList<>();
+    private ArrayList<EnemyRat> rats = new ArrayList<>();
 
     /**
      * Constructor for EnemyManager
@@ -32,7 +32,7 @@ public class EnemyManager {
      * This method calls a method in loadsave that reads in the enemies and adds them to the enemylist
      */
     public void loadEnemies(Level level) {
-        crabbies = level.getCrabs();
+        rats = level.getCrabs();
     }
 
     /**
@@ -40,7 +40,7 @@ public class EnemyManager {
      * @param lvldata
      */
     public void update(int[][] lvldata){
-        for(EnemyRat c : crabbies){
+        for(EnemyRat c : rats){
             c.update(lvldata);
             c.checkPlayerHit(c,playing.getPlayer());
         }
@@ -48,12 +48,12 @@ public class EnemyManager {
 
     //TODO add method to change animation
     public void checkIfEnemyIsHit(Rectangle2D.Float attackBox){
-        for (EnemyRat c : crabbies){
-            if(attackBox.intersects(c.getHitbox())){
-                c.entityTakeDamage(2);
-                System.out.println(c.getCurrentHealth());
-                if(c.isEntityDead()){
-                    crabbies.remove(c);
+        for (EnemyRat rat : rats){
+            if(attackBox.intersects(rat.getHitbox())){
+                rat.entityTakeDamage(2);
+                System.out.println(rat.getCurrentHealth());
+                if(rat.isEntityDead()){
+                    rats.remove(rat);
                 }
                 return;
             }
@@ -73,7 +73,7 @@ public class EnemyManager {
      * @param g
      */
     private void drawCrabs(Graphics g, int levelOffset) {
-        for(EnemyRat c : crabbies){
+        for(EnemyRat c : rats){
             g.drawImage(crabbyArr[c.getEnemyState()][c.getAnimationIndex()], (int) c.getHitbox().x - RAT_DRAW_OFFSET_X - levelOffset + c.getFlipX(), (int) c.getHitbox().y - RAT_DRAW_OFFSET_Y, RAT_WIDTH * c.getFlipW(), RAT_HEIGHT, null );
             //c.drawHitbox(g, levelOffset);
         }
@@ -92,11 +92,11 @@ public class EnemyManager {
         }
     }
 
-    public ArrayList<EnemyRat> getCrabbies() {
-        return crabbies;
+    public ArrayList<EnemyRat> getRats() {
+        return rats;
     }
 
-    public void setCrabbies(ArrayList<EnemyRat> crabbies) {
-        this.crabbies = crabbies;
+    public void setRats(ArrayList<EnemyRat> rats) {
+        this.rats = rats;
     }
 }
