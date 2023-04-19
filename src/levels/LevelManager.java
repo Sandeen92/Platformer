@@ -36,8 +36,8 @@ public class LevelManager {
         importOutsideSprites();
         levels = new ArrayList<>();
         buildAllLevels();
-        levelBackground = LoadSave.GetSpriteAtlas("background_test2.png");
-        levelBackgroundSprites = LoadSave.GetSpriteAtlas("background_sprites.png");
+        levelBackground = LoadSave.GetSpriteAtlas("LEVEL_ONE_BACKGROUND.png");
+        levelBackgroundSprites = LoadSave.GetSpriteAtlas("LEVEL_ONE_SPRITES.png");
     }
 
     private void buildAllLevels() {

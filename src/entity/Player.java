@@ -5,7 +5,6 @@
 
 package entity;
 
-import main.Game;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -216,7 +215,7 @@ public class Player extends Entity {
      */
     public void loadPlayerAnimations() {
 
-        InputStream is = getClass().getResourceAsStream("/Gubbe_1_Test.png");
+        InputStream is = getClass().getResourceAsStream("/PLAYER_SPRITES.png");
         try {
             BufferedImage player = ImageIO.read(is);
             playerAnimations = new BufferedImage[4][8];

@@ -1,6 +1,5 @@
 package entity;
 
-import main.Game;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -109,7 +108,7 @@ public class Box extends Entity{
 
 
     private void loadImg() {
-        InputStream is = getClass().getResourceAsStream("/Box_dark.png");
+        InputStream is = getClass().getResourceAsStream("/BOX_DARK_SPRITE.png");
         try{
             boxImage = ImageIO.read(is);
         } catch (IOException e){

@@ -10,17 +10,17 @@ import java.net.URL;
 
 public class LoadSave {
 
-    public static final String LEVEL_ATLAS = "level_one_sprites.png";
-    public static final String RATENEMY = "Rat_brun_vers1.png";
-    public static final String STARTMENU_BACKGROUND = "startmenu_background.png";
+    public static final String LEVEL_ATLAS = "LEVEL_ONE_TILESET_SPRITES.png";
+    public static final String RATENEMY = "ENEMY_RAT_BROWN.png";
+    public static final String STARTMENU_BACKGROUND = "STARTMENU_BACKGROUND.png";
     public static final String MENU_BUTTONS = "button_atlas.png";
-    public static final String DEATHSCREEN = "temp_DeathScreen.png";
-    public static final String POTION_ATLAS = "potions_sprites.png";
-    public static final String CONTAINER_ATLAS = "objects_sprites.png";
-    public static final String STARTMENU_BUTTONS = "startmenubutton_atlas.png";
-    public static final String PAUSE_BACKGROUND = "pauseimage.png";
-    public static final String OPTIONS_BACKGROUND = "optionsmenu.png";
-    public static final String OPTIONS_BUTTONS = "optionbuttons.png";
+    public static final String DEATHSCREEN = "TEMP_DEATHSCREEN.png";
+    public static final String POTION_ATLAS = "TEMP_POTION_SPRITES.png";
+    public static final String CONTAINER_ATLAS = "CONTAINER_SPRITES.png";
+    public static final String STARTMENU_BUTTONS = "STARTMENU_BUTTONS.png";
+    public static final String PAUSE_BACKGROUND = "MENU_PAUSED.png";
+    public static final String OPTIONS_BACKGROUND = "MENU_OPTIONS_BG.png";
+    public static final String OPTIONS_BUTTONS = "MENU_OPTIONS_BUTTONS.png";
     public static final String SOUND_BUTTONS = "soundbuttons.png";
     public static final String STARTMENU_MUSIC = "resources/ohboy.wav";
 
