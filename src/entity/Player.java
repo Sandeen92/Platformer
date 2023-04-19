@@ -137,10 +137,10 @@ public class Player extends Entity {
     }
 
     private void getKnockbackDirection(Enemy enemy){
-        if(hitbox.x > enemy.hitbox.x){
-            setHorizontalSpeed(knockbackSpeed);
-        } else if (hitbox.x < enemy.hitbox.x){
-            setHorizontalSpeed(knockbackSpeed);
+        if(hitbox.x < enemy.hitbox.x){
+            setHorizontalSpeed(-0.48f);
+        } else if (hitbox.x > enemy.hitbox.x){
+            setHorizontalSpeed(0.48f);
         }
     }
 
