@@ -5,10 +5,10 @@
 
 package entity;
 
-import main.Game;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import static utils.AssistanceMethods.*;
+import static utils.Constants.EntityConstants.MAX_AIR_SPEED;
 import static utils.Constants.GameConstants.*;
 import static utils.Constants.PlayerConstants.*;
 
@@ -42,11 +42,36 @@ public abstract class Entity {
     /**
      * Constructor for the entity-class initializes all the important variables
      */
+    public Entity(float x, float y,int width, int height){
+        this.x = x;
+        this.y = y;
+        this.height = height;
+        this.width = width;
+    }
+
+    /**
+     * Second constructor initialises more variables
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @param maxHealth
+     * @param attackDamage
+     */
     public Entity(float x, float y,int width, int height, int maxHealth, int attackDamage){
         this.x = x;
         this.y = y;
         this.height = height;
         this.width = width;
+        initialiseVariables(maxHealth, attackDamage);
+    }
+
+    /**
+     * This method initialises the variables of the entity
+     * @param maxHealth
+     * @param attackDamage
+     */
+    private void initialiseVariables(int maxHealth, int attackDamage){
         airSpeed = 0f;
         gravity = 0.03f * SCALE;
         jumpSpeed = -2.25f * SCALE;
@@ -54,12 +79,6 @@ public abstract class Entity {
         this.maxHealth = maxHealth;
         this.currentHealth = maxHealth;
         this.attackDamage = attackDamage;
-    }
-    public Entity(float x, float y,int width, int height){
-        this.x = x;
-        this.y = y;
-        this.height = height;
-        this.width = width;
     }
 
     /**
@@ -73,6 +92,13 @@ public abstract class Entity {
         hitbox = new Rectangle2D.Float(x, y,width,heigth);
     }
 
+    /**
+     * This method initialises the attackbox of the entity
+     * @param x
+     * @param y
+     * @param width
+     * @param heigth
+     */
     protected void initialiseAttackBox(float x, float y, float width, float heigth){
         attackBox = new Rectangle2D.Float(x, y, width, heigth);
     }
@@ -97,16 +123,21 @@ public abstract class Entity {
     protected abstract void updateEntityPos(int[][] lvldata);
 
     /**
-     * This method sets the boolean jump to true
+     * This method checks if the player is in the air and sets the boolean jump to true
      */
     protected void jump() {
-        if(inAir){
+        if(inAir == true){
             return;
         }
         inAir = true;
         airSpeed = jumpSpeed;
     }
 
+    /**
+     * This method updates the x and yPosition of the attackbox
+     * @param offset
+     * @param facing
+     */
     protected void updateAttackBox(int offset, int facing){
         if(facing == 0){
             attackBox.x = hitbox.x - offset;
@@ -115,7 +146,6 @@ public abstract class Entity {
             attackBox.x = hitbox.x + offset;
             attackBox.y = hitbox.y;
         }
-
     }
 
     /**
@@ -125,17 +155,25 @@ public abstract class Entity {
      * @param lvlData
      */
     protected void updateXPosition(float horizontalSpeed, int [][] lvlData) {
-        if(canMoveHere(hitbox.x + horizontalSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData)){
+        if(canMoveHere(hitbox.x + horizontalSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData) == true){
             hitbox.x += horizontalSpeed;
         } else {
             hitbox.x = GetEntityXPosNextToWall(hitbox, horizontalSpeed);
         }
     }
 
+    /**
+     * This method makes the enemy take damage
+     * @param damage
+     */
     public void entityTakeDamage(int damage){
         currentHealth -= damage;
     }
 
+    /**
+     * This method checks if the entity is dead and returns a boolean accordingly
+     * @return
+     */
     public boolean isEntityDead(){
         if(currentHealth <= 0){
             return true;
@@ -157,7 +195,7 @@ public abstract class Entity {
      * @param lvlData
      */
     protected void isEntityInAir(int[][] lvlData){
-        if(!IsEntityOnFloor(hitbox, lvlData)){
+        if(IsEntityOnFloor(hitbox, lvlData) == false){
             inAir = true;
         }
     }
@@ -167,26 +205,47 @@ public abstract class Entity {
      * Makes the physics and collisions work
      * @param lvlData
      */
-    protected void moveEntity(int[][] lvlData){
-        if(inAir){
-            if(canMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData )){
-                hitbox.y += airSpeed;
-                if(airSpeed < 4.3f){
-                    airSpeed += gravity;
-                }
-
-                updateXPosition(horizontalSpeed, lvlData);
-            } else {
-                hitbox.y = GetEntityYPosUnderOrAboveTile(hitbox, airSpeed);
-                if(airSpeed > 0){
-                    resetInAir();
-                } else {
-                    airSpeed = fallSpeedAfterCollision;
-                }
-                updateXPosition(horizontalSpeed, lvlData);
-            }
+    protected void moveEntity(int[][] lvlData) {
+        if (inAir == true) {
+            checkIfEntityCanMoveInAir(lvlData);
         } else {
             updateXPosition(horizontalSpeed, lvlData);
+        }
+    }
+
+    /**
+     * This method checks if the entity can move to the new tile when in air
+     * @param lvlData
+     */
+    private void checkIfEntityCanMoveInAir(int[][] lvlData) {
+        if (canMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData) == true) {
+            hitbox.y += airSpeed;
+            changeAirSpeed();
+            updateXPosition(horizontalSpeed, lvlData);
+        } else {
+            changeAirSpeedIfCollidingWithRoof();
+            updateXPosition(horizontalSpeed, lvlData);
+        }
+    }
+
+    /**
+     * This method changes the airspeed if the entity is colliding with the roof
+     */
+    private void changeAirSpeedIfCollidingWithRoof(){
+        hitbox.y = GetEntityYPosUnderOrAboveTile(hitbox, airSpeed);
+        if (airSpeed > 0) {
+            resetInAir();
+        } else {
+            airSpeed = fallSpeedAfterCollision;
+        }
+    }
+
+    /**
+     * This method changes the airspeed of the entity
+     */
+    private void changeAirSpeed(){
+        if(airSpeed < MAX_AIR_SPEED){
+            airSpeed += gravity;
         }
     }
 
@@ -219,14 +278,15 @@ public abstract class Entity {
     protected void setEntityAnimation() {
 
         int startAnimation = entityState;
-        if(isHit){
+        if(isHit == true){
             entityState = HIT;
-        } else if (isMoving) {
+        } else if (isMoving == true) {
             entityState = RUNNING;
         } else {
             entityState = IDLE;
         }
-        if(inAir) {
+
+        if(inAir == true) {
             entityState = JUMP;
         }
 

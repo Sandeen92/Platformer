@@ -29,6 +29,9 @@ public class Constants {
         public static final int DOWN = 3;
     }
 
+    public static class EntityConstants{
+        public static final float MAX_AIR_SPEED = 4.3f;
+    }
     public static class EnemyConstants{
         public static final int CRABBY = 0;
         public static final int IDLE = 0;
