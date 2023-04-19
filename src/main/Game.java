@@ -176,13 +176,11 @@ public class Game implements Runnable{
             if(System.currentTimeMillis() - lastCheck >= 1000){
                 lastCheck = System.currentTimeMillis();
                 //GamePanel.LBL_FPS_COUNTER.setText("FPS: " + frames + " UPS: " + updates);
-                GamePanel.LBL_PLAYER_HP.setText("Player HP: " + playing.getPlayer().getCurrentHealth() + " |");
+                GamePanel.LBL_PLAYER_HP.setText("Player HP: " + playing.getPlayer().getCurrentHealth() + " |"); // Temporary player health display
                 frames = 0;
                 updates = 0;
             }
-
         }
-
     }
 
     /**
