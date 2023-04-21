@@ -11,7 +11,7 @@ import java.net.URL;
 public class LoadSave {
 
     public static final String LEVEL_ATLAS = "LEVEL_ONE_TILESET_SPRITES.png";
-    public static final String RATENEMY = "ENEMY_RAT_BROWN.png";
+    public static final String RAT_ENEMY = "ENEMY_RAT_BROWN.png";
     public static final String STARTMENU_BACKGROUND = "STARTMENU_BACKGROUND.png";
     public static final String MENU_BUTTONS = "button_atlas.png";
     public static final String DEATHSCREEN = "TEMP_DEATHSCREEN.png";
@@ -26,10 +26,10 @@ public class LoadSave {
 
 
     public static BufferedImage GetSpriteAtlas(String fileName) {
-        BufferedImage img = null;
+        BufferedImage image = null;
         InputStream is = LoadSave.class.getResourceAsStream("/" + fileName);
         try {
-            img = ImageIO.read(is);
+            image = ImageIO.read(is);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -40,7 +40,7 @@ public class LoadSave {
                 e.printStackTrace();
             }
         }
-        return img;
+        return image;
     }
     
     public static BufferedImage[] GetAllLevels(){

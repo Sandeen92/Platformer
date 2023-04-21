@@ -94,7 +94,7 @@ public class EnemyManager {
      */
     private void loadEnemyImg() {
         ratImageArray = new BufferedImage[3][5];
-        BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.RATENEMY);
+        BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.RAT_ENEMY);
         for(int i = 0; i < ratImageArray.length; i++)  {
             for (int j = 0; j < ratImageArray[i].length; j++){
                 ratImageArray[i][j] = temp.getSubimage(j * RAT_WIDTH_DEFAULT, i * RAT_HEIGHT_DEFAULT, RAT_WIDTH_DEFAULT, RAT_HEIGHT_DEFAULT);

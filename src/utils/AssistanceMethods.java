@@ -30,10 +30,10 @@ public class AssistanceMethods {
      * @return
      */
     public static boolean canMoveHere(float x, float y, float width, float heigth, int[][] levelData){
-        if(isSolid(x,y, levelData) == false){
-            if(isSolid(x + width,y + heigth, levelData) == false){
-               if(isSolid(x + width, y, levelData) == false){
-                   if(isSolid(x, y + heigth, levelData) == false){
+        if(isTileSolid(x,y, levelData) == false){
+            if(isTileSolid(x + width,y + heigth, levelData) == false){
+               if(isTileSolid(x + width, y, levelData) == false){
+                   if(isTileSolid(x, y + heigth, levelData) == false){
                        return true;
                    }
                }
@@ -49,7 +49,7 @@ public class AssistanceMethods {
      * @param levelData
      * @return
      */
-    private static boolean isSolid(float x, float y, int [][] levelData){
+    private static boolean isTileSolid(float x, float y, int [][] levelData){
         int maxLevelWidth = levelData[0].length * TILES_SIZE;
         if(checkIfInsideBorder(x,y,maxLevelWidth) == true){
             return true;
@@ -81,7 +81,6 @@ public class AssistanceMethods {
      * @return
      */
     private static boolean checkIfValidColor(int value){
-        //TODO Kan jag ändra denna till !=11 bara
         if(value >= 48 || value <0 || value != 11){
             return true;
         } else {
@@ -93,12 +92,12 @@ public class AssistanceMethods {
      * This method is used to get the entitys position closest to the wall to make
      * gaps between the entity and objects/tiles to disapear
      * @param hitbox
-     * @param xSpeed
+     * @param horizontalSpeed
      * @return
      */
-    public static float GetEntityXPosNextToWall(Rectangle2D.Float hitbox, float xSpeed) {
+    public static float GetEntityXPosNextToWall(Rectangle2D.Float hitbox, float horizontalSpeed) {
         int currentTile = (int) hitbox.x / TILES_SIZE;
-        if (xSpeed > 0) {
+        if (horizontalSpeed > 0) {
             //Rigth
             return calculatePosNextToWall(currentTile, hitbox);
         } else {
@@ -114,9 +113,9 @@ public class AssistanceMethods {
      * @return
      */
     private static float calculatePosNextToWall(int currentTile, Rectangle2D.Float hitbox){
-        int tileXPos = currentTile * TILES_SIZE;
+        int tileXPosition = currentTile * TILES_SIZE;
         int xOffset = (int)(TILES_SIZE - hitbox.width);
-        return tileXPos + xOffset - 1;
+        return tileXPosition + xOffset - 1;
     }
 
     /**
@@ -144,9 +143,9 @@ public class AssistanceMethods {
      * @return
      */
     private static float calculatePosUnderOrAboveTile(int currentTile, Rectangle2D.Float hitbox){
-        int tileYPos = currentTile * TILES_SIZE;
+        int tileYPosition = currentTile * TILES_SIZE;
         int yOffset = (int)(TILES_SIZE - hitbox.height);
-        return tileYPos + yOffset - 1;
+        return tileYPosition + yOffset - 1;
     }
 
     /**
@@ -157,8 +156,8 @@ public class AssistanceMethods {
      */
     public static boolean IsEntityOnFloor(Rectangle2D.Float hitbox, int[][] lvlData){
         //Check the pixel below bottom left and bottom right
-        if(isSolid(hitbox.x, hitbox.y + hitbox.height + 1, lvlData) == false){
-            if(isSolid(hitbox.x + hitbox.width, hitbox.y + hitbox.height + 1, lvlData) == false){
+        if(isTileSolid(hitbox.x, hitbox.y + hitbox.height + 1, lvlData) == false){
+            if(isTileSolid(hitbox.x + hitbox.width, hitbox.y + hitbox.height + 1, lvlData) == false){
                 return false;
             }
         }
@@ -173,7 +172,7 @@ public class AssistanceMethods {
      * @return
      */
     public static boolean IsFloor(Rectangle2D.Float hitbox, float xSpeed, int[][] lvlData){
-        if(isSolid(hitbox.x + xSpeed + hitbox.width, hitbox.y + hitbox.height + 1, lvlData) == true && isSolid(hitbox.x + xSpeed, hitbox.y + hitbox.height + 1, lvlData) == true){
+        if(isTileSolid(hitbox.x + xSpeed + hitbox.width, hitbox.y + hitbox.height + 1, lvlData) == true && isTileSolid(hitbox.x + xSpeed, hitbox.y + hitbox.height + 1, lvlData) == true){
             return true;
         }
         return false;

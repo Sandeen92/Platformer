@@ -12,21 +12,20 @@ public class Constants {
             public static final int BTN_HEIGHT = (int) (BTN_HEIGHT_DEFAULT * SCALE);
         }
 
-    public static class SoundButtons{
-        public static final int SOUNDBTN_SIZE_DEFAULT = 42;
-        public static final int SOUNDBTN_SIZE = (int) (SOUNDBTN_SIZE_DEFAULT * SCALE);
+        public static class SoundButtons{
+            public static final int SOUNDBTN_SIZE_DEFAULT = 42;
+            public static final int SOUNDBTN_SIZE = (int) (SOUNDBTN_SIZE_DEFAULT * SCALE);
+        }
+
+        public static class OptionButtons{
+            public static final int OPTIONBTN_DEFAULT_SIZE = 56;
+            public static final int OPTIONBTN_SIZE = (int) (OPTIONBTN_DEFAULT_SIZE * SCALE);
+        }
     }
 
-    public static class OptionButtons{
-        public static final int OPTIONBTN_DEFAULT_SIZE = 56;
-        public static final int OPTIONBTN_SIZE = (int) (OPTIONBTN_DEFAULT_SIZE * SCALE);
-    }
-    }
     public static class Directions{
         public static final int LEFT = 0;
-        public static final int UP = 1;
         public static final int RIGHT = 2;
-        public static final int DOWN = 3;
     }
 
     public static class EntityConstants{
@@ -39,13 +38,10 @@ public class Constants {
         public static final int ATTACK = 2;
         public static final int HIT = 3;
         public static final int DEAD = 4;
-
         public static final int RAT_WIDTH_DEFAULT = 60;
         public static final int RAT_HEIGHT_DEFAULT = 20;
-
         public static final int RAT_WIDTH = (int) (RAT_WIDTH_DEFAULT * SCALE);
         public static final int RAT_HEIGHT = (int) (RAT_HEIGHT_DEFAULT * SCALE);
-
         public static final int RAT_DRAW_OFFSET_X = (int) (23 * SCALE);
         public static final int RAT_DRAW_OFFSET_Y = (int) (4 * SCALE);
         public static final int RAT_HEALTHPOINTS = 6;
