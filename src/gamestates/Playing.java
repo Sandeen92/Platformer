@@ -23,17 +23,16 @@ import static utils.Constants.GameConstants.*;
  * @author Casper Johannesson
  */
 public class Playing extends State implements StateMethods {
-
     private Player player;
     private LevelManager levelManager;
     private EnemyManager enemyManager;
     private ItemManager itemManager;
     private InteractablesManager interactablesManager;
     private boolean paused;
-    private int currentLevelOffsetX;
+    private int currentLevelXOffset;
     private int cameraLeftBorder = (int) (0.3 * GAME_WIDTH);
     private int cameraRightBorder = (int) (0.7 * GAME_WIDTH);
-    private int maxLevelOffsetX;
+    private int maxLevelXOffset;
 
     /**
      * Constructor for the Playing class.
@@ -42,8 +41,8 @@ public class Playing extends State implements StateMethods {
      */
     public Playing(Game game) {
         super(game);
-        initClasses();
-        calculatingLevelOffset();
+        initialiseClasses();
+        calculateLevelOffset();
         loadStartLevel();
     }
 
@@ -66,15 +65,15 @@ public class Playing extends State implements StateMethods {
     /**
      * This method calculates the maximum level offset.
      */
-    private void calculatingLevelOffset() {
-        maxLevelOffsetX = levelManager.getCurrentLevel().getMaxLevelOffsetX();
+    private void calculateLevelOffset() {
+        maxLevelXOffset = levelManager.getCurrentLevel().getMaxLevelOffsetX();
     }
 
     /**
      * This method initializes the player, level, enemy, item, and interactable managers.
      * Also loads the leveldata and spawnpoint into Player object.
      */
-    public void initClasses() {
+    public void initialiseClasses() {
         enemyManager = new EnemyManager(this);
         player = new Player(200,200, (int) (70 * SCALE),(int)(45 * SCALE), 10, 2, enemyManager);
         levelManager = new LevelManager(game);
@@ -88,7 +87,7 @@ public class Playing extends State implements StateMethods {
      * This method restarts the game.
      */
     public void restartGame(){
-        initClasses();
+        initialiseClasses();
         loadStartLevel();
     }
 
@@ -113,42 +112,42 @@ public class Playing extends State implements StateMethods {
      */
     private void checkIfPlayerIsCloseToCameraBorder() {
         int playerPositionX = (int) player.getHitbox().x;
-        int currentPlayerPositionX = playerPositionX - currentLevelOffsetX;
+        int currentPlayerPositionX = playerPositionX - currentLevelXOffset;
         findBorderClosestToPlayer(currentPlayerPositionX);
-        changeCurrentLevelOffsetX();
+        changeCurrentLevelXOffset();
     }
 
     /**
      * This method gets the current closest border to the player
      * and sets the offset to that border
-     * @param currentPlayerPositionX
+     * @param currentPlayerXPosition
      */
-    private void findBorderClosestToPlayer(int currentPlayerPositionX){
-        if (currentPlayerPositionX > cameraRightBorder) {
-            setCurrentLevelOffsetX(currentPlayerPositionX,cameraRightBorder);
-        } else if (currentPlayerPositionX < cameraLeftBorder) {
-            setCurrentLevelOffsetX(currentPlayerPositionX,cameraLeftBorder);
+    private void findBorderClosestToPlayer(int currentPlayerXPosition){
+        if (currentPlayerXPosition > cameraRightBorder) {
+            setCurrentLevelXOffset(currentPlayerXPosition,cameraRightBorder);
+        } else if (currentPlayerXPosition < cameraLeftBorder) {
+            setCurrentLevelXOffset(currentPlayerXPosition,cameraLeftBorder);
         }
     }
 
     /**
      * This method changes the current levelOffset
      */
-    private void changeCurrentLevelOffsetX(){
-        if (currentLevelOffsetX > maxLevelOffsetX) {
-            currentLevelOffsetX = maxLevelOffsetX;
-        } else if (currentLevelOffsetX < 0) {
-            currentLevelOffsetX = 0;
+    private void changeCurrentLevelXOffset(){
+        if (currentLevelXOffset > maxLevelXOffset) {
+            currentLevelXOffset = maxLevelXOffset;
+        } else if (currentLevelXOffset < 0) {
+            currentLevelXOffset = 0;
         }
     }
 
     /**
      * this method sets the currentlevelOffsetX
-     * @param currentPlayerPositionX
+     * @param currentPlayerXPosition
      * @param cameraBorder
      */
-    private void setCurrentLevelOffsetX(int currentPlayerPositionX, int cameraBorder){
-        currentLevelOffsetX += currentPlayerPositionX - cameraBorder;
+    private void setCurrentLevelXOffset(int currentPlayerXPosition, int cameraBorder){
+        currentLevelXOffset += currentPlayerXPosition - cameraBorder;
     }
 
     /**
@@ -157,11 +156,11 @@ public class Playing extends State implements StateMethods {
      */
     @Override
     public void draw(Graphics g) {
-        levelManager.drawLevel(g, currentLevelOffsetX);
-        player.renderPlayer(g, currentLevelOffsetX);
-        enemyManager.draw(g, currentLevelOffsetX);
-        itemManager.draw(g, currentLevelOffsetX);
-        interactablesManager.draw(g, currentLevelOffsetX);
+        levelManager.drawLevel(g, currentLevelXOffset);
+        player.renderPlayer(g, currentLevelXOffset);
+        enemyManager.draw(g, currentLevelXOffset);
+        itemManager.draw(g, currentLevelXOffset);
+        interactablesManager.draw(g, currentLevelXOffset);
     }
 
     /**
@@ -276,10 +275,10 @@ public class Playing extends State implements StateMethods {
 
     /**
      * Sets the maximum level offset in the x direction.
-     * @param maxLevelOffsetX the maximum level offset in the x direction
+     * @param maxLevelXOffset the maximum level offset in the x direction
      */
-    public void setMaxLevelOffsetX(int maxLevelOffsetX) {
-        this.maxLevelOffsetX = maxLevelOffsetX;
+    public void setMaxLevelXOffset(int maxLevelXOffset) {
+        this.maxLevelXOffset = maxLevelXOffset;
     }
 
 

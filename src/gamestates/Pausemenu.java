@@ -24,8 +24,8 @@ import static utils.Constants.GameConstants.*;
 public class Pausemenu extends State implements StateMethods {
 
     private BufferedImage pauseMenuImage;
-    private int pauseMenuXPos;
-    private int pauseMenuYPos;
+    private int pauseMenuXPosition;
+    private int pauseMenuYPosition;
     private int pauseMenuWidth;
     private int pauseMenuHeight;
     private MenuButton[] pauseMenuButtons = new MenuButton[3];
@@ -62,8 +62,8 @@ public class Pausemenu extends State implements StateMethods {
         pauseMenuImage = LoadSave.GetSpriteAtlas(LoadSave.PAUSE_BACKGROUND);
         pauseMenuWidth = (int) (pauseMenuImage.getWidth() * SCALE);
         pauseMenuHeight = (int) (pauseMenuImage.getHeight() * SCALE);
-        pauseMenuXPos = GAME_WIDTH / 2 - pauseMenuWidth / 2;
-        pauseMenuYPos = 50;
+        pauseMenuXPosition = GAME_WIDTH / 2 - pauseMenuWidth / 2;
+        pauseMenuYPosition = 50;
     }
 
     /**
@@ -71,8 +71,8 @@ public class Pausemenu extends State implements StateMethods {
      */
     @Override
     public void update() {
-        for (MenuButton mb : pauseMenuButtons){
-            mb.updateButtons();
+        for (MenuButton menuButton : pauseMenuButtons){
+            menuButton.updateButtons();
         }
     }
 
@@ -84,10 +84,10 @@ public class Pausemenu extends State implements StateMethods {
     @Override
     public void draw(Graphics g) {
         playing.draw(g);
-        g.drawImage(pauseMenuImage, pauseMenuXPos, pauseMenuYPos, pauseMenuWidth, pauseMenuHeight, null);
+        g.drawImage(pauseMenuImage, pauseMenuXPosition, pauseMenuYPosition, pauseMenuWidth, pauseMenuHeight, null);
 
-        for (MenuButton mb : pauseMenuButtons){
-            mb.drawButtons(g);
+        for (MenuButton menuButton : pauseMenuButtons){
+            menuButton.drawButtons(g);
         }
     }
 
@@ -103,9 +103,9 @@ public class Pausemenu extends State implements StateMethods {
      */
     @Override
     public void mousePressed(MouseEvent e) {
-        for (MenuButton mb : pauseMenuButtons){
-            if (isUserInsideBtnBounds(e,mb)){
-                mb.setMousePressed(true);
+        for (MenuButton menuButton : pauseMenuButtons){
+            if (isUserInsideButtonBounds(e,menuButton)){
+                menuButton.setMousePressed(true);
                 break;
             }
         }
@@ -122,11 +122,11 @@ public class Pausemenu extends State implements StateMethods {
      */
     @Override
     public void mouseReleased(MouseEvent e) {
-        for (MenuButton mb : pauseMenuButtons){
-            if (isUserInsideBtnBounds(e,mb)){
-                if (mb.isMousePressed()){
+        for (MenuButton menuButton : pauseMenuButtons){
+            if (isUserInsideButtonBounds(e,menuButton)){
+                if (menuButton.isMousePressed()){
                     setPreviousGamestate();
-                    mb.applyGamestate();
+                    menuButton.applyGamestate();
                     checkStatesAndReactAccordingly();
                     break;
                 }
@@ -160,13 +160,13 @@ public class Pausemenu extends State implements StateMethods {
      */
     @Override
     public void mouseMoved(MouseEvent e) {
-        for (MenuButton mb : pauseMenuButtons){
-            mb.setMouseOver(false);
+        for (MenuButton menuButton : pauseMenuButtons){
+            menuButton.setMouseOver(false);
         }
 
-        for (MenuButton mb : pauseMenuButtons){
-            if (isUserInsideBtnBounds(e, mb)){
-                mb.setMouseOver(true);
+        for (MenuButton menuButton : pauseMenuButtons){
+            if (isUserInsideButtonBounds(e, menuButton)){
+                menuButton.setMouseOver(true);
                 break;
             }
         }
@@ -200,7 +200,7 @@ public class Pausemenu extends State implements StateMethods {
      * @param mb the MenuButton to check against
      * @return true if the user clicked inside the button, false otherwise
      */
-    public boolean isUserInsideBtnBounds(MouseEvent e, MenuButton mb){
+    public boolean isUserInsideButtonBounds(MouseEvent e, MenuButton mb){
         return mb.getBtnBounds().contains(e.getX(), e.getY());
     }
 
@@ -208,8 +208,8 @@ public class Pausemenu extends State implements StateMethods {
      * This method resets all the pausemenu buttons' booleans to their default values.
      */
     private void resetButtons(){
-        for (MenuButton mb : pauseMenuButtons){
-            mb.resetBtnBooleans();
+        for (MenuButton menuButton : pauseMenuButtons){
+            menuButton.resetBtnBooleans();
         }
     }
 }

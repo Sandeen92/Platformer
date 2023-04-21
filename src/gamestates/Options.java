@@ -25,8 +25,8 @@ import static utils.Constants.UserInterface.OptionButtons.OPTIONBTN_SIZE;
 public class Options extends State implements StateMethods {
 
     private BufferedImage optionsBackgroundImage;
-    private int optionsMenuXPos;
-    private int optionsMenuYPos;
+    private int optionsMenuXPosition;
+    private int optionsMenuYPosition;
     private int optionsMenuWidth;
     private int optionsMenuHeight;
     private OptionButton returnButton;
@@ -46,11 +46,11 @@ public class Options extends State implements StateMethods {
      * This method creates and places buttons for Options within borders of background image
      */
     private void loadOptionButtons(){
-        int optionBtnX = ((GAME_WIDTH / 3));
-        int optionBtnY = (int) (340 * SCALE);
+        int optionButtonX = ((GAME_WIDTH / 3));
+        int optionButtonY = (int) (340 * SCALE);
 
-        returnButton = new OptionButton(optionBtnX,optionBtnY, OPTIONBTN_SIZE, OPTIONBTN_SIZE, 0);
-        homeButton = new OptionButton(optionBtnX + 430, optionBtnY, OPTIONBTN_SIZE, OPTIONBTN_SIZE, 1);
+        returnButton = new OptionButton(optionButtonX, optionButtonY, OPTIONBTN_SIZE, OPTIONBTN_SIZE, 0);
+        homeButton = new OptionButton(optionButtonX + 430, optionButtonY, OPTIONBTN_SIZE, OPTIONBTN_SIZE, 1);
     }
 
     /**
@@ -61,8 +61,8 @@ public class Options extends State implements StateMethods {
         optionsBackgroundImage = LoadSave.GetSpriteAtlas(LoadSave.OPTIONS_BACKGROUND);
         optionsMenuWidth = (int) (optionsBackgroundImage.getWidth() * SCALE);
         optionsMenuHeight = (int) (optionsBackgroundImage.getHeight() * SCALE);
-        optionsMenuXPos = GAME_WIDTH / 2 - optionsMenuWidth / 2;
-        optionsMenuYPos = 50;
+        optionsMenuXPosition = GAME_WIDTH / 2 - optionsMenuWidth / 2;
+        optionsMenuYPosition = 50;
     }
 
     /**
@@ -87,7 +87,7 @@ public class Options extends State implements StateMethods {
             game.getStartmenu().draw(g);
         }
 
-        g.drawImage(optionsBackgroundImage, optionsMenuXPos, optionsMenuYPos, optionsMenuWidth, optionsMenuHeight, null);
+        g.drawImage(optionsBackgroundImage, optionsMenuXPosition, optionsMenuYPosition, optionsMenuWidth, optionsMenuHeight, null);
         returnButton.drawButtons(g);
         if (Gamestate.previousState != Gamestate.STARTMENU) {
             homeButton.drawButtons(g);
@@ -101,10 +101,10 @@ public class Options extends State implements StateMethods {
      */
     @Override
     public void mousePressed(MouseEvent e) {
-        if (isIn(e, returnButton)){
+        if (isIn(e, returnButton) == true){
             returnButton.setMousePressed(true);
         }
-        else if (isIn(e, homeButton)) {
+        else if (isIn(e, homeButton) == true) {
             homeButton.setMousePressed(true);
         }
     }
@@ -117,13 +117,13 @@ public class Options extends State implements StateMethods {
      */
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (isIn(e, returnButton)){
-            if (returnButton.isMousePressed()){
+        if (isIn(e, returnButton) == true){
+            if (returnButton.isMousePressed() == true){
                 returnButtonPressed();
             }
         }
-        else if (isIn(e, homeButton)){
-            if (homeButton.isMousePressed()){
+        else if (isIn(e, homeButton) == true){
+            if (homeButton.isMousePressed() == true){
                 homeButtonPressed();
             }
         }
@@ -173,7 +173,7 @@ public class Options extends State implements StateMethods {
     public void mouseMoved(MouseEvent e) {
         returnButton.setMouseOver(false);
 
-        if (isIn(e, returnButton)){
+        if (isIn(e, returnButton) == true){
             returnButton.setMouseOver(true);
         }
     }

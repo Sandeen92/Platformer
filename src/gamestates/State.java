@@ -1,8 +1,7 @@
 package gamestates;
-//Imports from within project
+
 import main.Game;
 import userinterface.MenuButton;
-//Imports from Javas library
 import java.awt.event.MouseEvent;
 
 /**
@@ -27,7 +26,7 @@ public class State {
      * @param mb The MenuButton to check.
      * @return True if the user's mouse is inside the button's bounds, false otherwise.
      */
-    public boolean isUserInsideBtnBounds(MouseEvent e, MenuButton mb){
+    public boolean isUserInsideButtonBounds(MouseEvent e, MenuButton mb){
         return mb.getBtnBounds().contains(e.getX(), e.getY());
     }
 

@@ -24,8 +24,6 @@ import static utils.Constants.GameConstants.*;
  * @author Simon Sandén
  */
 public class Startmenu extends State implements StateMethods{
-
-
     private MenuButton[] menuButtons = new MenuButton[3];
     private BufferedImage menuBackground;
     private int menuX;
@@ -127,8 +125,8 @@ public class Startmenu extends State implements StateMethods{
      */
     @Override
     public void update() {
-        for (MenuButton mb : menuButtons){
-            mb.updateButtons();
+        for (MenuButton menuButton : menuButtons){
+            menuButton.updateButtons();
         }
     }
 
@@ -142,8 +140,8 @@ public class Startmenu extends State implements StateMethods{
 
         g.drawImage(menuBackground, menuX, menuY, menuWidth, menuHeight, null);
 
-        for (MenuButton mb : menuButtons){
-            mb.drawButtons(g);
+        for (MenuButton menuButton : menuButtons){
+            menuButton.drawButtons(g);
         }
     }
 
@@ -157,9 +155,9 @@ public class Startmenu extends State implements StateMethods{
      */
     @Override
     public void mousePressed(MouseEvent e) {
-        for (MenuButton mb : menuButtons){
-            if (isUserInsideBtnBounds(e,mb)){
-                mb.setMousePressed(true);
+        for (MenuButton menuButton : menuButtons){
+            if (isUserInsideButtonBounds(e,menuButton)){
+                menuButton.setMousePressed(true);
                 break;
             }
         }
@@ -173,11 +171,11 @@ public class Startmenu extends State implements StateMethods{
      */
     @Override
     public void mouseReleased(MouseEvent e) {
-        for (MenuButton mb : menuButtons){
-            if (isUserInsideBtnBounds(e,mb)){
-                if (mb.isMousePressed()){
+        for (MenuButton menuButton : menuButtons){
+            if (isUserInsideButtonBounds(e,menuButton)){
+                if (menuButton.isMousePressed()){
                     setPreviousGamestate();
-                    mb.applyGamestate();
+                    menuButton.applyGamestate();
                     if (Gamestate.state == Gamestate.PLAYING){
                         silenceAudio();
                     }
@@ -196,13 +194,13 @@ public class Startmenu extends State implements StateMethods{
      */
     @Override
     public void mouseMoved(MouseEvent e) {
-        for (MenuButton mb : menuButtons){
-            mb.setMouseOver(false);
+        for (MenuButton menuButton : menuButtons){
+            menuButton.setMouseOver(false);
         }
 
-        for (MenuButton mb : menuButtons){
-            if (isUserInsideBtnBounds(e, mb)){
-                mb.setMouseOver(true);
+        for (MenuButton menuButton : menuButtons){
+            if (isUserInsideButtonBounds(e, menuButton)){
+                menuButton.setMouseOver(true);
                 break;
             }
         }
@@ -220,8 +218,8 @@ public class Startmenu extends State implements StateMethods{
      * This method resets all the startmenu buttons' booleans to their default values.
      */
     private void resetButtons(){
-        for (MenuButton mb : menuButtons){
-            mb.resetBtnBooleans();
+        for (MenuButton menuButton : menuButtons){
+            menuButton.resetBtnBooleans();
         }
     }
 
