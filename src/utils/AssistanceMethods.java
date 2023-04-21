@@ -51,7 +51,9 @@ public class AssistanceMethods {
      */
     private static boolean isSolid(float x, float y, int [][] levelData){
         int maxLevelWidth = levelData[0].length * TILES_SIZE;
-        checkIfInsideBorder(x,y,maxLevelWidth);
+        if(checkIfInsideBorder(x,y,maxLevelWidth) == true){
+            return true;
+        }
 
         float xIndex = x/TILES_SIZE;
         float yIndex = y/TILES_SIZE;

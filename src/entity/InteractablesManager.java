@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 
 public class InteractablesManager {
-    private ArrayList<Box> boxes;
+    private ArrayList<Box> interactableBoxes;
     private Playing playing;
 
     /**
@@ -28,7 +28,7 @@ public class InteractablesManager {
      * This method initialises the variables
      */
     private void initialiseVariables(){
-        boxes = new ArrayList<>();
+        interactableBoxes = new ArrayList<>();
     }
 
     /**
@@ -37,8 +37,8 @@ public class InteractablesManager {
      * @param xOffset
      */
     public void draw(Graphics g, int xOffset){
-        for(Box b : boxes){
-            b.draw(g, xOffset);
+        for(Box box : interactableBoxes){
+            box.draw(g, xOffset);
         }
     }
 
@@ -46,7 +46,7 @@ public class InteractablesManager {
      * This method updates all the interactables in the arraylists
      */
     public void update(){
-        for(Box box : boxes){
+        for(Box box : interactableBoxes){
             box.update(playing.getLevelManager().getCurrentLevel().getLevelData(), box, playing);
         }
     }
@@ -56,8 +56,8 @@ public class InteractablesManager {
      * @param level
      */
     public void loadBoxes(Level level){
-        boxes = level.getBoxes();
-        for(Box b : boxes){
+        interactableBoxes = level.getBoxes();
+        for(Box b : interactableBoxes){
             b.initialisePlayerToBox(playing.getPlayer());
         }
     }

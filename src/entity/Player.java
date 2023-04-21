@@ -27,7 +27,7 @@ public class Player extends Entity {
     private int flipW = 1;
     private boolean jumpOnce;
     private boolean canAttack;
-    private int facing;
+    private int facingDirection;
     private Enemy attackingEnemy;
     private boolean standingOnInteractable;
     private boolean isPushing;
@@ -39,10 +39,10 @@ public class Player extends Entity {
      * @param x
      * @param y
      * @param width
-     * @param heigth
+     * @param height
      */
-    public Player(float x, float y, int width, int heigth, int maxHealth, int attackDamage, EnemyManager enemyManager) {
-        super(x, y, width, heigth, maxHealth, attackDamage);
+    public Player(float x, float y, int width, int height, int maxHealth, int attackDamage, EnemyManager enemyManager) {
+        super(x, y, width, height, maxHealth, attackDamage);
         loadPlayerAnimations();
         initialiseHitbox(x,y, 22 * SCALE, 30 * SCALE);
         initialiseAttackBox(x,y,20 * SCALE, 27 * SCALE);
@@ -67,7 +67,7 @@ public class Player extends Entity {
         jumpOnce = true;
         canAttack = true;
         isHit = false;
-        facing = 1;
+        facingDirection = 1;
         standingOnInteractable = false;
         isPushing = false;
         knockbackSpeed = 0.4f * 1.2f;
@@ -79,7 +79,7 @@ public class Player extends Entity {
     public void updatePlayer() {
         updateEntityPosition(levelData);
         updateAnimationTick();
-        updateAttackBox(30, facing);
+        updateAttackBox(30, facingDirection);
         setEntityAnimation();
     }
 
@@ -96,7 +96,7 @@ public class Player extends Entity {
 
     /**
      * This method checks if the player is pushing something, if not
-     * makes the player jump
+     * it allows the player to jump
      */
     private void checkIfPlayerIsPushing(){
         if(isPushing == false){
@@ -121,7 +121,6 @@ public class Player extends Entity {
      * This method makes the player attack
      */
     public void attack(){
-        //TODO add animation for attacking
         if(canAttack == true){
             enemyManager.checkIfEnemyIsHit(attackBox);
             startAttackCooldown();
@@ -140,7 +139,7 @@ public class Player extends Entity {
     /**
      * This method resets the variable jumponce to make the player able to jump again
      */
-    public void resetJumpOnce(){
+    public void resetBooleanJumpOnce(){
         this.jumpOnce = true;
     }
 
@@ -155,9 +154,6 @@ public class Player extends Entity {
                 (int) (hitbox.y - yDrawOffset),
                 width * flipW,
                 height, null);
-
-        //drawHitbox(g,levelOffset);
-        //drawAttackBox(g, levelOffset); //TODO Remove later just for debugging
     }
 
     /**
@@ -198,8 +194,8 @@ public class Player extends Entity {
         horizontalSpeed = 0;
         changeMovingDirection();
         knockbackPlayerIfHit();
-        checkIfPlayerIsStandingOnInteractable(this.levelData);
-        moveEntity(this.levelData);
+        checkIfPlayerIsStandingOnInteractable(levelData);
+        moveEntity(levelData);
         isMoving = true;
     }
 
@@ -237,7 +233,7 @@ public class Player extends Entity {
         horizontalSpeed -=playerSpeed;
         flipX = width;
         flipW = -1;
-        facing = 0;
+        facingDirection = 0;
     }
 
     /**
@@ -247,7 +243,7 @@ public class Player extends Entity {
         horizontalSpeed += playerSpeed;
         flipX = 0;
         flipW = 1;
-        facing = 1;
+        facingDirection = 1;
     }
 
     /**
@@ -264,21 +260,21 @@ public class Player extends Entity {
 
     /**
      * This method checks if the player is standing on an interactable
-     * @param lvlData
+     * @param levelData
      */
-    private void checkIfPlayerIsStandingOnInteractable(int[][] lvlData){
+    private void checkIfPlayerIsStandingOnInteractable(int[][] levelData){
         if(standingOnInteractable == false){
-            checkIfPlayerIsInAirWhileNotJumping(lvlData);
+            checkIfPlayerIsInAirWhenNotJumping(levelData);
         }
     }
 
     /**
      * This method checks if the player is in the air if the player is not jumping
-     * @param lvlData
+     * @param levelData
      */
-    private void checkIfPlayerIsInAirWhileNotJumping(int[][] lvlData){
+    private void checkIfPlayerIsInAirWhenNotJumping(int[][] levelData){
         if(inAir == false ){
-            isEntityInAir(lvlData);
+            isEntityInAir(levelData);
         }
     }
 
@@ -309,11 +305,11 @@ public class Player extends Entity {
 
     /**
      * This method loads the leveldata into the player
-     * @param lvlData
+     * @param levelData
      */
-    public void loadLvlData(int [][] lvlData){
-        this.levelData = lvlData;
-        if(IsEntityOnFloor(hitbox,lvlData) == false){
+    public void loadLvlData(int [][] levelData){
+        this.levelData = levelData;
+        if(IsEntityOnFloor(hitbox,levelData) == false){
             inAir = true;
         }
     }

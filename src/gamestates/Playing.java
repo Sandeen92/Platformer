@@ -214,7 +214,7 @@ public class Playing extends State implements StateMethods {
                 break;
             case KeyEvent.VK_SPACE:
                 player.setJumping(false);
-                player.resetJumpOnce();
+                player.resetBooleanJumpOnce();
                 break;
         }
     }
