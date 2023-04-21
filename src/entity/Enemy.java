@@ -118,12 +118,12 @@ public abstract class Enemy extends Entity{
 
     /**
      * This method updates the enemy movement and checks for collisions and invalid moves
-     * @param lvlData
+     * @param levelData
      */
     @Override
-    protected void updateEntityPos(int[][] lvlData) {
-        isEntityInAir(lvlData);
-        moveEntity(lvlData);
+    protected void updateEntityPos(int[][] levelData) {
+        isEntityInAir(levelData);
+        moveEntity(levelData);
 
         switch (entityState){
             case IDLE:
@@ -132,7 +132,7 @@ public abstract class Enemy extends Entity{
             case RUNNING:
                 horizontalSpeed = 0;
                 setEnemyToPatrol();
-                checkIfWalkDirectionShouldChange(lvlData);
+                checkIfWalkDirectionShouldChange(levelData);
                 break;
         }
     }
