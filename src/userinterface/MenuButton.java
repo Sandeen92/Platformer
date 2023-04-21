@@ -18,8 +18,8 @@ import static utils.Constants.UserInterface.Buttons.*;
  */
 public class MenuButton {
 
-    private int xPos;
-    private int yPos;
+    private int xPosition;
+    private int yPosition;
     private int rowIndex;
     private int index;
     private int xOffsetCenter = BTN_WIDTH / 2;
@@ -33,25 +33,25 @@ public class MenuButton {
      * Constructor for MenuButton. Initializes the position, row index, game state,
      * loads the button images and initializes the button bounds.
      *
-     * @param xPos The x-coordinate of the button on the screen.
-     * @param yPos The y-coordinate of the button on the screen.
+     * @param xPosition The x-coordinate of the button on the screen.
+     * @param yPosition The y-coordinate of the button on the screen.
      * @param rowIndex The index of the button's row in the button sprite atlas.
      * @param state The game state to apply when the button is clicked.
      */
-    public MenuButton(int xPos, int yPos, int rowIndex, Gamestate state){
-        this.xPos = xPos;
-        this.yPos = yPos;
+    public MenuButton(int xPosition, int yPosition, int rowIndex, Gamestate state){
+        this.xPosition = xPosition;
+        this.yPosition = yPosition;
         this.rowIndex = rowIndex;
         this.state = state;
         loadImages();
-        initBounds();
+        initialiseBounds();
     }
 
     /**
      * Initializes the button bounds using the button's position and dimensions.
      */
-    private void initBounds(){
-        btnBounds = new Rectangle(xPos - xOffsetCenter, yPos, BTN_WIDTH, BTN_HEIGHT);
+    private void initialiseBounds(){
+        btnBounds = new Rectangle(xPosition - xOffsetCenter, yPosition, BTN_WIDTH, BTN_HEIGHT);
     }
 
     /**
@@ -76,7 +76,7 @@ public class MenuButton {
      * @param g the graphics object to use for drawing.
      */
     public void drawButtons(Graphics g){
-        g.drawImage(images[index], xPos - xOffsetCenter, yPos, BTN_WIDTH, BTN_HEIGHT, null);
+        g.drawImage(images[index], xPosition - xOffsetCenter, yPosition, BTN_WIDTH, BTN_HEIGHT, null);
     }
 
     /**
@@ -84,10 +84,10 @@ public class MenuButton {
      */
     public void updateButtons(){
         index = 0;
-        if (mouseOver){
+        if (mouseOver == true){
             index = 1;
         }
-        if (mousePressed){
+        if (mousePressed == true){
             index = 2;
         }
     }

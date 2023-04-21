@@ -2,7 +2,6 @@ package input;
 
 import gamestates.Gamestate;
 import main.GamePanel;
-
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 

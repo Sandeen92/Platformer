@@ -2,17 +2,15 @@ package main;
 
 import input.KeyBoardInputs;
 import input.MouseInputs;
-
 import javax.swing.*;
 import java.awt.*;
-
 import static utils.Constants.GameConstants.*;
 
 public class GamePanel extends JPanel {
     private Game game;
-    public static JLabel LBL_FPS_COUNTER = null; // Temporär FPS-counter
-    public static JLabel LBL_PLAYER_HP = null; // temporär hp visare för spelare
-    public static JLabel LBL_INFO = null; //Temp för o visa info
+    public static JLabel LBL_FPS_COUNTER = null;
+    public static JLabel LBL_PLAYER_HP = null;
+    public static JLabel LBL_INFO = null;
 
     public GamePanel(Game game){
         addKeyListener(new KeyBoardInputs(this));
@@ -20,13 +18,13 @@ public class GamePanel extends JPanel {
         setFocusable(true);
         requestFocus();
         setPanelSize();
-        initFpsCounter();
-        initPlayerHP();
-        initInfo();
+        initialiseFpsCounter();
+        initialisePlayerHP();
+        initialiseInfo();
         this.game = game;
     }
 
-    private void initInfo() {
+    private void initialiseInfo() {
         LBL_INFO = new JLabel();
         LBL_INFO.setFont(new Font("DialogInput", Font.BOLD, 25));
         LBL_INFO.setForeground(Color.yellow);
@@ -34,7 +32,7 @@ public class GamePanel extends JPanel {
         add(LBL_INFO);
     }
 
-    private void initPlayerHP() {
+    private void initialisePlayerHP() {
         LBL_PLAYER_HP = new JLabel();
         LBL_PLAYER_HP.setFont(new Font("DialogInput", Font.BOLD, 25));
         LBL_PLAYER_HP.setForeground(Color.yellow);
@@ -44,7 +42,7 @@ public class GamePanel extends JPanel {
     /**
      * Temporary FPS counter
      */
-    private void initFpsCounter() {
+    private void initialiseFpsCounter() {
         LBL_FPS_COUNTER = new JLabel();
         LBL_FPS_COUNTER.setFont(new Font("DialogInput", Font.BOLD, 25));
         LBL_FPS_COUNTER.setForeground(Color.yellow);

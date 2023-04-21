@@ -60,10 +60,10 @@ public class OptionButton extends Button {
      */
     public void updateButtons(){
         index = 0;
-        if (mouseOver){
+        if (mouseOver == true){
             index = 1;
         }
-        if (mousePressed){
+        if (mousePressed == true){
             index = 2;
         }
     }

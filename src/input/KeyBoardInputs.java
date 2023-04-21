@@ -2,14 +2,12 @@ package input;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
 import gamestates.Gamestate;
 import main.GamePanel;
 
 
 public class KeyBoardInputs implements KeyListener {
     private GamePanel gamePanel;
-    private final int PLAYER_SPEED = 5;
 
     public KeyBoardInputs(GamePanel gamePanel){
         this.gamePanel = gamePanel;

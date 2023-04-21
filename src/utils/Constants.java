@@ -113,6 +113,10 @@ public class Constants {
         public final static int TILES_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
         public final static int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
         public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
+        public final static int FPS_SET = 120;
+        public final static int UPS_SET = 200;
+        public final static double NANO_SECOND = 1000000000.0;
+
     }
 
 

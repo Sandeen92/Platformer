@@ -12,7 +12,6 @@ import utils.LoadSave;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-
 import static utils.Constants.GameConstants.*;
 
 public class LevelManager {
@@ -29,10 +28,10 @@ public class LevelManager {
      */
     public LevelManager(Game game) {
         this.game = game;
-        initClasses();
+        initialiseEverything();
     }
 
-    private void initClasses(){
+    private void initialiseEverything(){
         importOutsideSprites();
         allLevels = new ArrayList<>();
         buildAllLevels();
@@ -63,7 +62,7 @@ public class LevelManager {
         game.getPlaying().getEnemyManager().loadEnemies(newLevel);
         game.getPlaying().getInteractablesManager().loadBoxes(newLevel);
         game.getPlaying().getPlayer().loadLvlData(newLevel.getLevelData());
-        game.getPlaying().setMaxLevelXOffset(newLevel.getMaxLevelOffsetX());
+        game.getPlaying().setMaxLevelXOffset(newLevel.getMaxLevelXOffset());
     }
 
     /**

@@ -11,8 +11,9 @@ import gamestates.*;
 import gamestates.DeathScreen;
 import gamestates.Gamestate;
 import gamestates.Playing;
-
 import java.awt.*;
+
+import static utils.Constants.GameConstants.*;
 
 public class Game implements Runnable{
     //GUI
@@ -20,12 +21,10 @@ public class Game implements Runnable{
     private GamePanel gamePanel;
     //Variables for gameloop
     private Thread gameThread;
-    private final int FPS_SET = 120;
-    private final int UPS_SET = 200;
     private long previousTime = System.nanoTime();
     private long lastCheck = System.currentTimeMillis();
-    private double timePerFrame = 1000000000.0 / FPS_SET;
-    private double timePerUpdate = 1000000000.0 / UPS_SET;
+    private double timePerFrame = NANO_SECOND / FPS_SET;
+    private double timePerUpdate = NANO_SECOND/ UPS_SET;
     private long currentTime = System.nanoTime();
     private int updates = 0;
     private double deltaU = 0;
@@ -43,7 +42,7 @@ public class Game implements Runnable{
      * Constructor for Game, initializes classes and starts the gameloop
      */
     public Game(){
-        initClasses();
+        initialiseClasses();
         gamePanel.requestFocus();
         startGameLoop();
     }
@@ -51,7 +50,7 @@ public class Game implements Runnable{
     /**
      * This method initializes classes
      */
-    private void initClasses() {
+    private void initialiseClasses() {
         startmenu = new Startmenu(this);
         playing = new Playing(this);
         deathScreen = new DeathScreen(this);
@@ -154,14 +153,13 @@ public class Game implements Runnable{
      */
     @Override
     public void run() {
-        while (true){
-
+        while(true){
             checkDeltaValuesAndCalculate();
 
             if(System.currentTimeMillis() - lastCheck >= 1000){
                 lastCheck = System.currentTimeMillis();
                 //GamePanel.LBL_FPS_COUNTER.setText("FPS: " + frames + " UPS: " + updates);
-                GamePanel.LBL_PLAYER_HP.setText("Player HP: " + playing.getPlayer().getCurrentHealth() + " |"); // Temporary player health display
+                GamePanel.LBL_PLAYER_HP.setText("Player HP: " + playing.getPlayer().getCurrentHealth() + " |");
                 frames = 0;
                 updates = 0;
             }
