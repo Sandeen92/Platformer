@@ -217,7 +217,7 @@ public class AssistanceMethods {
      * @param img
      * @return
      */
-    public static ArrayList<EnemyRat> GetCrabs(BufferedImage img) {
+    public static ArrayList<EnemyRat> GetRats(BufferedImage img) {
         ArrayList<EnemyRat> list = new ArrayList<>();
         for (int j = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++) {

@@ -32,7 +32,7 @@ public class EnemyManager {
      * This method calls a method in loadsave that reads in the enemies and adds them to the enemylist
      */
     public void loadEnemies(Level level) {
-        rats = level.getCrabs();
+        rats = level.getRats();
     }
 
     /**

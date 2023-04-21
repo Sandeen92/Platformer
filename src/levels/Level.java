@@ -13,7 +13,7 @@ import static utils.Constants.GameConstants.*;
 public class Level {
     private int [][] levelData;
     private BufferedImage levelDataImage;
-    private ArrayList<EnemyRat> crabs;
+    private ArrayList<EnemyRat> Rats;
     private ArrayList<Box> boxes;
     private int levelTilesWidth;
     private int maxTilesOffset;
@@ -48,7 +48,7 @@ public class Level {
     }
 
     private void createEnemies() {
-        crabs = GetCrabs(levelDataImage);
+        Rats = GetRats(levelDataImage);
     }
     private void createBoxes(){
         boxes = GetBoxes(levelDataImage);
@@ -65,8 +65,8 @@ public class Level {
         return maxLevelOffsetX;
     }
 
-    public ArrayList<EnemyRat> getCrabs() {
-        return crabs;
+    public ArrayList<EnemyRat> getRats() {
+        return Rats;
     }
 
     public ArrayList<Box> getBoxes(){
