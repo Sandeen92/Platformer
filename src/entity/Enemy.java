@@ -6,7 +6,7 @@
 package entity;
 
 import gamestates.Gamestate;
-import static utils.Constants.GameConstants.*;
+
 import static utils.AssistanceMethods.canMoveHere;
 import static utils.AssistanceMethods.IsFloor;
 import static utils.Constants.EnemyConstants.*;
@@ -15,9 +15,9 @@ import static utils.Constants.Directions.*;
 
 public abstract class Enemy extends Entity{
     private int enemyType;
-    private final float patrolSpeed = 0.3f * SCALE;
+    private final float patrolSpeed = RAT_PATROL_SPEED;
     private boolean firstUpdate = true;
-    private int walkDir = LEFT;
+    private int walkDirection = LEFT;
     private boolean canAttack = true;
     private AttackCooldownThread attackCooldownTimer;
     private int flipX = 0;
@@ -43,10 +43,10 @@ public abstract class Enemy extends Entity{
      * @param enemy
      * @param player
      */
-    protected void checkPlayerHit(Enemy enemy, Player player){
+    protected void checkIfPlayerIsHit(Enemy enemy, Player player){
         if(enemy.attackBox.intersects(player.hitbox) == true){
             if(canAttack == true){
-                enemyAttack(enemy, player);
+                attackPlayer(enemy, player);
             }
             changePlayerToHit(enemy,player);
         }
@@ -57,7 +57,7 @@ public abstract class Enemy extends Entity{
      * @param enemy
      * @param player
      */
-    private void enemyAttack(Enemy enemy, Player player){
+    private void attackPlayer(Enemy enemy, Player player){
         player.currentHealth -= enemy.attackDamage;
         checkIfPlayerIsDead(player);
         canAttack = false;
@@ -108,10 +108,10 @@ public abstract class Enemy extends Entity{
 
     /**
      * This method updates the enemies
-     * @param lvlData
+     * @param levelData
      */
-    public void update(int[][] lvlData){
-        updateEntityPos(lvlData);
+    public void update(int[][] levelData){
+        updateEntityPosition(levelData);
         updateAttackBox(0, 0);
         updateAnimationTick();
     }
@@ -121,7 +121,7 @@ public abstract class Enemy extends Entity{
      * @param levelData
      */
     @Override
-    protected void updateEntityPos(int[][] levelData) {
+    protected void updateEntityPosition(int[][] levelData) {
         isEntityInAir(levelData);
         moveEntity(levelData);
 
@@ -139,11 +139,11 @@ public abstract class Enemy extends Entity{
 
     /**
      * This method checks if the walkdirection of the enemy should change
-     * @param lvlData
+     * @param levelData
      */
-    private void checkIfWalkDirectionShouldChange(int[][] lvlData){
-        if(canMoveHere(hitbox.x + horizontalSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData) == true){
-            if(IsFloor(hitbox, horizontalSpeed, lvlData) == true){
+    private void checkIfWalkDirectionShouldChange(int[][] levelData){
+        if(canMoveHere(hitbox.x + horizontalSpeed, hitbox.y, hitbox.width, hitbox.height, levelData) == true){
+            if(IsFloor(hitbox, horizontalSpeed, levelData) == true){
                 return;
             }
         }
@@ -154,12 +154,12 @@ public abstract class Enemy extends Entity{
      * This method changes the walking direction for the enemy
      */
     public void changeWalkDirection() {
-        if(walkDir == LEFT){
-            walkDir = RIGHT;
+        if(walkDirection == LEFT){
+            walkDirection = RIGHT;
             flipX = 0;
             flipW = 1;
         } else {
-            walkDir = LEFT;
+            walkDirection = LEFT;
             flipX = width+20;
             flipW = -1;
         }
@@ -169,15 +169,15 @@ public abstract class Enemy extends Entity{
      * This method makes the enemy start patrolling
      */
     public void setEnemyToPatrol(){
-        if(walkDir == LEFT){
+        if(walkDirection == LEFT){
             horizontalSpeed = -patrolSpeed;
         } else {
             horizontalSpeed = patrolSpeed;
         }
     }
 
-    public int getWalkDir(){
-       return walkDir;
+    public int getWalkDirection(){
+       return walkDirection;
     }
 
     public int getAnimationIndex(){

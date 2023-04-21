@@ -77,7 +77,7 @@ public class Player extends Entity {
      * This method is responsible for updating the player
      */
     public void updatePlayer() {
-        updateEntityPos(levelData);
+        updateEntityPosition(levelData);
         updateAnimationTick();
         updateAttackBox(30, facing);
         setEntityAnimation();
@@ -187,7 +187,7 @@ public class Player extends Entity {
     /**
      *  This method updates the players position and checks for collisions
      */
-    protected void updateEntityPos(int [][] lvlData) {
+    protected void updateEntityPosition(int [][] levelData) {
         isMoving = false;
 
         checkIfPlayerIsJumping();
@@ -198,8 +198,8 @@ public class Player extends Entity {
         horizontalSpeed = 0;
         changeMovingDirection();
         knockbackPlayerIfHit();
-        checkIfPlayerIsStandingOnInteractable(levelData);
-        moveEntity(levelData);
+        checkIfPlayerIsStandingOnInteractable(this.levelData);
+        moveEntity(this.levelData);
         isMoving = true;
     }
 

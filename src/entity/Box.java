@@ -65,18 +65,18 @@ public class Box extends Entity{
         if(box.hitbox.intersects(player.hitbox) == true){
             checkIfPlayerIsAboveBox();
         } else if (player.getPlayerSpeed() != 1.2 || player.getStandingOnInteractable() == true){
-            resetPlayerVariables();
+            resetChangedPlayerVariables();
         }
     }
 
     /**
      * This method checks if the enemies collides with the box
-     * @param crabbies
+     * @param rats
      */
-    public void checkIfEnemyIsCollidingWithBox(ArrayList<EnemyRat> crabbies) {
-        for (EnemyRat c : crabbies) {
-            if (hitbox.intersects(c.hitbox) == true) {
-                changeEnemyWalkDirection(c);
+    public void checkIfEnemyIsCollidingWithBox(ArrayList<EnemyRat> rats) {
+        for (EnemyRat rat : rats) {
+            if (hitbox.intersects(rat.hitbox) == true) {
+                changeEnemyWalkDirection(rat);
             }
         }
     }
@@ -87,7 +87,7 @@ public class Box extends Entity{
      * @param rat
      */
     private void changeEnemyWalkDirection(EnemyRat rat){
-        if(rat.getWalkDir() == LEFT) {
+        if(rat.getWalkDirection() == LEFT) {
             rat.hitbox.x += 3;
         } else {
             rat.hitbox.x -= 3;
@@ -97,27 +97,27 @@ public class Box extends Entity{
 
     /**
      * This method takes in the leveldata and updates the position of the entity
-     * @param lvldata
+     * @param levelData
      */
     @Override
-    protected void updateEntityPos(int[][] lvldata) {
+    protected void updateEntityPosition(int[][] levelData) {
         if(firstUpdate == true){
-            isEntityInAir(lvldata);
+            isEntityInAir(levelData);
             firstUpdate = false;
         }
         if(inAir == false){
-            isEntityInAir(lvldata);
+            isEntityInAir(levelData);
         }
-        moveEntity(lvldata);
+        moveEntity(levelData);
         isMoving = true;
     }
 
     /**
      * This method is responsible for running all the update methods in the class
-     * @param lvlData
+     * @param levelData
      */
-    public void update(int[][] lvlData, Box box, Playing playing ){
-        updateEntityPos(lvlData);
+    public void update(int[][] levelData, Box box, Playing playing ){
+        updateEntityPosition(levelData);
         box.checkIfPlayerCollidesWithBox(box, playing.getPlayer());
         box.checkIfEnemyIsCollidingWithBox(playing.getEnemyManager().getRats());
     }
@@ -125,7 +125,7 @@ public class Box extends Entity{
     /**
      * This method checks which direction the box is pushed from and assigns the speed according to that
      */
-    private void checkPushdirection(){
+    private void checkPushDirection(){
         if(hitbox.x > player.hitbox.x){
             horizontalSpeed += moveSpeed;
         } else if (hitbox.x < player.hitbox.x){
@@ -142,13 +142,13 @@ public class Box extends Entity{
         if(player.getStandingOnInteractable() == false){
             player.setStandingOnInteractable(true);
         }
-        player.resetInAir();
+        player.resetBooleanInAir();
     }
 
     /**
      * This method resets the variables changed in player from this class
      */
-    private void resetPlayerVariables(){
+    private void resetChangedPlayerVariables(){
         player.setHorizontalSpeed(1.2f);
         player.setStandingOnInteractable(false);
         player.setPushing(false);
@@ -160,7 +160,7 @@ public class Box extends Entity{
      */
     private void checkIfPlayerIsAboveBox(){
         if((hitbox.y < player.hitbox.y+height)){
-            checkPushdirection();
+            checkPushDirection();
         } else if(hitbox.y > player.hitbox.y+height){
             setPlayerStandingOnInteractable();
         }
@@ -170,9 +170,9 @@ public class Box extends Entity{
      * This method loads the image of the box
      */
     private void loadBoxImage() {
-        InputStream is = getClass().getResourceAsStream("/BOX_DARK_SPRITE.png");
+        InputStream inputStream = getClass().getResourceAsStream("/BOX_DARK_SPRITE.png");
         try{
-            boxImage = ImageIO.read(is);
+            boxImage = ImageIO.read(inputStream);
         } catch (IOException e){
             e.printStackTrace();
         }
@@ -185,6 +185,5 @@ public class Box extends Entity{
      */
     public void draw(Graphics g, int xOffset){
         g.drawImage(boxImage, (int) hitbox.x- xOffset, (int) hitbox.y+1, (int) width, (int) height, null);
-        //drawHitbox(g,xOffset);
     }
 }

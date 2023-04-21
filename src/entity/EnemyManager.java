@@ -37,16 +37,14 @@ public class EnemyManager {
 
     /**
      * This method itterates through all the enemies and updates them
-     * @param lvldata
+     * @param levelData
      */
-    public void update(int[][] lvldata){
-        for(EnemyRat c : rats){
-            c.update(lvldata);
-            c.checkPlayerHit(c,playing.getPlayer());
+    public void update(int[][] levelData){
+        for(EnemyRat rat : rats){
+            rat.update(levelData);
+            rat.checkIfPlayerIsHit(rat,playing.getPlayer());
         }
     }
-
-    //TODO add method to change animation
 
     /**
      * This method checks if an enemys hitbox is intersecting with the players attackbox
