@@ -74,7 +74,7 @@ public abstract class Entity {
     private void initialiseVariables(int maxHealth, int attackDamage){
         airSpeed = 0f;
         gravity = 0.03f * SCALE;
-        jumpSpeed = -2.25f * SCALE;
+        jumpSpeed = -1.65f * SCALE;
         fallSpeedAfterCollision = 0.5f * SCALE;
         this.maxHealth = maxHealth;
         this.currentHealth = maxHealth;
