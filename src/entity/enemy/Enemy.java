@@ -66,6 +66,27 @@ public abstract class Enemy{
         this.maxHealth = maxHealth;
         this.attackDamage = attackDamage;
     }
+    /**
+     * This method initializes the hitbox of the entity
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     */
+    protected void initialiseHitbox(float x, float y, float width, float height) {
+        hitbox = new Rectangle2D.Float(x, y,width,height);
+    }
+
+    /**
+     * This method initialises the attackbox of the entity
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     */
+    protected void initialiseAttackBox(float x, float y, float width, float height){
+        attackBox = new Rectangle2D.Float(x, y, width, height);
+    }
 
 
     /**
