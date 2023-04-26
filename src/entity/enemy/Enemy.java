@@ -10,9 +10,10 @@ import gamestates.Gamestate;
 
 import java.awt.geom.Rectangle2D;
 
-import static utils.AssistanceMethods.canMoveHere;
-import static utils.AssistanceMethods.IsFloor;
+import static utils.AssistanceMethods.*;
 import static utils.Constants.EnemyConstants.*;
+import static utils.Constants.EntityConstants.MAX_AIR_SPEED;
+import static utils.Constants.GameConstants.SCALE;
 import static utils.Constants.PlayerConstants.HIT;
 import static utils.Constants.Directions.*;
 
@@ -23,6 +24,7 @@ public abstract class Enemy{
     protected int height;
     protected Rectangle2D.Float hitbox;
     protected Rectangle2D.Float attackBox;
+    protected float horizontalSpeed;
     protected int maxHealth;
     protected int currentHealth;
     protected int attackDamage;
@@ -34,6 +36,13 @@ public abstract class Enemy{
     private AttackCooldownThread attackCooldownTimer;
     private int flipX = 0;
     private int flipW = 1;
+    protected int animationIndex;
+    protected int animationTick;
+    protected int animationSpeed = 30;
+    protected int entityState = IDLE;
+    protected boolean inAir;
+    protected float airSpeed;
+    protected float gravity = 0.03f * SCALE;
 
 
     /**
@@ -45,10 +54,10 @@ public abstract class Enemy{
      * @param enemyType
      */
     public Enemy(float x, float y, int width, int height, int enemyType, int maxHealth, int attackDamage) {
-
+        initialiseVariables(x,y,width,height,enemyType,maxHealth,attackDamage);
     }
 
-    private void initialiseVariables(){
+    private void initialiseVariables(float x, float y, int width, int height, int enemyType, int maxHealth, int attackDamage){
         this.x = x;
         this.y = y;
         this.width = width;
@@ -80,7 +89,7 @@ public abstract class Enemy{
      * @param player
      */
     private void attackPlayer(Enemy enemy, Player player){
-        player.getCurrentHealth() -= enemy.attackDamage;
+        player.entityTakeDamage(enemy.attackDamage);
         checkIfPlayerIsDead(player);
         canAttack = false;
         startAttackCooldown();
@@ -111,7 +120,7 @@ public abstract class Enemy{
      */
     private void changePlayerToHit(Enemy enemy, Player player){
         player.playerHit(enemy);
-        player.entityState = HIT;
+        player.setEntityState(HIT);
     }
 
     /**
@@ -138,13 +147,71 @@ public abstract class Enemy{
         updateAnimationTick();
     }
 
+    protected void updateAttackBox(int xOffset, int facingDirection){
+        if(facingDirection == 0){
+            attackBox.x = hitbox.x - xOffset;
+            attackBox.y = hitbox.y;
+        } else if (facingDirection == 1){
+            attackBox.x = hitbox.x + xOffset;
+            attackBox.y = hitbox.y;
+        }
+    }
+
+    /**
+     * This method checks if the enemy is in air and changes the boolean to true or false
+     * @param levelData
+     */
+
+    protected void isEnemyInAir(int[][] levelData){
+        if(IsEntityOnFloor(hitbox, levelData) == false){
+            inAir = true;
+        }
+    }
+
+
+    private void checkIfEntityCanMoveInAir(int[][] levelData) {
+        if (canMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, levelData) == true) {
+            hitbox.y += airSpeed;
+            changeAirSpeed();
+            updateEnemyXPosition(horizontalSpeed, levelData);
+        } else {
+            updateEnemyXPosition(horizontalSpeed, levelData);
+        }
+    }
+
+    private void changeAirSpeed(){
+        if(airSpeed < MAX_AIR_SPEED){
+            airSpeed += gravity;
+        }
+    }
+
+    /**
+     * This method is used to move the enemy with all the checks that is needed to be done
+     * Makes the physics and collisions work
+     * @param levelData
+     */
+    protected void moveEntity(int[][] levelData) {
+        if (inAir == true) {
+            checkIfEntityCanMoveInAir(levelData);
+        } else {
+            updateEnemyXPosition(horizontalSpeed, levelData);
+        }
+    }
+
+    protected void updateEnemyXPosition(float horizontalSpeed, int [][] levelData) {
+        if(canMoveHere(hitbox.x + horizontalSpeed, hitbox.y, hitbox.width, hitbox.height, levelData) == true){
+            hitbox.x += horizontalSpeed;
+        } else {
+            hitbox.x = GetEntityXPosNextToWall(hitbox, horizontalSpeed);
+        }
+    }
+
     /**
      * This method updates the enemy movement and checks for collisions and invalid moves
      * @param levelData
      */
-    @Override
     protected void updateEntityPosition(int[][] levelData) {
-        isEntityInAir(levelData);
+        isEnemyInAir(levelData);
         moveEntity(levelData);
 
         switch (entityState){
@@ -210,6 +277,21 @@ public abstract class Enemy{
         } else {
             horizontalSpeed = patrolSpeed;
         }
+    }
+
+    /**
+     * This method makes the enemy take damage
+     * @param damage
+     */
+    public void enemyTakeDamage(int damage){
+        currentHealth -= damage;
+    }
+
+    public boolean isEntityDead(){
+        if(currentHealth <= 0){
+            return true;
+        }
+        return false;
     }
 
     public int getWalkDirection(){

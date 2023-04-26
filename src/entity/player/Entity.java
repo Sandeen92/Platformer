@@ -257,8 +257,6 @@ public abstract class Entity {
         animationIndex = 0;
     }
 
-
-
     /**
      * This method updates the animationtick to keep track of which stage of the animation
      * is the next
@@ -344,7 +342,9 @@ public abstract class Entity {
     public void setCurrentHealth(int currentHealth) {
         this.currentHealth = currentHealth;
     }
-    public
+    public void setEntityState(int entityState){
+        this.entityState = entityState;
+    }
 
     /**
      * This method sets all moving booleans to false
