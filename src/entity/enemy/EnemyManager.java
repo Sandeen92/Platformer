@@ -3,8 +3,9 @@
  * @author Linus Magnusson
  */
 
-package entity;
+package entity.enemy;
 
+import entity.enemy.EnemyRat;
 import gamestates.Playing;
 import levels.Level;
 import utils.LoadSave;

@@ -1,8 +1,8 @@
 package gamestates;
 //Imports from within project
-import entity.EnemyManager;
-import entity.InteractablesManager;
-import entity.Player;
+import entity.enemy.EnemyManager;
+import entity.interactable.InteractablesManager;
+import entity.player.Player;
 import items.ItemManager;
 import levels.LevelManager;
 import main.Game;

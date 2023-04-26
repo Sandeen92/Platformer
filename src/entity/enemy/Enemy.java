@@ -3,9 +3,13 @@
  * @author Linus Magnusson
  */
 
-package entity;
+package entity.enemy;
 
+import entity.player.Entity;
+import entity.player.Player;
 import gamestates.Gamestate;
+
+import java.awt.geom.Rectangle2D;
 
 import static utils.AssistanceMethods.canMoveHere;
 import static utils.AssistanceMethods.IsFloor;
@@ -13,7 +17,7 @@ import static utils.Constants.EnemyConstants.*;
 import static utils.Constants.PlayerConstants.HIT;
 import static utils.Constants.Directions.*;
 
-public abstract class Enemy extends Entity{
+public abstract class Enemy extends Entity {
     private int enemyType;
     private final float patrolSpeed = RAT_PATROL_SPEED;
     private boolean firstUpdate = true;
@@ -147,13 +151,27 @@ public abstract class Enemy extends Entity{
                 return;
             }
         }
-        changeWalkDirection();
+        changeFacingDirection();
     }
 
     /**
-     * This method changes the walking direction for the enemy
+     * This method changes the enemy walkdirektion and sets an offset that helps the enemy not getting
+     * stuck
+     *
      */
-    public void changeWalkDirection() {
+    public void changeEnemyWalkDirection(){
+        if(getWalkDirection() == LEFT) {
+            hitbox.x += 3;
+        } else {
+            hitbox.x -= 3;
+        }
+        changeFacingDirection();
+    }
+
+    /**
+     * This method changes the facing direction for the enemy
+     */
+    public void changeFacingDirection() {
         if(walkDirection == LEFT){
             walkDirection = RIGHT;
             flipX = 0;
@@ -194,6 +212,10 @@ public abstract class Enemy extends Entity{
 
     public int getFlipW() {
         return flipW;
+    }
+
+    public Rectangle2D.Float getHitbox(){
+        return hitbox;
     }
 
     private class AttackCooldownThread extends Thread{

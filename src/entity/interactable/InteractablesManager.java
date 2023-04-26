@@ -3,8 +3,9 @@
  * @author Linus Magnusson
  */
 
-package entity;
+package entity.interactable;
 
+import entity.interactable.Box;
 import gamestates.Playing;
 import levels.Level;
 import java.awt.*;

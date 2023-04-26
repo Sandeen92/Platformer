@@ -3,12 +3,14 @@
  * @author Linus Magnusson
  */
 
-package entity;
+package entity.enemy;
+
+import entity.enemy.Enemy;
 
 import static utils.Constants.EnemyConstants.*;
 import static utils.Constants.GameConstants.*;
 
-public class EnemyRat extends Enemy{
+public class EnemyRat extends Enemy {
 
     public EnemyRat(float x, float y) {
         super(x, y, RAT_WIDTH, RAT_HEIGHT, RAT, RAT_HEALTHPOINTS, RAT_ATTACKDAMAGE);

@@ -3,10 +3,14 @@
  * @author Linus Magnusson
  */
 
-package entity;
+package entity.player;
+
+import entity.enemy.Enemy;
+import entity.enemy.EnemyManager;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -304,6 +308,16 @@ public class Player extends Entity {
     }
 
     /**
+     * This method sets the variables for the player if the player is standing on an interactabel object
+     */
+    public void setPlayerStandingOnInteractable(){
+        if(getStandingOnInteractable() == false){
+            setStandingOnInteractable(true);
+        }
+        resetBooleanInAir();
+    }
+
+    /**
      * This method loads the leveldata into the player
      * @param levelData
      */
@@ -345,6 +359,9 @@ public class Player extends Entity {
 
     public void setPushing(boolean pushing) {
         isPushing = pushing;
+    }
+    public Rectangle2D.Float getHitbox(){
+        return hitbox;
     }
 
     private class AttackTimer extends Thread{

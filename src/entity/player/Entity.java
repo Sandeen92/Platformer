@@ -3,7 +3,7 @@
  * @author Linus Magnusson
  */
 
-package entity;
+package entity.player;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -256,6 +256,8 @@ public abstract class Entity {
         animationTick = 0;
         animationIndex = 0;
     }
+
+
 
     /**
      * This method updates the animationtick to keep track of which stage of the animation
