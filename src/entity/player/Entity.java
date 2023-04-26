@@ -3,7 +3,7 @@
  * @author Linus Magnusson
  */
 
-package entity;
+package entity.player;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -341,6 +341,9 @@ public abstract class Entity {
 
     public void setCurrentHealth(int currentHealth) {
         this.currentHealth = currentHealth;
+    }
+    public void setEntityState(int entityState){
+        this.entityState = entityState;
     }
 
     /**
