@@ -5,7 +5,6 @@
 
 package entity.enemy;
 
-import entity.player.Entity;
 import entity.player.Player;
 import gamestates.Gamestate;
 
@@ -18,6 +17,15 @@ import static utils.Constants.PlayerConstants.HIT;
 import static utils.Constants.Directions.*;
 
 public abstract class Enemy{
+    protected float x;
+    protected float y;
+    protected int width;
+    protected int height;
+    protected Rectangle2D.Float hitbox;
+    protected Rectangle2D.Float attackBox;
+    protected int maxHealth;
+    protected int currentHealth;
+    protected int attackDamage;
     private int enemyType;
     private final float patrolSpeed = RAT_PATROL_SPEED;
     private boolean firstUpdate = true;
@@ -37,7 +45,7 @@ public abstract class Enemy{
      * @param enemyType
      */
     public Enemy(float x, float y, int width, int height, int enemyType, int maxHealth, int attackDamage) {
-        
+
     }
 
     private void initialiseVariables(){
@@ -58,7 +66,7 @@ public abstract class Enemy{
      * @param player
      */
     protected void checkIfPlayerIsHit(Enemy enemy, Player player){
-        if(enemy.attackBox.intersects(player.hitbox) == true){
+        if(enemy.attackBox.intersects(player.getHitbox()) == true){
             if(canAttack == true){
                 attackPlayer(enemy, player);
             }
@@ -72,7 +80,7 @@ public abstract class Enemy{
      * @param player
      */
     private void attackPlayer(Enemy enemy, Player player){
-        player.currentHealth -= enemy.attackDamage;
+        player.getCurrentHealth() -= enemy.attackDamage;
         checkIfPlayerIsDead(player);
         canAttack = false;
         startAttackCooldown();

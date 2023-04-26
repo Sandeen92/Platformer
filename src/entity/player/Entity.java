@@ -344,6 +344,7 @@ public abstract class Entity {
     public void setCurrentHealth(int currentHealth) {
         this.currentHealth = currentHealth;
     }
+    public
 
     /**
      * This method sets all moving booleans to false
