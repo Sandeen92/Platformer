@@ -17,7 +17,7 @@ import static utils.Constants.EnemyConstants.*;
 import static utils.Constants.PlayerConstants.HIT;
 import static utils.Constants.Directions.*;
 
-public abstract class Enemy extends Entity {
+public abstract class Enemy{
     private int enemyType;
     private final float patrolSpeed = RAT_PATROL_SPEED;
     private boolean firstUpdate = true;
@@ -37,9 +37,19 @@ public abstract class Enemy extends Entity {
      * @param enemyType
      */
     public Enemy(float x, float y, int width, int height, int enemyType, int maxHealth, int attackDamage) {
-        super(x, y, width, height, maxHealth, attackDamage);
-        this.enemyType = enemyType;
+        
     }
+
+    private void initialiseVariables(){
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.enemyType = enemyType;
+        this.maxHealth = maxHealth;
+        this.attackDamage = attackDamage;
+    }
+
 
     /**
      * This metod checks if the player is hit by the Enemy by checking if the player hitbox
