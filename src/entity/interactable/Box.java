@@ -15,10 +15,11 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import static utils.Constants.GameConstants.*;
 import static utils.Constants.Directions.LEFT;
+import static utils.Constants.InteractableConstants.BOX_MOVESPEED;
 
 
 public class Box extends Interactable {
-    private float moveSpeed;
+    private float moveSpeed = BOX_MOVESPEED;
 
 
     /**
