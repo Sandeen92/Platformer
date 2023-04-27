@@ -3,24 +3,24 @@
  * @author Linus Magnusson
  */
 
-package entity;
+package entity.interactable;
 
+import entity.enemy.EnemyRat;
+import entity.player.Player;
 import gamestates.Playing;
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import static utils.Constants.GameConstants.*;
 import static utils.Constants.Directions.LEFT;
+import static utils.Constants.InteractableConstants.BOX_MOVESPEED;
 
 
-public class Box extends Entity{
-    public static float moveSpeed = 0.6f;
-    private BufferedImage boxImage;
-    private Player player;
-    private boolean firstUpdate;
+public class Box extends Interactable {
+    private float moveSpeed = BOX_MOVESPEED;
+
 
     /**
      * Constructor for Box and calls methods to instantiate the variables
@@ -31,17 +31,15 @@ public class Box extends Entity{
      */
     public Box(int x, int y, int width, int height){
         super(x,y,width,height);
-        initialiseVariables();
+        initialiseVariables(x,y,width,height);
     }
 
     /**
      * This method initialises the boxes variables
      */
-    public void initialiseVariables(){
+    public void initialiseVariables(int x, int y, int width, int height){
         airSpeed = 0f;
         gravity = 0.03f * SCALE;
-        jumpSpeed = -2.25f * SCALE;
-        fallSpeedAfterCollision = 0.5f * SCALE;
         loadBoxImage();
         initialiseHitbox(x,y,width,height);
         firstUpdate = true;
@@ -62,7 +60,7 @@ public class Box extends Entity{
      */
     public void checkIfPlayerCollidesWithBox(Box box, Player player){
         horizontalSpeed = 0;
-        if(box.hitbox.intersects(player.hitbox) == true){
+        if(box.hitbox.intersects(player.getHitbox()) == true){
             checkIfPlayerIsAboveBox();
         } else if (player.getPlayerSpeed() != 1.2 || player.getStandingOnInteractable() == true){
             resetChangedPlayerVariables();
@@ -75,40 +73,30 @@ public class Box extends Entity{
      */
     public void checkIfEnemyIsCollidingWithBox(ArrayList<EnemyRat> rats) {
         for (EnemyRat rat : rats) {
-            if (hitbox.intersects(rat.hitbox) == true) {
-                changeEnemyWalkDirection(rat);
+            if (hitbox.intersects(rat.getHitbox()) == true) {
+                rat.changeEnemyWalkDirection();
             }
         }
     }
 
-    /**
-     * This method takes in an enemy and changes its walkdirektion and sets an offset that helps the enemy not getting
-     * stuck
-     * @param rat
-     */
-    private void changeEnemyWalkDirection(EnemyRat rat){
-        if(rat.getWalkDirection() == LEFT) {
-            rat.hitbox.x += 3;
-        } else {
-            rat.hitbox.x -= 3;
-        }
-        rat.changeWalkDirection();
-    }
+
+
+
 
     /**
      * This method takes in the leveldata and updates the position of the entity
      * @param levelData
      */
-    @Override
-    protected void updateEntityPosition(int[][] levelData) {
+
+    private void updateEntityPosition(int[][] levelData) {
         if(firstUpdate == true){
-            isEntityInAir(levelData);
+            isInteractableInAir(levelData);
             firstUpdate = false;
         }
         if(inAir == false){
-            isEntityInAir(levelData);
+            isInteractableInAir(levelData);
         }
-        moveEntity(levelData);
+        moveInteractable(levelData);
         isMoving = true;
     }
 
@@ -126,24 +114,15 @@ public class Box extends Entity{
      * This method checks which direction the box is pushed from and assigns the speed according to that
      */
     private void checkPushDirection(){
-        if(hitbox.x > player.hitbox.x){
+        if(hitbox.x > player.getHitbox().x){
             horizontalSpeed += moveSpeed;
-        } else if (hitbox.x < player.hitbox.x){
+        } else if (hitbox.x < player.getHitbox().x){
             horizontalSpeed -= moveSpeed;
         }
         player.setHorizontalSpeed(moveSpeed);
         player.setPushing(true);
     }
 
-    /**
-     * This method sets the variables for the player if the player is standing on an interactabel object
-     */
-    private void setPlayerStandingOnInteractable (){
-        if(player.getStandingOnInteractable() == false){
-            player.setStandingOnInteractable(true);
-        }
-        player.resetBooleanInAir();
-    }
 
     /**
      * This method resets the variables changed in player from this class
@@ -159,10 +138,10 @@ public class Box extends Entity{
      * for standing on the box or pushing
      */
     private void checkIfPlayerIsAboveBox(){
-        if((hitbox.y < player.hitbox.y+height)){
+        if((hitbox.y < player.getHitbox().y+height)){
             checkPushDirection();
-        } else if(hitbox.y > player.hitbox.y+height){
-            setPlayerStandingOnInteractable();
+        } else if(hitbox.y > player.getHitbox().y+height){
+            player.setPlayerStandingOnInteractable();
         }
     }
 
@@ -172,7 +151,7 @@ public class Box extends Entity{
     private void loadBoxImage() {
         InputStream inputStream = getClass().getResourceAsStream("/BOX_DARK_SPRITE.png");
         try{
-            boxImage = ImageIO.read(inputStream);
+            interactableImage = ImageIO.read(inputStream);
         } catch (IOException e){
             e.printStackTrace();
         }
@@ -184,6 +163,6 @@ public class Box extends Entity{
      * @param xOffset
      */
     public void draw(Graphics g, int xOffset){
-        g.drawImage(boxImage, (int) hitbox.x- xOffset, (int) hitbox.y+1, (int) width, (int) height, null);
+        g.drawImage(interactableImage, (int) hitbox.x- xOffset, (int) hitbox.y+1, (int) width, (int) height, null);
     }
 }

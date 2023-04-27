@@ -3,8 +3,9 @@
  * @author Linus Magnusson
  */
 
-package entity;
+package entity.enemy;
 
+import entity.enemy.EnemyRat;
 import gamestates.Playing;
 import levels.Level;
 import utils.LoadSave;
@@ -53,7 +54,7 @@ public class EnemyManager {
     public void checkIfEnemyIsHit(Rectangle2D.Float attackBox){
         for (EnemyRat rat : rats){
             if(attackBox.intersects(rat.getHitbox()) == true){
-                rat.entityTakeDamage(2);
+                rat.enemyTakeDamage(2);
                 checkIfEnemyIsDead(rat);
                 return;
             }

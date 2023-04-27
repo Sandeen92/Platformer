@@ -5,8 +5,8 @@
 
 package utils;
 
-import entity.Box;
-import entity.EnemyRat;
+import entity.interactable.Box;
+import entity.enemy.EnemyRat;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
