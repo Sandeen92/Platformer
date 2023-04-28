@@ -193,6 +193,11 @@ public class Playing extends State implements StateMethods {
                 player.setJumping(false);
                 Gamestate.state = Gamestate.PAUSEMENU;
                 break;
+
+            case KeyEvent.VK_F1:
+                //Developer function
+                player.setCurrentHealth(0);
+                break;
         }
     }
 

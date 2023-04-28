@@ -29,6 +29,16 @@ public class MenuButton {
     private BufferedImage[] images;
     private Rectangle btnBounds;
 
+
+
+    public MenuButton(int xPosition, int yPosition, Gamestate state){
+        this.xPosition = xPosition;
+        this.yPosition = yPosition;
+        this.state = state;
+        loadReplayButtonImage();
+        initialiseBounds();
+    }
+
     /**
      * Constructor for MenuButton. Initializes the position, row index, game state,
      * loads the button images and initializes the button bounds.
@@ -47,6 +57,7 @@ public class MenuButton {
         initialiseBounds();
     }
 
+
     /**
      * Initializes the button bounds using the button's position and dimensions.
      */
@@ -60,6 +71,19 @@ public class MenuButton {
     private void loadImages(){
         images = new BufferedImage[3];
         BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.STARTMENU_BUTTONS);
+
+        for (int i = 0; i < images.length; i++){
+            images[i] = temp.getSubimage(
+                    i * BTN_WIDTH_DEFAULT,
+                    rowIndex * BTN_HEIGHT_DEFAULT,
+                    BTN_WIDTH_DEFAULT,
+                    BTN_HEIGHT_DEFAULT);
+        }
+    }
+
+    private void loadReplayButtonImage(){
+        images = new BufferedImage[3];
+        BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.DEATHSCREEN_REPLAY_BUTTON);
 
         for (int i = 0; i < images.length; i++){
             images[i] = temp.getSubimage(
@@ -138,6 +162,4 @@ public class MenuButton {
         mouseOver = false;
         mousePressed = false;
     }
-
-
 }
