@@ -191,6 +191,7 @@ public class Playing extends State implements StateMethods {
             case KeyEvent.VK_ESCAPE:
                 paused = true;
                 player.setJumping(false);
+                player.allMovingBooleansFalse();
                 Gamestate.state = Gamestate.PAUSEMENU;
                 break;
 

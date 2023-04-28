@@ -31,8 +31,8 @@ public class DeathScreen extends State implements StateMethods{
     private int yPosYouDiedText;
     private int youDiedTextWidth;
     private int youDiedTextHeight;
-    int replayBtnXPos;
-    int replayBtnYPos;
+    private int replayBtnXPos;
+    private int replayBtnYPos;
     private File audioFile = new File(LoadSave.DEATHSCREEN_MUSIC);
     private AudioInputStream audioInputStream;
     private Clip clip;
@@ -108,7 +108,7 @@ public class DeathScreen extends State implements StateMethods{
         if (audioInputStream == null){
             playDeathScreenMusic();
         }
-        handleAnimation();
+        updateAnimationTick();
         replayButton.updateButtons();
     }
 
@@ -125,7 +125,7 @@ public class DeathScreen extends State implements StateMethods{
     }
 
 
-    private void handleAnimation(){
+    private void updateAnimationTick(){
         animationTick++;
         if (animationTick>=50){
             animationIndex++;
