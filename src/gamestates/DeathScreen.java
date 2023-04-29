@@ -82,6 +82,8 @@ public class DeathScreen extends State implements StateMethods{
             audioInputStream = AudioSystem.getAudioInputStream(audioFile);
             clip = AudioSystem.getClip();
             clip.open(audioInputStream);
+            FloatControl volumeController = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            volumeController.setValue(-8.0f);
             clip.loop(Clip.LOOP_CONTINUOUSLY);
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             throw new RuntimeException(e);
