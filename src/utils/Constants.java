@@ -75,8 +75,8 @@ public class Constants {
         public static final float PLAYER_X_DRAW_OFFSET = 24 * SCALE;
         public static final float PLAYER_Y_DRAW_OFFSET = 14 * SCALE;
         public static final float PLAYER_SPEED = 1.2f;
-        public static final float PLAYER_KNOCKBACK_LEFT = -0.48f;
-        public static final float PLAYER_KNOCKBACK_RIGHT = 0.48f;
+        public static final float PLAYER_KNOCKBACK_LEFT = -0.4f;
+        public static final float PLAYER_KNOCKBACK_RIGHT = 0.4f;
 
         public static int GetSpriteAmount(int player_action){
             switch (player_action){
