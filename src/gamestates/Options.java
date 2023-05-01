@@ -172,9 +172,13 @@ public class Options extends State implements StateMethods {
     @Override
     public void mouseMoved(MouseEvent e) {
         returnButton.setMouseOver(false);
+        homeButton.setMouseOver(false);
 
         if (isIn(e, returnButton) == true){
             returnButton.setMouseOver(true);
+        }
+        else if (isIn(e,homeButton) == true){
+            homeButton.setMouseOver(true);
         }
     }
 
