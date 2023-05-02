@@ -232,7 +232,7 @@ public abstract class Entity {
      * This method changes the airspeed if the entity is colliding with the roof
      */
     private void changeAirSpeedIfCollidingWithRoof(){
-        //hitbox.y = GetEntityYPosUnderOrAboveTile(hitbox, airSpeed);
+        hitbox.y = GetEntityYPosUnderOrAboveTile(hitbox, airSpeed);
         if (airSpeed > 0) {
             resetBooleanInAir();
         } else {
