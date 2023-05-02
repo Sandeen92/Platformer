@@ -29,7 +29,6 @@ public abstract class Entity {
     protected float airSpeed;
     protected float gravity;
     protected float jumpSpeed;
-    protected float fallSpeedAfterCollision;
     protected boolean inAir = false;
     protected boolean jumping = false;
     protected boolean isMoving = false;
@@ -75,7 +74,6 @@ public abstract class Entity {
         airSpeed = 0f;
         gravity = 0.03f * SCALE;
         jumpSpeed = -1.65f * SCALE;
-        fallSpeedAfterCollision = 0.5f * SCALE;
         this.maxHealth = maxHealth;
         this.currentHealth = maxHealth;
         this.attackDamage = attackDamage;
@@ -232,11 +230,9 @@ public abstract class Entity {
      * This method changes the airspeed if the entity is colliding with the roof
      */
     private void changeAirSpeedIfCollidingWithRoof(){
-        //hitbox.y = GetEntityYPosUnderOrAboveTile(hitbox, airSpeed);
+        hitbox.y = GetEntityYPosUnderOrAboveTile(hitbox, airSpeed);
         if (airSpeed > 0) {
             resetBooleanInAir();
-        } else {
-            airSpeed = fallSpeedAfterCollision;
         }
     }
 
