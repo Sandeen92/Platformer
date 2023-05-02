@@ -29,7 +29,7 @@ public class Constants {
     }
 
     public static class EntityConstants{
-        public static final float MAX_AIR_SPEED = 3f;
+        public static final float MAX_AIR_SPEED = 4.6f;
     }
     public static class EnemyConstants{
         public static final int RAT = 0;
