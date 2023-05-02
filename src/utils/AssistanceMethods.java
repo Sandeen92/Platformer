@@ -97,13 +97,7 @@ public class AssistanceMethods {
      */
     public static float GetEntityXPosNextToWall(Rectangle2D.Float hitbox, float horizontalSpeed) {
         int currentTile = (int) hitbox.x / TILES_SIZE;
-        if (horizontalSpeed > 0) {
-            //Rigth
-            return calculatePosNextToWall(currentTile, hitbox);
-        } else {
-            //Left
-            return currentTile * TILES_SIZE;
-        }
+        return calculatePosNextToWall(currentTile, hitbox);
     }
 
     /**
