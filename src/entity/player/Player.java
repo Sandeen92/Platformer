@@ -158,6 +158,7 @@ public class Player extends Entity {
                 (int) (hitbox.y - yDrawOffset),
                 width * flipW,
                 height, null);
+        drawHitbox(g, levelOffset);
     }
 
     /**
@@ -189,7 +190,6 @@ public class Player extends Entity {
      */
     protected void updateEntityPosition(int [][] levelData) {
         isMoving = false;
-
         checkIfPlayerIsJumping();
         if(checkIfPlayerIsMoving() == true){
             return;
