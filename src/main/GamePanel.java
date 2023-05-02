@@ -8,13 +8,15 @@ import static utils.Constants.GameConstants.*;
 
 public class GamePanel extends JPanel {
     private Game game;
+    private MouseInputs mouseInputs = new MouseInputs(this);
     public static JLabel LBL_FPS_COUNTER = null;
     public static JLabel LBL_PLAYER_HP = null;
     public static JLabel LBL_INFO = null;
 
     public GamePanel(Game game){
         addKeyListener(new KeyBoardInputs(this));
-        addMouseListener(new MouseInputs(this));
+        addMouseListener(mouseInputs);
+        addMouseMotionListener(mouseInputs);
         setFocusable(true);
         requestFocus();
         setPanelSize();

@@ -4,8 +4,9 @@ import gamestates.Gamestate;
 import main.GamePanel;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
-public class MouseInputs implements MouseListener {
+public class MouseInputs implements MouseListener, MouseMotionListener {
 
     private GamePanel gamePanel;
 
@@ -34,10 +35,15 @@ public class MouseInputs implements MouseListener {
                 gamePanel.getGame().getOptions().mouseClicked(e);
                 break;
 
+            case DEATHSCREEN:
+                gamePanel.getGame().getDeathScreen().mouseClicked(e);
+                break;
+
             default:
                 break;
         }
     }
+
 
     public void mouseMoved(MouseEvent e){
         switch (Gamestate.state){
@@ -52,6 +58,14 @@ public class MouseInputs implements MouseListener {
 
             case PAUSEMENU:
                 gamePanel.getGame().getPausemenu().mouseMoved(e);
+                break;
+
+            case OPTIONS:
+                gamePanel.getGame().getOptions().mouseMoved(e);
+                break;
+
+            case DEATHSCREEN:
+                gamePanel.getGame().getDeathScreen().mouseMoved(e);
                 break;
 
             default:
@@ -79,6 +93,10 @@ public class MouseInputs implements MouseListener {
                 gamePanel.getGame().getOptions().mousePressed(e);
                 break;
 
+            case DEATHSCREEN:
+                gamePanel.getGame().getDeathScreen().mousePressed(e);
+                break;
+
             default:
                 break;
         }
@@ -104,10 +122,15 @@ public class MouseInputs implements MouseListener {
                 gamePanel.getGame().getOptions().mouseReleased(e);
                 break;
 
+            case DEATHSCREEN:
+                gamePanel.getGame().getDeathScreen().mouseReleased(e);
+                break;
+
             default:
                 break;
         }
     }
+
 
     @Override
     public void mouseEntered(MouseEvent e) {
@@ -116,6 +139,11 @@ public class MouseInputs implements MouseListener {
 
     @Override
     public void mouseExited(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
 
     }
 }

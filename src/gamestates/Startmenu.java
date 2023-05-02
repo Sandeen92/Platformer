@@ -206,6 +206,7 @@ public class Startmenu extends State implements StateMethods{
         }
     }
 
+
     @Override
     public void keyPressed(KeyEvent e) {
 
@@ -222,5 +223,4 @@ public class Startmenu extends State implements StateMethods{
             menuButton.resetBtnBooleans();
         }
     }
-
 }
