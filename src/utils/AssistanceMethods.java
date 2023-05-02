@@ -97,13 +97,7 @@ public class AssistanceMethods {
      */
     public static float GetEntityXPosNextToWall(Rectangle2D.Float hitbox, float horizontalSpeed) {
         int currentTile = (int) hitbox.x / TILES_SIZE;
-        if (horizontalSpeed > 0) {
-            //Rigth
-            return calculatePosNextToWall(currentTile, hitbox);
-        } else {
-            //Left
-            return currentTile * TILES_SIZE;
-        }
+        return calculatePosNextToWall(currentTile, hitbox);
     }
 
     /**
@@ -114,7 +108,7 @@ public class AssistanceMethods {
      */
     private static float calculatePosNextToWall(int currentTile, Rectangle2D.Float hitbox){
         int tileXPosition = currentTile * TILES_SIZE;
-        int xOffset = (int)(TILES_SIZE - hitbox.width);
+        int xOffset = (int)(TILES_SIZE - hitbox.width/2);
         return tileXPosition + xOffset - 1;
     }
 
@@ -130,7 +124,7 @@ public class AssistanceMethods {
         if(airSpeed > 0){
             //Falling
             return calculatePosUnderOrAboveTile(currentTile, hitbox);
-        } else {
+        } else{
             //Jumping
             return currentTile * TILES_SIZE;
         }
@@ -144,8 +138,8 @@ public class AssistanceMethods {
      */
     private static float calculatePosUnderOrAboveTile(int currentTile, Rectangle2D.Float hitbox){
         int tileYPosition = currentTile * TILES_SIZE;
-        int yOffset = (int)(TILES_SIZE - hitbox.height);
-        return tileYPosition + yOffset - 1;
+        int yOffset = (int)(TILES_SIZE - hitbox.height/2);
+        return tileYPosition + yOffset + 1;
     }
 
     /**
