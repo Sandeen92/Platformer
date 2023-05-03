@@ -40,7 +40,6 @@ public class InteractablesManager {
     public void draw(Graphics g, int xOffset){
         for(Box box : interactableBoxes){
             box.draw(g, xOffset);
-            box.drawHitbox(g, xOffset);
         }
     }
 
