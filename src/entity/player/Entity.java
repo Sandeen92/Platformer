@@ -37,6 +37,8 @@ public abstract class Entity {
     protected float horizontalSpeed;
     protected boolean movingLeft;
     protected boolean movingRight;
+    protected boolean isPushing;
+    protected boolean standingOnInteractable;
 
 
     /**
@@ -188,6 +190,12 @@ public abstract class Entity {
     protected void resetBooleanInAir() {
         inAir = false;
         airSpeed = 0;
+        if (isMoving) {
+            entityState = RUNNING;
+        }
+        else {
+            entityState = IDLE;
+        }
     }
 
     /**
@@ -268,6 +276,7 @@ public abstract class Entity {
             animationIndex++;
             if (animationIndex >= GetSpriteAmount(entityState)) {
                 animationIndex = 0;
+                animationTick = 0;
             }
         }
     }
@@ -284,15 +293,20 @@ public abstract class Entity {
             entityState = RUNNING;
         } else {
             entityState = IDLE;
+            horizontalSpeed = 0;
+            isPushing = false;
         }
 
         if(inAir == true) {
             entityState = JUMP;
         }
 
-        if (startAnimation != entityState){
-            resetAnimationTick();
-        }
+       // if (startAnimation != entityState){
+       //     resetAnimationTick();
+       // }
+
+        //Fick kommentera ut detta och nollställa
+        //animationTick i sista if-satsen på updateAnimationTick istället, vet ej varför
     }
 
     /**
@@ -327,6 +341,18 @@ public abstract class Entity {
         this.jumping = jumping;
     }
 
+    public boolean isInAir() {
+        return inAir;
+    }
+
+    public int getEntityState() {
+        return entityState;
+    }
+
+    public void setInAir(boolean inAir) {
+        this.inAir = inAir;
+    }
+
     public int getMaxHealth() {
         return maxHealth;
     }
@@ -344,6 +370,10 @@ public abstract class Entity {
     }
     public void setEntityState(int entityState){
         this.entityState = entityState;
+    }
+
+    public void setHorizontalSpeed(float horizontalSpeed) {
+        this.horizontalSpeed = horizontalSpeed;
     }
 
     /**

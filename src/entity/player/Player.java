@@ -26,16 +26,17 @@ public class Player extends Entity {
     private float xDrawOffset = PLAYER_X_DRAW_OFFSET;
     private float yDrawOffset = PLAYER_Y_DRAW_OFFSET;
     private int[][] levelData;
-    private float playerSpeed = PLAYER_SPEED;
+    private float rightPlayerSpeed = PLAYER_SPEED;
+    private float leftPlayerSpeed = -PLAYER_SPEED;
     private int flipX = 0;
     private int flipW = 1;
     private boolean jumpOnce;
     private boolean canAttack;
     private int facingDirection;
     private Enemy attackingEnemy;
-    private boolean standingOnInteractable;
-    private boolean isPushing;
     private float knockbackSpeed;
+    private final float rightPushSpeed = 0.6f;
+    private final float leftPushSpeed = -0.6f;
 
 
     /**
@@ -195,7 +196,6 @@ public class Player extends Entity {
             return;
         }
 
-        horizontalSpeed = 0;
         changeMovingDirection();
         knockbackPlayerIfHit();
         checkIfPlayerIsStandingOnInteractable(levelData);
@@ -221,6 +221,7 @@ public class Player extends Entity {
         return movingLeft == false && movingRight == false && inAir == false && isHit == false;
     }
 
+
     /**
      * This method checks if the player is currently jumping
      */
@@ -234,20 +235,32 @@ public class Player extends Entity {
      * This method flips the player to the left
      */
     private void flipPlayerLeft(){
-        horizontalSpeed -=playerSpeed;
+        if (!isPushing) {
+            horizontalSpeed = leftPlayerSpeed;
+        }
+        else {
+            horizontalSpeed = leftPushSpeed;
+        }
         flipX = width;
         flipW = -1;
         facingDirection = 0;
+        isPushing = false;
     }
 
     /**
      * This method flips the player to the rigth
      */
     private void flipPlayerRight(){
-        horizontalSpeed += playerSpeed;
+        if (!isPushing) {
+            horizontalSpeed = rightPlayerSpeed;
+        }
+        else {
+            horizontalSpeed = rightPushSpeed;
+        }
         flipX = 0;
         flipW = 1;
         facingDirection = 1;
+        isPushing = false;
     }
 
     /**
@@ -337,12 +350,21 @@ public class Player extends Entity {
         hitbox.x += horizontalSpeed;
     }
 
-    public void setHorizontalSpeed(float speed){
-        playerSpeed = speed;
+
+    public float getRightPlayerSpeed(){
+        return rightPlayerSpeed;
     }
 
-    public float getPlayerSpeed(){
-        return playerSpeed;
+    public float getLeftPlayerSpeed(){
+        return leftPlayerSpeed;
+    }
+
+    public void setRightPlayerSpeed(float speed){
+        rightPlayerSpeed = speed;
+    }
+
+    public void setLeftPlayerSpeed(float speed){
+        leftPlayerSpeed = speed;
     }
 
     public void setStandingOnInteractable(boolean b){

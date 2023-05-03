@@ -8,6 +8,8 @@ package entity.interactable;
 import entity.enemy.EnemyRat;
 import entity.player.Player;
 import gamestates.Playing;
+import utils.Constants;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import static utils.Constants.GameConstants.*;
 import static utils.Constants.Directions.LEFT;
 import static utils.Constants.InteractableConstants.BOX_MOVESPEED;
+import static utils.Constants.PlayerConstants.*;
 
 
 public class Box extends Interactable {
@@ -59,10 +62,11 @@ public class Box extends Interactable {
      * @param player
      */
     public void checkIfPlayerCollidesWithBox(Box box, Player player){
-        horizontalSpeed = 0;
         if(box.hitbox.intersects(player.getHitbox()) == true){
             checkIfPlayerIsAboveBox();
-        } else if (player.getPlayerSpeed() != 1.2 || player.getStandingOnInteractable() == true){
+        } else if (player.getRightPlayerSpeed() != 1.2f
+                || player.getLeftPlayerSpeed() != -1.2f
+                || player.getStandingOnInteractable() == true){
             resetChangedPlayerVariables();
         }
     }
@@ -118,8 +122,6 @@ public class Box extends Interactable {
             horizontalSpeed -= moveSpeed;
         }
         player.setStandingOnInteractable(false);
-        player.setHorizontalSpeed(moveSpeed);
-        player.setPushing(true);
     }
 
 
@@ -127,7 +129,7 @@ public class Box extends Interactable {
      * This method resets the variables changed in player from this class
      */
     private void resetChangedPlayerVariables(){
-        player.setHorizontalSpeed(1.2f);
+        player.setHorizontalSpeed(PLAYER_SPEED);
         player.setStandingOnInteractable(false);
         player.setPushing(false);
     }
@@ -140,9 +142,10 @@ public class Box extends Interactable {
         if(hitbox.y > (player.getHitbox().y+57.8f)){
             player.setPlayerStandingOnInteractable();
             player.setPushing(false);
-            player.setHorizontalSpeed(1.2f);
+            player.setInAir(false);
         }
         else {
+            player.setPushing(true);
             checkPushDirection();
         }
     }

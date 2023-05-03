@@ -46,6 +46,7 @@ public abstract class Interactable {
         } else {
             updateInteractableXPosition(horizontalSpeed, levelData);
         }
+        horizontalSpeed = 0;
     }
 
     protected void updateInteractableXPosition(float horizontalSpeed, int [][] levelData) {
