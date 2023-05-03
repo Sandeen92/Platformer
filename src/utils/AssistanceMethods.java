@@ -137,7 +137,7 @@ public class AssistanceMethods {
      * @return
      */
     private static float calculatePosUnderOrAboveTile(int currentTile, Rectangle2D.Float hitbox){
-        int tileYPosition = currentTile * TILES_SIZE;
+        int tileYPosition = (currentTile * TILES_SIZE);
         int yOffset = (int)(TILES_SIZE - hitbox.height/2);
         return tileYPosition + yOffset + 1;
     }
