@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import static utils.Constants.GameConstants.*;
-import static utils.Constants.Directions.LEFT;
 import static utils.Constants.InteractableConstants.BOX_MOVESPEED;
 import static utils.Constants.PlayerConstants.*;
 
@@ -129,7 +128,7 @@ public class Box extends Interactable {
      * This method resets the variables changed in player from this class
      */
     private void resetChangedPlayerVariables(){
-        player.setHorizontalSpeed(PLAYER_SPEED);
+        player.setHorizontalSpeed(0);
         player.setStandingOnInteractable(false);
         player.setPushing(false);
     }

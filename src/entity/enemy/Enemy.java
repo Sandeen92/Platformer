@@ -28,6 +28,7 @@ public abstract class Enemy{
     protected int maxHealth;
     protected int currentHealth;
     protected int attackDamage;
+    private EnemyManager enemyManager;
     private int enemyType;
     private final float patrolSpeed = RAT_PATROL_SPEED;
     private boolean firstUpdate = true;
@@ -43,6 +44,7 @@ public abstract class Enemy{
     protected boolean inAir;
     protected float airSpeed;
     protected float gravity = 0.03f * SCALE;
+    protected int timesEnemyChangedDirection = 0;
 
 
     /**
@@ -337,6 +339,22 @@ public abstract class Enemy{
 
     public Rectangle2D.Float getHitbox(){
         return hitbox;
+    }
+
+    public int getTimesEnemyChangedDirection() {
+        return timesEnemyChangedDirection;
+    }
+
+    public void setTimesEnemyChangedDirection(int timesEnemyChangedDirection) {
+        this.timesEnemyChangedDirection = timesEnemyChangedDirection;
+    }
+
+    public EnemyManager getEnemyManager() {
+        return enemyManager;
+    }
+
+    public void setEnemyManager(EnemyManager enemyManager) {
+        this.enemyManager = enemyManager;
     }
 
     private class AttackCooldownThread extends Thread{

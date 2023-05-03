@@ -213,9 +213,11 @@ public class Playing extends State implements StateMethods {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_A:
                 player.setMovingLeft(false);
+                player.setHorizontalSpeed(0);
                 break;
             case KeyEvent.VK_D:
                 player.setMovingRight(false);
+                player.setHorizontalSpeed(0);
                 break;
             case KeyEvent.VK_SPACE:
                 player.setJumping(false);

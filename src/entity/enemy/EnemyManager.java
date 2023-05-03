@@ -34,6 +34,13 @@ public class EnemyManager {
      */
     public void loadEnemies(Level level) {
         rats = level.getRats();
+        setEnemyManagerForAllRats();
+    }
+
+    public void setEnemyManagerForAllRats(){
+        for (EnemyRat rat : rats){
+            rat.setEnemyManager(this);
+        }
     }
 
     /**
@@ -63,13 +70,14 @@ public class EnemyManager {
 
     /**
      * This method checks if the rat is dead and removes it
-     * @param rat
+     * @param
      */
-    private void checkIfEnemyIsDead(EnemyRat rat){
-        if(rat.isEntityDead() == true){
-            rats.remove(rat);
+    public void checkIfEnemyIsDead(Enemy enemy){
+        if(enemy.isEntityDead() == true){
+            rats.remove(enemy);
         }
     }
+
 
     /**
      * This method is called to draw the enemies
