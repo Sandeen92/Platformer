@@ -226,7 +226,7 @@ public abstract class Entity {
      * @param levelData
      */
     private void checkIfEntityCanMoveInAir(int[][] levelData) {
-        if (canMoveHere(hitbox.x, hitbox.y + airSpeed-3, hitbox.width, hitbox.height, levelData) == true) {
+        if (canMoveHere(hitbox.x, hitbox.y + airSpeed-2, hitbox.width, hitbox.height, levelData) == true) {
             hitbox.y += airSpeed;
             changeAirSpeed();
             updateEntityXPosition(horizontalSpeed, levelData);
