@@ -139,10 +139,6 @@ public class Box extends Interactable {
     private void checkIfPlayerIsAboveBox(){
         if(hitbox.y > (player.getHitbox().y+57.8f)){
             player.setPlayerStandingOnInteractable();
-            System.out.println(player.getStandingOnInteractable());
-            System.out.println(player.isPushing());
-            System.out.println(hitbox.y);
-            System.out.println(player.getHitbox().y+height);
             player.setPushing(false);
             player.setHorizontalSpeed(1.2f);
         }
