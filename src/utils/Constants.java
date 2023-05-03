@@ -30,6 +30,7 @@ public class Constants {
 
     public static class EntityConstants{
         public static final float MAX_AIR_SPEED = 5.6f;
+        public static final float AIR_SPEED_OFFSET = 2;
 
     }
     public static class EnemyConstants{

@@ -8,6 +8,7 @@ package entity.player;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import static utils.AssistanceMethods.*;
+import static utils.Constants.EntityConstants.AIR_SPEED_OFFSET;
 import static utils.Constants.EntityConstants.MAX_AIR_SPEED;
 import static utils.Constants.GameConstants.*;
 import static utils.Constants.PlayerConstants.*;
@@ -226,7 +227,7 @@ public abstract class Entity {
      * @param levelData
      */
     private void checkIfEntityCanMoveInAir(int[][] levelData) {
-        if (canMoveHere(hitbox.x, hitbox.y + airSpeed-2, hitbox.width, hitbox.height, levelData) == true) {
+        if (canMoveHere(hitbox.x, hitbox.y + airSpeed - AIR_SPEED_OFFSET, hitbox.width, hitbox.height, levelData) == true) {
             hitbox.y += airSpeed;
             changeAirSpeed();
             updateEntityXPosition(horizontalSpeed, levelData);
