@@ -80,9 +80,6 @@ public class Box extends Interactable {
     }
 
 
-
-
-
     /**
      * This method takes in the leveldata and updates the position of the entity
      * @param levelData
@@ -110,6 +107,7 @@ public class Box extends Interactable {
         box.checkIfEnemyIsCollidingWithBox(playing.getEnemyManager().getRats());
     }
 
+
     /**
      * This method checks which direction the box is pushed from and assigns the speed according to that
      */
@@ -119,6 +117,7 @@ public class Box extends Interactable {
         } else if (hitbox.x < player.getHitbox().x){
             horizontalSpeed -= moveSpeed;
         }
+        player.setStandingOnInteractable(false);
         player.setHorizontalSpeed(moveSpeed);
         player.setPushing(true);
     }
@@ -138,12 +137,20 @@ public class Box extends Interactable {
      * for standing on the box or pushing
      */
     private void checkIfPlayerIsAboveBox(){
-        if((hitbox.y < player.getHitbox().y+height)){
-            checkPushDirection();
-        } else if(hitbox.y > player.getHitbox().y+height){
+        if(hitbox.y > (player.getHitbox().y+57.8f)){
             player.setPlayerStandingOnInteractable();
+            System.out.println(player.getStandingOnInteractable());
+            System.out.println(player.isPushing());
+            System.out.println(hitbox.y);
+            System.out.println(player.getHitbox().y+height);
+            player.setPushing(false);
+            player.setHorizontalSpeed(1.2f);
+        }
+        else {
+            checkPushDirection();
         }
     }
+
 
     /**
      * This method loads the image of the box
@@ -164,5 +171,11 @@ public class Box extends Interactable {
      */
     public void draw(Graphics g, int xOffset){
         g.drawImage(interactableImage, (int) hitbox.x- xOffset, (int) hitbox.y+1, (int) width, (int) height, null);
+    }
+
+
+    public void drawHitbox(Graphics g, int levelOffset){
+        g.setColor(Color.BLACK);
+        g.drawRect((int) hitbox.x - levelOffset, (int) hitbox.y, (int) hitbox.width, (int) hitbox.height);
     }
 }

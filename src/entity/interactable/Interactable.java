@@ -89,4 +89,6 @@ public abstract class Interactable {
             inAir = true;
         }
     }
+
+    public Rectangle2D.Float getHitbox() {return hitbox;}
 }

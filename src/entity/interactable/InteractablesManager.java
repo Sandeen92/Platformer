@@ -40,6 +40,7 @@ public class InteractablesManager {
     public void draw(Graphics g, int xOffset){
         for(Box box : interactableBoxes){
             box.draw(g, xOffset);
+            box.drawHitbox(g, xOffset);
         }
     }
 
@@ -51,6 +52,7 @@ public class InteractablesManager {
             box.update(playing.getLevelManager().getCurrentLevel().getLevelData(), box, playing);
         }
     }
+
 
     /**
      * This method loads the boxes and initalises player in to the boxes

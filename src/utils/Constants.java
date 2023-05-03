@@ -97,7 +97,7 @@ public class Constants {
     public static class InteractableConstants {
         public static final int BOX = 55;
         public static final float BOX_WIDTH = 25* SCALE;
-        public static final float BOX_Heigth = 25* SCALE;
+        public static final float BOX_HEIGHT = 25* SCALE;
         public static final float BOX_MOVESPEED = 0.6f;
 
     }
