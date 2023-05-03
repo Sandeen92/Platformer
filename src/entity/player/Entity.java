@@ -226,12 +226,12 @@ public abstract class Entity {
      * @param levelData
      */
     private void checkIfEntityCanMoveInAir(int[][] levelData) {
-        if (canMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, levelData) == true) {
+        if (canMoveHere(hitbox.x, hitbox.y + airSpeed-3, hitbox.width, hitbox.height, levelData) == true) {
             hitbox.y += airSpeed;
             changeAirSpeed();
             updateEntityXPosition(horizontalSpeed, levelData);
         } else {
-            changeAirSpeedIfCollidingWithRoof();
+            checkIfCollidingWithRoofOrFloor();
             updateEntityXPosition(horizontalSpeed, levelData);
         }
     }
@@ -239,13 +239,14 @@ public abstract class Entity {
     /**
      * This method changes the airspeed if the entity is colliding with the roof
      */
-    private void changeAirSpeedIfCollidingWithRoof(){
+    private void checkIfCollidingWithRoofOrFloor(){
         hitbox.y = GetEntityYPosUnderOrAboveTile(hitbox, airSpeed);
         if (airSpeed > 0) {
             resetBooleanInAir();
         } else {
             airSpeed = fallSpeedAfterCollision;
         }
+
     }
 
     /**
