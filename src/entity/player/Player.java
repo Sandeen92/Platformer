@@ -7,6 +7,7 @@ package entity.player;
 
 import entity.enemy.Enemy;
 import entity.enemy.EnemyManager;
+import entity.projectiles.ProjectileManager;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -22,6 +23,7 @@ import static utils.Constants.PlayerConstants.*;
 public class Player extends Entity {
     private BufferedImage[][] playerAnimations;
     private EnemyManager enemyManager;
+    private ProjectileManager projectileManager;
     private AttackTimer attackTimer;
     private float xDrawOffset = PLAYER_X_DRAW_OFFSET;
     private float yDrawOffset = PLAYER_Y_DRAW_OFFSET;
@@ -46,12 +48,13 @@ public class Player extends Entity {
      * @param width
      * @param height
      */
-    public Player(float x, float y, int width, int height, int maxHealth, int attackDamage, EnemyManager enemyManager) {
+    public Player(float x, float y, int width, int height, int maxHealth, int attackDamage, EnemyManager enemyManager, ProjectileManager projectileManager) {
         super(x, y, width, height, maxHealth, attackDamage);
         loadPlayerAnimations();
         initialiseHitbox(x,y, 22 * SCALE, 30 * SCALE);
         initialiseAttackBox(x,y,20 * SCALE, 27 * SCALE);
         this.enemyManager = enemyManager;
+        this.projectileManager = projectileManager;
         initialiseVariables();
     }
 
@@ -127,7 +130,7 @@ public class Player extends Entity {
      */
     public void attack(){
         if(canAttack == true){
-            enemyManager.checkIfEnemyIsHit(attackBox);
+            projectileManager.addBullet(hitbox.x, hitbox.y + 32,levelData , facingDirection);
             startAttackCooldown();
         }
     }
@@ -390,7 +393,7 @@ public class Player extends Entity {
         @Override
         public void run() {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(300);
                 canAttack = true;
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);

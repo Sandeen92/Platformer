@@ -6,6 +6,7 @@
 package entity.enemy;
 
 import entity.enemy.EnemyRat;
+import entity.projectiles.Bullet;
 import gamestates.Playing;
 import levels.Level;
 import utils.LoadSave;
@@ -56,16 +57,18 @@ public class EnemyManager {
 
     /**
      * This method checks if an enemys hitbox is intersecting with the players attackbox
-     * @param attackBox
+     * @param bullet
      */
-    public void checkIfEnemyIsHit(Rectangle2D.Float attackBox){
+    public boolean checkIfEnemyIsHit(Bullet bullet){
         for (EnemyRat rat : rats){
-            if(attackBox.intersects(rat.getHitbox()) == true){
+            if(bullet.getHitbox().intersects(rat.getHitbox()) == true && bullet.canDoDamage){
+                bullet.canDoDamage = false;
                 rat.enemyTakeDamage(2);
                 checkIfEnemyIsDead(rat);
-                return;
+                return true;
             }
         }
+        return false;
     }
 
     /**

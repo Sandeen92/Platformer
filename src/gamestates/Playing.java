@@ -3,6 +3,7 @@ package gamestates;
 import entity.enemy.EnemyManager;
 import entity.interactable.InteractablesManager;
 import entity.player.Player;
+import entity.projectiles.ProjectileManager;
 import items.ItemManager;
 import levels.LevelManager;
 import main.Game;
@@ -12,6 +13,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 //Imports of static variables and methods
 import static utils.Constants.GameConstants.*;
+import static utils.Constants.PlayerConstants.PLAYER_HEIGTH;
+import static utils.Constants.PlayerConstants.PLAYER_WIDTH;
 
 /**
  * The Playing class represents the state of the game when the player is actively playing.
@@ -28,6 +31,7 @@ public class Playing extends State implements StateMethods {
     private EnemyManager enemyManager;
     private ItemManager itemManager;
     private InteractablesManager interactablesManager;
+    private ProjectileManager projectileManager;
     private boolean paused;
     private int currentLevelXOffset;
     private int cameraLeftBorder = (int) (0.3 * GAME_WIDTH);
@@ -75,7 +79,8 @@ public class Playing extends State implements StateMethods {
      */
     public void initialiseClasses() {
         enemyManager = new EnemyManager(this);
-        player = new Player(200,200, (int) (70 * SCALE),(int)(45 * SCALE), 10, 2, enemyManager);
+        projectileManager = new ProjectileManager(this);
+        player = new Player(200,200, (PLAYER_WIDTH),(PLAYER_HEIGTH), 10, 2, enemyManager, projectileManager);
         levelManager = new LevelManager(game);
         itemManager = new ItemManager(this);
         interactablesManager = new InteractablesManager(this);
@@ -102,6 +107,7 @@ public class Playing extends State implements StateMethods {
             itemManager.update();
             player.updatePlayer();
             interactablesManager.update();
+            projectileManager.update();
             checkIfPlayerIsCloseToCameraBorder();
             enemyManager.update(levelManager.getCurrentLevel().getLevelData());
         }
@@ -159,8 +165,9 @@ public class Playing extends State implements StateMethods {
         levelManager.drawLevel(g, currentLevelXOffset);
         player.renderPlayer(g, currentLevelXOffset);
         enemyManager.draw(g, currentLevelXOffset);
-        itemManager.draw(g, currentLevelXOffset);
+        projectileManager.draw(g, currentLevelXOffset);
         interactablesManager.draw(g, currentLevelXOffset);
+
     }
 
     /**

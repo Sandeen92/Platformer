@@ -33,6 +33,14 @@ public class Constants {
         public static final float AIR_SPEED_OFFSET = 2;
 
     }
+
+    public static class ProjectileConstants{
+        public static final float BULLET_RIGTHSPEED = 2f;
+        public static final float BULLET_LEFTSPEED = -2f;
+        public static final int BULLET_HEIGTH = (int) (9 * SCALE);
+        public static final int BULLET_WIDTH = (int) (9*SCALE);
+    }
+
     public static class EnemyConstants{
         public static final int RAT = 0;
         public static final int IDLE = 0;
@@ -79,6 +87,8 @@ public class Constants {
         public static final float PLAYER_SPEED = 1.2f;
         public static final float PLAYER_KNOCKBACK_LEFT = -0.4f;
         public static final float PLAYER_KNOCKBACK_RIGHT = 0.4f;
+        public static final int PLAYER_WIDTH = (int) (70 * SCALE);
+        public static final int PLAYER_HEIGTH = (int) (45 * SCALE);
 
         public static int GetSpriteAmount(int player_action){
             switch (player_action){
