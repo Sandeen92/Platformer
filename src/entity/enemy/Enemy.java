@@ -169,6 +169,8 @@ public abstract class Enemy{
         updateEntityPosition(levelData);
         updateAttackBox(0, 0);
         updateAnimationTick();
+        if (isEntityDead()){
+           // enemyManager.killRat(this);
         }
     }
 
