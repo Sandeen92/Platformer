@@ -169,7 +169,7 @@ public abstract class Enemy{
         updateEntityPosition(levelData);
         updateAttackBox(0, 0);
         updateAnimationTick();
-        }
+        
     }
 
     protected void updateAttackBox(int xOffset, int facingDirection){
