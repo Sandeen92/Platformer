@@ -73,11 +73,22 @@ public class EnemyManager {
      * @param
      */
     public void checkIfEnemyIsDead(Enemy enemy){
-        if(enemy.isEntityDead() == true){
-            rats.remove(enemy);
+        if(enemy.isEntityDead() == true && enemy instanceof EnemyRat rat){
+            killRat(rat);
         }
     }
 
+    public void killRat(Enemy enemy){
+        rats.remove(enemy);
+    }
+
+    public void checkIfRatIsDead(){
+        for (int i = 0; i < rats.size(); i++){
+            if (rats.get(i).getCurrentHealth() >= 0){
+                killRat(rats.get(i));
+            }
+        }
+    }
 
     /**
      * This method is called to draw the enemies

@@ -22,6 +22,7 @@ import static utils.Constants.PlayerConstants.*;
 
 public class Box extends Interactable {
     private float moveSpeed = BOX_MOVESPEED;
+    private int timesEnemyChangedDirection = 0;
 
 
     /**
@@ -78,6 +79,11 @@ public class Box extends Interactable {
         for (EnemyRat rat : rats) {
             if (hitbox.intersects(rat.getHitbox()) == true) {
                 rat.changeEnemyWalkDirection();
+                timesEnemyChangedDirection++;
+                System.out.println("Changed");
+                if (timesEnemyChangedDirection >= 20){
+                    System.out.println("Kill");
+                }
             }
         }
     }

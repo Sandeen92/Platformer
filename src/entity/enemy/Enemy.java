@@ -45,6 +45,7 @@ public abstract class Enemy{
     protected float airSpeed;
     protected float gravity = 0.03f * SCALE;
     protected int timesEnemyChangedDirection = 0;
+    private Object lock = new Object();
 
 
     /**
@@ -168,6 +169,7 @@ public abstract class Enemy{
         updateEntityPosition(levelData);
         updateAttackBox(0, 0);
         updateAnimationTick();
+        }
     }
 
     protected void updateAttackBox(int xOffset, int facingDirection){
@@ -355,6 +357,10 @@ public abstract class Enemy{
 
     public void setEnemyManager(EnemyManager enemyManager) {
         this.enemyManager = enemyManager;
+    }
+
+    public int getCurrentHealth() {
+        return currentHealth;
     }
 
     private class AttackCooldownThread extends Thread{
