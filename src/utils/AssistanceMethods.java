@@ -30,11 +30,27 @@ public class AssistanceMethods {
      * @return
      */
     public static boolean canMoveHere(float x, float y, float width, float heigth, int[][] levelData){
+        // top left
         if(isTileSolid(x,y, levelData) == false){
+            // bottom rigth
             if(isTileSolid(x + width,y + heigth, levelData) == false){
+                //top rigth
                if(isTileSolid(x + width, y, levelData) == false){
+                   //bottom left
                    if(isTileSolid(x, y + heigth, levelData) == false){
-                       return true;
+                       //Middle left
+                       if(isTileSolid(x,y + (heigth/2) , levelData) == false){
+                           //Middle rigth
+                           if(isTileSolid(x + width,y + (heigth/2), levelData) == false){
+                               //top middle
+                               if(isTileSolid(x + (width/2), y, levelData) == false){
+                                   //Bottom middle
+                                   if(isTileSolid(x + (width/2), y + heigth, levelData) == false){
+                                       return true;
+                                   }
+                              }
+                           }
+                       }
                    }
                }
             }
@@ -126,7 +142,7 @@ public class AssistanceMethods {
             return calculatePosUnderOrAboveTile(currentTile, hitbox);
         } else{
             //Jumping
-            return currentTile * TILES_SIZE;
+            return currentTile * TILES_SIZE + 1;
         }
     }
 
