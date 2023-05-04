@@ -14,6 +14,7 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class EnemyManager {
     private Playing playing;
@@ -83,9 +84,10 @@ public class EnemyManager {
     }
 
     public void checkIfRatIsDead(){
-        for (int i = 0; i < rats.size(); i++){
-            if (rats.get(i).getCurrentHealth() >= 0){
-                killRat(rats.get(i));
+        for (Iterator<EnemyRat> ratList = rats.listIterator(); ratList.hasNext();){
+            EnemyRat rat = ratList.next();
+            if (rat.isEntityDead()){
+                rats.remove(rat);
             }
         }
     }

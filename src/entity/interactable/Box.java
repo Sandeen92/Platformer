@@ -5,6 +5,7 @@
 
 package entity.interactable;
 
+import entity.enemy.EnemyManager;
 import entity.enemy.EnemyRat;
 import entity.player.Player;
 import gamestates.Playing;
@@ -23,6 +24,7 @@ import static utils.Constants.PlayerConstants.*;
 public class Box extends Interactable {
     private float moveSpeed = BOX_MOVESPEED;
     private int timesEnemyChangedDirection = 0;
+    private EnemyManager enemyManager;
 
 
     /**
@@ -56,6 +58,11 @@ public class Box extends Interactable {
         this.player = player;
     }
 
+    public void setEnemyManager(EnemyManager enemyManager) {
+        this.enemyManager = enemyManager;
+        System.out.println("");
+    }
+
     /**
      * This method checks if the player is colliding the box and makes checks where
      * @param box
@@ -83,6 +90,7 @@ public class Box extends Interactable {
                 System.out.println("Changed");
                 if (timesEnemyChangedDirection >= 20){
                     System.out.println("Kill");
+                    enemyManager.killRat(rat);
                 }
             }
         }
