@@ -15,6 +15,7 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class EnemyManager {
     private Playing playing;
@@ -35,12 +36,10 @@ public class EnemyManager {
      */
     public void loadEnemies(Level level) {
         rats = level.getRats();
-        setEnemyManagerForAllRats();
-    }
 
-    public void setEnemyManagerForAllRats(){
-        for (EnemyRat rat : rats){
-            rat.setEnemyManager(this);
+        //Alla råttor har 0 hp på banan trots att 6 är satt i konstruktor
+        for(EnemyRat rat : rats){
+            rat.setCurrentHealth(6);
         }
     }
 
@@ -71,14 +70,27 @@ public class EnemyManager {
         return false;
     }
 
+    public void checkIfEnemyIsHitByBox(Rectangle2D.Float boxAttackBox){
+        for (EnemyRat rat : rats){
+            if(boxAttackBox.intersects(rat.getHitbox()) == true){
+                checkIfEnemyIsDead(rat);
+                return;
+            }
+        }
+    }
+
     /**
      * This method checks if the rat is dead and removes it
      * @param
      */
     public void checkIfEnemyIsDead(Enemy enemy){
-        if(enemy.isEntityDead() == true){
-            rats.remove(enemy);
+        if(enemy.isEntityDead() == true && enemy instanceof EnemyRat rat){
+            killRat(rat);
         }
+    }
+
+    public void killRat(Enemy enemy){
+        rats.remove(enemy);
     }
 
 

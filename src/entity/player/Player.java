@@ -53,6 +53,7 @@ public class Player extends Entity {
         loadPlayerAnimations();
         initialiseHitbox(x,y, 22 * SCALE, 30 * SCALE);
         initialiseAttackBox(x,y,20 * SCALE, 27 * SCALE);
+        initialiseBoxAttackBox(x, y, 90 * SCALE, 30 * SCALE);
         this.enemyManager = enemyManager;
         this.projectileManager = projectileManager;
         initialiseVariables();
@@ -88,6 +89,7 @@ public class Player extends Entity {
         updateEntityPosition(levelData);
         updateAnimationTick();
         updateAttackBox(30, facingDirection);
+        updateBoxAttackBox(30, facingDirection);
         setEntityAnimation();
     }
 
@@ -135,6 +137,10 @@ public class Player extends Entity {
         }
     }
 
+    public void attackWithBox(){
+        enemyManager.checkIfEnemyIsHitByBox(boxAttackBox);
+    }
+
     /**
      * This method starts the attack cooldown
      */
@@ -163,6 +169,7 @@ public class Player extends Entity {
                 width * flipW,
                 height, null);
         drawHitbox(g, levelOffset);
+        //drawAttackBox(g, levelOffset);
     }
 
     /**

@@ -5,6 +5,7 @@
 
 package entity.interactable;
 
+import entity.enemy.EnemyManager;
 import entity.interactable.Box;
 import gamestates.Playing;
 import levels.Level;
@@ -15,15 +16,18 @@ import java.util.ArrayList;
 public class InteractablesManager {
     private ArrayList<Box> interactableBoxes;
     private Playing playing;
+    private EnemyManager enemyManager;
 
     /**
      * Constructor for interactablesManager
      * @param playing
      */
-    public InteractablesManager(Playing playing){
+    public InteractablesManager(Playing playing, EnemyManager enemyManager){
         this.playing = playing;
+        this.enemyManager = enemyManager;
         initialiseVariables();
     }
+
 
     /**
      * This method initialises the variables
@@ -61,6 +65,7 @@ public class InteractablesManager {
         interactableBoxes = level.getBoxes();
         for(Box b : interactableBoxes){
             b.initialisePlayerToBox(playing.getPlayer());
+            b.setEnemyManager(enemyManager);
         }
     }
 }

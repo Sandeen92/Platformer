@@ -357,6 +357,14 @@ public abstract class Enemy{
         this.enemyManager = enemyManager;
     }
 
+    public int getCurrentHealth() {
+        return currentHealth;
+    }
+
+    public void setCurrentHealth(int currentHealth) {
+        this.currentHealth = currentHealth;
+    }
+
     private class AttackCooldownThread extends Thread{
         /**
          * This thread is responsible for the attackCooldown

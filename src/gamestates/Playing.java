@@ -83,7 +83,7 @@ public class Playing extends State implements StateMethods {
         player = new Player(200,200, (PLAYER_WIDTH),(PLAYER_HEIGTH), 10, 2, enemyManager, projectileManager);
         levelManager = new LevelManager(game);
         itemManager = new ItemManager(this);
-        interactablesManager = new InteractablesManager(this);
+        interactablesManager = new InteractablesManager(this, enemyManager);
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
     }
@@ -182,9 +182,11 @@ public class Playing extends State implements StateMethods {
 
             case KeyEvent.VK_A:
                 player.setMovingLeft(true);
+                player.attackWithBox();
                 break;
             case KeyEvent.VK_D:
                 player.setMovingRight(true);
+                player.attackWithBox();
                 break;
             case KeyEvent.VK_SPACE:
                 player.setJumping(true);
@@ -221,10 +223,12 @@ public class Playing extends State implements StateMethods {
             case KeyEvent.VK_A:
                 player.setMovingLeft(false);
                 player.setHorizontalSpeed(0);
+                player.attackWithBox();
                 break;
             case KeyEvent.VK_D:
                 player.setMovingRight(false);
                 player.setHorizontalSpeed(0);
+                player.attackWithBox();
                 break;
             case KeyEvent.VK_SPACE:
                 player.setJumping(false);
