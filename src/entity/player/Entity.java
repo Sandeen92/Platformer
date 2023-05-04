@@ -325,9 +325,9 @@ public abstract class Entity {
             entityState = JUMP;
         }
 
-       // if (startAnimation != entityState){
-       //     resetAnimationTick();
-       // }
+        if (startAnimation != entityState){
+            resetAnimationTick();
+        }
 
         //Fick kommentera ut detta och nollställa
         //animationTick i sista if-satsen på updateAnimationTick istället, vet ej varför
