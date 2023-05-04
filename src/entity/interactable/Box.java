@@ -200,9 +200,7 @@ public class Box extends Interactable {
         @Override
         public void run() {
             try {
-                System.out.println("Thread sleeping 2s");
                 Thread.sleep(2000);
-                System.out.println("Thread slept");
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
