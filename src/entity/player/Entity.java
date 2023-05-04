@@ -182,6 +182,7 @@ public abstract class Entity {
     protected void updateEntityXPosition(float horizontalSpeed, int [][] levelData) {
         if(canMoveHere(hitbox.x + horizontalSpeed, hitbox.y, hitbox.width, hitbox.height, levelData) == true){
             hitbox.x += horizontalSpeed;
+
         } else {
             hitbox.x = GetEntityXPosNextToWall(hitbox, horizontalSpeed);
         }
