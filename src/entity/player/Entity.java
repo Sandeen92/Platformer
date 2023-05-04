@@ -23,6 +23,7 @@ public abstract class Entity {
     protected int attackDamage;
     protected Rectangle2D.Float hitbox;
     protected Rectangle2D.Float attackBox;
+    protected Rectangle2D.Float boxAttackBox;
     protected int animationIndex;
     protected int animationTick;
     protected int animationSpeed = 30;
@@ -106,16 +107,25 @@ public abstract class Entity {
         attackBox = new Rectangle2D.Float(x, y, width, height);
     }
 
+    protected void initialiseBoxAttackBox(float x, float y, float width, float height){
+        boxAttackBox = new Rectangle2D.Float(x, y, width, height);
+    }
+
     //For Debugging hitbox
     protected void drawHitbox(Graphics g, int levelOffset){
         g.setColor(Color.BLACK);
         g.drawRect((int) hitbox.x - levelOffset, (int) hitbox.y, (int) hitbox.width, (int) hitbox.height);
     }
 
-    //For Debugging attackBox
+    //For Debugging boxAttackBox
     protected void drawAttackBox(Graphics g,int levelOffset){
         g.setColor(Color.GREEN);
         g.drawRect((int)(attackBox.x - levelOffset), (int) attackBox.y, (int) attackBox.width, (int) attackBox.height);
+    }
+
+    protected void drawBoxAttackBox(Graphics g,int levelOffset){
+        g.setColor(Color.GREEN);
+        g.drawRect((int)(boxAttackBox.x - levelOffset), (int) boxAttackBox.y, (int) boxAttackBox.width, (int) boxAttackBox.height);
     }
 
     /**
@@ -148,6 +158,18 @@ public abstract class Entity {
         } else if (facingDirection == 1){
             attackBox.x = hitbox.x + xOffset;
             attackBox.y = hitbox.y;
+        }
+    }
+
+    protected void updateBoxAttackBox(int xOffset, int facingDirection){
+        if(facingDirection == 0){
+            //Vänster
+            boxAttackBox.x = hitbox.x - (xOffset + 50);
+            boxAttackBox.y = hitbox.y;
+        } else if (facingDirection == 1){
+            //Höger
+            boxAttackBox.x = hitbox.x + xOffset;
+            boxAttackBox.y = hitbox.y;
         }
     }
 

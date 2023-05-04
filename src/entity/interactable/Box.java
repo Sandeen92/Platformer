@@ -16,6 +16,8 @@ import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Timer;
+
 import static utils.Constants.GameConstants.*;
 import static utils.Constants.InteractableConstants.BOX_MOVESPEED;
 import static utils.Constants.PlayerConstants.*;
@@ -24,6 +26,7 @@ import static utils.Constants.PlayerConstants.*;
 public class Box extends Interactable {
     private float moveSpeed = BOX_MOVESPEED;
     private int timesEnemyChangedDirection = 0;
+    private boolean coolingDown;
     private EnemyManager enemyManager;
 
 
@@ -60,7 +63,6 @@ public class Box extends Interactable {
 
     public void setEnemyManager(EnemyManager enemyManager) {
         this.enemyManager = enemyManager;
-        System.out.println("");
     }
 
     /**
@@ -86,11 +88,13 @@ public class Box extends Interactable {
         for (EnemyRat rat : rats) {
             if (hitbox.intersects(rat.getHitbox()) == true) {
                 rat.changeEnemyWalkDirection();
+                if (timesEnemyChangedDirection == 0 && coolingDown == false){
+                    coolingDown = true;
+                    new BounceResetCooldownTimer().start();
+                }
                 timesEnemyChangedDirection++;
-                System.out.println("Changed");
-                if (timesEnemyChangedDirection >= 20){
-                    System.out.println("Kill");
-                    enemyManager.killRat(rat);
+                if (timesEnemyChangedDirection >= 15){
+                    rat.setCurrentHealth(0);
                 }
             }
         }
@@ -189,5 +193,21 @@ public class Box extends Interactable {
     public void drawHitbox(Graphics g, int levelOffset){
         g.setColor(Color.BLACK);
         g.drawRect((int) hitbox.x - levelOffset, (int) hitbox.y, (int) hitbox.width, (int) hitbox.height);
+    }
+
+
+    private class BounceResetCooldownTimer extends Thread{
+        @Override
+        public void run() {
+            try {
+                System.out.println("Thread sleeping 2s");
+                Thread.sleep(2000);
+                System.out.println("Thread slept");
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            timesEnemyChangedDirection = 0;
+            coolingDown = false;
+        }
     }
 }

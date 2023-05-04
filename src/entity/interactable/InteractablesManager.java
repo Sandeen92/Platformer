@@ -26,14 +26,8 @@ public class InteractablesManager {
         this.playing = playing;
         this.enemyManager = enemyManager;
         initialiseVariables();
-        setEnemyManagerForAllBoxes();
     }
 
-    public void setEnemyManagerForAllBoxes(){
-        for (Box box : interactableBoxes){
-            box.setEnemyManager(enemyManager);
-        }
-    }
 
     /**
      * This method initialises the variables
@@ -71,6 +65,7 @@ public class InteractablesManager {
         interactableBoxes = level.getBoxes();
         for(Box b : interactableBoxes){
             b.initialisePlayerToBox(playing.getPlayer());
+            b.setEnemyManager(enemyManager);
         }
     }
 }
