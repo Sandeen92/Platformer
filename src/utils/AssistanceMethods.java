@@ -45,7 +45,7 @@ public class AssistanceMethods {
                                //top middle
                                if(isTileSolid(x + (width/2), y, levelData) == false){
                                    //Bottom middle
-                                   if(isTileSolid(x + (width/2), y + heigth, levelData) == false){
+                                   if(isTileSolid(x + (width/2), y + heigth -1, levelData) == false){
                                        return true;
                                    }
                               }
@@ -168,7 +168,9 @@ public class AssistanceMethods {
         //Check the pixel below bottom left and bottom right
         if(isTileSolid(hitbox.x, hitbox.y + hitbox.height + 1, lvlData) == false){
             if(isTileSolid(hitbox.x + hitbox.width, hitbox.y + hitbox.height + 1, lvlData) == false){
-                return false;
+                if(isTileSolid(hitbox.x + (hitbox.width/2), hitbox.y + hitbox.height + 1, lvlData) == false){
+                    return false;
+                }
             }
         }
         return true;
