@@ -107,6 +107,11 @@ public class Constants {
         }
     }
 
+    public static class GunManConstants{
+        public static final String GUN_MAN_CHANGER = "/GUN_MAN_CHANGER.png";
+        public static final String GUN_MAN_SPRITES = "/GUN_MAN.png";
+    }
+
     public static class InteractableConstants {
         public static final int BOX = 55;
         public static final float BOX_WIDTH = 25* SCALE;

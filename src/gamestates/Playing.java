@@ -86,7 +86,7 @@ public class Playing extends State implements StateMethods {
         levelManager = new LevelManager(game);
         itemManager = new ItemManager(this);
         interactablesManager = new InteractablesManager(this, enemyManager);
-        player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
+        loadLevelDataToPlayer();
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
     }
 
@@ -96,6 +96,23 @@ public class Playing extends State implements StateMethods {
     public void restartGame(){
         initialiseClasses();
         loadStartLevel();
+    }
+
+    public void loadLevelDataToPlayer(){
+        player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
+    }
+
+    public void changeClass(String className, float x, float y){
+        switch (className){
+            case "StartPlayer":
+                player = new Start_Player(x,y, (PLAYER_WIDTH),(PLAYER_HEIGTH), 10, 2, enemyManager);
+                loadLevelDataToPlayer();
+                break;
+            case "GunMan":
+                player = new Gun_Player(x,y, (PLAYER_WIDTH),(PLAYER_HEIGTH), 10, 2, enemyManager, projectileManager);
+                loadLevelDataToPlayer();
+                break;
+        }
     }
 
     /**
@@ -169,6 +186,7 @@ public class Playing extends State implements StateMethods {
         enemyManager.draw(g, currentLevelXOffset);
         projectileManager.draw(g, currentLevelXOffset);
         interactablesManager.draw(g, currentLevelXOffset);
+        itemManager.draw(g,currentLevelXOffset);
 
     }
 
@@ -312,4 +330,5 @@ public class Playing extends State implements StateMethods {
     public void mouseReleased(MouseEvent e) {}
     @Override
     public void mouseMoved(MouseEvent e) {}
+
 }

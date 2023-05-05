@@ -4,6 +4,7 @@ import entity.enemy.EnemyManager;
 import entity.projectiles.ProjectileManager;
 
 import static utils.Constants.GameConstants.SCALE;
+import static utils.Constants.GunManConstants.GUN_MAN_SPRITES;
 import static utils.Constants.StartPlayerConstants.START_PLAYER_SPRITES;
 
 public class Gun_Player extends Player {
@@ -12,7 +13,7 @@ public class Gun_Player extends Player {
 
     public Gun_Player(float x, float y, int width, int height, int maxHealth, int attackDamage, EnemyManager enemyManager, ProjectileManager projectileManager) {
         super(x, y, width, height, maxHealth, attackDamage, enemyManager);
-        loadPlayerAnimations(START_PLAYER_SPRITES);
+        loadPlayerAnimations(GUN_MAN_SPRITES);
         initialiseHitbox(x,y, 22 * SCALE, 30 * SCALE);
         initialiseBoxAttackBox(x, y, 90 * SCALE, 30 * SCALE);
         this.projectileManager = projectileManager;
