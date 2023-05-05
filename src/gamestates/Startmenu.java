@@ -178,6 +178,13 @@ public class Startmenu extends State implements StateMethods{
                     menuButton.applyGamestate();
                     if (Gamestate.state == Gamestate.PLAYING){
                         silenceAudio();
+                        try {
+                            Robot robot = new Robot();
+                            robot.keyPress(KeyEvent.VK_SPACE);
+                            robot.keyRelease(KeyEvent.VK_SPACE);
+                        } catch (AWTException f) {
+                            throw new RuntimeException(f);
+                        }
                     }
                     break;
                 }

@@ -96,6 +96,13 @@ public class Playing extends State implements StateMethods {
     public void restartGame(){
         initialiseClasses();
         loadStartLevel();
+        try {
+            Robot robot = new Robot();
+            robot.keyPress(KeyEvent.VK_SPACE);
+            robot.keyRelease(KeyEvent.VK_SPACE);
+        } catch (AWTException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void loadLevelDataToPlayer(){
