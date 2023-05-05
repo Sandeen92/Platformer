@@ -77,7 +77,7 @@ public class Constants {
         }
     }
 
-    public static class PlayerConstants{
+    public static class StartPlayerConstants {
         public static final int IDLE = 0;
         public static final int RUNNING = 1;
         public static final int JUMP = 2;
@@ -89,6 +89,7 @@ public class Constants {
         public static final float PLAYER_KNOCKBACK_RIGHT = 0.4f;
         public static final int PLAYER_WIDTH = (int) (70 * SCALE);
         public static final int PLAYER_HEIGTH = (int) (45 * SCALE);
+        public static final String START_PLAYER_SPRITES = "/PLAYER_SPRITES.png";
 
         public static int GetSpriteAmount(int player_action){
             switch (player_action){

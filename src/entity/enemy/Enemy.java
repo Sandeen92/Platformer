@@ -5,6 +5,7 @@
 
 package entity.enemy;
 
+import entity.player.Player;
 import entity.player.Start_Player;
 import gamestates.Gamestate;
 
@@ -14,7 +15,7 @@ import static utils.AssistanceMethods.*;
 import static utils.Constants.EnemyConstants.*;
 import static utils.Constants.EntityConstants.MAX_AIR_SPEED;
 import static utils.Constants.GameConstants.SCALE;
-import static utils.Constants.PlayerConstants.HIT;
+import static utils.Constants.StartPlayerConstants.HIT;
 import static utils.Constants.Directions.*;
 
 public abstract class Enemy{
@@ -95,25 +96,25 @@ public abstract class Enemy{
      * This metod checks if the player is hit by the Enemy by checking if the player hitbox
      * and enemy attackbox intersects
      * @param enemy
-     * @param startPlayer
+     * @param player
      */
-    protected void checkIfPlayerIsHit(Enemy enemy, Start_Player startPlayer){
-        if(enemy.attackBox.intersects(startPlayer.getHitbox()) == true){
+    protected void checkIfPlayerIsHit(Enemy enemy, Player player){
+        if(enemy.attackBox.intersects(player.getHitbox()) == true){
             if(canAttack == true){
-                attackPlayer(enemy, startPlayer);
+                attackPlayer(enemy, player);
             }
-            changePlayerToHit(enemy, startPlayer);
+            changePlayerToHit(enemy, player);
         }
     }
 
     /**
      * This method makes the enemy attack the player and calls for the cooldown to start
      * @param enemy
-     * @param startPlayer
+     * @param player
      */
-    private void attackPlayer(Enemy enemy, Start_Player startPlayer){
-        startPlayer.entityTakeDamage(enemy.attackDamage);
-        checkIfPlayerIsDead(startPlayer);
+    private void attackPlayer(Enemy enemy, Player player){
+        player.entityTakeDamage(enemy.attackDamage);
+        checkIfPlayerIsDead(player);
         canAttack = false;
         startAttackCooldown();
     }
@@ -121,10 +122,10 @@ public abstract class Enemy{
     /**
      * This method checks if the player is dead and if the player
      * is dead the gamestate switches to DeathScreen
-     * @param startPlayer
+     * @param player
      */
-    private void checkIfPlayerIsDead(Start_Player startPlayer){
-        if(startPlayer.isEntityDead() == true) {
+    private void checkIfPlayerIsDead(Player player){
+        if(player.isEntityDead() == true) {
             Gamestate.state = Gamestate.DEATHSCREEN;
         }
     }
@@ -139,11 +140,11 @@ public abstract class Enemy{
     /**
      * This method changes the players state to hit and calls for the playerHit method
      * @param enemy
-     * @param startPlayer
+     * @param player
      */
-    private void changePlayerToHit(Enemy enemy, Start_Player startPlayer){
-        startPlayer.playerHit(enemy);
-        startPlayer.setEntityState(HIT);
+    private void changePlayerToHit(Enemy enemy, Player player){
+        player.playerHit(enemy);
+        player.setEntityState(HIT);
     }
 
     /**

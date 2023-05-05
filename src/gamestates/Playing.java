@@ -2,6 +2,8 @@ package gamestates;
 //Imports from within project
 import entity.enemy.EnemyManager;
 import entity.interactable.InteractablesManager;
+import entity.player.Gun_Player;
+import entity.player.Player;
 import entity.player.Start_Player;
 import entity.projectiles.ProjectileManager;
 import items.ItemManager;
@@ -13,8 +15,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 //Imports of static variables and methods
 import static utils.Constants.GameConstants.*;
-import static utils.Constants.PlayerConstants.PLAYER_HEIGTH;
-import static utils.Constants.PlayerConstants.PLAYER_WIDTH;
+import static utils.Constants.StartPlayerConstants.PLAYER_HEIGTH;
+import static utils.Constants.StartPlayerConstants.PLAYER_WIDTH;
 
 /**
  * The Playing class represents the state of the game when the player is actively playing.
@@ -26,7 +28,7 @@ import static utils.Constants.PlayerConstants.PLAYER_WIDTH;
  * @author Casper Johannesson
  */
 public class Playing extends State implements StateMethods {
-    private Start_Player startPlayer;
+    private Player player;
     private LevelManager levelManager;
     private EnemyManager enemyManager;
     private ItemManager itemManager;
@@ -55,7 +57,7 @@ public class Playing extends State implements StateMethods {
      */
     public void loadNextLevel(){
         levelManager.loadNextLevel();
-        startPlayer.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
+        player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
     }
 
     /**
@@ -80,12 +82,12 @@ public class Playing extends State implements StateMethods {
     public void initialiseClasses() {
         enemyManager = new EnemyManager(this);
         projectileManager = new ProjectileManager(this);
-        startPlayer = new Start_Player(200,200, (PLAYER_WIDTH),(PLAYER_HEIGTH), 10, 2, enemyManager);
+        player = new Start_Player(200,200, (PLAYER_WIDTH),(PLAYER_HEIGTH), 10, 2, enemyManager);
         levelManager = new LevelManager(game);
         itemManager = new ItemManager(this);
         interactablesManager = new InteractablesManager(this, enemyManager);
-        startPlayer.loadLvlData(levelManager.getCurrentLevel().getLevelData());
-        startPlayer.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
+        player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
+        player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
     }
 
     /**
@@ -105,7 +107,7 @@ public class Playing extends State implements StateMethods {
     public void update() {
         if (paused == false) {
             itemManager.update();
-            startPlayer.updatePlayer();
+            player.update();
             interactablesManager.update();
             projectileManager.update();
             checkIfPlayerIsCloseToCameraBorder();
@@ -117,7 +119,7 @@ public class Playing extends State implements StateMethods {
      * This method checks if the player is close to the edge of the screen.
      */
     private void checkIfPlayerIsCloseToCameraBorder() {
-        int playerPositionX = (int) startPlayer.getHitbox().x;
+        int playerPositionX = (int) player.getHitbox().x;
         int currentPlayerPositionX = playerPositionX - currentLevelXOffset;
         findBorderClosestToPlayer(currentPlayerPositionX);
         changeCurrentLevelXOffset();
@@ -163,7 +165,7 @@ public class Playing extends State implements StateMethods {
     @Override
     public void draw(Graphics g) {
         levelManager.drawLevel(g, currentLevelXOffset);
-        startPlayer.renderPlayer(g, currentLevelXOffset);
+        player.renderPlayer(g, currentLevelXOffset);
         enemyManager.draw(g, currentLevelXOffset);
         projectileManager.draw(g, currentLevelXOffset);
         interactablesManager.draw(g, currentLevelXOffset);
@@ -181,32 +183,32 @@ public class Playing extends State implements StateMethods {
         switch (e.getKeyCode()) {
 
             case KeyEvent.VK_A:
-                startPlayer.setMovingLeft(true);
-                startPlayer.attackWithBox();
+                player.setMovingLeft(true);
+                player.attackWithBox();
                 break;
             case KeyEvent.VK_D:
-                startPlayer.setMovingRight(true);
-                startPlayer.attackWithBox();
+                player.setMovingRight(true);
+                player.attackWithBox();
                 break;
             case KeyEvent.VK_SPACE:
-                startPlayer.setJumping(true);
+                player.setJumping(true);
                 break;
             case KeyEvent.VK_F:
-                startPlayer.attack();
+                player.attack();
                 break;
             case KeyEvent.VK_R:
                 restartGame();
                 break;
             case KeyEvent.VK_ESCAPE:
                 paused = true;
-                startPlayer.setJumping(false);
-                startPlayer.allMovingBooleansFalse();
+                player.setJumping(false);
+                player.allMovingBooleansFalse();
                 Gamestate.state = Gamestate.PAUSEMENU;
                 break;
 
             case KeyEvent.VK_F1:
                 //Developer function
-                startPlayer.setCurrentHealth(0);
+                player.setCurrentHealth(0);
                 break;
         }
     }
@@ -221,18 +223,18 @@ public class Playing extends State implements StateMethods {
     public void keyReleased(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_A:
-                startPlayer.setMovingLeft(false);
-                startPlayer.setHorizontalSpeed(0);
-                startPlayer.attackWithBox();
+                player.setMovingLeft(false);
+                player.setHorizontalSpeed(0);
+                player.attackWithBox();
                 break;
             case KeyEvent.VK_D:
-                startPlayer.setMovingRight(false);
-                startPlayer.setHorizontalSpeed(0);
-                startPlayer.attackWithBox();
+                player.setMovingRight(false);
+                player.setHorizontalSpeed(0);
+                player.attackWithBox();
                 break;
             case KeyEvent.VK_SPACE:
-                startPlayer.setJumping(false);
-                startPlayer.resetBooleanJumpOnce();
+                player.setJumping(false);
+                player.resetBooleanJumpOnce();
                 break;
         }
     }
@@ -257,15 +259,15 @@ public class Playing extends State implements StateMethods {
      * Called when the game window loses focus. Sets all player movement booleans to false.
      */
     public void windowFocusLost() {
-        startPlayer.allMovingBooleansFalse();
+        player.allMovingBooleansFalse();
     }
 
     /**
      * Returns the player object of the game.
      * @return the Player object of the game
      */
-    public Start_Player getPlayer() {
-        return startPlayer;
+    public Player getPlayer() {
+        return player;
     }
 
     /**

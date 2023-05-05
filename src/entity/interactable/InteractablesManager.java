@@ -6,7 +6,7 @@
 package entity.interactable;
 
 import entity.enemy.EnemyManager;
-import entity.interactable.Box;
+import entity.player.Start_Player;
 import gamestates.Playing;
 import levels.Level;
 import java.awt.*;

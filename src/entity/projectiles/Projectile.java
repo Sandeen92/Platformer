@@ -1,14 +1,11 @@
 package entity.projectiles;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static utils.AssistanceMethods.canMoveHere;
-import static utils.Constants.PlayerConstants.PLAYER_WIDTH;
 import static utils.Constants.ProjectileConstants.*;
 
 public abstract class Projectile {

@@ -19,7 +19,7 @@ import static utils.AssistanceMethods.*;
 import static utils.Constants.EntityConstants.AIR_SPEED_OFFSET;
 import static utils.Constants.EntityConstants.MAX_AIR_SPEED;
 import static utils.Constants.GameConstants.*;
-import static utils.Constants.PlayerConstants.*;
+import static utils.Constants.StartPlayerConstants.*;
 
 public abstract class Player {
     //Floats
@@ -68,7 +68,7 @@ public abstract class Player {
     protected boolean isPushing;
     protected boolean standingOnInteractable;
     protected boolean jumpOnce;
-    protected boolean canAttack;
+    protected boolean canAttack = true;
 
 
     protected BufferedImage[][] playerAnimations;
@@ -384,7 +384,7 @@ public abstract class Player {
     //*********** ATTACKING ***************
     //*************************************
 
-    protected abstract void attack();
+    public abstract void attack();
 
     public void attackWithBox(){
         enemyManager.checkIfEnemyIsHitByBox(boxAttackBox);
@@ -407,7 +407,7 @@ public abstract class Player {
     public void playerHit(Enemy attackingEnemy){
         this.attackingEnemy = attackingEnemy;
         isHit = true;
-        Start_Player.HitTimer ht = new Start_Player.HitTimer();
+        HitTimer ht = new HitTimer();
         ht.start();
     }
 
@@ -515,6 +515,8 @@ public abstract class Player {
             inAir = true;
         }
     }
+
+    public abstract void update();
 
     /**
      * This method updates the animationtick to keep track of which stage of the animation

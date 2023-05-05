@@ -5,7 +5,7 @@
 
 package entity.enemy;
 
-import entity.enemy.EnemyRat;
+import entity.player.Start_Player;
 import entity.projectiles.Bullet;
 import gamestates.Playing;
 import levels.Level;
@@ -15,7 +15,6 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class EnemyManager {
     private Playing playing;
@@ -50,7 +49,7 @@ public class EnemyManager {
     public void update(int[][] levelData){
         for(EnemyRat rat : rats){
             rat.update(levelData);
-            rat.checkIfPlayerIsHit(rat,playing.getPlayer());
+            rat.checkIfPlayerIsHit(rat, playing.getPlayer());
         }
     }
 
