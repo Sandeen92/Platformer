@@ -107,10 +107,12 @@ public class Playing extends State implements StateMethods {
             case "StartPlayer":
                 player = new Start_Player(x,y, (PLAYER_WIDTH),(PLAYER_HEIGTH), 10, 2, enemyManager);
                 loadLevelDataToPlayer();
+                interactablesManager.loadBoxes(levelManager.getCurrentLevel());
                 break;
             case "GunMan":
                 player = new Gun_Player(x,y, (PLAYER_WIDTH),(PLAYER_HEIGTH), 10, 2, enemyManager, projectileManager);
                 loadLevelDataToPlayer();
+                interactablesManager.loadBoxes(levelManager.getCurrentLevel());
                 break;
         }
     }
