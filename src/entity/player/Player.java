@@ -98,6 +98,10 @@ public abstract class Player {
         initialiseVariables(maxHealth, attackDamage, enemyManager);
     }
 
+    //*************************************
+    //*********** INITIALISING ************
+    //*************************************
+
     /**
      * This method initialises the variables of the entity
      * @param maxHealth
