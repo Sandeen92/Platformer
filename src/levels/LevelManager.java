@@ -105,7 +105,7 @@ public class LevelManager {
      */
     public void drawLevelBackground(Graphics g, int levelOffset){
         g.drawImage(levelBackground,0,0, GAME_WIDTH, GAME_HEIGHT, null);
-        g.drawImage(levelBackgroundSprites,(int) (1 * SCALE) - levelOffset, (int) (0 * SCALE) , (int) (1664 * SCALE), (int) (448 * SCALE), null);
+        g.drawImage(levelBackgroundSprites,(int) (1 * SCALE) - levelOffset, (int) (0 * SCALE) , (int) (3328 * SCALE), (int) (448 * SCALE), null);
     }
 
     /**
