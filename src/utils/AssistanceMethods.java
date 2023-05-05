@@ -45,12 +45,9 @@ public class AssistanceMethods {
                                //top middle
                                if(isTileSolid(x + (width/2), y, levelData) == false){
                                    //Bottom middle
-<<<<<<< Updated upstream
-                                   if(isTileSolid(x + (width/2), y + heigth -1, levelData) == false){
-=======
                                    if(isTileSolid(x + (width/2), y + heigth, levelData) == false){
 
->>>>>>> Stashed changes
+
                                        return true;
                                    }
                               }
