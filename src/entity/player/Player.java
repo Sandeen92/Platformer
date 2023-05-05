@@ -1,5 +1,5 @@
 /**
- * This class is responsible for the players attributes and functions
+ * This abstract class is used to keep the general functionality of all entities
  * @author Linus Magnusson
  */
 
@@ -7,7 +7,6 @@ package entity.player;
 
 import entity.enemy.Enemy;
 import entity.enemy.EnemyManager;
-import entity.projectiles.ProjectileManager;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -15,186 +14,136 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import static utils.AssistanceMethods.IsEntityOnFloor;
+
+import static utils.AssistanceMethods.*;
+import static utils.Constants.EntityConstants.AIR_SPEED_OFFSET;
+import static utils.Constants.EntityConstants.MAX_AIR_SPEED;
 import static utils.Constants.GameConstants.*;
-import static utils.AssistanceMethods.canMoveHere;
 import static utils.Constants.PlayerConstants.*;
 
-public class Player extends Entity {
-    private BufferedImage[][] playerAnimations;
-    private EnemyManager enemyManager;
-    private ProjectileManager projectileManager;
-    private AttackTimer attackTimer;
-    private float xDrawOffset = PLAYER_X_DRAW_OFFSET;
-    private float yDrawOffset = PLAYER_Y_DRAW_OFFSET;
-    private int[][] levelData;
-    private float rightPlayerSpeed = PLAYER_SPEED;
-    private float leftPlayerSpeed = -PLAYER_SPEED;
-    private int flipX = 0;
-    private int flipW = 1;
-    private boolean jumpOnce;
-    private boolean canAttack;
-    private int facingDirection;
-    private Enemy attackingEnemy;
-    private float knockbackSpeed;
-    private final float rightPushSpeed = 0.6f;
-    private final float leftPushSpeed = -0.6f;
+public abstract class Player {
+    //Floats
+    protected float x;
+    protected float y;
+    protected float airSpeed;
+    protected float gravity;
+    protected float jumpSpeed;
+    protected float fallSpeedAfterCollision;
+    protected float horizontalSpeed;
+    protected float xDrawOffset = PLAYER_X_DRAW_OFFSET;
+    protected float yDrawOffset = PLAYER_Y_DRAW_OFFSET;
+    protected float rightPlayerSpeed = PLAYER_SPEED;
+    protected float leftPlayerSpeed = -PLAYER_SPEED;
+    protected float knockbackSpeed;
+    protected final float rightPushSpeed = 0.6f;
+    protected final float leftPushSpeed = -0.6f;
+
+    //Ints
+    protected int width;
+    protected int height;
+    protected int maxHealth;
+    protected int currentHealth;
+    protected int attackDamage;
+    protected int animationIndex;
+    protected int animationTick;
+    protected int animationSpeed = 30;
+    protected int entityState = IDLE;
+    protected int[][] levelData;
+    protected int flipX = 0;
+    protected int flipW = 1;
+    protected int facingDirection;
+
+    // Shapes
+    protected Rectangle2D.Float hitbox;
+    protected Rectangle2D.Float attackBox;
+    protected Rectangle2D.Float boxAttackBox;
+
+    //Booleans
+    protected boolean inAir = false;
+    protected boolean jumping = false;
+    protected boolean isMoving = false;
+    protected boolean isHit;
+    protected boolean movingLeft;
+    protected boolean movingRight;
+    protected boolean isPushing;
+    protected boolean standingOnInteractable;
+    protected boolean jumpOnce;
+    protected boolean canAttack;
+
+
+    protected BufferedImage[][] playerAnimations;
+    protected EnemyManager enemyManager;
+
+    protected AttackTimer attackTimer;
+    protected Enemy attackingEnemy;
+
+
+
 
 
     /**
-     * Constructor for Player
+     * Second constructor initialises more variables
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @param maxHealth
+     * @param attackDamage
+     */
+    public Player(float x, float y, int width, int height, int maxHealth, int attackDamage, EnemyManager enemyManager){
+        this.x = x;
+        this.y = y;
+        this.height = height;
+        this.width = width;
+        initialiseVariables(maxHealth, attackDamage, enemyManager);
+    }
+
+    /**
+     * This method initialises the variables of the entity
+     * @param maxHealth
+     * @param attackDamage
+     */
+    protected void initialiseVariables(int maxHealth, int attackDamage, EnemyManager enemyManager){
+        airSpeed = 0f;
+        gravity = 0.03f * SCALE;
+        jumpSpeed = -1.65f * SCALE;
+        fallSpeedAfterCollision = 0.5f * SCALE;
+        this.maxHealth = maxHealth;
+        this.currentHealth = maxHealth;
+        this.attackDamage = attackDamage;
+        this.enemyManager = enemyManager;
+    }
+
+    /**
+     * This method initializes the hitbox of the entity
      * @param x
      * @param y
      * @param width
      * @param height
      */
-    public Player(float x, float y, int width, int height, int maxHealth, int attackDamage, EnemyManager enemyManager, ProjectileManager projectileManager) {
-        super(x, y, width, height, maxHealth, attackDamage);
-        loadPlayerAnimations();
-        initialiseHitbox(x,y, 22 * SCALE, 30 * SCALE);
-        initialiseAttackBox(x,y,20 * SCALE, 27 * SCALE);
-        initialiseBoxAttackBox(x, y, 90 * SCALE, 30 * SCALE);
-        this.enemyManager = enemyManager;
-        this.projectileManager = projectileManager;
-        initialiseVariables();
+    protected void initialiseHitbox(float x, float y, float width, float height) {
+        hitbox = new Rectangle2D.Float(x, y,width,height);
     }
 
     /**
-     * This method sets the spawnpoint for the player
-     * @param spawn
+     * This method initialises the attackbox of the entity
+     * @param x
+     * @param y
+     * @param width
+     * @param height
      */
-    public void setSpawn(Point spawn){
-        this.x = spawn.x;
-        this.y = spawn.y;
-        hitbox.x = x;
-        hitbox.y = y;
-    }
-    /**
-     * This method initialises the variables of the player
-     */
-    private void initialiseVariables(){
-        jumpOnce = true;
-        canAttack = true;
-        isHit = false;
-        facingDirection = 1;
-        standingOnInteractable = false;
-        isPushing = false;
-        knockbackSpeed = 0.4f * 1.2f;
+    protected void initialiseAttackBox(float x, float y, float width, float height){
+        attackBox = new Rectangle2D.Float(x, y, width, height);
     }
 
-    /**
-     * This method is responsible for updating the player
-     */
-    public void updatePlayer() {
-        updateEntityPosition(levelData);
-        updateAnimationTick();
-        updateAttackBox(30, facingDirection);
-        updateBoxAttackBox(30, facingDirection);
-        setEntityAnimation();
+    protected void initialiseBoxAttackBox(float x, float y, float width, float height){
+        boxAttackBox = new Rectangle2D.Float(x, y, width, height);
     }
 
-    /**
-     * this method makes the player jump
-     */
-    protected void jump() {
-        if(inAir == true){
-            return;
-        } else if (jumpOnce == true){
-            checkIfPlayerIsPushing();
-        }
-    }
 
-    /**
-     * This method checks if the player is pushing something, if not
-     * it allows the player to jump
-     */
-    private void checkIfPlayerIsPushing(){
-        if(isPushing == false){
-            inAir = true;
-            airSpeed = jumpSpeed;
-            jumpOnce = false;
-        }
-    }
-
-    /**
-     * This method sets the variables for when the player is hit
-     * @param attackingEnemy
-     */
-    public void playerHit(Enemy attackingEnemy){
-        this.attackingEnemy = attackingEnemy;
-        isHit = true;
-        HitTimer ht = new HitTimer();
-        ht.start();
-    }
-
-    /**
-     * This method makes the player attack
-     */
-    public void attack(){
-        if(canAttack == true){
-            projectileManager.addBullet(hitbox.x, hitbox.y + 32,levelData , facingDirection);
-            startAttackCooldown();
-        }
-    }
-
-    public void attackWithBox(){
-        enemyManager.checkIfEnemyIsHitByBox(boxAttackBox);
-    }
-
-    /**
-     * This method starts the attack cooldown
-     */
-    private void startAttackCooldown(){
-        canAttack = false;
-        attackTimer = new AttackTimer();
-        attackTimer.start();
-    }
-
-    /**
-     * This method resets the variable jumponce to make the player able to jump again
-     */
-    public void resetBooleanJumpOnce(){
-        this.jumpOnce = true;
-    }
-
-    /**
-     * This method renders the player
-     * @param g
-     */
-    public void renderPlayer(Graphics g, int levelOffset) {
-
-        g.drawImage(playerAnimations[entityState][animationIndex],
-                (int) (hitbox.x - xDrawOffset) + flipX - levelOffset,
-                (int) (hitbox.y - yDrawOffset),
-                width * flipW,
-                height, null);
-        drawHitbox(g, levelOffset);
-        //drawAttackBox(g, levelOffset);
-    }
-
-    /**
-     * This method knocks the player back
-     * @param enemy
-     */
-    public void knockbackPlayer(Enemy enemy){
-        horizontalSpeed = 0;
-        getKnockbackDirection(enemy);
-        if(canMoveHere(hitbox.x + horizontalSpeed, hitbox.y, hitbox.width, hitbox.height, levelData) == true){
-                hitbox.x += horizontalSpeed;
-        }
-    }
-
-    /**
-     * This method gets the knockback direction for the player
-     * @param enemy
-     */
-    private void getKnockbackDirection(Enemy enemy){
-        if(hitbox.x < enemy.getHitbox().x){
-            setHorizontalKnockbackSpeed(PLAYER_KNOCKBACK_LEFT);
-        } else if (hitbox.x > enemy.getHitbox().x){
-            setHorizontalKnockbackSpeed(PLAYER_KNOCKBACK_RIGHT);
-        }
-    }
+    //*************************************
+    //*********** MOVEMENT ****************
+    //*************************************
 
     /**
      *  This method updates the players position and checks for collisions
@@ -214,12 +163,34 @@ public class Player extends Entity {
     }
 
     /**
-     * This method calls the method for knocking the player back if
-     * the player is hit
+     * This method checks if the player is currently jumping
      */
-    private void knockbackPlayerIfHit(){
-        if(isHit == true){
-            knockbackPlayer(attackingEnemy);
+    protected void checkIfPlayerIsJumping(){
+        if(jumping == true){
+            jump();
+        }
+    }
+
+    /**
+     * this method makes the player jump
+     */
+    protected void jump() {
+        if(inAir == true){
+            return;
+        } else if (jumpOnce == true){
+            checkIfPlayerIsPushing();
+        }
+    }
+
+    /**
+     * This method checks if the player is pushing something, if not
+     * it allows the player to jump
+     */
+    protected void checkIfPlayerIsPushing(){
+        if(isPushing == false){
+            inAir = true;
+            airSpeed = jumpSpeed;
+            jumpOnce = false;
         }
     }
 
@@ -227,24 +198,26 @@ public class Player extends Entity {
      * This method checks if the player is moving in any way
      * @return
      */
-    private boolean checkIfPlayerIsMoving() {
+    protected boolean checkIfPlayerIsMoving() {
         return movingLeft == false && movingRight == false && inAir == false && isHit == false;
     }
 
-
     /**
-     * This method checks if the player is currently jumping
+     * This method changes the moving direction for the player and calls the methods
+     * to flip the player the same way the player is moving
      */
-    private void checkIfPlayerIsJumping(){
-        if(jumping == true){
-            jump();
+    protected void changeMovingDirection(){
+        if(movingLeft == true){
+            flipPlayerLeft();
+        } else if (movingRight == true) {
+            flipPlayerRight();
         }
     }
 
     /**
      * This method flips the player to the left
      */
-    private void flipPlayerLeft(){
+    protected void flipPlayerLeft(){
         if (!isPushing) {
             horizontalSpeed = leftPlayerSpeed;
         }
@@ -260,7 +233,7 @@ public class Player extends Entity {
     /**
      * This method flips the player to the rigth
      */
-    private void flipPlayerRight(){
+    protected void flipPlayerRight(){
         if (!isPushing) {
             horizontalSpeed = rightPlayerSpeed;
         }
@@ -274,14 +247,36 @@ public class Player extends Entity {
     }
 
     /**
-     * This method changes the moving direction for the player and calls the methods
-     * to flip the player the same way the player is moving
+     * This method calls the method for knocking the player back if
+     * the player is hit
      */
-    private void changeMovingDirection(){
-        if(movingLeft == true){
-            flipPlayerLeft();
-        } else if (movingRight == true) {
-            flipPlayerRight();
+    protected void knockbackPlayerIfHit(){
+        if(isHit == true){
+            knockbackPlayer(attackingEnemy);
+        }
+    }
+
+    /**
+     * This method knocks the player back
+     * @param enemy
+     */
+    public void knockbackPlayer(Enemy enemy){
+        horizontalSpeed = 0;
+        getKnockbackDirection(enemy);
+        if(canMoveHere(hitbox.x + horizontalSpeed, hitbox.y, hitbox.width, hitbox.height, levelData) == true){
+            hitbox.x += horizontalSpeed;
+        }
+    }
+
+    /**
+     * This method gets the knockback direction for the player
+     * @param enemy
+     */
+    protected void getKnockbackDirection(Enemy enemy){
+        if(hitbox.x < enemy.getHitbox().x){
+            setHorizontalKnockbackSpeed(PLAYER_KNOCKBACK_LEFT);
+        } else if (hitbox.x > enemy.getHitbox().x){
+            setHorizontalKnockbackSpeed(PLAYER_KNOCKBACK_RIGHT);
         }
     }
 
@@ -289,7 +284,7 @@ public class Player extends Entity {
      * This method checks if the player is standing on an interactable
      * @param levelData
      */
-    private void checkIfPlayerIsStandingOnInteractable(int[][] levelData){
+    protected void checkIfPlayerIsStandingOnInteractable(int[][] levelData){
         if(standingOnInteractable == false){
             checkIfPlayerIsInAirWhenNotJumping(levelData);
         }
@@ -299,18 +294,194 @@ public class Player extends Entity {
      * This method checks if the player is in the air if the player is not jumping
      * @param levelData
      */
-    private void checkIfPlayerIsInAirWhenNotJumping(int[][] levelData){
+    protected void checkIfPlayerIsInAirWhenNotJumping(int[][] levelData){
         if(inAir == false ){
             isEntityInAir(levelData);
         }
     }
 
     /**
+     * This method checks if the entity is in air and changes the boolean to true or false
+     * @param levelData
+     */
+    protected void isEntityInAir(int[][] levelData){
+        if(IsEntityOnFloor(hitbox, levelData) == false){
+            inAir = true;
+        }
+    }
+
+    /**
+     * This method is used to move the entity with all the checks that is needed to be done
+     * Makes the physics and collisions work
+     * @param levelData
+     */
+    protected void moveEntity(int[][] levelData) {
+        if (inAir == true) {
+            checkIfEntityCanMoveInAir(levelData);
+        } else {
+            updateEntityXPosition(horizontalSpeed, levelData);
+        }
+    }
+
+    /**
+     * This method checks if the entity can move to the new tile when in air
+     * @param levelData
+     */
+    protected void checkIfEntityCanMoveInAir(int[][] levelData) {
+        if (canMoveHere(hitbox.x, hitbox.y + airSpeed - AIR_SPEED_OFFSET, hitbox.width, hitbox.height, levelData) == true) {
+            hitbox.y += airSpeed;
+            changeAirSpeed();
+            updateEntityXPosition(horizontalSpeed, levelData);
+        } else {
+            checkIfCollidingWithRoofOrFloor();
+            updateEntityXPosition(horizontalSpeed, levelData);
+        }
+    }
+
+    /**
+     * This method changes the airspeed of the entity
+     */
+    protected void changeAirSpeed(){
+        if(airSpeed < MAX_AIR_SPEED){
+            airSpeed += gravity;
+        }
+    }
+
+    /**
+     * This method updates the x position of the entity by taking in the speed and leveldata to check
+     * if the move is valid
+     * @param horizontalSpeed
+     * @param levelData
+     */
+    protected void updateEntityXPosition(float horizontalSpeed, int [][] levelData) {
+        if(canMoveHere(hitbox.x + horizontalSpeed, hitbox.y, hitbox.width, hitbox.height, levelData) == true){
+            hitbox.x += horizontalSpeed;
+
+        } else {
+            hitbox.x = GetEntityXPosNextToWall(hitbox, horizontalSpeed);
+        }
+    }
+
+    /**
+     * This method changes the airspeed if the entity is colliding with the roof
+     */
+    protected void checkIfCollidingWithRoofOrFloor(){
+        hitbox.y = GetEntityYPosUnderOrAboveTile(hitbox, airSpeed);
+        if (airSpeed > 0) {
+            resetBooleanInAir();
+        } else {
+            airSpeed = fallSpeedAfterCollision;
+        }
+
+    }
+
+
+    //*************************************
+    //*********** ATTACKING ***************
+    //*************************************
+
+    protected abstract void attack();
+
+    public void attackWithBox(){
+        enemyManager.checkIfEnemyIsHitByBox(boxAttackBox);
+    }
+
+    /**
+     * This method starts the attack cooldown
+     */
+    protected void startAttackCooldown(){
+        canAttack = false;
+        attackTimer = new Start_Player.AttackTimer();
+        attackTimer.start();
+    }
+
+    //TODO Flytta till enemy, annars om 2 fiender skadar kan man inte ta damage samtidigt
+    /**
+     * This method sets the variables for when the player is hit
+     * @param attackingEnemy
+     */
+    public void playerHit(Enemy attackingEnemy){
+        this.attackingEnemy = attackingEnemy;
+        isHit = true;
+        Start_Player.HitTimer ht = new Start_Player.HitTimer();
+        ht.start();
+    }
+
+
+    //*************************************
+    //************** HEALTH ***************
+    //*************************************
+
+    /**
+     * This method makes the enemy take damage
+     * @param damage
+     */
+    public void entityTakeDamage(int damage){
+        currentHealth -= damage;
+    }
+
+    /**
+     * This method checks if the entity is dead and returns a boolean accordingly
+     * @return
+     */
+    public boolean isEntityDead(){
+        if(currentHealth <= 0){
+            return true;
+        }
+        return false;
+    }
+
+
+
+    //*************************************
+    //*********** RENDERING ***************
+    //*************************************
+
+    /**
+     * This method renders the player
+     * @param g
+     */
+    public void renderPlayer(Graphics g, int levelOffset) {
+
+        g.drawImage(playerAnimations[entityState][animationIndex],
+                (int) (hitbox.x - xDrawOffset) + flipX - levelOffset,
+                (int) (hitbox.y - yDrawOffset),
+                width * flipW,
+                height, null);
+        drawHitbox(g, levelOffset);
+        //drawAttackBox(g, levelOffset);
+    }
+
+    //For Debugging boxAttackBox
+    protected void drawAttackBox(Graphics g,int levelOffset){
+        g.setColor(Color.GREEN);
+        g.drawRect((int)(attackBox.x - levelOffset), (int) attackBox.y, (int) attackBox.width, (int) attackBox.height);
+    }
+
+    //For Debugging box
+    protected void drawBoxAttackBox(Graphics g,int levelOffset){
+        g.setColor(Color.GREEN);
+        g.drawRect((int)(boxAttackBox.x - levelOffset), (int) boxAttackBox.y, (int) boxAttackBox.width, (int) boxAttackBox.height);
+    }
+
+    //For Debugging hitbox
+    protected void drawHitbox(Graphics g, int levelOffset){
+        g.setColor(Color.BLACK);
+        g.drawRect((int) hitbox.x - levelOffset, (int) hitbox.y, (int) hitbox.width, (int) hitbox.height);
+    }
+
+
+
+    //*************************************
+    //******* LOADING AND UPDATES *********
+    //*************************************
+
+    /**
      * This method loads the players animations into a 2d array of bufferedimages
      */
-    public void loadPlayerAnimations() {
+    public void loadPlayerAnimations(String pngName) {
 
-        InputStream is = getClass().getResourceAsStream("/PLAYER_SPRITES.png");
+        InputStream is = getClass().getResourceAsStream(pngName);
         try {
             BufferedImage player = ImageIO.read(is);
             playerAnimations = new BufferedImage[4][8];
@@ -331,16 +502,6 @@ public class Player extends Entity {
     }
 
     /**
-     * This method sets the variables for the player if the player is standing on an interactabel object
-     */
-    public void setPlayerStandingOnInteractable(){
-        if(getStandingOnInteractable() == false){
-            setStandingOnInteractable(true);
-        }
-        resetBooleanInAir();
-    }
-
-    /**
      * This method loads the leveldata into the player
      * @param levelData
      */
@@ -352,14 +513,148 @@ public class Player extends Entity {
     }
 
     /**
+     * This method updates the animationtick to keep track of which stage of the animation
+     * is the next
+     */
+    protected void updateAnimationTick() {
+        animationTick++;
+        if (animationTick >= animationSpeed) {
+            animationTick = 0;
+            animationIndex++;
+            if (animationIndex >= GetSpriteAmount(entityState)) {
+                animationIndex = 0;
+                animationTick = 0;
+            }
+        }
+    }
+
+    /**
+     * This method updates the x and yPosition of the attackbox
+     * @param xOffset
+     * @param facingDirection
+     */
+    protected void updateAttackBox(int xOffset, int facingDirection){
+        if(facingDirection == 0){
+            attackBox.x = hitbox.x - xOffset;
+            attackBox.y = hitbox.y;
+        } else if (facingDirection == 1){
+            attackBox.x = hitbox.x + xOffset;
+            attackBox.y = hitbox.y;
+        }
+    }
+
+    protected void updateBoxAttackBox(int xOffset, int facingDirection){
+        if(facingDirection == 0){
+            //Vänster
+            boxAttackBox.x = hitbox.x - (xOffset + 50);
+            boxAttackBox.y = hitbox.y;
+        } else if (facingDirection == 1){
+            //Höger
+            boxAttackBox.x = hitbox.x + xOffset;
+            boxAttackBox.y = hitbox.y;
+        }
+    }
+
+
+    //*************************************
+    //******* GETTERS AND SETTERS *********
+    //*************************************
+
+    /**
      * This method sets the horixontal speed of the player
      * @param knockbackSpeed
      */
-    private void setHorizontalKnockbackSpeed(float knockbackSpeed) {
+    protected void setHorizontalKnockbackSpeed(float knockbackSpeed) {
         horizontalSpeed = knockbackSpeed;
         hitbox.x += horizontalSpeed;
     }
 
+    /**
+     * This method sets the variables for the player if the player is standing on an interactabel object
+     */
+    public void setPlayerStandingOnInteractable(){
+        if(getStandingOnInteractable() == false){
+            setStandingOnInteractable(true);
+        }
+        resetBooleanInAir();
+    }
+
+    /**
+     * This method is used to set the inAir variable to false when
+     * the entity is no longer in the air
+     */
+    protected void resetBooleanInAir() {
+        inAir = false;
+        airSpeed = 0;
+        if (isMoving) {
+            entityState = RUNNING;
+        }
+        else {
+            entityState = IDLE;
+        }
+    }
+
+    /**
+     * This method resets the variables for the animations
+     */
+    protected void resetAnimationTick(){
+        animationTick = 0;
+        animationIndex = 0;
+    }
+
+    /**
+     * This method sets the player animation based on current state
+     */
+    protected void setEntityAnimation() {
+
+        int startAnimation = entityState;
+        if(isHit == true){
+            entityState = HIT;
+        } else if (isMoving == true) {
+            entityState = RUNNING;
+        } else {
+            entityState = IDLE;
+            horizontalSpeed = 0;
+            isPushing = false;
+        }
+
+        if(inAir == true) {
+            entityState = JUMP;
+        }
+
+        if (startAnimation != entityState){
+            resetAnimationTick();
+        }
+
+        //Fick kommentera ut detta och nollställa
+        //animationTick i sista if-satsen på updateAnimationTick istället, vet ej varför
+    }
+
+    /**
+     * This method sets the spawnpoint for the player
+     * @param spawn
+     */
+    public void setSpawn(Point spawn){
+        this.x = spawn.x;
+        this.y = spawn.y;
+        hitbox.x = x;
+        hitbox.y = y;
+    }
+
+    /**
+     * This method resets the variable jumponce to make the player able to jump again
+     */
+    public void resetBooleanJumpOnce(){
+        this.jumpOnce = true;
+    }
+
+    /**
+     * This method returns the hitbox of the entity
+     * @return
+     */
+    public Rectangle2D.Float getHitbox(){
+        return hitbox;
+    }
 
     public float getRightPlayerSpeed(){
         return rightPlayerSpeed;
@@ -392,11 +687,92 @@ public class Player extends Entity {
     public void setPushing(boolean pushing) {
         isPushing = pushing;
     }
-    public Rectangle2D.Float getHitbox(){
-        return hitbox;
+
+    public boolean isMovingLeft() {
+        return movingLeft;
     }
 
-    private class AttackTimer extends Thread{
+    public void setMovingLeft(boolean movingLeft) {
+        this.movingLeft = movingLeft;
+    }
+
+    public boolean isMovingRight() {
+        return movingRight;
+    }
+
+    public void setMovingRight(boolean movingRight) {
+        this.movingRight = movingRight;
+    }
+
+    public boolean isJumping() {
+        return jumping;
+    }
+
+    public void setJumping(boolean jumping) {
+        this.jumping = jumping;
+    }
+
+    public boolean isInAir() {
+        return inAir;
+    }
+
+    public int getEntityState() {
+        return entityState;
+    }
+
+    public void setInAir(boolean inAir) {
+        this.inAir = inAir;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
+    }
+
+    public int getCurrentHealth() {
+        return currentHealth;
+    }
+
+    public void setCurrentHealth(int currentHealth) {
+        this.currentHealth = currentHealth;
+    }
+    public void setEntityState(int entityState){
+        this.entityState = entityState;
+    }
+
+    public void setHorizontalSpeed(float horizontalSpeed) {
+        this.horizontalSpeed = horizontalSpeed;
+    }
+
+    /**
+     * This method sets all moving booleans to false
+     */
+    public void allMovingBooleansFalse() {
+        setMovingRight(false);
+        setMovingLeft(false);
+        isMoving = false;
+    }
+
+    //*************************************
+    //************* THREADS ***************
+    //*************************************
+
+    protected class HitTimer extends Thread{
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(500);
+                isHit = false;
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    protected class AttackTimer extends Thread{
         @Override
         public void run() {
             try {
@@ -408,15 +784,6 @@ public class Player extends Entity {
         }
     }
 
-    private class HitTimer extends Thread{
-        @Override
-        public void run() {
-            try {
-                Thread.sleep(500);
-                isHit = false;
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
+
+
 }

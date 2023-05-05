@@ -7,20 +7,17 @@ package entity.interactable;
 
 import entity.enemy.EnemyManager;
 import entity.enemy.EnemyRat;
-import entity.player.Player;
+import entity.player.Start_Player;
 import gamestates.Playing;
-import utils.Constants;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Timer;
 
 import static utils.Constants.GameConstants.*;
 import static utils.Constants.InteractableConstants.BOX_MOVESPEED;
-import static utils.Constants.PlayerConstants.*;
 
 
 public class Box extends Interactable {
@@ -55,10 +52,10 @@ public class Box extends Interactable {
 
     /**
      * This method initialises the player to the object
-     * @param player
+     * @param startPlayer
      */
-    public void initialisePlayerToBox(Player player){
-        this.player = player;
+    public void initialisePlayerToBox(Start_Player startPlayer){
+        this.startPlayer = startPlayer;
     }
 
     public void setEnemyManager(EnemyManager enemyManager) {
@@ -68,14 +65,14 @@ public class Box extends Interactable {
     /**
      * This method checks if the player is colliding the box and makes checks where
      * @param box
-     * @param player
+     * @param startPlayer
      */
-    public void checkIfPlayerCollidesWithBox(Box box, Player player){
-        if(box.hitbox.intersects(player.getHitbox()) == true){
+    public void checkIfPlayerCollidesWithBox(Box box, Start_Player startPlayer){
+        if(box.hitbox.intersects(startPlayer.getHitbox()) == true){
             checkIfPlayerIsAboveBox();
-        } else if (player.getRightPlayerSpeed() != 1.2f
-                || player.getLeftPlayerSpeed() != -1.2f
-                || player.getStandingOnInteractable() == true){
+        } else if (startPlayer.getRightPlayerSpeed() != 1.2f
+                || startPlayer.getLeftPlayerSpeed() != -1.2f
+                || startPlayer.getStandingOnInteractable() == true){
             resetChangedPlayerVariables();
         }
     }
@@ -133,12 +130,12 @@ public class Box extends Interactable {
      * This method checks which direction the box is pushed from and assigns the speed according to that
      */
     private void checkPushDirection(){
-        if(hitbox.x > player.getHitbox().x){
+        if(hitbox.x > startPlayer.getHitbox().x){
             horizontalSpeed += moveSpeed;
-        } else if (hitbox.x < player.getHitbox().x){
+        } else if (hitbox.x < startPlayer.getHitbox().x){
             horizontalSpeed -= moveSpeed;
         }
-        player.setStandingOnInteractable(false);
+        startPlayer.setStandingOnInteractable(false);
     }
 
 
@@ -146,9 +143,9 @@ public class Box extends Interactable {
      * This method resets the variables changed in player from this class
      */
     private void resetChangedPlayerVariables(){
-        player.setHorizontalSpeed(0);
-        player.setStandingOnInteractable(false);
-        player.setPushing(false);
+        startPlayer.setHorizontalSpeed(0);
+        startPlayer.setStandingOnInteractable(false);
+        startPlayer.setPushing(false);
     }
 
     /**
@@ -156,13 +153,13 @@ public class Box extends Interactable {
      * for standing on the box or pushing
      */
     private void checkIfPlayerIsAboveBox(){
-        if(hitbox.y > (player.getHitbox().y+57.8f)){
-            player.setPlayerStandingOnInteractable();
-            player.setPushing(false);
-            player.setInAir(false);
+        if(hitbox.y > (startPlayer.getHitbox().y+57.8f)){
+            startPlayer.setPlayerStandingOnInteractable();
+            startPlayer.setPushing(false);
+            startPlayer.setInAir(false);
         }
         else {
-            player.setPushing(true);
+            startPlayer.setPushing(true);
             checkPushDirection();
         }
     }

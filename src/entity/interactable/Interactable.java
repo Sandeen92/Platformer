@@ -1,6 +1,6 @@
 package entity.interactable;
 
-import entity.player.Player;
+import entity.player.Start_Player;
 
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -17,7 +17,7 @@ public abstract class Interactable {
 
     protected Rectangle2D.Float hitbox;
     protected BufferedImage interactableImage;
-    protected Player player;
+    protected Start_Player startPlayer;
     protected boolean firstUpdate;
     protected boolean inAir;
     protected float airSpeed;
