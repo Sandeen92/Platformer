@@ -22,7 +22,7 @@ public class ClassChanger {
     }
 
     private void initialiseHitbox(){
-        hitbox = new Rectangle2D.Float(2500,707,50,50);
+        hitbox = new Rectangle2D.Float(3000,707,50,50);
     }
 
     public boolean checkIfPlayerCollides(){

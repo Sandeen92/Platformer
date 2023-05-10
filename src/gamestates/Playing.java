@@ -237,6 +237,14 @@ public class Playing extends State implements StateMethods {
                 //Developer function
                 player.setCurrentHealth(0);
                 break;
+            case KeyEvent.VK_G:
+                //Developer function
+                changeClass("GunMan", getPlayer().getHitbox().x, getPlayer().getHitbox().y);
+                break;
+            case KeyEvent.VK_H:
+                //Developer function
+                changeClass("StartPlayer", getPlayer().getHitbox().x, getPlayer().getHitbox().y);
+                break;
         }
     }
 
