@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class LoadSave {
 
@@ -17,7 +19,7 @@ public class LoadSave {
     public static final String RAT_ENEMY = "ENEMY_RAT_BROWN.png";
     public static final String STARTMENU_BACKGROUND = "STARTMENU_BACKGROUND.png";
     public static final String MENU_BUTTONS = "button_atlas.png";
-    public static final String DEATHSCREEN = "DEATHSCREEN.gif";
+    public static final String DEATHSCREEN = "src/resources/DEATHSCREEN.gif";
     public static final String DEATHSCREEN_YOUDIED = "youded.png";
     public static final String POTION_ATLAS = "TEMP_POTION_SPRITES.png";
     public static final String CONTAINER_ATLAS = "CONTAINER_SPRITES.png";
@@ -27,13 +29,13 @@ public class LoadSave {
     public static final String OPTIONS_BACKGROUND = "MENU_OPTIONS_BG.png";
     public static final String OPTIONS_BUTTONS = "MENU_OPTIONS_BUTTONS.png";
     public static final String SOUND_BUTTONS = "soundbuttons.png";
-    public static final String STARTMENU_MUSIC = "resources/ohboy.wav";
-    public static final String DEATHSCREEN_MUSIC = "resources/coffindance.wav";
+    public static final String STARTMENU_MUSIC = "src/resources/ohboy.wav";
+    public static final String DEATHSCREEN_MUSIC = "src/resources/coffindance.wav";
 
 
     public static BufferedImage GetSpriteAtlas(String fileName) {
         BufferedImage image = null;
-        InputStream is = LoadSave.class.getResourceAsStream("/" + fileName);
+        InputStream is = LoadSave.class.getResourceAsStream("/resources/" + fileName);
         try {
             image = ImageIO.read(is);
 
@@ -50,28 +52,22 @@ public class LoadSave {
     }
     
     public static BufferedImage[] GetAllLevels(){
-        URL url = LoadSave.class.getResource("/leveldata");
-        File levelData = null;
 
-        try {
-            levelData = new File(url.toURI());
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+            ArrayList<String> levelNames = new ArrayList<>();
+            levelNames.add("1.png");
 
-        File[] levelDataList = levelData.listFiles();
-        File[] levelDataListSorted = sortLevelDataList(levelDataList);
+            BufferedImage[] levels = new BufferedImage[levelNames.size()];
 
-        BufferedImage[] levelDataImages = new BufferedImage[levelDataListSorted.length];
+            for(int i = 0; i < levels.length; i++) {
 
-        try {
-            for(int i = 0; i < levelDataImages.length; i++) {
-                levelDataImages[i] = ImageIO.read(levelDataListSorted[i]);
+                try {
+                    levels[i] = ImageIO.read(LoadSave.class.getResourceAsStream("/resources/leveldata/" + levelNames.get(i)));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-        return levelDataImages;
+
+            return levels;
     }
 
 
@@ -90,7 +86,7 @@ public class LoadSave {
 
     public static BufferedImage[] getDeathscreenGif() throws IOException {
         BufferedImage[] frames;
-        File gifFile = new File("resources/DEATHSCREEN.gif");
+        File gifFile = new File(DEATHSCREEN);
         try (ImageInputStream in = ImageIO.createImageInputStream(gifFile)) {
             ImageReader reader = ImageIO.getImageReadersBySuffix("gif").next();
             reader.setInput(in);
