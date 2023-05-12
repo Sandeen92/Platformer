@@ -165,6 +165,7 @@ public class Box extends Interactable {
             player.setPlayerStandingOnInteractable();
             player.setPushing(false);
             player.setInAir(false);
+            player.setAirSpeed(0);
         }
         else {
             player.setPushing(true);
