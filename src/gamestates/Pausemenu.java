@@ -142,11 +142,11 @@ public class Pausemenu extends State implements StateMethods {
     private void checkStatesAndReactAccordingly(){
         if (Gamestate.state == Gamestate.PLAYING) {
             playing.setPaused(false);
-            game.getStartmenu().silenceAudio();
+            //game.getStartmenu().silenceAudio();
         }
         else if (Gamestate.state == Gamestate.STARTMENU){
             game.getPlaying().setPaused(false);
-            game.getStartmenu().loadMenuAudio();
+            //game.getStartmenu().loadMenuAudio();
             game.getPlaying().restartGame();
         }
     }
