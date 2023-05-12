@@ -13,6 +13,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * This class is responsible for reading all resources such as images and audio-files.
+ * @author Simon Sandén
+ * @author Linus Magnusson
+ * @author Casper Johannesson
+ */
 public class LoadSave {
 
     public static final String LEVEL_ATLAS = "LEVEL_ONE_TILESET_SPRITES.png";
@@ -29,10 +35,15 @@ public class LoadSave {
     public static final String OPTIONS_BACKGROUND = "MENU_OPTIONS_BG.png";
     public static final String OPTIONS_BUTTONS = "MENU_OPTIONS_BUTTONS.png";
     public static final String SOUND_BUTTONS = "soundbuttons.png";
-    public static final String STARTMENU_MUSIC = "src/resources/ohboy.wav";
-    public static final String DEATHSCREEN_MUSIC = "src/resources/coffindance.wav";
+    public static final String STARTMENU_MUSIC = System.getProperty("user.dir") + "\\src\\resources\\ohboy.wav";
+    public static final String DEATHSCREEN_MUSIC = "/resources/coffindance.wav";
 
-
+    /**
+     * Loads and retrieves a sprite atlas image from the specified file.
+     *
+     * @param fileName the name of the sprite atlas file
+     * @return the loaded sprite atlas image as a BufferedImage
+     */
     public static BufferedImage GetSpriteAtlas(String fileName) {
         BufferedImage image = null;
         InputStream is = LoadSave.class.getResourceAsStream("/resources/" + fileName);
@@ -50,7 +61,12 @@ public class LoadSave {
         }
         return image;
     }
-    
+
+    /**
+     * Loads and retrieves all level images from the specified file paths.
+     *
+     * @return an array of loaded level images as BufferedImages
+     */
     public static BufferedImage[] GetAllLevels(){
 
             ArrayList<String> levelNames = new ArrayList<>();
@@ -70,7 +86,12 @@ public class LoadSave {
             return levels;
     }
 
-
+    /**
+     * Sorts the given array of level data files based on their names.
+     *
+     * @param levelDataList the array of level data files to be sorted
+     * @return the sorted array of level data files
+     */
     public static File[] sortLevelDataList(File[] levelDataList){
         File[] levelDataListSorted = new File[levelDataList.length];
 
@@ -84,6 +105,12 @@ public class LoadSave {
         return levelDataListSorted;
     }
 
+    /**
+     * Loads and retrieves the frames of a GIF for the deathscreen.
+     *
+     * @return an array of loaded GIF frames as BufferedImages
+     * @throws IOException if an error occurs during file reading
+     */
     public static BufferedImage[] getDeathscreenGif() throws IOException {
         BufferedImage[] frames;
         File gifFile = new File(DEATHSCREEN);
@@ -101,6 +128,12 @@ public class LoadSave {
         return frames;
     }
 
+    /**
+     * Resizes a given image to the specified width and height.
+     *
+     * @param originalImage the original image to resize
+     * @return the resized image
+     */
     private static BufferedImage resizeGif(BufferedImage originalImage){
         BufferedImage resizedImage = new BufferedImage(300,300, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = resizedImage.createGraphics();

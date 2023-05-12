@@ -1,22 +1,23 @@
 /**
  * This class is an interactable box that the player can move and jump on
  * @author Linus Magnusson
+ * @author Simon Sandén
  */
 
 package entity.interactable;
-
+//Imports from within project
 import entity.enemy.EnemyManager;
 import entity.enemy.EnemyRat;
 import entity.player.Player;
 import entity.player.Start_Player;
 import gamestates.Playing;
-
+//Imports from Javas library
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-
+//Imports of static variables and methods
 import static utils.Constants.GameConstants.*;
 import static utils.Constants.InteractableConstants.BOX_MOVESPEED;
 
@@ -57,10 +58,6 @@ public class Box extends Interactable {
      */
     public void initialisePlayerToBox(Player player){
         this.player = player;
-    }
-
-    public void setEnemyManager(EnemyManager enemyManager) {
-        this.enemyManager = enemyManager;
     }
 
     /**
@@ -187,10 +184,19 @@ public class Box extends Interactable {
         g.drawImage(interactableImage, (int) hitbox.x- xOffset, (int) hitbox.y+1, (int) width, (int) height, null);
     }
 
-
+    /**
+     * Draws the hitbox on the graphics object with an offset based on the level.
+     * Mainly for debugging purposes.
+     * @param g the graphics object to draw on
+     * @param levelOffset the offset value for the level
+     */
     public void drawHitbox(Graphics g, int levelOffset){
         g.setColor(Color.BLACK);
         g.drawRect((int) hitbox.x - levelOffset, (int) hitbox.y, (int) hitbox.width, (int) hitbox.height);
+    }
+
+    public void setEnemyManager(EnemyManager enemyManager) {
+        this.enemyManager = enemyManager;
     }
 
 

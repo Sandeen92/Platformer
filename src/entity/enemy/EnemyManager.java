@@ -1,6 +1,7 @@
 /**
  * This class is resposible for creating, keeping track of and updating the enemies in the game
  * @author Linus Magnusson
+ * @author Simon Sandén
  */
 
 package entity.enemy;
@@ -37,6 +38,7 @@ public class EnemyManager {
         rats = level.getRats();
 
         //Alla råttor har 0 hp på banan trots att 6 är satt i konstruktor
+        //ta inte bort!
         for(EnemyRat rat : rats){
             rat.setCurrentHealth(6);
         }
@@ -69,6 +71,11 @@ public class EnemyManager {
         return false;
     }
 
+    /**
+     * Checks if an enemy is hit by a box attack.
+     *
+     * @param boxAttackBox the box attack rectangle
+     */
     public void checkIfEnemyIsHitByBox(Rectangle2D.Float boxAttackBox){
         for (EnemyRat rat : rats){
             if(boxAttackBox.intersects(rat.getHitbox()) == true){
@@ -80,7 +87,7 @@ public class EnemyManager {
 
     /**
      * This method checks if the rat is dead and removes it
-     * @param
+     * @param enemy to be checked
      */
     public void checkIfEnemyIsDead(Enemy enemy){
         if(enemy.isEntityDead() == true && enemy instanceof EnemyRat rat){
@@ -88,6 +95,11 @@ public class EnemyManager {
         }
     }
 
+
+    /**
+     * This method is meant to kill rats only
+     * @param enemy to be killed
+     */
     public void killRat(Enemy enemy){
         rats.remove(enemy);
     }

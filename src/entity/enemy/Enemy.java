@@ -1,6 +1,7 @@
 /**
  * This abstract class is responsible for the general functions of the enemies
  * @author Linus Magnusson
+ * @author Simon Sandén
  */
 
 package entity.enemy;
@@ -310,6 +311,11 @@ public abstract class Enemy{
     public void enemyTakeDamage(int damage){
         currentHealth -= damage;
     }
+
+    /**
+     * This method checks if enemys current health is or less than 0. Returns value accordingly.
+     * @return true if health is 0 or below, false if not.
+     */
 
     public boolean isEntityDead(){
         if(currentHealth <= 0){

@@ -1,8 +1,9 @@
 package entity.player;
 
+//Imports from within project
 import entity.enemy.EnemyManager;
 import entity.projectiles.ProjectileManager;
-
+//Imports of static variables and methods
 import static utils.Constants.GameConstants.SCALE;
 import static utils.Constants.GunManConstants.GUN_MAN_SPRITES;
 import static utils.Constants.StartPlayerConstants.START_PLAYER_SPRITES;

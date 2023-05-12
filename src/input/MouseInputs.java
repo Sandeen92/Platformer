@@ -6,6 +6,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+/**
+ * This class is responsible for handling all the mouse inputs and motions done by User.
+ * @author Linus Magnusson
+ * @author Casper Johannesson
+ * @author Simon Sandén
+ */
 public class MouseInputs implements MouseListener, MouseMotionListener {
 
     private GamePanel gamePanel;
@@ -15,6 +21,11 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
     }
 
 
+    /**
+     * Handles the mouse clicked event. Has different purposes depending on current gamestate.
+     *
+     * @param e the MouseEvent representing the mouse click
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         switch (Gamestate.state){
@@ -44,7 +55,11 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
         }
     }
 
-
+    /**
+     * Handles the mouse moved event. Has different purposes depending on current gamestate.
+     *
+     * @param e the mouse event representing the mouse movement
+     */
     public void mouseMoved(MouseEvent e){
         switch (Gamestate.state){
 
@@ -73,6 +88,11 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
         }
     }
 
+    /**
+     * Handles the mouse pressed event. Has different purposes depending on current gamestate.
+     *
+     * @param e the mouse event representing the mouse pressed
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         switch (Gamestate.state){
@@ -102,6 +122,11 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
         }
     }
 
+    /**
+     * Handles the mouse released event. Has different purposes depending on current gamestate.
+     *
+     * @param e the mouse event representing the mouse released
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
         switch (Gamestate.state){

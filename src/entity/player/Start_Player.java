@@ -4,10 +4,10 @@
  */
 
 package entity.player;
-
+//Imports from within project
 import entity.enemy.Enemy;
 import entity.enemy.EnemyManager;
-
+//Imports of static variables and methods
 import static utils.Constants.GameConstants.*;
 import static utils.Constants.StartPlayerConstants.START_PLAYER_SPRITES;
 

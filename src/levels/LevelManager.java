@@ -5,13 +5,15 @@
  */
 
 package levels;
-
+//Imports from within project
 import gamestates.Gamestate;
 import main.Game;
 import utils.LoadSave;
+//Imports from Javas library
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+//Imports of static variables and methods
 import static utils.Constants.GameConstants.*;
 
 public class LevelManager {
@@ -31,6 +33,9 @@ public class LevelManager {
         initialiseEverything();
     }
 
+    /**
+     * Initializes all the variables and loads images
+     */
     private void initialiseEverything(){
         importOutsideSprites();
         allLevels = new ArrayList<>();

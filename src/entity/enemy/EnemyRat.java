@@ -17,6 +17,4 @@ public class EnemyRat extends Enemy {
         initialiseHitbox(x, y, (int) (23 * SCALE),(int) (15 * SCALE));
         initialiseAttackBox(x, y, (int) (23 * SCALE),(int) (15 * SCALE));
     }
-
-
 }

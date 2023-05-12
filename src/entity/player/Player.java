@@ -1,20 +1,21 @@
 /**
  * This abstract class is used to keep the general functionality of all entities
  * @author Linus Magnusson
+ * @author Simon Sandén
  */
 
 package entity.player;
-
+//Imports from within project
 import entity.enemy.Enemy;
 import entity.enemy.EnemyManager;
-
+//Imports from Javas library
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-
+//Imports of static variables and methods
 import static utils.AssistanceMethods.*;
 import static utils.Constants.EntityConstants.AIR_SPEED_OFFSET;
 import static utils.Constants.EntityConstants.MAX_AIR_SPEED;
@@ -452,8 +453,8 @@ public abstract class Player {
                 (int) (hitbox.y - yDrawOffset),
                 width * flipW,
                 height, null);
-        //drawHitbox(g, levelOffset);
-        //drawAttackBox(g, levelOffset);
+        //drawHitbox(g, levelOffset); //For debugging purposes
+        //drawAttackBox(g, levelOffset); //For debugging purposes
     }
 
     //For Debugging boxAttackBox
@@ -767,6 +768,9 @@ public abstract class Player {
     //************* THREADS ***************
     //*************************************
 
+    /**
+     * This class is responsible for setting a cooldown for how many times you can hit an enemy per second
+     */
     protected class HitTimer extends Thread{
         @Override
         public void run() {
@@ -779,6 +783,9 @@ public abstract class Player {
         }
     }
 
+    /**
+     * This class is responsible for setting a cooldown for how many times you can attack per second
+     */
     protected class AttackTimer extends Thread{
         @Override
         public void run() {

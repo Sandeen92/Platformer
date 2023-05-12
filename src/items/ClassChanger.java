@@ -8,6 +8,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * This class is the representation of the item that changes classes
+ * @author Linus Magnusson
+ */
 public class ClassChanger {
     BufferedImage changerImage;
     Rectangle2D.Float hitbox;
@@ -21,10 +25,18 @@ public class ClassChanger {
         initialiseHitbox();
     }
 
+    /**
+     * Initializes the hitbox of the object.
+     */
     private void initialiseHitbox(){
         hitbox = new Rectangle2D.Float(3000,707,50,50);
     }
 
+    /**
+     * Checks if the player collides with the object.
+     *
+     * @return true if the player collides, false otherwise
+     */
     public boolean checkIfPlayerCollides(){
         if(hitbox.intersects(playing.getPlayer().getHitbox())){
             playing.changeClass("GunMan", playing.getPlayer().getHitbox().x, playing.getPlayer().getHitbox().y);

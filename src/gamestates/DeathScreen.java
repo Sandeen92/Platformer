@@ -1,13 +1,14 @@
 /**
- * This class is responsible for the deathscreen
+ * This class represents the deathscreen
  * @author Linus Magnusson
+ * @author Simon Sandén
  */
 package gamestates;
-
+//Imports from within project
 import main.Game;
 import userinterface.MenuButton;
 import utils.LoadSave;
-
+//Imports from Javas library
 import javax.sound.sampled.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -15,7 +16,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
+//Imports of static variables and methods
 import static main.Game.setPreviousGamestate;
 import static utils.Constants.GameConstants.GAME_WIDTH;
 import static utils.Constants.GameConstants.SCALE;
@@ -49,6 +50,9 @@ public class DeathScreen extends State implements StateMethods{
         loadReplayButton();
     }
 
+    /**
+     * Loads and positions the replay button for the game.
+     */
     private void loadReplayButton() {
         replayBtnXPos = GAME_WIDTH / 2;
         replayBtnYPos = 240;
@@ -56,7 +60,7 @@ public class DeathScreen extends State implements StateMethods{
     }
 
     /**
-     * This method loads the deathscreenBackground
+     * This method loads the deathscreenGif from resources and assigns position variables
      */
     private void loadDeathScreenGif() {
         xPosDeathScreenGif = 680;
@@ -69,6 +73,9 @@ public class DeathScreen extends State implements StateMethods{
         }
     }
 
+    /**
+     * Loads and assigns variables for the "You Died" text.
+     */
     private void loadYouDiedText(){
         youDiedText = LoadSave.GetSpriteAtlas(LoadSave.DEATHSCREEN_YOUDIED);
         xPosYouDiedText = 520;
@@ -77,6 +84,9 @@ public class DeathScreen extends State implements StateMethods{
         youDiedTextWidth = (int) (youDiedText.getWidth() * SCALE);
     }
 
+    /**
+     * Plays the death screen music. Also lowers the volume of the file a bit.
+     */
     public void playDeathScreenMusic(){
         try {
             audioInputStream = AudioSystem.getAudioInputStream(audioFile);
@@ -90,6 +100,9 @@ public class DeathScreen extends State implements StateMethods{
         }
     }
 
+    /**
+     * Silences the audio by closing the audio input stream and stopping the clip.
+     */
     public void silenceAudio(){
         try {
             audioInputStream.close();
@@ -126,7 +139,9 @@ public class DeathScreen extends State implements StateMethods{
         replayButton.drawButtons(g);
     }
 
-
+    /**
+     * Updates the animation tick and index.
+     */
     private void updateAnimationTick(){
         animationTick++;
         if (animationTick>=50){
@@ -138,12 +153,11 @@ public class DeathScreen extends State implements StateMethods{
         }
     }
 
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
+    /**
+     * Responds to a mouse press event by setting the appropriate button's
+     * "mouse pressed" state if the event occurred within that button's bounds.
+     * @param e the MouseEvent representing the mouse press event
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         if (isUserInsideButtonBounds(e,replayButton)){
@@ -151,6 +165,12 @@ public class DeathScreen extends State implements StateMethods{
         }
     }
 
+    /**
+     * This method is called when the user releases a mouse button. It checks if the mouse was inside any of the buttons,
+     * and if so, it sets the previous gamestate, applies the new gamestate, and silences the audio.
+     *
+     * @param e the MouseEvent representing the event that occurred
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
         if (isUserInsideButtonBounds(e,replayButton)){
@@ -164,6 +184,12 @@ public class DeathScreen extends State implements StateMethods{
         resetButton();
     }
 
+    /**
+     * This method is called when the user moves the mouse. It sets all menu button's "mouseOver" booleans to false,
+     * then checks if the mouse is inside any of the menu buttons, and if so, it sets the "mouseOver" boolean of that button to true.
+     *
+     * @param e the MouseEvent representing the event that occurred
+     */
     @Override
     public void mouseMoved(MouseEvent e) {
         replayButton.setMouseOver(false);
@@ -188,12 +214,19 @@ public class DeathScreen extends State implements StateMethods{
         }
     }
 
+    /**
+     * This method resets the booleans for replayButton.
+     */
+    private void resetButton(){
+        replayButton.resetBtnBooleans();
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
     @Override
     public void keyReleased(KeyEvent e) {
 
-    }
-
-    private void resetButton(){
-        replayButton.resetBtnBooleans();
     }
 }

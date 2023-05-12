@@ -3,7 +3,7 @@ package userinterface;
 import java.awt.*;
 
 /**
- * This class is a superclass for every reactive button in the OPTION state.
+ * This class is a superclass for every reactive button in the OPTIONS state.
  * It's responsible for giving every button a "hitbox" with same dimensions and position as the button itself, when instantiated.
  *
  * @author Simon Sandén

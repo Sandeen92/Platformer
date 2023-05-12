@@ -1,11 +1,18 @@
 package main;
-
+//Imports from within project
 import input.KeyBoardInputs;
 import input.MouseInputs;
+//Imports from Javas library
 import javax.swing.*;
 import java.awt.*;
+//Imports of static variables and methods
 import static utils.Constants.GameConstants.*;
 
+/**
+ * This class is the main panel where every gamestate draws their individual Graphics component.
+ * @author Linus Magnusson
+ * @author Casper Johannesson
+ */
 public class GamePanel extends JPanel {
     private Game game;
     private MouseInputs mouseInputs = new MouseInputs(this);
@@ -26,6 +33,9 @@ public class GamePanel extends JPanel {
         this.game = game;
     }
 
+    /**
+     * Initializes the information label.
+     */
     private void initialiseInfo() {
         LBL_INFO = new JLabel();
         LBL_INFO.setFont(new Font("DialogInput", Font.BOLD, 25));
@@ -33,6 +43,9 @@ public class GamePanel extends JPanel {
         add(LBL_INFO);
     }
 
+    /**
+     * Initializes the player's HP label.
+     */
     private void initialisePlayerHP() {
         LBL_PLAYER_HP = new JLabel();
         LBL_PLAYER_HP.setFont(new Font("DialogInput", Font.BOLD, 25));
@@ -50,11 +63,19 @@ public class GamePanel extends JPanel {
         add(LBL_FPS_COUNTER);
     }
 
+    /**
+     * Sets the size of the GamePanel
+     */
     public void setPanelSize(){
         Dimension panelSize = new Dimension(GAME_WIDTH, GAME_HEIGHT);
         setPreferredSize(panelSize);
     }
 
+    /**
+     * Paints the graphics component.
+     *
+     * @param g the graphics context
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         game.draw(g);

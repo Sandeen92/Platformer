@@ -6,14 +6,15 @@
  */
 
 package main;
-
+//Imports from within project
 import gamestates.*;
 import gamestates.DeathScreen;
 import gamestates.Gamestate;
 import gamestates.Playing;
+//Imports from Javas library
 import java.awt.*;
 import java.awt.event.KeyEvent;
-
+//Imports of static variables and methods
 import static utils.Constants.GameConstants.*;
 
 public class Game implements Runnable{

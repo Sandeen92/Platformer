@@ -232,6 +232,9 @@ public class Options extends State implements StateMethods {
         return b.getBounds().contains(e.getX(), e.getY());
     }
 
+    /**
+     * Resets the boolean states of all buttons.
+     */
     public void resetAllButtonBooleans(){
         homeButton.resetBtnBooleans();
         returnButton.resetBtnBooleans();

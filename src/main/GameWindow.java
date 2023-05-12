@@ -1,9 +1,13 @@
 package main;
 
+//Imports from Javas library
 import javax.swing.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 
+/**
+ * This class is responsible for providing a frame for the GamePanel class.
+ */
 public class GameWindow {
     private JFrame gameFrame;
 

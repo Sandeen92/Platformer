@@ -2,6 +2,12 @@ package utils;
 
 import static utils.Constants.GameConstants.SCALE;
 
+/**
+ * This class is a container that holds constants.
+ * @author Casper Johannesson
+ * @author Linus Magnusson
+ * @author Simon Sandén
+ */
 public class Constants {
 
     public static class UserInterface{

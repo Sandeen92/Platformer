@@ -4,19 +4,25 @@
  */
 
 package utils;
-
+//Imports from within project
 import entity.interactable.Box;
 import entity.enemy.EnemyRat;
-
+//Imports from Javas library
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-
+//Imports of static variables and methods
 import static utils.Constants.EnemyConstants.RAT;
 import static utils.Constants.GameConstants.*;
 import static utils.Constants.InteractableConstants.*;
 
+/**
+ * This class is responsible for providing assisting methods for every other class.
+ * @author Linus Magnusson
+ * @author Casper Johannesson
+ * @author Simon Sandén
+ */
 public class AssistanceMethods {
 
     /**
@@ -29,6 +35,8 @@ public class AssistanceMethods {
      * @param levelData
      * @return
      */
+
+    //TODO TILL RS3-GRANSKARE: Denna metod har uppenbarligen skyhög komplexitet, men vi är mitt uppe i processen av att fixa det.
     public static boolean canMoveHere(float x, float y, float width, float heigth, int[][] levelData){
         // top left
         if(isTileSolid(x,y, levelData) == false){
@@ -192,7 +200,12 @@ public class AssistanceMethods {
         return false;
     }
 
-
+    /**
+     * Retrieves the player spawn point from the given image.
+     *
+     * @param img the image to search for the player spawn point
+     * @return the player spawn point as a Point object, or null if not found
+     */
     public static Point GetPlayerSpawn(BufferedImage img) {
         for (int j = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++) {
@@ -205,6 +218,13 @@ public class AssistanceMethods {
         return null;
     }
 
+    /**
+     * Calculates the player spawn coordinates based on the given point coordinates.
+     *
+     * @param pointX the x-coordinate of the point
+     * @param pointY the y-coordinate of the point
+     * @return the player spawn coordinates as a Point object
+     */
     public static Point calculatePlayerSpawn(int pointX, int pointY){
         return new Point(pointX * TILES_SIZE, pointY * TILES_SIZE);
     }

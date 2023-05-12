@@ -4,11 +4,12 @@
  */
 
 package entity.interactable;
-
+//Imports from within project
 import entity.enemy.EnemyManager;
 import entity.player.Start_Player;
 import gamestates.Playing;
 import levels.Level;
+//Imports from Javas library
 import java.awt.*;
 import java.util.ArrayList;
 

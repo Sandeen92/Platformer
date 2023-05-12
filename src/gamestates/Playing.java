@@ -105,10 +105,20 @@ public class Playing extends State implements StateMethods {
         }
     }
 
+    /**
+     * Loads the level data to the player.
+     */
     public void loadLevelDataToPlayer(){
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
     }
 
+    /**
+     * Changes the player class and initializes a new player instance based on the provided class name, position, and parameters.
+     *
+     * @param className the name of the player class to change to
+     * @param x the X position of the new player
+     * @param y the Y position of the new player
+     */
     public void changeClass(String className, float x, float y){
         switch (className){
             case "StartPlayer":

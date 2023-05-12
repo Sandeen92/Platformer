@@ -81,6 +81,9 @@ public class MenuButton {
         }
     }
 
+    /**
+     * Loads the replay button images.
+     */
     private void loadReplayButtonImage(){
         images = new BufferedImage[3];
         BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.DEATHSCREEN_REPLAY_BUTTON);

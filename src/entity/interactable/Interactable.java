@@ -1,11 +1,16 @@
 package entity.interactable;
-
+/**
+ * This class is the superclass for every object and item that's meant to be interacted with.
+ * @author Linus Magnusson
+ * @author Simon Sandén
+ */
+//Imports from within project
 import entity.player.Player;
 import entity.player.Start_Player;
-
+//Imports from Javas library
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-
+//Imports of static variables and methods
 import static utils.AssistanceMethods.*;
 import static utils.Constants.EntityConstants.MAX_AIR_SPEED;
 
@@ -30,6 +35,14 @@ public abstract class Interactable {
         initialiseVariables(x,y,width,height);
     }
 
+    /**
+     * Initializes the variables of the object with the specified values.
+     *
+     * @param x the x-coordinate of the object
+     * @param y the y-coordinate of the object
+     * @param width the width of the object
+     * @param height the height of the object
+     */
     private void initialiseVariables(float x, float y, int width, int height){
         this.x = x;
         this.y = y;
@@ -37,10 +50,24 @@ public abstract class Interactable {
         this.height = height;
     }
 
+
+    /**
+     * Initializes the hitbox of the object with the specified coordinates, width, and height.
+     *
+     * @param x the x-coordinate of the hitbox
+     * @param y the y-coordinate of the hitbox
+     * @param width the width of the hitbox
+     * @param height the height of the hitbox
+     */
     protected void initialiseHitbox(float x, float y, float width, float height) {
         hitbox = new Rectangle2D.Float(x, y,width,height);
     }
 
+    /**
+     * Moves the interactable object based on its current state and level data.
+     *
+     * @param levelData the level data array
+     */
     protected void moveInteractable(int[][] levelData) {
         if (inAir == true) {
             checkIfInteractableCanMoveInAir(levelData);
@@ -50,6 +77,12 @@ public abstract class Interactable {
         horizontalSpeed = 0;
     }
 
+    /**
+     * Updates the X position of the interactable object based on the horizontal speed and level data.
+     *
+     * @param horizontalSpeed the horizontal speed of the object
+     * @param levelData the level data array
+     */
     protected void updateInteractableXPosition(float horizontalSpeed, int [][] levelData) {
         if(canMoveHere(hitbox.x + horizontalSpeed, hitbox.y, hitbox.width, hitbox.height, levelData) == true){
             hitbox.x += horizontalSpeed;
@@ -58,7 +91,8 @@ public abstract class Interactable {
         }
     }
 
-    private void updateInteractablePosition(int[][] levelData) {
+  /* TODO Denna används inte, dubbelkolla om den behövs!
+  private void updateInteractablePosition(int[][] levelData) {
         if(firstUpdate == true){
             isInteractableInAir(levelData);
             firstUpdate = false;
@@ -68,8 +102,13 @@ public abstract class Interactable {
         }
         moveInteractable(levelData);
         isMoving = true;
-    }
+    } */
 
+    /**
+     * Checks if the interactable object can move in the air and performs the necessary actions.
+     *
+     * @param levelData the level data array
+     */
     private void checkIfInteractableCanMoveInAir(int[][] levelData) {
         if (canMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, levelData) == true) {
             hitbox.y += airSpeed;
@@ -80,12 +119,20 @@ public abstract class Interactable {
         }
     }
 
+    /**
+     * Changes the air speed of the interactable object if it is below the maximum air speed.
+     */
     private void changeAirSpeed(){
         if(airSpeed < MAX_AIR_SPEED){
             airSpeed += gravity;
         }
     }
 
+    /**
+     * Checks if the interactable object is in the air based on the level data.
+     *
+     * @param levelData the level data array
+     */
     protected void isInteractableInAir(int[][] levelData){
         if(IsEntityOnFloor(hitbox, levelData) == false){
             inAir = true;
