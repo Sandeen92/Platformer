@@ -36,7 +36,7 @@ public class LoadSave {
     public static final String OPTIONS_BUTTONS = "MENU_OPTIONS_BUTTONS.png";
     public static final String SOUND_BUTTONS = "soundbuttons.png";
     public static final String STARTMENU_MUSIC = System.getProperty("user.dir") + "\\src\\resources\\ohboy.wav";
-    public static final String DEATHSCREEN_MUSIC = "/resources/coffindance.wav";
+    public static final String DEATHSCREEN_MUSIC = System.getProperty("user.dir") + "\\src\\resources\\coffindance.wav";
 
     /**
      * Loads and retrieves a sprite atlas image from the specified file.
