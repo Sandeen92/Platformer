@@ -455,6 +455,7 @@ public abstract class Player {
                 height, null);
         //drawHitbox(g, levelOffset); //For debugging purposes
         //drawAttackBox(g, levelOffset); //For debugging purposes
+        //drawBoxAttackBox(g, levelOffset); //For debugging purposes
     }
 
     //For Debugging boxAttackBox
@@ -553,7 +554,7 @@ public abstract class Player {
     protected void updateBoxAttackBox(int xOffset, int facingDirection){
         if(facingDirection == 0){
             //Vänster
-            boxAttackBox.x = hitbox.x - (xOffset + 50);
+            boxAttackBox.x = hitbox.x - (xOffset + 500);
             boxAttackBox.y = hitbox.y;
         } else if (facingDirection == 1){
             //Höger

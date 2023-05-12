@@ -258,7 +258,12 @@ public class Playing extends State implements StateMethods {
 
             case KeyEvent.VK_F2:
                 //Developer function - FLYING
-                player.setAirSpeed(-2.0f);
+                player.setAirSpeed(-2.5f);
+                break;
+
+            case KeyEvent.VK_F12:
+                //Robot will input this when rat gets crushed. Has to be dealt like this at the moment for concurrency reasons
+                player.attackWithBox();
                 break;
         }
     }

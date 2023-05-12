@@ -11,9 +11,11 @@ import entity.enemy.EnemyRat;
 import entity.player.Player;
 import entity.player.Start_Player;
 import gamestates.Playing;
+import main.Game;
 //Imports from Javas library
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -88,8 +90,16 @@ public class Box extends Interactable {
                     new BounceResetCooldownTimer().start();
                 }
                 timesEnemyChangedDirection++;
-                if (timesEnemyChangedDirection >= 15){
+                if (timesEnemyChangedDirection >= 2){
                     rat.setCurrentHealth(0);
+                    Robot robot = null;
+                    try {
+                        robot = new Robot();
+                        robot.keyPress(KeyEvent.VK_F12);
+                        robot.keyRelease(KeyEvent.VK_F12);
+                    } catch (AWTException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         }
@@ -204,7 +214,7 @@ public class Box extends Interactable {
         @Override
         public void run() {
             try {
-                Thread.sleep(2000);
+                Thread.sleep(150);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
