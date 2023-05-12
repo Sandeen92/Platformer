@@ -184,6 +184,7 @@ public class Pausemenu extends State implements StateMethods {
             case KeyEvent.VK_ESCAPE:
                 playing.setPaused(false);
                 Gamestate.state = Gamestate.PLAYING;
+                resetButtons();
                 break;
         }
     }

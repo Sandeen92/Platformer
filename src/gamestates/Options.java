@@ -127,8 +127,7 @@ public class Options extends State implements StateMethods {
                 homeButtonPressed();
             }
         }
-        returnButton.resetBtnBooleans();
-        homeButton.resetBtnBooleans();
+        resetAllButtonBooleans();
     }
 
     /**
@@ -146,6 +145,7 @@ public class Options extends State implements StateMethods {
             game.getPlaying().setPaused(false);
             game.getPlaying().restartGame();
         }
+
     }
 
     /**
@@ -196,6 +196,7 @@ public class Options extends State implements StateMethods {
                 Gamestate.state = Gamestate.PAUSEMENU;
             }
         }
+        resetAllButtonBooleans();
     }
 
     /**
@@ -211,6 +212,7 @@ public class Options extends State implements StateMethods {
                 Gamestate.state = Gamestate.PAUSEMENU;
             }
         }
+        resetAllButtonBooleans();
     }
 
 
@@ -228,5 +230,10 @@ public class Options extends State implements StateMethods {
      */
     public boolean isIn(MouseEvent e, Button b){
         return b.getBounds().contains(e.getX(), e.getY());
+    }
+
+    public void resetAllButtonBooleans(){
+        homeButton.resetBtnBooleans();
+        returnButton.resetBtnBooleans();
     }
 }

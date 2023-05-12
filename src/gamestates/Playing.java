@@ -245,6 +245,11 @@ public class Playing extends State implements StateMethods {
                 //Developer function
                 changeClass("StartPlayer", getPlayer().getHitbox().x, getPlayer().getHitbox().y);
                 break;
+
+            case KeyEvent.VK_F2:
+                //Developer function - FLYING
+                player.setAirSpeed(-2.0f);
+                break;
         }
     }
 

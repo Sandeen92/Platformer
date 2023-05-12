@@ -30,7 +30,6 @@ public class GamePanel extends JPanel {
         LBL_INFO = new JLabel();
         LBL_INFO.setFont(new Font("DialogInput", Font.BOLD, 25));
         LBL_INFO.setForeground(Color.yellow);
-        LBL_INFO.setText("Press R to reset");
         add(LBL_INFO);
     }
 

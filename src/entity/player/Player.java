@@ -752,6 +752,7 @@ public abstract class Player {
     public void setHorizontalSpeed(float horizontalSpeed) {
         this.horizontalSpeed = horizontalSpeed;
     }
+    public void setAirSpeed(float airSpeed){this.airSpeed = airSpeed;}
 
     /**
      * This method sets all moving booleans to false
