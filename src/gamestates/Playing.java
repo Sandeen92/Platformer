@@ -258,7 +258,7 @@ public class Playing extends State implements StateMethods {
 
             case KeyEvent.VK_F2:
                 //Developer function - FLYING
-                player.setAirSpeed(-2.5f);
+                player.setAirSpeed(-5.5f);
                 break;
 
             case KeyEvent.VK_F12:
@@ -281,11 +281,17 @@ public class Playing extends State implements StateMethods {
                 player.setMovingLeft(false);
                 player.setHorizontalSpeed(0);
                 player.attackWithBox();
+                player.resetStuckBooleans();
+                player.setPushing(false);
+                player.setMoving(false);
                 break;
             case KeyEvent.VK_D:
                 player.setMovingRight(false);
                 player.setHorizontalSpeed(0);
                 player.attackWithBox();
+                player.resetStuckBooleans();
+                player.setPushing(false);
+                player.setMoving(false);
                 break;
             case KeyEvent.VK_SPACE:
                 player.setJumping(false);

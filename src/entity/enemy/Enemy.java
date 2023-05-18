@@ -227,7 +227,7 @@ public abstract class Enemy{
         if(canMoveHere(hitbox.x + horizontalSpeed, hitbox.y, hitbox.width, hitbox.height, levelData) == true){
             hitbox.x += horizontalSpeed;
         } else {
-            hitbox.x = GetEntityXPosNextToWall(hitbox, horizontalSpeed);
+            hitbox.x = GetEntityXPosNextToWall(hitbox);
         }
     }
 

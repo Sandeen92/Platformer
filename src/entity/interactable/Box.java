@@ -114,13 +114,19 @@ public class Box extends Interactable {
     private void updateEntityPosition(int[][] levelData) {
         if(firstUpdate == true){
             isInteractableInAir(levelData);
+            isMoving = true;
             firstUpdate = false;
         }
         if(inAir == false){
             isInteractableInAir(levelData);
         }
+        if (horizontalSpeed != 0.0f) {
+            isMoving = true;
+        }
+        else {
+            isMoving = false;
+        }
         moveInteractable(levelData);
-        isMoving = true;
     }
 
     /**
@@ -139,8 +145,12 @@ public class Box extends Interactable {
      */
     private void checkPushDirection(){
         if(hitbox.x > player.getHitbox().x){
+            movingRight = true;
+            movingLeft = false;
             horizontalSpeed += moveSpeed;
         } else if (hitbox.x < player.getHitbox().x){
+            movingLeft = true;
+            movingRight = true;
             horizontalSpeed -= moveSpeed;
         }
         player.setStandingOnInteractable(false);
@@ -209,6 +219,8 @@ public class Box extends Interactable {
     public void setEnemyManager(EnemyManager enemyManager) {
         this.enemyManager = enemyManager;
     }
+
+
 
 
     private class BounceResetCooldownTimer extends Thread{

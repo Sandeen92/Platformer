@@ -88,6 +88,7 @@ public class Constants {
         public static final int RUNNING = 1;
         public static final int JUMP = 2;
         public static final int HIT = 3;
+        public static final int PUSHING = 4;
         public static final float PLAYER_X_DRAW_OFFSET = 24 * SCALE;
         public static final float PLAYER_Y_DRAW_OFFSET = 14 * SCALE;
         public static final float PLAYER_SPEED = 1.2f;
@@ -107,6 +108,8 @@ public class Constants {
                     return 5;
                 case HIT:
                     return 4;
+                case PUSHING:
+                    return 2;
                 default:
                     return 1;
             }

@@ -31,6 +31,8 @@ public abstract class Interactable {
     protected float gravity;
     protected float horizontalSpeed;
     protected boolean isMoving;
+    protected boolean movingLeft;
+    protected boolean movingRight;
 
     public Interactable(float x, float y, int width, int height){
         initialiseVariables(x,y,width,height);
@@ -88,7 +90,16 @@ public abstract class Interactable {
         if(canMoveHere(hitbox.x + horizontalSpeed, hitbox.y, hitbox.width, hitbox.height, levelData) == true){
             hitbox.x += horizontalSpeed;
         } else {
-            hitbox.x = GetEntityXPosNextToWall(hitbox, horizontalSpeed);
+            if (movingLeft) {
+                player.setStuckInBoxLeft(true);
+                player.setStuckInBoxRight(false);
+                hitbox.x = GetEntityXPosNextToWall(hitbox) + 2; //Lägger till 2 på X-koordinater här så lådan inte hoppar igenom solid tiles
+            }                                                   //Måste göras här eftersom karaktär och objekt har olika storlekar
+            else {
+                player.setStuckInBoxLeft(false);
+                player.setStuckInBoxRight(true);
+                hitbox.x = GetEntityXPosNextToWall(hitbox) + 15;   //15 är antalet X-koordinater den måste lägga till för att inte studsa tillbaka
+            }
         }
     }
 
@@ -141,4 +152,8 @@ public abstract class Interactable {
     }
 
     public Rectangle2D.Float getHitbox() {return hitbox;}
+
+    public void setHorizontalSpeed(float horizontalSpeed) {
+        this.horizontalSpeed = horizontalSpeed;
+    }
 }

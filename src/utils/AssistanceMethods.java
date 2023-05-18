@@ -5,8 +5,10 @@
 
 package utils;
 //Imports from within project
+import entity.enemy.Enemy;
 import entity.interactable.Box;
 import entity.enemy.EnemyRat;
+import entity.player.Player;
 //Imports from Javas library
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -54,8 +56,6 @@ public class AssistanceMethods {
                                if(isTileSolid(x + (width/2), y, levelData) == false){
                                    //Bottom middle
                                    if(isTileSolid(x + (width/2), y + heigth, levelData) == false){
-
-
                                        return true;
                                    }
                               }
@@ -118,10 +118,9 @@ public class AssistanceMethods {
      * This method is used to get the entitys position closest to the wall to make
      * gaps between the entity and objects/tiles to disapear
      * @param hitbox
-     * @param horizontalSpeed
      * @return
      */
-    public static float GetEntityXPosNextToWall(Rectangle2D.Float hitbox, float horizontalSpeed) {
+    public static float GetEntityXPosNextToWall(Rectangle2D.Float hitbox) {
         int currentTile = (int) hitbox.x / TILES_SIZE;
         return calculatePosNextToWall(currentTile, hitbox);
     }
@@ -135,7 +134,7 @@ public class AssistanceMethods {
     private static float calculatePosNextToWall(int currentTile, Rectangle2D.Float hitbox){
         int tileXPosition = currentTile * TILES_SIZE;
         int xOffset = (int)(TILES_SIZE - hitbox.width/2);
-        return tileXPosition + xOffset - 1;
+        return tileXPosition + (xOffset - 9);
     }
 
     /**
@@ -199,6 +198,7 @@ public class AssistanceMethods {
         }
         return false;
     }
+
 
     /**
      * Retrieves the player spawn point from the given image.

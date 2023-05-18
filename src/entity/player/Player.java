@@ -68,6 +68,8 @@ public abstract class Player {
     protected boolean movingRight;
     protected boolean isPushing;
     protected boolean standingOnInteractable;
+    protected boolean stuckInBoxRight;
+    protected boolean stuckInBoxLeft;
     protected boolean jumpOnce;
     protected boolean canAttack = true;
 
@@ -227,7 +229,12 @@ public abstract class Player {
             horizontalSpeed = leftPlayerSpeed;
         }
         else {
-            horizontalSpeed = leftPushSpeed;
+            if (stuckInBoxLeft == false) {
+                horizontalSpeed = leftPushSpeed;
+            }
+            else {
+                horizontalSpeed = 0;
+            }
         }
         flipX = width;
         flipW = -1;
@@ -243,7 +250,12 @@ public abstract class Player {
             horizontalSpeed = rightPlayerSpeed;
         }
         else {
-            horizontalSpeed = rightPushSpeed;
+            if (stuckInBoxRight == false) {
+                horizontalSpeed = rightPushSpeed;
+            }
+            else {
+                horizontalSpeed = 0;
+            }
         }
         flipX = 0;
         flipW = 1;
@@ -311,6 +323,9 @@ public abstract class Player {
      */
     protected void isEntityInAir(int[][] levelData){
         if(IsEntityOnFloor(hitbox, levelData) == false){
+            jump();
+            setAirSpeed(0.1f);
+            resetBooleanJumpOnce();
             inAir = true;
         }
     }
@@ -361,9 +376,13 @@ public abstract class Player {
     protected void updateEntityXPosition(float horizontalSpeed, int [][] levelData) {
         if(canMoveHere(hitbox.x + horizontalSpeed, hitbox.y, hitbox.width, hitbox.height, levelData) == true){
             hitbox.x += horizontalSpeed;
-
         } else {
-            hitbox.x = GetEntityXPosNextToWall(hitbox, horizontalSpeed);
+            if (movingLeft) {
+                hitbox.x = GetEntityXPosNextToWall(hitbox);
+            }
+            else {
+                hitbox.x = GetEntityXPosNextToWall(hitbox) + 18; //18 är antalet X-koordinater den måste lägga till för att inte studsa tillbaka
+            }
         }
     }
 
@@ -377,7 +396,11 @@ public abstract class Player {
         } else {
             airSpeed = fallSpeedAfterCollision;
         }
+    }
 
+    public void resetStuckBooleans(){
+        stuckInBoxLeft = false;
+        stuckInBoxRight = false;
     }
 
 
@@ -490,7 +513,7 @@ public abstract class Player {
         InputStream is = getClass().getResourceAsStream(pngName);
         try {
             BufferedImage player = ImageIO.read(is);
-            playerAnimations = new BufferedImage[4][8];
+            playerAnimations = new BufferedImage[5][8];
             for (int i = 0; i < playerAnimations.length; i++) {
                 for (int j = 0; j < playerAnimations[i].length; j++) {
                     playerAnimations[i][j] = player.getSubimage(j * 64, i * 64, 64,64 );
@@ -618,9 +641,14 @@ public abstract class Player {
         int startAnimation = entityState;
         if(isHit == true){
             entityState = HIT;
-        } else if (isMoving == true) {
+        }
+       /* else if (isPushing == true){
+            entityState = PUSHING;
+        } */
+        else if (isMoving == true) {
             entityState = RUNNING;
-        } else {
+        }
+        else {
             entityState = IDLE;
             horizontalSpeed = 0;
             isPushing = false;
@@ -633,9 +661,6 @@ public abstract class Player {
         if (startAnimation != entityState){
             resetAnimationTick();
         }
-
-        //Fick kommentera ut detta och nollställa
-        //animationTick i sista if-satsen på updateAnimationTick istället, vet ej varför
     }
 
     /**
@@ -754,7 +779,22 @@ public abstract class Player {
     public void setHorizontalSpeed(float horizontalSpeed) {
         this.horizontalSpeed = horizontalSpeed;
     }
+
+    public boolean isMoving() {
+        return isMoving;
+    }
+
+    public void setMoving(boolean moving) {
+        isMoving = moving;
+    }
+
     public void setAirSpeed(float airSpeed){this.airSpeed = airSpeed;}
+    public float getAirSpeed() {return airSpeed;}
+
+    public boolean isStuckInBoxRight() {return stuckInBoxRight;}
+    public void setStuckInBoxRight(boolean stuckInBoxRight) {this.stuckInBoxRight = stuckInBoxRight;}
+    public boolean isStuckInBoxLeft() {return stuckInBoxLeft;}
+    public void setStuckInBoxLeft(boolean stuckInBoxLeft) {this.stuckInBoxLeft = stuckInBoxLeft;}
 
     /**
      * This method sets all moving booleans to false
