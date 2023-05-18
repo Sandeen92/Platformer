@@ -72,6 +72,7 @@ public abstract class Player {
     protected boolean stuckInBoxLeft;
     protected boolean jumpOnce;
     protected boolean canAttack = true;
+    protected boolean touchingInteractable;
 
 
     protected BufferedImage[][] playerAnimations;
@@ -163,7 +164,9 @@ public abstract class Player {
         }
 
         changeMovingDirection();
-        knockbackPlayerIfHit();
+        if (touchingInteractable == false) {
+            knockbackPlayerIfHit();
+        }
         checkIfPlayerIsStandingOnInteractable(levelData);
         moveEntity(levelData);
         isMoving = true;
@@ -280,9 +283,10 @@ public abstract class Player {
     public void knockbackPlayer(Enemy enemy){
         horizontalSpeed = 0;
         getKnockbackDirection(enemy);
-        if(canMoveHere(hitbox.x + horizontalSpeed, hitbox.y, hitbox.width, hitbox.height, levelData) == true){
+        if (canMoveHere(hitbox.x + horizontalSpeed, hitbox.y, hitbox.width, hitbox.height, levelData) == true) {
             hitbox.x += horizontalSpeed;
         }
+
     }
 
     /**
@@ -399,6 +403,7 @@ public abstract class Player {
     }
 
     public void resetStuckBooleans(){
+        touchingInteractable = false;
         stuckInBoxLeft = false;
         stuckInBoxRight = false;
     }
@@ -595,7 +600,7 @@ public abstract class Player {
      * This method sets the horixontal speed of the player
      * @param knockbackSpeed
      */
-    protected void setHorizontalKnockbackSpeed(float knockbackSpeed) {
+    protected void setHorizontalKnockbackSpeed(float knockbackSpeed){
         horizontalSpeed = knockbackSpeed;
         hitbox.x += horizontalSpeed;
     }
@@ -788,6 +793,8 @@ public abstract class Player {
         isMoving = moving;
     }
 
+    public void setFacingDirection(int facingDirection) {this.facingDirection = facingDirection;}
+
     public void setAirSpeed(float airSpeed){this.airSpeed = airSpeed;}
     public float getAirSpeed() {return airSpeed;}
 
@@ -795,6 +802,14 @@ public abstract class Player {
     public void setStuckInBoxRight(boolean stuckInBoxRight) {this.stuckInBoxRight = stuckInBoxRight;}
     public boolean isStuckInBoxLeft() {return stuckInBoxLeft;}
     public void setStuckInBoxLeft(boolean stuckInBoxLeft) {this.stuckInBoxLeft = stuckInBoxLeft;}
+
+    public boolean isTouchingInteractable() {
+        return touchingInteractable;
+    }
+
+    public void setTouchingInteractable(boolean touchingInteractable) {
+        this.touchingInteractable = touchingInteractable;
+    }
 
     /**
      * This method sets all moving booleans to false
@@ -816,7 +831,7 @@ public abstract class Player {
         @Override
         public void run() {
             try {
-                Thread.sleep(500);
+                Thread.sleep(400);
                 isHit = false;
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);

@@ -69,6 +69,7 @@ public class Box extends Interactable {
      */
     public void checkIfPlayerCollidesWithBox(Box box, Player player){
         if(box.hitbox.intersects(player.getHitbox()) == true){
+            player.setTouchingInteractable(true);
             checkIfPlayerIsAboveBox();
         } else if (player.getRightPlayerSpeed() != 1.2f
                 || player.getLeftPlayerSpeed() != -1.2f
