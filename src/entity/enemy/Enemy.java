@@ -10,6 +10,8 @@ import entity.player.Player;
 import entity.player.Start_Player;
 import gamestates.Gamestate;
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 
 import static utils.AssistanceMethods.*;
@@ -46,8 +48,6 @@ public abstract class Enemy{
     protected boolean inAir;
     protected float airSpeed;
     protected float gravity = 0.03f * SCALE;
-    protected int timesEnemyChangedDirection = 0;
-
 
     /**
      * Constructor for enemy
@@ -227,7 +227,12 @@ public abstract class Enemy{
         if(canMoveHere(hitbox.x + horizontalSpeed, hitbox.y, hitbox.width, hitbox.height, levelData) == true){
             hitbox.x += horizontalSpeed;
         } else {
-            hitbox.x = GetEntityXPosNextToWall(hitbox);
+            if (walkDirection == LEFT) {
+                hitbox.x = GetEntityXPosNextToWall(hitbox) + 2;
+            }
+            else {
+                hitbox.x = GetEntityXPosNextToWall(hitbox) + 15;
+            }
         }
     }
 
@@ -293,6 +298,7 @@ public abstract class Enemy{
         }
     }
 
+
     /**
      * This method makes the enemy start patrolling
      */
@@ -346,14 +352,6 @@ public abstract class Enemy{
 
     public Rectangle2D.Float getHitbox(){
         return hitbox;
-    }
-
-    public int getTimesEnemyChangedDirection() {
-        return timesEnemyChangedDirection;
-    }
-
-    public void setTimesEnemyChangedDirection(int timesEnemyChangedDirection) {
-        this.timesEnemyChangedDirection = timesEnemyChangedDirection;
     }
 
     public EnemyManager getEnemyManager() {
