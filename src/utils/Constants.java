@@ -51,9 +51,9 @@ public class Constants {
         public static final int RAT = 0;
         public static final int IDLE = 0;
         public static final int RUNNING = 1;
-        public static final int ATTACK = 2;
-        public static final int HIT = 3;
-        public static final int DEAD = 4;
+        //public static final int ATTACK = 2;   Eftersom dessa två inte existerar och skapade problem med att hantera deathanimation
+        //public static final int HIT = 3;      låt de vara tills funktioner till detta implementeras
+        public static final int DEAD = 2;
         public static final int RAT_WIDTH_DEFAULT = 60;
         public static final int RAT_HEIGHT_DEFAULT = 20;
         public static final int RAT_WIDTH = (int) (RAT_WIDTH_DEFAULT * SCALE);
@@ -72,9 +72,8 @@ public class Constants {
                             return 1;
                         case RUNNING:
                             return 5;
-                        case ATTACK:
-                            return 7;
-                        case HIT:
+                       // case ATTACK:
+                       //     return 7;
                         case DEAD:
                             return 4;
                     }
@@ -137,8 +136,8 @@ public class Constants {
         public final static int TILES_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
         public final static int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
         public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
-        public final static int FPS_SET = 120;
-        public final static int UPS_SET = 200;
+        public final static int FPS_SET = 40;
+        public final static int UPS_SET = 66;
         public final static double NANO_SECOND = 1000000000.0;
 
     }

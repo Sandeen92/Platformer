@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 //Imports of static variables and methods
+import static utils.Constants.EnemyConstants.DEAD;
 import static utils.Constants.GameConstants.*;
 import static utils.Constants.InteractableConstants.BOX_MOVESPEED;
 
@@ -85,23 +86,29 @@ public class Box extends Interactable {
     public void checkIfEnemyIsCollidingWithBox(ArrayList<EnemyRat> rats) {
         for (EnemyRat rat : rats) {
             if (hitbox.intersects(rat.getHitbox()) == true) {
-                rat.changeEnemyWalkDirection();
-                if (timesEnemyChangedDirection == 0 && coolingDown == false){
+                if (rat.getEntityState() != DEAD){
+                      rat.changeEnemyWalkDirection();
+                }
+                if (timesEnemyChangedDirection == 0 && coolingDown == false) {
                     coolingDown = true;
                     new BounceResetCooldownTimer().start();
                 }
                 timesEnemyChangedDirection++;
-                if (timesEnemyChangedDirection >= 2){
-                    rat.setCurrentHealth(0);
-                    Robot robot = null;
-                    try {
-                        robot = new Robot();
-                        robot.keyPress(KeyEvent.VK_F12);
-                        robot.keyRelease(KeyEvent.VK_F12);
-                    } catch (AWTException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+                killEnemyIfStuck(rat);
+            }
+        }
+    }
+
+    private void killEnemyIfStuck(EnemyRat rat){
+        if (timesEnemyChangedDirection >= 2) {
+            rat.setCurrentHealth(0);
+            Robot robot = null;
+            try {
+                robot = new Robot();
+                robot.keyPress(KeyEvent.VK_F12);
+                robot.keyRelease(KeyEvent.VK_F12);
+            } catch (AWTException e) {
+                throw new RuntimeException(e);
             }
         }
     }

@@ -9,6 +9,7 @@ package entity.enemy;
 import entity.player.Player;
 import entity.player.Start_Player;
 import gamestates.Gamestate;
+import utils.Constants;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -16,10 +17,12 @@ import java.awt.geom.Rectangle2D;
 
 import static utils.AssistanceMethods.*;
 import static utils.Constants.EnemyConstants.*;
+import static utils.Constants.EnemyConstants.IDLE;
+import static utils.Constants.EnemyConstants.RUNNING;
 import static utils.Constants.EntityConstants.MAX_AIR_SPEED;
 import static utils.Constants.GameConstants.SCALE;
-import static utils.Constants.StartPlayerConstants.HIT;
 import static utils.Constants.Directions.*;
+import static utils.Constants.StartPlayerConstants.*;
 
 public abstract class Enemy{
     protected float x;
@@ -48,6 +51,8 @@ public abstract class Enemy{
     protected boolean inAir;
     protected float airSpeed;
     protected float gravity = 0.03f * SCALE;
+    protected boolean animatedDeathOnce;
+    protected boolean isMoving;
 
     /**
      * Constructor for enemy
@@ -101,7 +106,7 @@ public abstract class Enemy{
      */
     protected void checkIfPlayerIsHit(Enemy enemy, Player player){
         if(enemy.attackBox.intersects(player.getHitbox()) == true){
-            if(canAttack == true){
+            if(canAttack == true && entityState != DEAD){
                 attackPlayer(enemy, player);
             }
             changePlayerToHit(enemy, player);
@@ -114,10 +119,12 @@ public abstract class Enemy{
      * @param player
      */
     private void attackPlayer(Enemy enemy, Player player){
-        player.entityTakeDamage(enemy.attackDamage);
-        checkIfPlayerIsDead(player);
-        canAttack = false;
-        startAttackCooldown();
+        if (entityState != DEAD) {
+            player.entityTakeDamage(enemy.attackDamage);
+            checkIfPlayerIsDead(player);
+            canAttack = false;
+            startAttackCooldown();
+        }
     }
 
     /**
@@ -144,21 +151,31 @@ public abstract class Enemy{
      * @param player
      */
     private void changePlayerToHit(Enemy enemy, Player player){
-        player.playerHit(enemy);
-        player.setEntityState(HIT);
+        if (entityState != DEAD) {
+            player.playerHit(enemy);
+            player.setEntityState(HIT);
+        }
     }
 
     /**
      * This method updates the animationtick to keep track of the animation
      */
     protected void updateAnimationTick(){
-        animationTick++;
-        if(animationTick >= animationSpeed){
-            animationTick = 0;
-            animationIndex++;
-            if (animationIndex >= GetSpriteAmount(enemyType, entityState)){
-                animationIndex = 0;
+        if (animatedDeathOnce == false) {
+            animationTick++;
+            if (animationTick >= animationSpeed) {
+                animationTick = 0;
+                animationIndex++;
+                if (animationIndex >= GetSpriteAmount(enemyType, entityState)) {
+                    if (entityState == DEAD){
+                        animatedDeathOnce = true;
+                    }
+                    animationIndex = 0;
+                }
             }
+        }
+        else {
+            animationIndex = 3;
         }
     }
 
@@ -170,6 +187,7 @@ public abstract class Enemy{
         updateEntityPosition(levelData);
         updateAttackBox(0, 0);
         updateAnimationTick();
+        setEntityAnimation();
     }
 
     protected void updateAttackBox(int xOffset, int facingDirection){
@@ -180,6 +198,29 @@ public abstract class Enemy{
             attackBox.x = hitbox.x + xOffset;
             attackBox.y = hitbox.y;
         }
+    }
+
+    protected void setEntityAnimation() {
+        int startAnimation = entityState;
+
+        if (isMoving == true) {
+            entityState = RUNNING;
+        }
+        else if (currentHealth <= 0) {
+            entityState = DEAD;
+        }
+        else if (isMoving == false && entityState != DEAD) {
+            entityState = IDLE;
+        }
+
+        if (startAnimation != entityState){
+            resetAnimationTick();
+        }
+    }
+
+    protected void resetAnimationTick(){
+        animationTick = 0;
+        animationIndex = 0;
     }
 
     /**
@@ -253,6 +294,11 @@ public abstract class Enemy{
                 setEnemyToPatrol();
                 checkIfWalkDirectionShouldChange(levelData);
                 break;
+
+            case DEAD:
+                canAttack = false;
+                horizontalSpeed = 0;
+                break;
         }
     }
 
@@ -287,15 +333,18 @@ public abstract class Enemy{
      * This method changes the facing direction for the enemy
      */
     public void changeFacingDirection() {
-        if(walkDirection == LEFT){
-            walkDirection = RIGHT;
-            flipX = 0;
-            flipW = 1;
-        } else {
-            walkDirection = LEFT;
-            flipX = width+20;
-            flipW = -1;
-        }
+        if (entityState != DEAD){
+             if (walkDirection == LEFT) {
+                 walkDirection = RIGHT;
+                 flipX = 0;
+                 flipW = 1;
+
+        }    else {
+                 walkDirection = LEFT;
+                 flipX = width + 20;
+                 flipW = -1;
+         }
+      }
     }
 
 
@@ -368,6 +417,21 @@ public abstract class Enemy{
 
     public void setCurrentHealth(int currentHealth) {
         this.currentHealth = currentHealth;
+    }
+
+    public int getEntityState() {return entityState;}
+    public void setEntityState(int entityState) {this.entityState = entityState;}
+
+    public void setAnimationIndex(int animationIndex) {
+        this.animationIndex = animationIndex;
+    }
+
+    public boolean isMoving() {
+        return isMoving;
+    }
+
+    public void setMoving(boolean moving) {
+        isMoving = moving;
     }
 
     private class AttackCooldownThread extends Thread{

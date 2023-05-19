@@ -41,11 +41,12 @@ public class EnemyManager {
         //ta inte bort!
         for(EnemyRat rat : rats){
             rat.setCurrentHealth(6);
+            rat.setMoving(true);
         }
     }
 
     /**
-     * This method itterates through all the enemies and updates them
+     * This method iterates through all the enemies and updates them
      * @param levelData
      */
     public void update(int[][] levelData){
@@ -61,7 +62,7 @@ public class EnemyManager {
      */
     public boolean checkIfEnemyIsHit(Bullet bullet){
         for (EnemyRat rat : rats){
-            if(bullet.getHitbox().intersects(rat.getHitbox()) == true && bullet.canDoDamage){
+            if(bullet.getHitbox().intersects(rat.getHitbox()) == true && bullet.canDoDamage && rat.getEntityState() != DEAD){
                 bullet.canDoDamage = false;
                 rat.enemyTakeDamage(2);
                 checkIfEnemyIsDead(rat);
@@ -91,7 +92,8 @@ public class EnemyManager {
      */
     public void checkIfEnemyIsDead(Enemy enemy){
         if(enemy.isEntityDead() == true && enemy instanceof EnemyRat rat){
-            killRat(rat);
+            rat.setMoving(false);
+            //killRat(rat);
         }
     }
 
