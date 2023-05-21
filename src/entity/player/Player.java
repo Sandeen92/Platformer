@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 //Imports of static variables and methods
 import static utils.AssistanceMethods.*;
+import static utils.Constants.EnemyConstants.DEAD;
 import static utils.Constants.EntityConstants.AIR_SPEED_OFFSET;
 import static utils.Constants.EntityConstants.MAX_AIR_SPEED;
 import static utils.Constants.GameConstants.*;
@@ -80,9 +81,6 @@ public abstract class Player {
 
     protected AttackTimer attackTimer;
     protected Enemy attackingEnemy;
-
-
-
 
 
     /**
@@ -281,12 +279,13 @@ public abstract class Player {
      * @param enemy
      */
     public void knockbackPlayer(Enemy enemy){
-        horizontalSpeed = 0;
-        getKnockbackDirection(enemy);
-        if (canMoveHere(hitbox.x + horizontalSpeed, hitbox.y, hitbox.width, hitbox.height, levelData) == true) {
-            hitbox.x += horizontalSpeed;
+        if (enemy.getEntityState() != DEAD) {
+            horizontalSpeed = 0;
+            getKnockbackDirection(enemy);
+            if (canMoveHere(hitbox.x + horizontalSpeed, hitbox.y, hitbox.width, hitbox.height, levelData) == true) {
+                hitbox.x += horizontalSpeed;
+            }
         }
-
     }
 
     /**
@@ -435,9 +434,11 @@ public abstract class Player {
      */
     public void playerHit(Enemy attackingEnemy){
         this.attackingEnemy = attackingEnemy;
-        isHit = true;
-        HitTimer ht = new HitTimer();
-        ht.start();
+        if (attackingEnemy.getEntityState() != DEAD) {
+            isHit = true;
+            HitTimer ht = new HitTimer();
+            ht.start();
+        }
     }
 
 
