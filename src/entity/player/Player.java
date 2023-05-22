@@ -56,9 +56,13 @@ public abstract class Player {
     protected int facingDirection;
 
     // Shapes
+    protected Rectangle2D.Float lowerHitbox;
     protected Rectangle2D.Float hitbox;
     protected Rectangle2D.Float attackBox;
     protected Rectangle2D.Float boxAttackBox;
+
+    //Enums
+    MovingDirection movingDirection = MovingDirection.Default;
 
     //Booleans
     protected boolean inAir = false;
@@ -216,8 +220,10 @@ public abstract class Player {
      */
     protected void changeMovingDirection(){
         if(movingLeft == true){
+            movingDirection = MovingDirection.Left;
             flipPlayerLeft();
         } else if (movingRight == true) {
+            movingDirection = MovingDirection.Rigth;
             flipPlayerRight();
         }
     }

@@ -5,10 +5,9 @@
 
 package utils;
 //Imports from within project
-import entity.enemy.Enemy;
 import entity.interactable.Box;
 import entity.enemy.EnemyRat;
-import entity.player.Player;
+
 //Imports from Javas library
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -27,6 +26,12 @@ import static utils.Constants.InteractableConstants.*;
  */
 public class AssistanceMethods {
 
+    private static float y1;
+    private static float y2;
+    private static float y3;
+    private static float x1;
+    private static float x2;
+    private static float x3;
     /**
      * This method takes in the hitbox in 4 different variables and the leveldata to make checks
      * of all the 4 corners of the hitbox. The checks is to see if the player can move there.
@@ -40,33 +45,57 @@ public class AssistanceMethods {
 
     //TODO TILL RS3-GRANSKARE: Denna metod har uppenbarligen skyhög komplexitet, men vi är mitt uppe i processen av att fixa det.
     public static boolean canMoveHere(float x, float y, float width, float heigth, int[][] levelData){
-        // top left
-        if(isTileSolid(x,y, levelData) == false){
-            // bottom rigth
-            if(isTileSolid(x + width,y + heigth, levelData) == false){
-                //top rigth
-               if(isTileSolid(x + width, y, levelData) == false){
-                   //bottom left
-                   if(isTileSolid(x, y + heigth, levelData) == false){
-                       //Middle left
-                       if(isTileSolid(x,y + (heigth/2) , levelData) == false){
-                           //Middle rigth
-                           if(isTileSolid(x + width,y + (heigth/2), levelData) == false){
-                               //top middle
-                               if(isTileSolid(x + (width/2), y, levelData) == false){
-                                   //Bottom middle
-                                   if(isTileSolid(x + (width/2), y + heigth, levelData) == false){
-                                       return true;
-                                   }
-                              }
-                           }
-                       }
-                   }
-               }
+       calcXAndYVariables(x, y, width, heigth);
+        if(checkUpperPoints(levelData) == true){
+            if(checkBottomPoints(levelData) == true){
+                if(checkMiddlePoints(levelData) == true){
+                    return true;
+                }
             }
         }
         return false;
     }
+
+    private static void calcXAndYVariables(float x, float y, float width, float heigth){
+        y1 = y;
+        y2 = y + heigth;
+        y3 = y + (heigth / 2);
+        x1 = x;
+        x2 = x + width;
+        x3 = x + (width/2);
+    }
+
+    private static boolean checkUpperPoints(int[][] levelData){
+        if(isTileSolid(x1,y1,levelData) == false){
+            if(isTileSolid(x2, y1, levelData) == false){
+                if(isTileSolid(x3,y1,levelData) == false){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean checkBottomPoints(int[][] levelData){
+        if(isTileSolid(x1,y2,levelData) == false){
+            if(isTileSolid(x2, y2, levelData) == false){
+                if(isTileSolid(x3,y2,levelData) == false){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean checkMiddlePoints(int[][] levelData){
+        if(isTileSolid(x1,y3,levelData) == false){
+            if(isTileSolid(x2, y3, levelData) == false){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     /**
      * This method is used to check if the tile asked after is a solid block or not
