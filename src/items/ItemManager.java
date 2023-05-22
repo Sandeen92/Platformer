@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 //Imports of static variables and methods
 import static utils.Constants.GunManConstants.GUN_MAN_CHANGER;
-import static utils.Constants.ObjectConstants.*;
+
 
 /**
  * This class is responsible for storing and updating all items in the game

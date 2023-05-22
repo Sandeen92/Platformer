@@ -50,6 +50,10 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
                 gamePanel.getGame().getDeathScreen().mouseClicked(e);
                 break;
 
+            case LEVELCOMPLETED:
+                gamePanel.getGame().getLevelCompleted().mouseClicked(e);
+                break;
+
             default:
                 break;
         }
@@ -81,6 +85,10 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
 
             case DEATHSCREEN:
                 gamePanel.getGame().getDeathScreen().mouseMoved(e);
+                break;
+
+            case LEVELCOMPLETED:
+                gamePanel.getGame().getLevelCompleted().mouseMoved(e);
                 break;
 
             default:
@@ -117,6 +125,10 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
                 gamePanel.getGame().getDeathScreen().mousePressed(e);
                 break;
 
+            case LEVELCOMPLETED:
+                gamePanel.getGame().getLevelCompleted().mousePressed(e);
+                break;
+
             default:
                 break;
         }
@@ -149,6 +161,10 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
 
             case DEATHSCREEN:
                 gamePanel.getGame().getDeathScreen().mouseReleased(e);
+                break;
+
+            case LEVELCOMPLETED:
+                gamePanel.getGame().getLevelCompleted().mouseReleased(e);
                 break;
 
             default:

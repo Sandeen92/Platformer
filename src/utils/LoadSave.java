@@ -27,6 +27,7 @@ public class LoadSave {
     public static final String MENU_BUTTONS = "button_atlas.png";
     public static final String DEATHSCREEN = "src/resources/DEATHSCREEN.gif";
     public static final String DEATHSCREEN_YOUDIED = "youded.png";
+
     public static final String POTION_ATLAS = "TEMP_POTION_SPRITES.png";
     public static final String CONTAINER_ATLAS = "CONTAINER_SPRITES.png";
     public static final String STARTMENU_BUTTONS = "STARTMENU_BUTTONS.png";
@@ -37,6 +38,8 @@ public class LoadSave {
     public static final String SOUND_BUTTONS = "soundbuttons.png";
     public static final String STARTMENU_MUSIC = System.getProperty("user.dir") + "\\src\\resources\\ohboy.wav";
     public static final String DEATHSCREEN_MUSIC = System.getProperty("user.dir") + "\\src\\resources\\coffindance.wav";
+
+    public static final String LEVELCOMPLETED_TEXT = "LEVEL_COMPLETED.png";
 
     /**
      * Loads and retrieves a sprite atlas image from the specified file.

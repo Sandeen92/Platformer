@@ -14,6 +14,7 @@ public enum Gamestate {
     OPTIONS,
     DEATHSCREEN,
     PAUSEMENU,
+    LEVELCOMPLETED,
     QUIT;
 
 

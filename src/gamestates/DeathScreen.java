@@ -1,8 +1,3 @@
-/**
- * This class represents the deathscreen
- * @author Linus Magnusson
- * @author Simon Sandén
- */
 package gamestates;
 //Imports from within project
 import main.Game;
@@ -21,6 +16,11 @@ import static main.Game.setPreviousGamestate;
 import static utils.Constants.GameConstants.GAME_WIDTH;
 import static utils.Constants.GameConstants.SCALE;
 
+/**
+ * This class represents the deathscreen
+ * @author Linus Magnusson
+ * @author Simon Sandén
+ */
 public class DeathScreen extends State implements StateMethods{
     private BufferedImage[] deathScreenGif;
     private BufferedImage youDiedText;

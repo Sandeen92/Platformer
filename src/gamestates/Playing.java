@@ -265,6 +265,10 @@ public class Playing extends State implements StateMethods {
                 //Robot will input this when rat gets crushed. Has to be dealt like this at the moment for concurrency reasons
                 player.attackWithBox();
                 break;
+
+            case KeyEvent.VK_O:
+                //Developer function - FINISH LEVEL
+                Gamestate.state = Gamestate.LEVELCOMPLETED;
         }
     }
 

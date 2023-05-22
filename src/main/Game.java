@@ -38,6 +38,7 @@ public class Game implements Runnable{
     private Startmenu startmenu;
     private Pausemenu pausemenu;
     private Options options;
+    private LevelCompleted levelCompleted;
 
 
     /**
@@ -60,6 +61,7 @@ public class Game implements Runnable{
         options = new Options(this);
         gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
+        levelCompleted = new LevelCompleted(this);
     }
 
     /**
@@ -106,6 +108,10 @@ public class Game implements Runnable{
                 options.update();
                 break;
 
+            case LEVELCOMPLETED:
+                levelCompleted.update();
+                break;
+
             case QUIT:
             default:
                 System.exit(0);
@@ -140,6 +146,10 @@ public class Game implements Runnable{
 
             case DEATHSCREEN:
                 deathScreen.draw(g);
+                break;
+
+            case LEVELCOMPLETED:
+                levelCompleted.draw(g);
                 break;
 
             default:
@@ -226,4 +236,7 @@ public class Game implements Runnable{
     public Pausemenu getPausemenu(){return pausemenu;}
     public Options getOptions(){return options;}
     public DeathScreen getDeathScreen(){return deathScreen;}
+    public LevelCompleted getLevelCompleted() {
+        return levelCompleted;
+    }
 }
