@@ -56,7 +56,6 @@ public abstract class Player {
     protected int facingDirection;
 
     // Shapes
-    protected Rectangle2D.Float lowerHitbox;
     protected Rectangle2D.Float hitbox;
     protected Rectangle2D.Float attackBox;
     protected Rectangle2D.Float boxAttackBox;
