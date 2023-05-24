@@ -817,6 +817,10 @@ public abstract class Player {
         this.touchingInteractable = touchingInteractable;
     }
 
+    public boolean isHit(){
+        return isHit;
+    }
+
     /**
      * This method sets all moving booleans to false
      */

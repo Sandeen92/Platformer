@@ -9,6 +9,7 @@ import entity.projectiles.ProjectileManager;
 import items.ItemManager;
 import levels.LevelManager;
 import main.Game;
+import userinterface.HealthBar;
 //Imports from Javas library
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -34,6 +35,7 @@ public class Playing extends State implements StateMethods {
     private ItemManager itemManager;
     private InteractablesManager interactablesManager;
     private ProjectileManager projectileManager;
+    private HealthBar healthBar;
     private boolean paused;
     private int currentLevelXOffset;
     private int cameraLeftBorder = (int) (0.3 * GAME_WIDTH);
@@ -86,6 +88,7 @@ public class Playing extends State implements StateMethods {
         levelManager = new LevelManager(game);
         itemManager = new ItemManager(this);
         interactablesManager = new InteractablesManager(this, enemyManager);
+        healthBar = new HealthBar();
         loadLevelDataToPlayer();
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
     }
@@ -148,6 +151,9 @@ public class Playing extends State implements StateMethods {
             projectileManager.update();
             checkIfPlayerIsCloseToCameraBorder();
             enemyManager.update(levelManager.getCurrentLevel().getLevelData());
+            if (player.isHit()){
+                healthBar.updateCurrentHealth(player.getCurrentHealth());
+            }
         }
     }
 
@@ -206,7 +212,7 @@ public class Playing extends State implements StateMethods {
         projectileManager.draw(g, currentLevelXOffset);
         interactablesManager.draw(g, currentLevelXOffset);
         itemManager.draw(g,currentLevelXOffset);
-
+        healthBar.draw(g);
     }
 
     /**
