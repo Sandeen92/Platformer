@@ -41,8 +41,8 @@ public class Constants {
     }
 
     public static class ProjectileConstants{
-        public static final float BULLET_RIGTHSPEED = 2f;
-        public static final float BULLET_LEFTSPEED = -2f;
+        public static final float BULLET_RIGTHSPEED = 4f;
+        public static final float BULLET_LEFTSPEED = -4f;
         public static final int BULLET_HEIGTH = (int) (9 * SCALE);
         public static final int BULLET_WIDTH = (int) (9*SCALE);
     }

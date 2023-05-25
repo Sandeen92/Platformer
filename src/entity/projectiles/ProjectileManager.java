@@ -55,7 +55,7 @@ public class ProjectileManager {
 
     public void drawBullets(Graphics g, int currentLevelXOffset){
         for(Bullet bullet: bullets){
-            g.drawImage(bullet.getProjectileImage(), (int) bullet.getHitbox().x - currentLevelXOffset, (int) bullet.getHitbox().y, null);
+            g.drawImage(bullet.getProjectileImage(), (int) bullet.getHitbox().x - currentLevelXOffset, (int) bullet.getHitbox().y, (int) bullet.getHitbox().width * bullet.getFlipW(), (int) bullet.getHitbox().height,  null);
         }
     }
 

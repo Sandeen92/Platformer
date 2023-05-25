@@ -15,6 +15,7 @@ public abstract class Projectile {
     private int [][] levelData;
     private int direction;
     public boolean canDoDamage;
+    private int flipW = 0;
 
 
     public Projectile(float x, float y, int width, int heigth, int[][] levelData, int direction, ProjectileManager projectileManager){
@@ -37,8 +38,10 @@ public abstract class Projectile {
     public void setMoveDirection(){
         if(direction == 1){
             this.hitbox.x += BULLET_RIGTHSPEED;
+            flipW = 1;
         } else {
             this.hitbox.x += BULLET_LEFTSPEED;
+            flipW = -1;
         }
     }
 
@@ -67,5 +70,9 @@ public abstract class Projectile {
 
     public Rectangle2D.Float getHitbox(){
         return hitbox;
+    }
+
+    public int getFlipW(){
+        return flipW;
     }
 }

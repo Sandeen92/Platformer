@@ -856,7 +856,7 @@ public abstract class Player {
         @Override
         public void run() {
             try {
-                Thread.sleep(300);
+                Thread.sleep(1300);
                 canAttack = true;
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
