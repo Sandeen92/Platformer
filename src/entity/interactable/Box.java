@@ -128,9 +128,9 @@ public class Box extends Interactable {
             isMoving = true;
             firstUpdate = false;
         }
-        if(inAir == false){
-            isInteractableInAir(levelData);
-        }
+
+        isInteractableInAir(levelData);
+
         if (horizontalSpeed != 0.0f) {
             isMoving = true;
         }
