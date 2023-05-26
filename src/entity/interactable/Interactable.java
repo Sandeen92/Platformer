@@ -102,18 +102,6 @@ public abstract class Interactable {
         }
     }
 
-  /* TODO Denna används inte, dubbelkolla om den behövs!
-  private void updateInteractablePosition(int[][] levelData) {
-        if(firstUpdate == true){
-            isInteractableInAir(levelData);
-            firstUpdate = false;
-        }
-        if(inAir == false){
-            isInteractableInAir(levelData);
-        }
-        moveInteractable(levelData);
-        isMoving = true;
-    } */
 
     /**
      * Checks if the interactable object can move in the air and performs the necessary actions.
