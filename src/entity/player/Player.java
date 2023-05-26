@@ -688,6 +688,10 @@ public abstract class Player {
         resetBooleanInAir();
     }
 
+    public float getHorizontalSpeed(){
+        return horizontalSpeed;
+    }
+
     /**
      * This method is used to set the inAir variable to false when
      * the entity is no longer in the air
@@ -794,6 +798,7 @@ public abstract class Player {
     public boolean isPushing() {
         return isPushing;
     }
+
 
     public void setPushing(boolean pushing) {
         isPushing = pushing;
