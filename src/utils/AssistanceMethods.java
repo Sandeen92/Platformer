@@ -158,10 +158,25 @@ public class AssistanceMethods {
      * @return true if the position is outside the level's borders, false otherwise.
      */
     private static boolean checkIfInsideBorder(float x, float y, int maxLevelWidth) {
-        if(x < 0 || x >= maxLevelWidth){
+        if(isXWithinMaxLevelWidth(x, y, maxLevelWidth)){
             return true;
         }
         return y < 0 || y >= GAME_HEIGHT;
+    }
+
+    /**
+     * Checks if the x-coordinate is within the maximum level width.
+     *
+     * @param x The x-coordinate to be checked.
+     * @param y The y-coordinate (unused in the method).
+     * @param maxLevelWidth The maximum width of the level.
+     * @return true if the x-coordinate is outside the valid range, false otherwise.
+     */
+    private static boolean isXWithinMaxLevelWidth(float x, float y, int maxLevelWidth){
+        if(x < 0 || x >= maxLevelWidth){
+            return true;
+        }
+        return false;
     }
 
     /**
