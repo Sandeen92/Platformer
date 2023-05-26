@@ -32,20 +32,23 @@ public class AssistanceMethods {
     private static float x1;
     private static float x2;
     private static float x3;
+    private static float x4;
+    private static float x5;
+    private static float x6;
+
+
     /**
-     * This method takes in the hitbox in 4 different variables and the leveldata to make checks
-     * of all the 4 corners of the hitbox. The checks is to see if the player can move there.
-     * @param x
-     * @param y
-     * @param width
-     * @param heigth
-     * @param levelData
-     * @return
+     * Determines whether an object can move to a specified position within a level.
+     *
+     * @param x The x-coordinate of the object's position.
+     * @param y The y-coordinate of the object's position.
+     * @param width   The width of the object.
+     * @param height  The height of the object.
+     * @param levelData The 2D array representing the level.
+     * @return  true if the object can move to the specified position, false otherwise.
      */
-
-
-    public static boolean canMoveHere(float x, float y, float width, float heigth, int[][] levelData){
-       calcXAndYVariables(x, y, width, heigth);
+    public static boolean canMoveHere(float x, float y, float width, float height, int[][] levelData){
+       calcXAndYVariables(x, y, width, height);
         if(checkUpperPoints(levelData) == true){
             if(checkBottomPoints(levelData) == true){
                 if(checkMiddlePoints(levelData) == true){
@@ -56,15 +59,29 @@ public class AssistanceMethods {
         return false;
     }
 
-    private static void calcXAndYVariables(float x, float y, float width, float heigth){
+    /**
+     * Calculates and assigns the x and y variables used for point checks.
+     *
+     * @param x The x-coordinate of the object's position.
+     * @param y The y-coordinate of the object's position.
+     * @param width  The width of the object.
+     * @param height The height of the object.
+     */
+    private static void calcXAndYVariables(float x, float y, float width, float height){
         y1 = y;
-        y2 = y + heigth;
-        y3 = y + (heigth / 2);
+        y2 = y + height;
+        y3 = y + (height / 2);
         x1 = x;
         x2 = x + width;
         x3 = x + (width/2);
     }
 
+    /**
+     * Checks the solidity of the upper points for the object.
+     *
+     * @param levelData The 2D array representing the level.
+     * @return true if the upper points are not solid, false otherwise.
+     */
     private static boolean checkUpperPoints(int[][] levelData){
         if(isTileSolid(x1,y1,levelData) == false){
             if(isTileSolid(x2, y1, levelData) == false){
@@ -76,6 +93,12 @@ public class AssistanceMethods {
         return false;
     }
 
+    /**
+     * Checks the solidity of the bottom points for the object.
+     *
+     * @param levelData The 2D array representing the level.
+     * @return true if the bottom points are not solid, false otherwise.
+     */
     private static boolean checkBottomPoints(int[][] levelData){
         if(isTileSolid(x1,y2,levelData) == false){
             if(isTileSolid(x2, y2, levelData) == false){
@@ -87,6 +110,12 @@ public class AssistanceMethods {
         return false;
     }
 
+    /**
+     * Checks the solidity of the middle points for the object.
+     *
+     * @param levelData The 2D array representing the level.
+     * @return true if the middle points are not solid, false otherwise.
+     */
     private static boolean checkMiddlePoints(int[][] levelData){
         if(isTileSolid(x1,y3,levelData) == false){
             if(isTileSolid(x2, y3, levelData) == false){
@@ -98,42 +127,63 @@ public class AssistanceMethods {
 
 
     /**
-     * This method is used to check if the tile asked after is a solid block or not
-     * @param x
-     * @param y
-     * @param levelData
-     * @return
+     * Checks if the tile at the specified position is solid.
+     *
+     * @param x The x-coordinate of the tile position.
+     * @param y The y-coordinate of the tile position.
+     * @param levelData The 2D array representing the level.
+     * @return true if the tile is solid, false otherwise.
      */
     private static boolean isTileSolid(float x, float y, int [][] levelData){
         int maxLevelWidth = levelData[0].length * TILES_SIZE;
+        // Check if the position is inside the level's borders
         if(checkIfInsideBorder(x,y,maxLevelWidth) == true){
             return true;
         }
-
+        // Calculate the indices and retrieve the tile value
         float xIndex = x/TILES_SIZE;
         float yIndex = y/TILES_SIZE;
-        int value = levelData[(int)yIndex][(int) xIndex];
+        int value = levelData[(int)yIndex][(int)xIndex];
+
+        // Check if the tile value represents a solid color
         return checkIfValidColor(value);
     }
 
     /**
-     * This method checks if the player is inside of the gamewindow border
-     * @param x
-     * @param y
-     * @param maxLevelWidth
-     * @return
+     * Checks if the specified position is inside the level's borders.
+     *
+     * @param x The x-coordinate of the position.
+     * @param y The y-coordinate of the position.
+     * @param maxLevelWidth  The maximum width of the level.
+     * @return true if the position is outside the level's borders, false otherwise.
      */
     private static boolean checkIfInsideBorder(float x, float y, int maxLevelWidth) {
-        if(x < 0 || x >= maxLevelWidth){
+        if(isXWithinMaxLevelWidth(x, y, maxLevelWidth)){
             return true;
         }
         return y < 0 || y >= GAME_HEIGHT;
     }
 
     /**
-     * This method checks if the value is a valid color for a tile if not returns false
-     * @param value
-     * @return
+     * Checks if the x-coordinate is within the maximum level width.
+     *
+     * @param x The x-coordinate to be checked.
+     * @param y The y-coordinate (unused in the method).
+     * @param maxLevelWidth The maximum width of the level.
+     * @return true if the x-coordinate is outside the valid range, false otherwise.
+     */
+    private static boolean isXWithinMaxLevelWidth(float x, float y, int maxLevelWidth){
+        if(x < 0 || x >= maxLevelWidth){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Checks if the specified value represents a valid color.
+     *
+     * @param value The value to be checked.
+     * @return true if the value represents a valid color, false otherwise.
      */
     private static boolean checkIfValidColor(int value){
         if(value >= 48 || value <0 || value != 11){
@@ -144,10 +194,10 @@ public class AssistanceMethods {
     }
 
     /**
-     * This method is used to get the entitys position closest to the wall to make
-     * gaps between the entity and objects/tiles to disapear
-     * @param hitbox
-     * @return
+     * Retrieves the X position of an entity next to a wall.
+     *
+     * @param hitbox The hitbox of the entity.
+     * @return The X position next to the wall.
      */
     public static float GetEntityXPosNextToWall(Rectangle2D.Float hitbox) {
         int currentTile = (int) hitbox.x / TILES_SIZE;
@@ -155,10 +205,11 @@ public class AssistanceMethods {
     }
 
     /**
-     * This method returns the position closest to the wall
-     * @param currentTile
-     * @param hitbox
-     * @return
+     * Calculates the X position next to a wall based on the current tile and hitbox.
+     *
+     * @param currentTile The index of the current tile.
+     * @param hitbox The hitbox of the entity.
+     * @return The calculated X position next to the wall.
      */
     private static float calculatePosNextToWall(int currentTile, Rectangle2D.Float hitbox){
         int tileXPosition = currentTile * TILES_SIZE;
@@ -167,11 +218,11 @@ public class AssistanceMethods {
     }
 
     /**
-     * This method is used to get the entitys position closest to the roof/floor to make
-     * gaps between the entity and objects/tiles to disapear
-     * @param hitbox
-     * @param airSpeed
-     * @return
+     * Retrieves the Y position of an entity under or above a tile based on its hitbox and airspeed.
+     *
+     * @param hitbox The hitbox of the entity.
+     * @param airSpeed The airspeed of the entity.
+     * @return The Y position under or above the tile.
      */
     public static float GetEntityYPosUnderOrAboveTile(Rectangle2D.Float hitbox, float airSpeed){
         int currentTile = (int) hitbox.y/TILES_SIZE;
@@ -185,10 +236,11 @@ public class AssistanceMethods {
     }
 
     /**
-     * This method returns the positions closest to the ground or roof
-     * @param currentTile
-     * @param hitbox
-     * @return
+     * Calculates the Y position under or above a tile based on the current tile and hitbox.
+     *
+     * @param currentTile The index of the current tile.
+     * @param hitbox The hitbox of the entity.
+     * @return The calculated Y position under or above the tile.
      */
     public static float calculatePosUnderOrAboveTile(int currentTile, Rectangle2D.Float hitbox){
         int tileYPosition = (currentTile * TILES_SIZE);
@@ -197,32 +249,44 @@ public class AssistanceMethods {
     }
 
     /**
-     * This method checks if the entity is currently standing on the floor
-     * @param hitbox
-     * @param lvlData
-     * @return
+     * Checks if the entity is currently on the floor.
+     *
+     * @param hitbox   The hitbox of the entity.
+     * @param lvlData  The 2D array representing the level data.
+     * @return true if the entity is on the floor, false otherwise.
      */
     public static boolean IsEntityOnFloor(Rectangle2D.Float hitbox, int[][] lvlData){
+        calculateBottomHitboxChecks(hitbox);
         //Check the pixel below bottom left and bottom right
-        if(isTileSolid(hitbox.x, hitbox.y + hitbox.height + 1, lvlData) == false){
-            if(isTileSolid(hitbox.x + hitbox.width, hitbox.y + hitbox.height + 1, lvlData) == false){
-                if(isTileSolid(hitbox.x + (hitbox.width/2), hitbox.y + hitbox.height + 1, lvlData) == false){
-                    return false;
-                }
-            }
+        if(isTileSolid(hitbox.x, x4, lvlData) == false && isTileSolid(x5, x4, lvlData) == false && isTileSolid(x6, x4, lvlData) == false){
+            return false;
         }
         return true;
     }
 
+
     /**
-     * This method is used to check if the next tile is a floor tile or air
-     * @param hitbox
-     * @param xSpeed
-     * @param lvlData
-     * @return
+     * Assists IsEntityOnFloor by calculating and assigning values to variables.
+     * @param hitbox Rectangle2D.Float object to perform calculations on.
+     */
+    private static void calculateBottomHitboxChecks(Rectangle2D.Float hitbox){
+        x4 = hitbox.y + hitbox.height + 1;   // 1 is to make sure character doesn't clip a pixel through the floor
+        x5 = hitbox.x + hitbox.width;
+        x6 = hitbox.x + (hitbox.width/2);
+    }
+
+    /**
+     * Checks if there is a floor in front of the entity based on its hitbox, horizontal speed, and level data.
+     *
+     * @param hitbox The hitbox of the entity.
+     * @param xSpeed The horizontal speed of the entity.
+     * @param lvlData The 2D array representing the level data.
+     * @return true if there is a floor in front of the entity, false otherwise.
      */
     public static boolean IsFloor(Rectangle2D.Float hitbox, float xSpeed, int[][] lvlData){
-        if(isTileSolid(hitbox.x + xSpeed + hitbox.width, hitbox.y + hitbox.height + 1, lvlData) == true && isTileSolid(hitbox.x + xSpeed, hitbox.y + hitbox.height + 1, lvlData) == true){
+        calculateBottomHitboxChecks(hitbox);
+        if(isTileSolid(x5 + xSpeed, x4, lvlData)
+                && isTileSolid(hitbox.x + xSpeed, x4, lvlData)){
             return true;
         }
         return false;
@@ -259,9 +323,10 @@ public class AssistanceMethods {
     }
 
     /**
-     * This method saves the leveldata in the leveldata array
-     * @param img
-     * @return
+     * Retrieves the level data from the given image.
+     *
+     * @param img The BufferedImage representing the level image.
+     * @return The 2D array containing the level data.
      */
     public static int[][] GetLevelData(BufferedImage img) {
             int[][] levelData = new int[img.getHeight()][img.getWidth()];
@@ -277,9 +342,10 @@ public class AssistanceMethods {
         }
 
     /**
-     * this method gets the enemies from the leveldata and returns the arraylist
-     * @param img
-     * @return
+     * Retrieves a list of EnemyRat objects from the given image.
+     *
+     * @param img The BufferedImage representing the image containing rats.
+     * @return  An ArrayList of EnemyRat objects.
      */
     public static ArrayList<EnemyRat> GetRats(BufferedImage img) {
         ArrayList<EnemyRat> list = new ArrayList<>();
@@ -296,9 +362,10 @@ public class AssistanceMethods {
     }
 
     /**
-     * This method reads the boxes from the leveldata and returns as an arraylist
-     * @param img
-     * @return
+     * Retrieves a list of Box objects from the given image.
+     *
+     * @param img The BufferedImage representing the image containing boxes.
+     * @return An ArrayList of Box objects.
      */
     public static ArrayList<Box> GetBoxes(BufferedImage img){
         ArrayList<Box> list = new ArrayList<>();

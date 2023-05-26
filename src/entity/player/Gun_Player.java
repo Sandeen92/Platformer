@@ -18,6 +18,9 @@ public class Gun_Player extends Player {
         initialiseHitbox(x,y, 22 * SCALE, 30 * SCALE);
         initialiseBoxAttackBox(x, y, 90 * SCALE, 30 * SCALE);
         this.projectileManager = projectileManager;
+        loadJumpSoundEffect();
+        loadGunshotSoundEffect();
+        loadHitSoundEffect();
     }
 
     /**
@@ -47,6 +50,7 @@ public class Gun_Player extends Player {
         if(canAttack == true){
             projectileManager.addBullet(hitbox.x, hitbox.y + 32,levelData , facingDirection);
             startAttackCooldown();
+            playGunshotSoundEffect();
         }
     }
 

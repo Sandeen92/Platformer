@@ -8,11 +8,14 @@ package entity.player;
 //Imports from within project
 import entity.enemy.Enemy;
 import entity.enemy.EnemyManager;
+import utils.LoadSave;
 //Imports from Javas library
 import javax.imageio.ImageIO;
+import javax.sound.sampled.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 //Imports of static variables and methods
@@ -85,6 +88,10 @@ public abstract class Player {
     protected AttackTimer attackTimer;
     protected Enemy attackingEnemy;
 
+    private File[] audioFiles;
+    private AudioInputStream[] audioInputStreams;
+    private Clip[] clips;
+
 
     /**
      * Second constructor initialises more variables
@@ -121,6 +128,9 @@ public abstract class Player {
         this.currentHealth = maxHealth;
         this.attackDamage = attackDamage;
         this.enemyManager = enemyManager;
+        audioFiles = new File[3];
+        audioInputStreams = new AudioInputStream[3];
+        clips = new Clip[3];
     }
 
     /**
@@ -193,6 +203,21 @@ public abstract class Player {
         }
     }
 
+    public void playJumpSoundEffect(){
+        clips[0].setMicrosecondPosition(0);
+        clips[0].start();
+    }
+
+    public void playGunshotSoundEffect(){
+        clips[1].setMicrosecondPosition(0);
+        clips[1].start();
+    }
+
+    public void playHitSoundEffect(){
+        clips[2].setMicrosecondPosition(0);
+        clips[2].start();
+    }
+
     /**
      * This method checks if the player is pushing something, if not
      * it allows the player to jump
@@ -202,6 +227,7 @@ public abstract class Player {
             inAir = true;
             airSpeed = jumpSpeed;
             jumpOnce = false;
+            playJumpSoundEffect();
         }
     }
 
@@ -331,8 +357,7 @@ public abstract class Player {
      */
     protected void isEntityInAir(int[][] levelData){
         if(IsEntityOnFloor(hitbox, levelData) == false){
-            jump();
-            setAirSpeed(0.1f);
+            setAirSpeed(-0.1f);
             resetBooleanJumpOnce();
             inAir = true;
         }
@@ -487,9 +512,6 @@ public abstract class Player {
                 (int) (hitbox.y - yDrawOffset),
                 width * flipW,
                 height, null);
-        //drawHitbox(g, levelOffset); //For debugging purposes
-        //drawAttackBox(g, levelOffset); //For debugging purposes
-        //drawBoxAttackBox(g, levelOffset); //For debugging purposes
     }
 
     //For Debugging boxAttackBox
@@ -538,6 +560,51 @@ public abstract class Player {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+        }
+    }
+
+    public void loadJumpSoundEffect(){
+        audioFiles[0] = new File(LoadSave.JUMP_SOUND_EFFECT);
+        try {
+            if (audioFiles[0] != null) {
+                audioInputStreams[0] = AudioSystem.getAudioInputStream(audioFiles[0]);
+                clips[0] = AudioSystem.getClip();
+                clips[0].open(audioInputStreams[0]);
+                FloatControl volumeController = (FloatControl) clips[0].getControl(FloatControl.Type.MASTER_GAIN);
+                volumeController.setValue(-4.0f);
+            }
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadGunshotSoundEffect(){
+        audioFiles[1] = new File(LoadSave.GUNSHOT_SOUND_EFFECT);
+        try {
+            if (audioFiles[1] != null) {
+                audioInputStreams[1] = AudioSystem.getAudioInputStream(audioFiles[1]);
+                clips[1] = AudioSystem.getClip();
+                clips[1].open(audioInputStreams[1]);
+                FloatControl volumeController = (FloatControl) clips[1].getControl(FloatControl.Type.MASTER_GAIN);
+                volumeController.setValue(-8.0f);
+            }
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadHitSoundEffect(){
+        audioFiles[2] = new File(LoadSave.HIT_SOUND_EFFECT);
+        try {
+            if (audioFiles[2] != null) {
+                audioInputStreams[2] = AudioSystem.getAudioInputStream(audioFiles[2]);
+                clips[2] = AudioSystem.getClip();
+                clips[2].open(audioInputStreams[2]);
+                FloatControl volumeController = (FloatControl) clips[2].getControl(FloatControl.Type.MASTER_GAIN);
+                volumeController.setValue(-4.0f);
+            }
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
         }
     }
 
@@ -841,6 +908,7 @@ public abstract class Player {
         @Override
         public void run() {
             try {
+                playHitSoundEffect();
                 Thread.sleep(400);
                 isHit = false;
             } catch (InterruptedException e) {
