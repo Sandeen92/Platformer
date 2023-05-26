@@ -143,7 +143,7 @@ public class AssistanceMethods {
         // Calculate the indices and retrieve the tile value
         float xIndex = x/TILES_SIZE;
         float yIndex = y/TILES_SIZE;
-        int value = levelData[(int)yIndex][(int) xIndex];
+        int value = levelData[(int)yIndex][(int)xIndex];
 
         // Check if the tile value represents a solid color
         return checkIfValidColor(value);
@@ -284,7 +284,9 @@ public class AssistanceMethods {
      * @return true if there is a floor in front of the entity, false otherwise.
      */
     public static boolean IsFloor(Rectangle2D.Float hitbox, float xSpeed, int[][] lvlData){
-        if(isTileSolid(hitbox.x + xSpeed + hitbox.width, hitbox.y + hitbox.height + 1, lvlData) == true && isTileSolid(hitbox.x + xSpeed, hitbox.y + hitbox.height + 1, lvlData) == true){
+        calculateBottomHitboxChecks(hitbox);
+        if(isTileSolid(x5 + xSpeed, x4, lvlData)
+                && isTileSolid(hitbox.x + xSpeed, x4, lvlData)){
             return true;
         }
         return false;
