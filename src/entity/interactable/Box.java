@@ -9,9 +9,7 @@ package entity.interactable;
 import entity.enemy.EnemyManager;
 import entity.enemy.EnemyRat;
 import entity.player.Player;
-import entity.player.Start_Player;
 import gamestates.Playing;
-import main.Game;
 //Imports from Javas library
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -23,6 +21,7 @@ import java.util.ArrayList;
 import static utils.Constants.EnemyConstants.DEAD;
 import static utils.Constants.GameConstants.*;
 import static utils.Constants.InteractableConstants.BOX_MOVESPEED;
+import static utils.Constants.StartPlayerConstants.PLAYER_SPEED;
 
 
 public class Box extends Interactable {
@@ -72,8 +71,8 @@ public class Box extends Interactable {
         if(box.hitbox.intersects(player.getHitbox()) == true){
             player.setTouchingInteractable(true);
             checkIfPlayerIsAboveBox();
-        } else if (player.getRightPlayerSpeed() != 1.2f
-                || player.getLeftPlayerSpeed() != -1.2f
+        } else if (player.getRightPlayerSpeed() != PLAYER_SPEED
+                || player.getLeftPlayerSpeed() != -PLAYER_SPEED
                 || player.getStandingOnInteractable() == true){
             resetChangedPlayerVariables();
         }
@@ -89,13 +88,17 @@ public class Box extends Interactable {
                 if (rat.getEntityState() != DEAD){
                       rat.changeEnemyWalkDirection();
                 }
-                if (timesEnemyChangedDirection == 0 && coolingDown == false) {
-                    coolingDown = true;
-                    new BounceResetCooldownTimer().start();
-                }
+                checkIfEnemyShouldHaveCooldown();
                 timesEnemyChangedDirection++;
                 killEnemyIfStuck(rat);
             }
+        }
+    }
+
+    public void checkIfEnemyShouldHaveCooldown(){
+        if (timesEnemyChangedDirection == 0 && coolingDown == false) {
+            coolingDown = true;
+            new BounceResetCooldownTimer().start();
         }
     }
 
@@ -210,7 +213,8 @@ public class Box extends Interactable {
      * @param xOffset
      */
     public void draw(Graphics g, int xOffset){
-        g.drawImage(interactableImage, (int) hitbox.x- xOffset, (int) hitbox.y+1, (int) width, (int) height, null);
+        g.drawImage(interactableImage, (int) hitbox.x- xOffset, (int) hitbox.y + 2, (int) width, (int) height, null);
+        drawHitbox(g, xOffset);
     }
 
     /**

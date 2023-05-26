@@ -6,8 +6,6 @@ package entity.interactable;
  */
 //Imports from within project
 import entity.player.Player;
-import entity.player.Start_Player;
-import gamestates.Playing;
 //Imports from Javas library
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
