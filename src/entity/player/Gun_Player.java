@@ -18,6 +18,7 @@ public class Gun_Player extends Player {
         initialiseHitbox(x,y, 22 * SCALE, 30 * SCALE);
         initialiseBoxAttackBox(x, y, 90 * SCALE, 30 * SCALE);
         this.projectileManager = projectileManager;
+        loadJumpSoundEffect();
     }
 
     /**

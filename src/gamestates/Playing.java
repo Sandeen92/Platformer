@@ -10,10 +10,14 @@ import items.ItemManager;
 import levels.LevelManager;
 import main.Game;
 import userinterface.HealthBar;
+import utils.LoadSave;
 //Imports from Javas library
+import javax.sound.sampled.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 //Imports of static variables and methods
 import static utils.Constants.GameConstants.*;
 import static utils.Constants.StartPlayerConstants.PLAYER_HEIGTH;
@@ -41,6 +45,10 @@ public class Playing extends State implements StateMethods {
     private int cameraLeftBorder = (int) (0.3 * GAME_WIDTH);
     private int cameraRightBorder = (int) (0.7 * GAME_WIDTH);
     private int maxLevelXOffset;
+    private File audioFile;
+    private AudioInputStream audioInputStream;
+    private Clip clip;
+    private long audioPausedPosition;
 
     /**
      * Constructor for the Playing class.
@@ -99,12 +107,54 @@ public class Playing extends State implements StateMethods {
     public void restartGame(){
         initialiseClasses();
         loadStartLevel();
+        silenceAudio();
+        loadLevelOneAudio();
         try {
             Robot robot = new Robot();
             robot.keyPress(KeyEvent.VK_SPACE);
             robot.keyRelease(KeyEvent.VK_SPACE);
         } catch (AWTException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void loadLevelOneAudio(){
+        audioFile = new File(LoadSave.LEVELONE_BACKGROUND_AUDIO);
+        try {
+            if (audioFile != null) {
+                audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                clip = AudioSystem.getClip();
+                clip.open(audioInputStream);
+                FloatControl volumeController = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                volumeController.setValue(-19.0f);
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
+            }
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void silenceAudio(){
+        try {
+            audioInputStream.close();
+            clip.stop();
+            clip.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void pauseAudio(){
+        if (clip != null && clip.isRunning()) {
+            audioPausedPosition = clip.getMicrosecondPosition();
+            clip.stop();
+        }
+    }
+
+    public void resumeAudio(){
+        if (clip != null && clip.isRunning() == false) {
+            clip.setMicrosecondPosition(audioPausedPosition);
+            clip.start();
         }
     }
 
@@ -151,6 +201,9 @@ public class Playing extends State implements StateMethods {
             projectileManager.update();
             checkIfPlayerIsCloseToCameraBorder();
             enemyManager.update(levelManager.getCurrentLevel().getLevelData());
+            if (audioInputStream == null){
+                loadLevelOneAudio();
+            }
             if (player.isHit()){
                 healthBar.updateCurrentHealth(player.getCurrentHealth());
             }
@@ -246,13 +299,10 @@ public class Playing extends State implements StateMethods {
                 paused = true;
                 player.setJumping(false);
                 player.allMovingBooleansFalse();
+                pauseAudio();
                 Gamestate.state = Gamestate.PAUSEMENU;
                 break;
 
-            case KeyEvent.VK_F1:
-                //Developer function
-                player.setCurrentHealth(0);
-                break;
             case KeyEvent.VK_G:
                 //Developer function
                 changeClass("GunMan", getPlayer().getHitbox().x, getPlayer().getHitbox().y);

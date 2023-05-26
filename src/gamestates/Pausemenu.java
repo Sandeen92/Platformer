@@ -142,11 +142,10 @@ public class Pausemenu extends State implements StateMethods {
     private void checkStatesAndReactAccordingly(){
         if (Gamestate.state == Gamestate.PLAYING) {
             playing.setPaused(false);
-            //game.getStartmenu().silenceAudio();
+            playing.resumeAudio();
         }
         else if (Gamestate.state == Gamestate.STARTMENU){
             game.getPlaying().setPaused(false);
-            //game.getStartmenu().loadMenuAudio();
             game.getPlaying().restartGame();
         }
     }
@@ -183,6 +182,7 @@ public class Pausemenu extends State implements StateMethods {
         switch (e.getKeyCode()){
             case KeyEvent.VK_ESCAPE:
                 playing.setPaused(false);
+                playing.resumeAudio();
                 Gamestate.state = Gamestate.PLAYING;
                 resetButtons();
                 break;

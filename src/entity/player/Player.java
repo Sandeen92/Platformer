@@ -8,11 +8,14 @@ package entity.player;
 //Imports from within project
 import entity.enemy.Enemy;
 import entity.enemy.EnemyManager;
+import utils.LoadSave;
 //Imports from Javas library
 import javax.imageio.ImageIO;
+import javax.sound.sampled.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 //Imports of static variables and methods
@@ -84,6 +87,10 @@ public abstract class Player {
 
     protected AttackTimer attackTimer;
     protected Enemy attackingEnemy;
+
+    private File audioFile;
+    private AudioInputStream audioInputStream;
+    private Clip clip;
 
 
     /**
@@ -193,6 +200,11 @@ public abstract class Player {
         }
     }
 
+    public void playJumpSoundEffect(){
+        clip.setMicrosecondPosition(0);
+        clip.start();
+    }
+
     /**
      * This method checks if the player is pushing something, if not
      * it allows the player to jump
@@ -202,6 +214,7 @@ public abstract class Player {
             inAir = true;
             airSpeed = jumpSpeed;
             jumpOnce = false;
+            playJumpSoundEffect();
         }
     }
 
@@ -331,8 +344,7 @@ public abstract class Player {
      */
     protected void isEntityInAir(int[][] levelData){
         if(IsEntityOnFloor(hitbox, levelData) == false){
-            jump();
-            setAirSpeed(0.1f);
+            setAirSpeed(-0.1f);
             resetBooleanJumpOnce();
             inAir = true;
         }
@@ -535,6 +547,21 @@ public abstract class Player {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+        }
+    }
+
+    public void loadJumpSoundEffect(){
+        audioFile = new File(LoadSave.JUMP_SOUND_EFFECT);
+        try {
+            if (audioFile != null) {
+                audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                clip = AudioSystem.getClip();
+                clip.open(audioInputStream);
+                FloatControl volumeController = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                volumeController.setValue(-4.0f);
+            }
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
         }
     }
 

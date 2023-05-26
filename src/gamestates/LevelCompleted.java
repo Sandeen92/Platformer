@@ -75,7 +75,7 @@ public class LevelCompleted extends State implements StateMethods{
                 audioInputStream = AudioSystem.getAudioInputStream(audioFile);
                 clip = AudioSystem.getClip();
                 clip.open(audioInputStream);
-                clip.loop(1);
+                clip.loop(0);
                 audioPlayedOnce = true;
             }
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
@@ -90,6 +90,7 @@ public class LevelCompleted extends State implements StateMethods{
     public void update() {
         replayButton.updateButtons();
         if (audioPlayedOnce == false){
+            game.getPlaying().silenceAudio();
             loadLevelCompletedAudio();
         }
     }
