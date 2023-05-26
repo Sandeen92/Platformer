@@ -43,7 +43,7 @@ public class AssistanceMethods {
      * @return
      */
 
-    //TODO TILL RS3-GRANSKARE: Denna metod har uppenbarligen skyhög komplexitet, men vi är mitt uppe i processen av att fixa det.
+
     public static boolean canMoveHere(float x, float y, float width, float heigth, int[][] levelData){
        calcXAndYVariables(x, y, width, heigth);
         if(checkUpperPoints(levelData) == true){

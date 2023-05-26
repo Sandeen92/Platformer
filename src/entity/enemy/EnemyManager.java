@@ -93,17 +93,7 @@ public class EnemyManager {
     public void checkIfEnemyIsDead(Enemy enemy){
         if(enemy.isEntityDead() == true && enemy instanceof EnemyRat rat){
             rat.setMoving(false);
-            //killRat(rat);
         }
-    }
-
-
-    /**
-     * This method is meant to kill rats only
-     * @param enemy to be killed
-     */
-    public void killRat(Enemy enemy){
-        rats.remove(enemy);
     }
 
 
