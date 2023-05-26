@@ -122,6 +122,7 @@ public class DeathScreen extends State implements StateMethods{
     public void update() {
         if (audioInputStream == null){
             playDeathScreenMusic();
+            game.getPlaying().silenceAudio();
         }
         updateAnimationTick();
         replayButton.updateButtons();

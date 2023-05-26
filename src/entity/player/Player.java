@@ -88,9 +88,9 @@ public abstract class Player {
     protected AttackTimer attackTimer;
     protected Enemy attackingEnemy;
 
-    private File audioFile;
-    private AudioInputStream audioInputStream;
-    private Clip clip;
+    private File[] audioFiles;
+    private AudioInputStream[] audioInputStreams;
+    private Clip[] clips;
 
 
     /**
@@ -128,6 +128,9 @@ public abstract class Player {
         this.currentHealth = maxHealth;
         this.attackDamage = attackDamage;
         this.enemyManager = enemyManager;
+        audioFiles = new File[3];
+        audioInputStreams = new AudioInputStream[3];
+        clips = new Clip[3];
     }
 
     /**
@@ -201,8 +204,18 @@ public abstract class Player {
     }
 
     public void playJumpSoundEffect(){
-        clip.setMicrosecondPosition(0);
-        clip.start();
+        clips[0].setMicrosecondPosition(0);
+        clips[0].start();
+    }
+
+    public void playGunshotSoundEffect(){
+        clips[1].setMicrosecondPosition(0);
+        clips[1].start();
+    }
+
+    public void playHitSoundEffect(){
+        clips[2].setMicrosecondPosition(0);
+        clips[2].start();
     }
 
     /**
@@ -551,13 +564,43 @@ public abstract class Player {
     }
 
     public void loadJumpSoundEffect(){
-        audioFile = new File(LoadSave.JUMP_SOUND_EFFECT);
+        audioFiles[0] = new File(LoadSave.JUMP_SOUND_EFFECT);
         try {
-            if (audioFile != null) {
-                audioInputStream = AudioSystem.getAudioInputStream(audioFile);
-                clip = AudioSystem.getClip();
-                clip.open(audioInputStream);
-                FloatControl volumeController = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            if (audioFiles[0] != null) {
+                audioInputStreams[0] = AudioSystem.getAudioInputStream(audioFiles[0]);
+                clips[0] = AudioSystem.getClip();
+                clips[0].open(audioInputStreams[0]);
+                FloatControl volumeController = (FloatControl) clips[0].getControl(FloatControl.Type.MASTER_GAIN);
+                volumeController.setValue(-4.0f);
+            }
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadGunshotSoundEffect(){
+        audioFiles[1] = new File(LoadSave.GUNSHOT_SOUND_EFFECT);
+        try {
+            if (audioFiles[1] != null) {
+                audioInputStreams[1] = AudioSystem.getAudioInputStream(audioFiles[1]);
+                clips[1] = AudioSystem.getClip();
+                clips[1].open(audioInputStreams[1]);
+                FloatControl volumeController = (FloatControl) clips[1].getControl(FloatControl.Type.MASTER_GAIN);
+                volumeController.setValue(-8.0f);
+            }
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadHitSoundEffect(){
+        audioFiles[2] = new File(LoadSave.HIT_SOUND_EFFECT);
+        try {
+            if (audioFiles[2] != null) {
+                audioInputStreams[2] = AudioSystem.getAudioInputStream(audioFiles[2]);
+                clips[2] = AudioSystem.getClip();
+                clips[2].open(audioInputStreams[2]);
+                FloatControl volumeController = (FloatControl) clips[2].getControl(FloatControl.Type.MASTER_GAIN);
                 volumeController.setValue(-4.0f);
             }
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
@@ -865,6 +908,7 @@ public abstract class Player {
         @Override
         public void run() {
             try {
+                playHitSoundEffect();
                 Thread.sleep(400);
                 isHit = false;
             } catch (InterruptedException e) {

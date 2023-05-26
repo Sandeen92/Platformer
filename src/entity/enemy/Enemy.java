@@ -158,7 +158,7 @@ public abstract class Enemy{
      * @param player
      */
     private void changePlayerToHit(Enemy enemy, Player player){
-        if (entityState != DEAD) {
+        if (entityState != DEAD && player.isHit() == false) {
             player.playerHit(enemy);
             player.setEntityState(HIT);
         }

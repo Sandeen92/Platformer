@@ -39,6 +39,8 @@ public class LoadSave {
     public static final String LEVELCOMPLETED_AUDIO = System.getProperty("user.dir") + "\\src\\resources\\LevelCompletedAudio.wav";
     public static final String LEVELONE_BACKGROUND_AUDIO = System.getProperty("user.dir") + "\\src\\resources\\Level1BackgroundAudio.wav";
     public static final String JUMP_SOUND_EFFECT = System.getProperty("user.dir") + "\\src\\resources\\JumpSoundEffect.wav";
+    public static final String GUNSHOT_SOUND_EFFECT = System.getProperty("user.dir") + "\\src\\resources\\GunshotSoundEffect.wav";
+    public static final String HIT_SOUND_EFFECT = System.getProperty("user.dir") + "\\src\\resources\\HitSoundEffect.wav";
 
     /**
      * Loads and retrieves a sprite atlas image from the specified file.

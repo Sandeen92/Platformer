@@ -26,6 +26,7 @@ public class Start_Player extends Player {
         initialiseAttackBox(x,y,20 * SCALE, 27 * SCALE);
         initialiseBoxAttackBox(x, y, 900 * SCALE, 300 * SCALE);
         loadJumpSoundEffect();
+        loadHitSoundEffect();
     }
 
     /**
