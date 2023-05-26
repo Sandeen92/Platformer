@@ -28,7 +28,7 @@ public class ItemManager {
         this.playing = playing;
         classChangers = new ArrayList<>();
         classChangers.add(new ClassChanger(playing,GUN_MAN_CHANGER));
-     //   levelFinish = new LevelFinish(playing, LEVEL_FINISH_LINE);
+        levelFinish = new LevelFinish(playing, LEVEL_FINISH_LINE);
     }
 
     /**
