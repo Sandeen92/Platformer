@@ -487,9 +487,6 @@ public abstract class Player {
                 (int) (hitbox.y - yDrawOffset),
                 width * flipW,
                 height, null);
-        //drawHitbox(g, levelOffset); //For debugging purposes
-        //drawAttackBox(g, levelOffset); //For debugging purposes
-        //drawBoxAttackBox(g, levelOffset); //For debugging purposes
     }
 
     //For Debugging boxAttackBox

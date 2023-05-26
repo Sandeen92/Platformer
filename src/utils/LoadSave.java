@@ -24,18 +24,13 @@ public class LoadSave {
     public static final String LEVEL_ATLAS = "LEVEL_ONE_TILESET_SPRITES.png";
     public static final String RAT_ENEMY = "ENEMY_RAT_BROWN.png";
     public static final String STARTMENU_BACKGROUND = "STARTMENU_BACKGROUND.png";
-    public static final String MENU_BUTTONS = "button_atlas.png";
     public static final String DEATHSCREEN = "src/resources/DEATHSCREEN.gif";
     public static final String DEATHSCREEN_YOUDIED = "youded.png";
-
-    public static final String POTION_ATLAS = "TEMP_POTION_SPRITES.png";
-    public static final String CONTAINER_ATLAS = "CONTAINER_SPRITES.png";
     public static final String STARTMENU_BUTTONS = "STARTMENU_BUTTONS.png";
     public static final String DEATHSCREEN_REPLAY_BUTTON = "DEATHSCREEN_BUTTON.png";
     public static final String PAUSE_BACKGROUND = "MENU_PAUSED.png";
     public static final String OPTIONS_BACKGROUND = "MENU_OPTIONS_BG.png";
     public static final String OPTIONS_BUTTONS = "MENU_OPTIONS_BUTTONS.png";
-    public static final String SOUND_BUTTONS = "soundbuttons.png";
     public static final String STARTMENU_MUSIC = System.getProperty("user.dir") + "\\src\\resources\\ohboy.wav";
     public static final String DEATHSCREEN_MUSIC = System.getProperty("user.dir") + "\\src\\resources\\coffindance.wav";
     public static final String LEVELCOMPLETED_TEXT = "LEVEL_COMPLETED.png";

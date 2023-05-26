@@ -7,12 +7,9 @@
 package entity.enemy;
 
 import entity.player.Player;
-import entity.player.Start_Player;
 import gamestates.Gamestate;
 import utils.Constants;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 
 import static utils.AssistanceMethods.*;
@@ -66,6 +63,16 @@ public abstract class Enemy{
         initialiseVariables(x,y,width,height,enemyType,maxHealth,attackDamage);
     }
 
+    /**
+     * Initialising the enemy with position, size, type of enemy, max health and attack damage.
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @param enemyType
+     * @param maxHealth
+     * @param attackDamage
+     */
     private void initialiseVariables(float x, float y, int width, int height, int enemyType, int maxHealth, int attackDamage){
         this.x = x;
         this.y = y;
@@ -190,6 +197,11 @@ public abstract class Enemy{
         setEntityAnimation();
     }
 
+    /**
+     * This method updates the enemies attack box depending on which direction the enemy is facing.
+     * @param xOffset
+     * @param facingDirection
+     */
     protected void updateAttackBox(int xOffset, int facingDirection){
         if(facingDirection == 0){
             attackBox.x = hitbox.x - xOffset;
@@ -200,6 +212,9 @@ public abstract class Enemy{
         }
     }
 
+    /**
+     * This method sets the enemies animation depending on which state the enemy is in.
+     */
     protected void setEntityAnimation() {
         int startAnimation = entityState;
 
@@ -218,6 +233,9 @@ public abstract class Enemy{
         }
     }
 
+    /**
+     * Resets the animations tick back to 0
+     */
     protected void resetAnimationTick(){
         animationTick = 0;
         animationIndex = 0;
@@ -235,6 +253,10 @@ public abstract class Enemy{
     }
 
 
+    /**
+     * Checks that the enemy does not collide with walls or objects while in air.
+     * @param levelData
+     */
     private void checkIfEntityCanMoveInAir(int[][] levelData) {
         if (canMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, levelData) == true) {
             hitbox.y += airSpeed;
@@ -245,6 +267,9 @@ public abstract class Enemy{
         }
     }
 
+    /**
+     * Changes the speed while and enemy is in air.
+     */
     private void changeAirSpeed(){
         if(airSpeed < MAX_AIR_SPEED){
             airSpeed += gravity;
@@ -264,6 +289,11 @@ public abstract class Enemy{
         }
     }
 
+    /**
+     * Updates the enemy's position on the map.
+     * @param horizontalSpeed
+     * @param levelData
+     */
     protected void updateEnemyXPosition(float horizontalSpeed, int [][] levelData) {
         if(canMoveHere(hitbox.x + horizontalSpeed, hitbox.y, hitbox.width, hitbox.height, levelData) == true){
             hitbox.x += horizontalSpeed;
@@ -367,11 +397,11 @@ public abstract class Enemy{
         currentHealth -= damage;
     }
 
+
     /**
      * This method checks if enemys current health is or less than 0. Returns value accordingly.
      * @return true if health is 0 or below, false if not.
      */
-
     public boolean isEntityDead(){
         if(currentHealth <= 0){
             return true;

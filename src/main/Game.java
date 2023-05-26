@@ -13,7 +13,6 @@ import gamestates.Gamestate;
 import gamestates.Playing;
 //Imports from Javas library
 import java.awt.*;
-import java.awt.event.KeyEvent;
 //Imports of static variables and methods
 import static utils.Constants.GameConstants.*;
 
@@ -170,11 +169,6 @@ public class Game implements Runnable{
 
             if(System.currentTimeMillis() - lastCheck >= 1000){
                 lastCheck = System.currentTimeMillis();
-                //GamePanel.LBL_FPS_COUNTER.setText("FPS: " + frames + " UPS: " + updates);
-                if (Gamestate.state != Gamestate.STARTMENU) {
-                    //GamePanel.LBL_PLAYER_HP.setText("Player HP: " + playing.getPlayer().getCurrentHealth() + " |");
-                   // GamePanel.LBL_INFO.setText("Press R to reset");
-                }
                 frames = 0;
                 updates = 0;
             }
