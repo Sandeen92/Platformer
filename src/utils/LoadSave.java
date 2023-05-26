@@ -36,6 +36,7 @@ public class LoadSave {
     public static final String LEVELCOMPLETED_TEXT = "LEVEL_COMPLETED.png";
     public static final String HEALTHBAR_ATLAS = "healthBar.png";
     public static final String LEVEL_FINISH_LINE = "/LEVEL_FINISH_LINE.png";
+    public static final String LEVELCOMPLETED_AUDIO = System.getProperty("user.dir") + "\\src\\resources\\LevelCompletedAudio.wav";
 
     /**
      * Loads and retrieves a sprite atlas image from the specified file.

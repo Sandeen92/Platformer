@@ -5,10 +5,13 @@ import main.Game;
 import userinterface.MenuButton;
 import utils.LoadSave;
 //Imports from Javas library
+import javax.sound.sampled.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 //Imports of static variables and methods
 import static main.Game.setPreviousGamestate;
 import static utils.Constants.GameConstants.GAME_WIDTH;
@@ -29,6 +32,10 @@ public class LevelCompleted extends State implements StateMethods{
     private int yPosLevelCompletedText;
     private int levelCompletedTextWidth;
     private int levelCompletedTextHeight;
+    private File audioFile;
+    private AudioInputStream audioInputStream;
+    private Clip clip;
+    private boolean audioPlayedOnce;
 
     /**
      * Constructor for LevelCompleted
@@ -60,12 +67,31 @@ public class LevelCompleted extends State implements StateMethods{
         levelCompletedTextWidth = (int) (levelCompletedText.getWidth() * SCALE);
     }
 
+
+    public void loadLevelCompletedAudio(){
+        audioFile = new File(LoadSave.LEVELCOMPLETED_AUDIO);
+        try {
+            if (audioFile != null) {
+                audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+                clip = AudioSystem.getClip();
+                clip.open(audioInputStream);
+                clip.loop(1);
+                audioPlayedOnce = true;
+            }
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * This method updates the Level Completed screen
      */
     @Override
     public void update() {
         replayButton.updateButtons();
+        if (audioPlayedOnce == false){
+            loadLevelCompletedAudio();
+        }
     }
 
     /**
@@ -106,6 +132,7 @@ public class LevelCompleted extends State implements StateMethods{
                 game.restartGame();
                 setPreviousGamestate();
                 replayButton.applyGamestate();
+                audioPlayedOnce = false;
             }
         }
         resetButton();
