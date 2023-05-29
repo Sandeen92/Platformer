@@ -33,6 +33,13 @@ public class LevelCompleted extends State implements StateMethods{
     private int yPosLevelCompletedText;
     private int levelCompletedTextWidth;
     private int levelCompletedTextHeight;
+    private int xPosTrophyGif;
+    private int yPosTrophyGif;
+    private int trophyWidth;
+    private int trophyHeight;
+    private int animationTick = 0;
+    private int animationIndex = 0;
+    private BufferedImage[] trophyImages;
     private File audioFile;
     private AudioInputStream audioInputStream;
     private Clip clip;
@@ -46,6 +53,7 @@ public class LevelCompleted extends State implements StateMethods{
         super(game);
         loadLevelCompletedText();
         loadReplayButton();
+        loadTrophyGif();
     }
 
     /**
@@ -66,6 +74,23 @@ public class LevelCompleted extends State implements StateMethods{
         yPosLevelCompletedText = 80;
         levelCompletedTextHeight = (int) (levelCompletedText.getHeight() * SCALE);
         levelCompletedTextWidth = (int) (levelCompletedText.getWidth() * SCALE);
+    }
+
+    private void loadTrophyGif(){
+        xPosTrophyGif = 640;
+        yPosTrophyGif = 230;
+        trophyWidth = 380;
+        trophyHeight = 380;
+        trophyImages = new BufferedImage[10];
+        BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.LEVELCOMPLETED_TROPHY);
+
+        for (int i = 0; i < 10; i++){
+            int y = i * 200;
+            if (y + 200 > img.getHeight()){
+                break;
+            }
+            trophyImages[i] = img.getSubimage(0, y, 200, 200);
+        }
     }
 
 
@@ -91,6 +116,7 @@ public class LevelCompleted extends State implements StateMethods{
     public void update() {
 
         replayButton.updateButtons();
+        updateAnimationTick();
         if (audioPlayedOnce == false){
             game.getPlaying().silenceAudio();
             loadLevelCompletedAudio();
@@ -106,7 +132,20 @@ public class LevelCompleted extends State implements StateMethods{
     public void draw(Graphics g) {
         game.getPlaying().draw(g);
         g.drawImage(levelCompletedText, xPosLevelCompletedText, yPosLevelCompletedText, levelCompletedTextWidth, levelCompletedTextHeight, null);
+        g.drawImage(trophyImages[animationIndex], xPosTrophyGif, yPosTrophyGif, trophyWidth, trophyHeight, null);
         replayButton.drawButtons(g);
+    }
+
+
+    private void updateAnimationTick(){
+        animationTick++;
+        if (animationTick>=30){
+            animationIndex++;
+            animationTick = 0;
+        }
+        if (animationIndex>=10){
+            animationIndex = 0;
+        }
     }
 
 

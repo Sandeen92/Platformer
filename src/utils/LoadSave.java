@@ -33,11 +33,13 @@ public class LoadSave {
     public static final String LEVELCOMPLETED_TEXT = "LEVEL_COMPLETED.png";
     public static final String HEALTHBAR_ATLAS = "healthBar.png";
     public static final String LEVEL_FINISH_LINE = "/LEVEL_FINISH_LINE.png";
+    public static final String LEVELCOMPLETED_TROPHY = "LevelCompletedTrophy.png";
     public static final String LEVELCOMPLETED_AUDIO = System.getProperty("user.dir") + "\\src\\resources\\LevelCompletedAudio.wav";
     public static final String LEVELONE_BACKGROUND_AUDIO = System.getProperty("user.dir") + "\\src\\resources\\Level1BackgroundAudio.wav";
     public static final String JUMP_SOUND_EFFECT = System.getProperty("user.dir") + "\\src\\resources\\JumpSoundEffect.wav";
     public static final String GUNSHOT_SOUND_EFFECT = System.getProperty("user.dir") + "\\src\\resources\\GunshotSoundEffect.wav";
     public static final String HIT_SOUND_EFFECT = System.getProperty("user.dir") + "\\src\\resources\\HitSoundEffect.wav";
+
 
     /**
      * Loads and retrieves a sprite atlas image from the specified file.
@@ -122,12 +124,13 @@ public class LoadSave {
             frames = new BufferedImage[numFrames];
             for (int i = 0; i < numFrames; i++) {
                 BufferedImage frame = reader.read(i);
-                frames[i] = resizeGif(frame);
+                frames[i] = resizeGif(frame, 300, 300);
             }
             reader.dispose();
         }
         return frames;
     }
+
 
     /**
      * Resizes a given image to the specified width and height.
@@ -135,13 +138,12 @@ public class LoadSave {
      * @param originalImage the original image to resize
      * @return the resized image
      */
-    private static BufferedImage resizeGif(BufferedImage originalImage){
-        BufferedImage resizedImage = new BufferedImage(300,300, BufferedImage.TYPE_INT_ARGB);
+    private static BufferedImage resizeGif(BufferedImage originalImage, int width, int height){
+        BufferedImage resizedImage = new BufferedImage(width,height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = resizedImage.createGraphics();
-        g2d.drawImage(originalImage,0,0,300,300,null);
+        g2d.drawImage(originalImage,0,0,width,height,null);
         g2d.dispose();
         return resizedImage;
     }
-
 }
 
