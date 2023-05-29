@@ -66,6 +66,23 @@ public class LoadSave {
         return image;
     }
 
+    public static Image GetImage(String fileName) {
+        Image image = null;
+        InputStream is = LoadSave.class.getResourceAsStream("/resources/" + fileName);
+        try {
+            image = ImageIO.read(is);
+        } catch (IOException e){
+            e.printStackTrace();
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+        return image;
+    }
+
     /**
      * Loads and retrieves all level images from the specified file paths.
      *
