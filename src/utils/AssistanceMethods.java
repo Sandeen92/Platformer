@@ -242,7 +242,7 @@ public class AssistanceMethods {
      * @param hitbox The hitbox of the entity.
      * @return The calculated Y position under or above the tile.
      */
-    private static float calculatePosUnderOrAboveTile(int currentTile, Rectangle2D.Float hitbox){
+    public static float calculatePosUnderOrAboveTile(int currentTile, Rectangle2D.Float hitbox){
         int tileYPosition = (currentTile * TILES_SIZE);
         int yOffset = (int)(TILES_SIZE - hitbox.height/2);
         return tileYPosition + yOffset + 1;

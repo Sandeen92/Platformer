@@ -9,9 +9,7 @@ package entity.interactable;
 import entity.enemy.EnemyManager;
 import entity.enemy.EnemyRat;
 import entity.player.Player;
-import entity.player.Start_Player;
 import gamestates.Playing;
-import main.Game;
 //Imports from Javas library
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -23,6 +21,7 @@ import java.util.ArrayList;
 import static utils.Constants.EnemyConstants.DEAD;
 import static utils.Constants.GameConstants.*;
 import static utils.Constants.InteractableConstants.BOX_MOVESPEED;
+import static utils.Constants.StartPlayerConstants.PLAYER_SPEED;
 
 
 public class Box extends Interactable {
@@ -66,17 +65,19 @@ public class Box extends Interactable {
     /**
      * This method checks if the player is colliding the box and makes checks where
      * @param box
-     * @param player
      */
-    public void checkIfPlayerCollidesWithBox(Box box, Player player){
+    public void checkIfPlayerCollidesWithBox(Box box){
         if(box.hitbox.intersects(player.getHitbox()) == true){
             player.setTouchingInteractable(true);
             checkIfPlayerIsAboveBox();
-        } else if (player.getRightPlayerSpeed() != 1.2f
-                || player.getLeftPlayerSpeed() != -1.2f
-                || player.getStandingOnInteractable() == true){
-            resetChangedPlayerVariables();
         }
+    }
+
+    public boolean touchingBox(){
+        if(hitbox.intersects(player.getHitbox()) == true){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -89,13 +90,17 @@ public class Box extends Interactable {
                 if (rat.getEntityState() != DEAD){
                       rat.changeEnemyWalkDirection();
                 }
-                if (timesEnemyChangedDirection == 0 && coolingDown == false) {
-                    coolingDown = true;
-                    new BounceResetCooldownTimer().start();
-                }
+                checkIfEnemyShouldHaveCooldown();
                 timesEnemyChangedDirection++;
                 killEnemyIfStuck(rat);
             }
+        }
+    }
+
+    public void checkIfEnemyShouldHaveCooldown(){
+        if (timesEnemyChangedDirection == 0 && coolingDown == false) {
+            coolingDown = true;
+            new BounceResetCooldownTimer().start();
         }
     }
 
@@ -125,9 +130,9 @@ public class Box extends Interactable {
             isMoving = true;
             firstUpdate = false;
         }
-        if(inAir == false){
-            isInteractableInAir(levelData);
-        }
+
+        isInteractableInAir(levelData);
+
         if (horizontalSpeed != 0.0f) {
             isMoving = true;
         }
@@ -143,7 +148,7 @@ public class Box extends Interactable {
      */
     public void update(int[][] levelData, Box box, Playing playing ){
         updateEntityPosition(levelData);
-        box.checkIfPlayerCollidesWithBox(box, playing.getPlayer());
+        box.checkIfPlayerCollidesWithBox(box);
         box.checkIfEnemyIsCollidingWithBox(playing.getEnemyManager().getRats());
     }
 
@@ -166,30 +171,24 @@ public class Box extends Interactable {
 
 
     /**
-     * This method resets the variables changed in player from this class
-     */
-    private void resetChangedPlayerVariables(){
-        player.setHorizontalSpeed(0);
-        player.setStandingOnInteractable(false);
-        player.setPushing(false);
-    }
-
-    /**
      * this method checks if the player is above the box and calls the appropiate methods
      * for standing on the box or pushing
      */
     private void checkIfPlayerIsAboveBox(){
-        if(hitbox.y > (player.getHitbox().y+57.8f)){
+        if(hitbox.y > (player.getHitbox().y + 57.8 - player.getAirSpeed())){
             player.setPlayerStandingOnInteractable();
             player.setPushing(false);
             player.setInAir(false);
             player.setAirSpeed(0);
-        }
-        else {
-            player.setPushing(true);
-            checkPushDirection();
+        } else {
+            if(player.getStandingOnInteractable() == false){
+                player.setPushing(true);
+                checkPushDirection();
+            }
         }
     }
+
+
 
 
     /**
@@ -210,7 +209,7 @@ public class Box extends Interactable {
      * @param xOffset
      */
     public void draw(Graphics g, int xOffset){
-        g.drawImage(interactableImage, (int) hitbox.x- xOffset, (int) hitbox.y+1, (int) width, (int) height, null);
+        g.drawImage(interactableImage, (int) hitbox.x- xOffset, (int) hitbox.y + 2, (int) width, (int) height, null);
     }
 
     /**

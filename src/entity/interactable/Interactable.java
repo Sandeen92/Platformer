@@ -6,14 +6,13 @@ package entity.interactable;
  */
 //Imports from within project
 import entity.player.Player;
-import entity.player.Start_Player;
-import gamestates.Playing;
 //Imports from Javas library
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 //Imports of static variables and methods
 import static utils.AssistanceMethods.*;
 import static utils.Constants.EntityConstants.MAX_AIR_SPEED;
+import static utils.Constants.GameConstants.TILES_SIZE;
 
 public abstract class Interactable {
 
@@ -103,18 +102,6 @@ public abstract class Interactable {
         }
     }
 
-  /* TODO Denna används inte, dubbelkolla om den behövs!
-  private void updateInteractablePosition(int[][] levelData) {
-        if(firstUpdate == true){
-            isInteractableInAir(levelData);
-            firstUpdate = false;
-        }
-        if(inAir == false){
-            isInteractableInAir(levelData);
-        }
-        moveInteractable(levelData);
-        isMoving = true;
-    } */
 
     /**
      * Checks if the interactable object can move in the air and performs the necessary actions.
@@ -127,8 +114,14 @@ public abstract class Interactable {
             changeAirSpeed();
             updateInteractableXPosition(horizontalSpeed, levelData);
         } else {
+            airSpeed = 0;
             updateInteractableXPosition(horizontalSpeed, levelData);
         }
+
+        if(airSpeed == 0){
+            hitbox.y = calculatePosUnderOrAboveTile((int) hitbox.y/TILES_SIZE, hitbox);
+        }
+
     }
 
     /**
@@ -148,6 +141,8 @@ public abstract class Interactable {
     protected void isInteractableInAir(int[][] levelData){
         if(IsEntityOnFloor(hitbox, levelData) == false){
             inAir = true;
+        } else {
+            inAir = false;
         }
     }
 
