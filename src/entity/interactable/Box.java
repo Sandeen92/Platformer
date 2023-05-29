@@ -65,17 +65,19 @@ public class Box extends Interactable {
     /**
      * This method checks if the player is colliding the box and makes checks where
      * @param box
-     * @param player
      */
-    public void checkIfPlayerCollidesWithBox(Box box, Player player){
+    public void checkIfPlayerCollidesWithBox(Box box){
         if(box.hitbox.intersects(player.getHitbox()) == true){
             player.setTouchingInteractable(true);
             checkIfPlayerIsAboveBox();
-        } else if (player.getRightPlayerSpeed() != PLAYER_SPEED
-                || player.getLeftPlayerSpeed() != -PLAYER_SPEED
-                || player.getStandingOnInteractable() == true){
-            resetChangedPlayerVariables();
         }
+    }
+
+    public boolean touchingBox(){
+        if(hitbox.intersects(player.getHitbox()) == true){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -146,7 +148,7 @@ public class Box extends Interactable {
      */
     public void update(int[][] levelData, Box box, Playing playing ){
         updateEntityPosition(levelData);
-        box.checkIfPlayerCollidesWithBox(box, playing.getPlayer());
+        box.checkIfPlayerCollidesWithBox(box);
         box.checkIfEnemyIsCollidingWithBox(playing.getEnemyManager().getRats());
     }
 
@@ -167,15 +169,6 @@ public class Box extends Interactable {
         player.setStandingOnInteractable(false);
     }
 
-
-    /**
-     * This method resets the variables changed in player from this class
-     */
-    private void resetChangedPlayerVariables(){
-        player.setHorizontalSpeed(0);
-        player.setStandingOnInteractable(false);
-        player.setPushing(false);
-    }
 
     /**
      * this method checks if the player is above the box and calls the appropiate methods

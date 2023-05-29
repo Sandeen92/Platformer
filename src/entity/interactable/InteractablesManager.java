@@ -52,9 +52,25 @@ public class InteractablesManager {
      * This method updates all the interactables in the arraylists
      */
     public void update(){
+        int counter = 0;
         for(Box box : interactableBoxes){
             box.update(playing.getLevelManager().getCurrentLevel().getLevelData(), box, playing);
+            if(box.touchingBox()== false){
+                counter++;
+            }
+            if(counter == interactableBoxes.size()){
+                resetChangedPlayerVariables();
+            }
         }
+    }
+
+    /**
+     * This method resets the variables changed in player from this class
+     */
+    private void resetChangedPlayerVariables(){
+        playing.getPlayer().setHorizontalSpeed(0);
+        playing.getPlayer().setStandingOnInteractable(false);
+        playing.getPlayer().setPushing(false);
     }
 
 
