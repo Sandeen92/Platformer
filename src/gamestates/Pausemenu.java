@@ -29,6 +29,7 @@ public class Pausemenu extends State implements StateMethods {
     private int pauseMenuWidth;
     private int pauseMenuHeight;
     private MenuButton[] pauseMenuButtons = new MenuButton[3];
+    private MenuButton replayButton;
     private Playing playing;
 
     /**
@@ -50,8 +51,9 @@ public class Pausemenu extends State implements StateMethods {
      */
     private void loadMenuButtons(){
         pauseMenuButtons[0] = new MenuButton(GAME_WIDTH / 2, (int) (150*SCALE), 0, Gamestate.PLAYING);
-        pauseMenuButtons[1] = new MenuButton(GAME_WIDTH / 2, (int) (220*SCALE), 1, Gamestate.OPTIONS);
-        pauseMenuButtons[2] = new MenuButton(GAME_WIDTH / 2, (int) (290*SCALE), 2, Gamestate.QUIT);
+        pauseMenuButtons[1] = new MenuButton(GAME_WIDTH / 2, (int) (290*SCALE), 1, Gamestate.OPTIONS);
+        pauseMenuButtons[2] = new MenuButton(GAME_WIDTH / 2, (int) (360*SCALE), 2, Gamestate.QUIT);
+        replayButton = new MenuButton(GAME_WIDTH / 2, (int) (220*SCALE), Gamestate.PLAYING);
     }
 
     /**
@@ -74,6 +76,7 @@ public class Pausemenu extends State implements StateMethods {
         for (MenuButton menuButton : pauseMenuButtons){
             menuButton.updateButtons();
         }
+        replayButton.updateButtons();
     }
 
     /**
@@ -85,7 +88,7 @@ public class Pausemenu extends State implements StateMethods {
     public void draw(Graphics g) {
         playing.draw(g);
         g.drawImage(pauseMenuImage, pauseMenuXPosition, pauseMenuYPosition, pauseMenuWidth, pauseMenuHeight, null);
-
+        replayButton.drawButtons(g);
         for (MenuButton menuButton : pauseMenuButtons){
             menuButton.drawButtons(g);
         }
@@ -108,6 +111,9 @@ public class Pausemenu extends State implements StateMethods {
                 menuButton.setMousePressed(true);
                 break;
             }
+        }
+        if (isUserInsideButtonBounds(e,replayButton)){
+            replayButton.setMousePressed(true);
         }
     }
 
@@ -132,6 +138,14 @@ public class Pausemenu extends State implements StateMethods {
                 }
             }
         }
+        if (isUserInsideButtonBounds(e,replayButton)){
+            if (replayButton.isMousePressed()){
+                game.restartGame();
+                playing.setPaused(false);
+                setPreviousGamestate();
+                replayButton.applyGamestate();
+            }
+        }
         resetButtons();
     }
 
@@ -145,8 +159,8 @@ public class Pausemenu extends State implements StateMethods {
             playing.resumeAudio();
         }
         else if (Gamestate.state == Gamestate.STARTMENU){
-            game.getPlaying().setPaused(false);
-            game.getPlaying().restartGame();
+            playing.setPaused(false);
+            playing.restartGame();
         }
     }
 
@@ -162,12 +176,16 @@ public class Pausemenu extends State implements StateMethods {
         for (MenuButton menuButton : pauseMenuButtons){
             menuButton.setMouseOver(false);
         }
+        replayButton.setMouseOver(false);
 
         for (MenuButton menuButton : pauseMenuButtons){
             if (isUserInsideButtonBounds(e, menuButton)){
                 menuButton.setMouseOver(true);
                 break;
             }
+        }
+        if (isUserInsideButtonBounds(e,replayButton)){
+            replayButton.setMouseOver(true);
         }
     }
 
@@ -212,5 +230,6 @@ public class Pausemenu extends State implements StateMethods {
         for (MenuButton menuButton : pauseMenuButtons){
             menuButton.resetBtnBooleans();
         }
+        replayButton.resetBtnBooleans();
     }
 }
