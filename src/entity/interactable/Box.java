@@ -175,17 +175,20 @@ public class Box extends Interactable {
      * for standing on the box or pushing
      */
     private void checkIfPlayerIsAboveBox(){
-        if(hitbox.y > (player.getHitbox().y+57.8f)){
+        if(hitbox.y > (player.getHitbox().y + 57.8 - player.getAirSpeed())){
             player.setPlayerStandingOnInteractable();
             player.setPushing(false);
             player.setInAir(false);
             player.setAirSpeed(0);
-        }
-        else {
-            player.setPushing(true);
-            checkPushDirection();
+        } else {
+            if(player.getStandingOnInteractable() == false){
+                player.setPushing(true);
+                checkPushDirection();
+            }
         }
     }
+
+
 
 
     /**
@@ -207,7 +210,6 @@ public class Box extends Interactable {
      */
     public void draw(Graphics g, int xOffset){
         g.drawImage(interactableImage, (int) hitbox.x- xOffset, (int) hitbox.y + 2, (int) width, (int) height, null);
-        drawHitbox(g, xOffset);
     }
 
     /**
