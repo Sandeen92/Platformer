@@ -5,6 +5,7 @@ import input.MouseInputs;
 //Imports from Javas library
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 //Imports of static variables and methods
 import static utils.Constants.GameConstants.*;
 
@@ -19,6 +20,7 @@ public class GamePanel extends JPanel {
     public static JLabel LBL_FPS_COUNTER = null;
     public static JLabel LBL_PLAYER_HP = null;
     public static JLabel LBL_INFO = null;
+    public static JLabel LBL_TIMER_TEXT = null;
 
     public GamePanel(Game game){
         addKeyListener(new KeyBoardInputs(this));
@@ -61,6 +63,13 @@ public class GamePanel extends JPanel {
         LBL_FPS_COUNTER.setFont(new Font("DialogInput", Font.BOLD, 25));
         LBL_FPS_COUNTER.setForeground(Color.yellow);
         add(LBL_FPS_COUNTER);
+    }
+
+    private void setTimerText(String timeString) {
+        LBL_TIMER_TEXT = new JLabel(timeString);
+        LBL_TIMER_TEXT.setFont(new Font("DialogInput", Font.BOLD, 25));
+        LBL_TIMER_TEXT.setForeground(Color.yellow);
+        add(LBL_TIMER_TEXT);
     }
 
     /**
