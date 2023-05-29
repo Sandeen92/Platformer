@@ -92,6 +92,7 @@ public class LevelCompleted extends State implements StateMethods{
         if (audioPlayedOnce == false){
             game.getPlaying().silenceAudio();
             loadLevelCompletedAudio();
+            game.stopRoundTimer();
         }
     }
 

@@ -18,6 +18,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.Timer;
 //Imports of static variables and methods
 import static utils.Constants.GameConstants.*;
 import static utils.Constants.StartPlayerConstants.PLAYER_HEIGTH;
@@ -49,6 +50,7 @@ public class Playing extends State implements StateMethods {
     private AudioInputStream audioInputStream;
     private Clip clip;
     private long audioPausedPosition;
+
 
     /**
      * Constructor for the Playing class.
@@ -99,6 +101,7 @@ public class Playing extends State implements StateMethods {
         healthBar = new HealthBar();
         loadLevelDataToPlayer();
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
+        game.startRoundTimer();
     }
 
     /**
@@ -109,6 +112,7 @@ public class Playing extends State implements StateMethods {
         loadStartLevel();
         silenceAudio();
         loadLevelOneAudio();
+        game.startRoundTimer();
         try {
             Robot robot = new Robot();
             robot.keyPress(KeyEvent.VK_SPACE);
@@ -423,8 +427,6 @@ public class Playing extends State implements StateMethods {
         this.maxLevelXOffset = maxLevelXOffset;
     }
 
-
-
     @Override
     public void mouseClicked(MouseEvent e) {}
     @Override
@@ -434,4 +436,14 @@ public class Playing extends State implements StateMethods {
     @Override
     public void mouseMoved(MouseEvent e) {}
 
+
+    private class TimeCounter extends Thread {
+
+        private boolean isActive = true;
+
+        private long timerStart;
+        private long timerFinished;
+
+
+    }
 }

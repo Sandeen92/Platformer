@@ -38,6 +38,8 @@ public class Game implements Runnable{
     private Pausemenu pausemenu;
     private Options options;
     private LevelCompleted levelCompleted;
+    private long timerStart;
+    private long timerFinished;
 
 
     /**
@@ -217,6 +219,28 @@ public class Game implements Runnable{
             playing.getPlayer().allMovingBooleansFalse();
         }
     }
+
+    public void startRoundTimer() {
+        timerStart = System.currentTimeMillis();
+    }
+
+    public void stopRoundTimer() {
+        timerFinished = System.currentTimeMillis() - timerStart;
+        calculateRoundTime();
+    }
+
+    private void calculateRoundTime() {
+
+        long millis = timerFinished % 1000;
+        long x = timerFinished / 1000;
+        long seconds = x % 60;
+        x /= 60;
+        long minutes = x % 60;
+
+        System.out.println(String.format("%02d:%02d:%03d", minutes, seconds, millis));
+    }
+
+
 
     public static void setPreviousGamestate(){
         Gamestate.previousState = Gamestate.state;
