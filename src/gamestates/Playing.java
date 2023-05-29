@@ -101,13 +101,13 @@ public class Playing extends State implements StateMethods {
         healthBar = new HealthBar();
         loadLevelDataToPlayer();
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
-        game.startRoundTimer();
     }
 
     /**
      * This method restarts the game.
      */
     public void restartGame(){
+        game.stopRoundTimer();
         initialiseClasses();
         loadStartLevel();
         silenceAudio();
@@ -436,14 +436,4 @@ public class Playing extends State implements StateMethods {
     @Override
     public void mouseMoved(MouseEvent e) {}
 
-
-    private class TimeCounter extends Thread {
-
-        private boolean isActive = true;
-
-        private long timerStart;
-        private long timerFinished;
-
-
-    }
 }

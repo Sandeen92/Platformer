@@ -14,6 +14,7 @@ import gamestates.Playing;
 //Imports from Javas library
 import java.awt.*;
 //Imports of static variables and methods
+import static main.GamePanel.LBL_TIMER_TEXT;
 import static utils.Constants.GameConstants.*;
 
 public class Game implements Runnable{
@@ -40,6 +41,7 @@ public class Game implements Runnable{
     private LevelCompleted levelCompleted;
     private long timerStart;
     private long timerFinished;
+    private RoundTimer roundTimer;
 
 
     /**
@@ -77,6 +79,7 @@ public class Game implements Runnable{
      * This method creates the gameloop thread and starts the gameloop
      */
     private void startGameLoop(){
+
         gameThread = new Thread(this);
         gameThread.start();
     }
@@ -169,6 +172,7 @@ public class Game implements Runnable{
         while(true){
             checkDeltaValuesAndCalculate();
 
+
             if(System.currentTimeMillis() - lastCheck >= 1000){
                 lastCheck = System.currentTimeMillis();
                 frames = 0;
@@ -220,24 +224,36 @@ public class Game implements Runnable{
         }
     }
 
+    /**
+     * This method starts the round timer.
+     */
     public void startRoundTimer() {
         timerStart = System.currentTimeMillis();
+        roundTimer = new RoundTimer();
+        roundTimer.start();
     }
 
+    /**
+     * This method stops the round timer.
+     */
     public void stopRoundTimer() {
-        timerFinished = System.currentTimeMillis() - timerStart;
-        calculateRoundTime();
+        roundTimer.stopTimer();
+        calculateRoundTime(timerStart);
     }
 
-    private void calculateRoundTime() {
 
-        long millis = timerFinished % 1000;
-        long x = timerFinished / 1000;
+    /**
+     * This method formats the round time from millis into a readable String, it then updates the round time label.
+     * @param start
+     */
+    private void calculateRoundTime(long start) {
+        long now = System.currentTimeMillis() - start;
+        long millis = now % 1000;
+        long x = now / 1000;
         long seconds = x % 60;
         x /= 60;
         long minutes = x % 60;
-
-        System.out.println(String.format("%02d:%02d:%03d", minutes, seconds, millis));
+        LBL_TIMER_TEXT.setText(String.format("%02d:%02d:%03d", minutes, seconds, millis));
     }
 
 
@@ -256,5 +272,27 @@ public class Game implements Runnable{
     public DeathScreen getDeathScreen(){return deathScreen;}
     public LevelCompleted getLevelCompleted() {
         return levelCompleted;
+    }
+
+
+    /**
+     * Inner class with a thread that updates the round timer.
+     */
+    private class RoundTimer extends Thread {
+        private boolean isRunning = true;
+        public void stopTimer() {
+            isRunning = false;
+        }
+        public void run() {
+            long start = System.currentTimeMillis();
+            while (isRunning) {
+                calculateRoundTime(start);
+                try {
+                    sleep(10);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
     }
 }

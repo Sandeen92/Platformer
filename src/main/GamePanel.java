@@ -2,10 +2,12 @@ package main;
 //Imports from within project
 import input.KeyBoardInputs;
 import input.MouseInputs;
+import utils.LoadSave;
 //Imports from Javas library
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 //Imports of static variables and methods
 import static utils.Constants.GameConstants.*;
 
@@ -17,9 +19,6 @@ import static utils.Constants.GameConstants.*;
 public class GamePanel extends JPanel {
     private Game game;
     private MouseInputs mouseInputs = new MouseInputs(this);
-    public static JLabel LBL_FPS_COUNTER = null;
-    public static JLabel LBL_PLAYER_HP = null;
-    public static JLabel LBL_INFO = null;
     public static JLabel LBL_TIMER_TEXT = null;
 
     public GamePanel(Game game){
@@ -29,48 +28,11 @@ public class GamePanel extends JPanel {
         setFocusable(true);
         requestFocus();
         setPanelSize();
-        initialiseFpsCounter();
-        initialisePlayerHP();
-        initialiseInfo();
+        timerTextLabel();
         this.game = game;
     }
 
-    /**
-     * Initializes the information label.
-     */
-    private void initialiseInfo() {
-        LBL_INFO = new JLabel();
-        LBL_INFO.setFont(new Font("DialogInput", Font.BOLD, 25));
-        LBL_INFO.setForeground(Color.yellow);
-        add(LBL_INFO);
-    }
 
-    /**
-     * Initializes the player's HP label.
-     */
-    private void initialisePlayerHP() {
-        LBL_PLAYER_HP = new JLabel();
-        LBL_PLAYER_HP.setFont(new Font("DialogInput", Font.BOLD, 25));
-        LBL_PLAYER_HP.setForeground(Color.yellow);
-        add(LBL_PLAYER_HP);
-    }
-
-    /**
-     * Temporary FPS counter
-     */
-    private void initialiseFpsCounter() {
-        LBL_FPS_COUNTER = new JLabel();
-        LBL_FPS_COUNTER.setFont(new Font("DialogInput", Font.BOLD, 25));
-        LBL_FPS_COUNTER.setForeground(Color.yellow);
-        add(LBL_FPS_COUNTER);
-    }
-
-    private void setTimerText(String timeString) {
-        LBL_TIMER_TEXT = new JLabel(timeString);
-        LBL_TIMER_TEXT.setFont(new Font("DialogInput", Font.BOLD, 25));
-        LBL_TIMER_TEXT.setForeground(Color.yellow);
-        add(LBL_TIMER_TEXT);
-    }
 
     /**
      * Sets the size of the GamePanel
@@ -88,6 +50,31 @@ public class GamePanel extends JPanel {
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         game.draw(g);
+    }
+
+
+    /**
+     * Initializes the text label for the timer. It imports a font from the resources-folder.
+     */
+    private void timerTextLabel() {
+
+        Font customFont = null;
+        try {
+            customFont = Font.createFont(Font.TRUETYPE_FONT, LoadSave.class.getResourceAsStream("/Press_Start_2P.ttf"));
+            customFont = customFont.deriveFont(28f);
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(customFont);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch(FontFormatException e) {
+            e.printStackTrace();
+        }
+        LBL_TIMER_TEXT = new JLabel();
+        LBL_TIMER_TEXT.setFont(customFont);
+        LBL_TIMER_TEXT.setForeground(new Color(253, 179, 0));
+        LBL_TIMER_TEXT.setLocation(GAME_WIDTH/2, 400);
+        add(LBL_TIMER_TEXT);
+        validate();
     }
 
     public Game getGame(){

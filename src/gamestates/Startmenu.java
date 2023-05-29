@@ -182,6 +182,7 @@ public class Startmenu extends State implements StateMethods{
                     menuButton.applyGamestate();
                     if (Gamestate.state == Gamestate.PLAYING){
                         silenceAudio();
+                        game.startRoundTimer();
                         try {
                             Robot robot = new Robot();
                             robot.keyPress(KeyEvent.VK_SPACE);
