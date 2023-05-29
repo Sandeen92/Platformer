@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 //Imports of static variables and methods
 import static main.Game.setPreviousGamestate;
+import static main.GamePanel.LBL_TIMER_TEXT;
 import static utils.Constants.GameConstants.GAME_WIDTH;
 import static utils.Constants.GameConstants.SCALE;
 
@@ -52,7 +53,7 @@ public class LevelCompleted extends State implements StateMethods{
      */
     private void loadReplayButton() {
         replayBtnXPos = GAME_WIDTH / 2;
-        replayBtnYPos = 240;
+        replayBtnYPos = 640;
         replayButton = new MenuButton(replayBtnXPos,replayBtnYPos,Gamestate.PLAYING);
     }
 
@@ -88,10 +89,12 @@ public class LevelCompleted extends State implements StateMethods{
      */
     @Override
     public void update() {
+
         replayButton.updateButtons();
         if (audioPlayedOnce == false){
             game.getPlaying().silenceAudio();
             loadLevelCompletedAudio();
+            game.stopRoundTimer();
         }
     }
 
@@ -102,7 +105,6 @@ public class LevelCompleted extends State implements StateMethods{
     @Override
     public void draw(Graphics g) {
         game.getPlaying().draw(g);
-
         g.drawImage(levelCompletedText, xPosLevelCompletedText, yPosLevelCompletedText, levelCompletedTextWidth, levelCompletedTextHeight, null);
         replayButton.drawButtons(g);
     }
@@ -134,6 +136,7 @@ public class LevelCompleted extends State implements StateMethods{
                 setPreviousGamestate();
                 replayButton.applyGamestate();
                 audioPlayedOnce = false;
+                LBL_TIMER_TEXT.setText("");
             }
         }
         resetButton();
