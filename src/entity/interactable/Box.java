@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 //Imports of static variables and methods
 import static utils.Constants.EnemyConstants.DEAD;
+import static utils.Constants.EntityConstants.BOX_OFFSET_FOR_PLAYER;
 import static utils.Constants.GameConstants.*;
 import static utils.Constants.InteractableConstants.BOX_MOVESPEED;
 import static utils.Constants.StartPlayerConstants.PLAYER_SPEED;
@@ -175,7 +176,7 @@ public class Box extends Interactable {
      * for standing on the box or pushing
      */
     private void checkIfPlayerIsAboveBox(){
-        if(hitbox.y > (player.getHitbox().y + 57.8 - player.getAirSpeed())){
+        if(hitbox.y > (player.getHitbox().y + BOX_OFFSET_FOR_PLAYER - player.getAirSpeed())){
             player.setPlayerStandingOnInteractable();
             player.setPushing(false);
             player.setInAir(false);

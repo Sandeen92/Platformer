@@ -6,7 +6,6 @@ import entity.projectiles.ProjectileManager;
 //Imports of static variables and methods
 import static utils.Constants.GameConstants.SCALE;
 import static utils.Constants.GunManConstants.GUN_MAN_SPRITES;
-import static utils.Constants.StartPlayerConstants.START_PLAYER_SPRITES;
 
 public class Gun_Player extends Player {
 
@@ -14,6 +13,10 @@ public class Gun_Player extends Player {
 
     public Gun_Player(float x, float y, int width, int height, int maxHealth, int attackDamage, EnemyManager enemyManager, ProjectileManager projectileManager) {
         super(x, y, width, height, maxHealth, attackDamage, enemyManager);
+        initialiseGunPlayer(projectileManager);
+    }
+
+    private void initialiseGunPlayer(ProjectileManager projectileManager){
         loadPlayerAnimations(GUN_MAN_SPRITES);
         initialiseHitbox(x,y, 22 * SCALE, 30 * SCALE);
         initialiseBoxAttackBox(x, y, 90 * SCALE, 30 * SCALE);
@@ -23,15 +26,6 @@ public class Gun_Player extends Player {
         loadHitSoundEffect();
     }
 
-    /**
-     * This method is responsible for updating the player
-     */
-    public void updatePlayer() {
-        updateEntityPosition(levelData);
-        updateAnimationTick();
-        updateBoxAttackBox(30, facingDirection);
-        setEntityAnimation();
-    }
 
     /**
      * This method is responsible for updating the player

@@ -10,6 +10,24 @@ import static utils.Constants.GameConstants.SCALE;
  */
 public class Constants {
 
+    //****************************
+    //***********GAME*************
+    //****************************
+
+    public static class GameConstants{
+        public final static float SCALE = 2f;
+        public final static int TILES_DEFAULT_SIZE = 16;
+        public final static int TILES_IN_WIDTH = 52;
+        public final static int TILES_IN_HEIGHT = 28;
+        public final static int TILES_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
+        public final static int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
+        public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
+        public final static int FPS_SET = 120;
+        public final static int UPS_SET = 200;
+        public final static double NANO_SECOND = 1000000000.0;
+
+    }
+
     public static class UserInterface{
         public static class Buttons{
             public static final int BTN_WIDTH_DEFAULT = 140;
@@ -29,6 +47,10 @@ public class Constants {
         }
     }
 
+    //****************************
+    //************ENTITY**********
+    //****************************
+
     public static class Directions{
         public static final int LEFT = 0;
         public static final int RIGHT = 2;
@@ -37,6 +59,7 @@ public class Constants {
     public static class EntityConstants{
         public static final float MAX_AIR_SPEED = 5.6f;
         public static final float AIR_SPEED_OFFSET = 2;
+        public static final float BOX_OFFSET_FOR_PLAYER = 57.8f;
 
     }
 
@@ -127,22 +150,6 @@ public class Constants {
         public static final float BOX_MOVESPEED = 0.6f;
 
     }
-
-    public static class GameConstants{
-        public final static float SCALE = 2f;
-        public final static int TILES_DEFAULT_SIZE = 16;
-        public final static int TILES_IN_WIDTH = 52;
-        public final static int TILES_IN_HEIGHT = 28;
-        public final static int TILES_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
-        public final static int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
-        public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
-        public final static int FPS_SET = 120;
-        public final static int UPS_SET = 200;
-        public final static double NANO_SECOND = 1000000000.0;
-
-    }
-
-
 
 }
 
