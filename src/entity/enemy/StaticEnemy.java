@@ -99,6 +99,7 @@ public class StaticEnemy extends Enemy{
                 }
                 if(isActive == false){
                     isActive = true;
+                    animationIndex = 0;
                 } else {
                     isActive = false;
                 }
