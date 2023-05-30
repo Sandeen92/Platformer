@@ -80,7 +80,7 @@ public class StaticEnemy extends Enemy{
         if (animationTick >= animationSpeed) {
             animationTick = 0;
             animationIndex++;
-            if (animationIndex >= 5) {
+            if (animationIndex >= 14) {
                 animationIndex = 0;
             }
         }

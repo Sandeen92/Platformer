@@ -88,8 +88,8 @@ public class Constants {
         public static final int STEAM = 2;
         public static final int STEAM_HEALTHPOINTS = 10;
         public static final int STEAM_ATTACKDAMAGE = 4;
-        public static final int STEAM_WIDTH_DEFAULT = 40;
-        public static final int STEAM_HEIGHT_DEFAULT = 32;
+        public static final int STEAM_WIDTH_DEFAULT = 28;
+        public static final int STEAM_HEIGHT_DEFAULT = 50;
         public static final int STEAM_WIDTH = (int) (STEAM_WIDTH_DEFAULT * SCALE);
         public static final int STEAM_HEIGHT = (int) (STEAM_HEIGHT_DEFAULT * SCALE);
         public static final String STEAM_IMAGE = "/StaticTest.png";
