@@ -6,6 +6,7 @@
 package utils;
 //Imports from within project
 import entity.enemy.Seagull;
+import entity.enemy.StaticEnemy;
 import entity.interactable.Box;
 import entity.enemy.EnemyRat;
 
@@ -15,8 +16,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 //Imports of static variables and methods
-import static utils.Constants.EnemyConstants.RAT;
-import static utils.Constants.EnemyConstants.SEAGULL;
+import static utils.Constants.EnemyConstants.*;
 import static utils.Constants.GameConstants.*;
 import static utils.Constants.InteractableConstants.*;
 
@@ -372,6 +372,25 @@ public class AssistanceMethods {
                 int value = color.getGreen();
                 if (value == SEAGULL) {
                     list.add(new Seagull(i * TILES_SIZE, j * TILES_SIZE));
+                }
+            }
+        }
+        return list;
+    }
+
+    public static ArrayList<StaticEnemy> GetStaticEnemies(BufferedImage img){
+        ArrayList<StaticEnemy> list = new ArrayList<>();
+
+        for (int j = 0; j < img.getHeight(); j++) {
+            for (int i = 0; i < img.getWidth(); i++) {
+                Color color = new Color(img.getRGB(i, j));
+                int value = color.getGreen();
+                if (value == STEAM) {
+                    list.add(new StaticEnemy(i * TILES_SIZE, j * TILES_SIZE, STEAM));
+                } else if(value == FIRE){
+                    list.add(new StaticEnemy(i*TILES_SIZE, j * TILES_SIZE, FIRE));
+                } else if(value == WATER){
+                    list.add(new StaticEnemy(i * TILES_SIZE, j * TILES_SIZE, WATER));
                 }
             }
         }

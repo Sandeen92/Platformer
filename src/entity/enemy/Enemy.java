@@ -34,7 +34,7 @@ public abstract class Enemy{
     protected int currentHealth;
     protected int attackDamage;
     private EnemyManager enemyManager;
-    private int enemyType;
+    public int enemyType;
     private final float patrolSpeed = RAT_PATROL_SPEED;
     private boolean firstUpdate = true;
     private int walkDirection = LEFT;
@@ -479,7 +479,7 @@ public abstract class Enemy{
         @Override
         public void run() {
             try {
-                Thread.sleep(1500);
+                Thread.sleep(100);
                 canAttack = true;
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);

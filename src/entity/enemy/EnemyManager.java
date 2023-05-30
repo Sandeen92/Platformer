@@ -22,6 +22,7 @@ public class EnemyManager {
     private BufferedImage[][] ratImageArray;
     private ArrayList<EnemyRat> rats = new ArrayList<>();
     private ArrayList<Seagull> seagulls = new ArrayList<>();
+    private ArrayList<StaticEnemy> staticEnemies = new ArrayList<>();
 
     /**
      * Constructor for EnemyManager
@@ -38,6 +39,8 @@ public class EnemyManager {
     public void loadEnemies(Level level) {
         rats = level.getRats();
         seagulls = level.getSeagulls();
+        staticEnemies = level.getStaticEnemies();
+
 
         //Alla råttor har 0 hp på banan trots att 6 är satt i konstruktor
         //ta inte bort!
@@ -59,11 +62,19 @@ public class EnemyManager {
             rat.update(levelData);
             rat.checkIfPlayerIsHit(rat, playing.getPlayer());
         }
-
         for (Seagull seagull: seagulls){
             seagull.update(levelData);
             seagull.checkIfPlayerIsHit(seagull, playing.getPlayer());
         }
+
+        for(StaticEnemy staticEnemy : staticEnemies){
+            staticEnemy.update();
+            if(staticEnemy.isActive == true){
+                staticEnemy.checkIfPlayerIsHit(staticEnemy, playing.getPlayer());
+            }
+
+        }
+
     }
 
     /**
@@ -128,6 +139,13 @@ public class EnemyManager {
             g.drawImage(seagull.seagullImage, (int) (seagull.getHitbox().x - levelOffset), (int) seagull.getHitbox().y, SEAGULL_WIDTH, SEAGULL_HEIGHT, null);
             seagull.drawHitbox(g, levelOffset);
             seagull.drawVisionBox(g, levelOffset);
+        }
+        for(StaticEnemy staticEnemy : staticEnemies){
+            if(staticEnemy.isActive == true){
+                g.drawImage(staticEnemy.getStaticEnemyImages()[staticEnemy.getAnimationIndex()], (int) staticEnemy.getHitbox().x - levelOffset, (int) staticEnemy.getHitbox().y, STEAM_WIDTH, STEAM_HEIGHT, null);
+                staticEnemy.drawHitbox(g,levelOffset);
+            }
+
         }
     }
 

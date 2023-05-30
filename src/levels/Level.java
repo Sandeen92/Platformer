@@ -1,6 +1,7 @@
 package levels;
 //Imports from within project
 import entity.enemy.Seagull;
+import entity.enemy.StaticEnemy;
 import entity.interactable.Box;
 import entity.enemy.EnemyRat;
 //Imports from Javas library
@@ -20,6 +21,7 @@ public class Level {
     private BufferedImage levelDataImage;
     private ArrayList<EnemyRat> rats;
     private ArrayList<Seagull> seagulls;
+    private ArrayList<StaticEnemy> staticEnemies;
     private ArrayList<Box> boxes;
     private int levelTilesWidth;
     private int maxTilesOffset;
@@ -71,6 +73,7 @@ public class Level {
     private void createEnemies() {
         rats = GetRats(levelDataImage);
         seagulls = GetSeagulls(levelDataImage);
+        staticEnemies = GetStaticEnemies(levelDataImage);
     }
 
     /**
@@ -109,6 +112,9 @@ public class Level {
 
     public ArrayList<Seagull> getSeagulls(){
         return seagulls;
+    }
+    public ArrayList<StaticEnemy> getStaticEnemies(){
+        return staticEnemies;
     }
 
     public Point getPlayerSpawn() {
