@@ -10,6 +10,7 @@ import entity.player.Player;
 import gamestates.Gamestate;
 import utils.Constants;
 
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 import static utils.AssistanceMethods.*;
@@ -102,6 +103,12 @@ public abstract class Enemy{
      */
     protected void initialiseAttackBox(float x, float y, float width, float height){
         attackBox = new Rectangle2D.Float(x, y, width, height);
+    }
+
+    //For Debugging hitbox
+    protected void drawHitbox(Graphics g, int levelOffset){
+        g.setColor(Color.BLACK);
+        g.drawRect((int) hitbox.x - levelOffset, (int) hitbox.y, (int) hitbox.width, (int) hitbox.height);
     }
 
 

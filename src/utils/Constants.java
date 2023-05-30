@@ -71,6 +71,23 @@ public class Constants {
     }
 
     public static class EnemyConstants{
+        public static final String SEAGULL_IMAGE = "Seagull.png";
+        public static final int SEAGULL = 1;
+        public static final float SEAGULL_X_SPEED = 0.8f;
+        public static final float SEAGULL_Y_SPEED = 0.3f;
+        public static final float SEAGULL_HITBOX_X_OFFSET = 600;
+        public static final float SEAGULL_HITBOX_Y_OFFSET = 250;
+
+        public static final int SEAGULL_WIDTH_DEFAULT = 60;
+        public static final int SEAGULL_HEIGHT_DEFAULT = 20;
+        public static final int SEAGULL_WIDTH = (int) (SEAGULL_WIDTH_DEFAULT * SCALE);
+        public static final int SEAGULL_HEIGHT = (int) (SEAGULL_HEIGHT_DEFAULT * SCALE);
+        public static final int SEAGULL_HEALTHPOINTS = 10;
+        public static final int SEAGULL_ATTACKDAMAGE = 2;
+
+
+
+
         public static final int RAT = 0;
         public static final int IDLE = 0;
         public static final int RUNNING = 1;

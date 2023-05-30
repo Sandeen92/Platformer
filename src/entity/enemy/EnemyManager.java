@@ -21,6 +21,7 @@ public class EnemyManager {
     private Playing playing;
     private BufferedImage[][] ratImageArray;
     private ArrayList<EnemyRat> rats = new ArrayList<>();
+    private ArrayList<Seagull> seagulls = new ArrayList<>();
 
     /**
      * Constructor for EnemyManager
@@ -36,12 +37,16 @@ public class EnemyManager {
      */
     public void loadEnemies(Level level) {
         rats = level.getRats();
+        seagulls = level.getSeagulls();
 
         //Alla råttor har 0 hp på banan trots att 6 är satt i konstruktor
         //ta inte bort!
         for(EnemyRat rat : rats){
             rat.setCurrentHealth(6);
             rat.setMoving(true);
+        }
+        for(Seagull seagull: seagulls){
+            seagull.setPlayer(playing.getPlayer());
         }
     }
 
@@ -53,6 +58,11 @@ public class EnemyManager {
         for(EnemyRat rat : rats){
             rat.update(levelData);
             rat.checkIfPlayerIsHit(rat, playing.getPlayer());
+        }
+
+        for (Seagull seagull: seagulls){
+            seagull.update(levelData);
+            seagull.checkIfPlayerIsHit(seagull, playing.getPlayer());
         }
     }
 
@@ -113,6 +123,11 @@ public class EnemyManager {
         for(EnemyRat c : rats){
             g.drawImage(ratImageArray[c.getEnemyState()][c.getAnimationIndex()], (int) c.getHitbox().x - RAT_DRAW_OFFSET_X - levelOffset + c.getFlipX(), (int) c.getHitbox().y - RAT_DRAW_OFFSET_Y, RAT_WIDTH * c.getFlipW(), RAT_HEIGHT, null );
             //c.drawHitbox(g, levelOffset);
+        }
+        for(Seagull seagull: seagulls){
+            g.drawImage(seagull.seagullImage, (int) (seagull.getHitbox().x - levelOffset), (int) seagull.getHitbox().y, SEAGULL_WIDTH, SEAGULL_HEIGHT, null);
+            seagull.drawHitbox(g, levelOffset);
+            seagull.drawVisionBox(g, levelOffset);
         }
     }
 
