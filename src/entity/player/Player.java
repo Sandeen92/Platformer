@@ -6,10 +6,7 @@
 
 package entity.player;
 //Imports from within project
-import entity.enemy.Enemy;
-import entity.enemy.EnemyManager;
-import entity.enemy.EnemyRat;
-import entity.enemy.Seagull;
+import entity.enemy.*;
 import utils.LoadSave;
 //Imports from Javas library
 import javax.imageio.ImageIO;
@@ -475,7 +472,7 @@ public abstract class Player {
      */
     public void playerHit(Enemy attackingEnemy){
         this.attackingEnemy = attackingEnemy;
-        if (attackingEnemy.getEntityState() != DEAD) {
+        if (attackingEnemy.getEntityState() != DEAD && attackingEnemy instanceof StaticEnemy == false) {
             isHit = true;
             HitTimer ht = new HitTimer();
             ht.start();

@@ -82,12 +82,12 @@ public class Constants {
         public static final int SEAGULL_WIDTH = (int) (SEAGULL_WIDTH_DEFAULT * SCALE);
         public static final int SEAGULL_HEIGHT = (int) (SEAGULL_HEIGHT_DEFAULT * SCALE);
         public static final int SEAGULL_HEALTHPOINTS = 10;
-        public static final int SEAGULL_ATTACKDAMAGE = 1;
+        public static final int SEAGULL_ATTACKDAMAGE = 0;
 
 
         public static final int STEAM = 2;
         public static final int STEAM_HEALTHPOINTS = 10;
-        public static final int STEAM_ATTACKDAMAGE = 4;
+        public static final int STEAM_ATTACKDAMAGE = 10;
         public static final int STEAM_WIDTH_DEFAULT = 46;
         public static final int STEAM_HEIGHT_DEFAULT = 50;
         public static final int STEAM_WIDTH = (int) (STEAM_WIDTH_DEFAULT * SCALE);
@@ -160,8 +160,8 @@ public class Constants {
         public static final float PLAYER_SPEED = 1.2f;
         public static final float RAT_KNOCKBACK_LEFT = -0.3f;
         public static final float RAT_KNOCKBACK_RIGHT = 0.3f;
-        public static final float SEAGULL_KNOCKBACK_LEFT = -0.2f;
-        public static final float SEAGULL_KNOCKBACK_RIGHT = 0.2f;
+        public static final float SEAGULL_KNOCKBACK_LEFT = -0.6f;
+        public static final float SEAGULL_KNOCKBACK_RIGHT = 0.6f;
         public static final int PLAYER_WIDTH = (int) (70 * SCALE);
         public static final int PLAYER_HEIGTH = (int) (45 * SCALE);
         public static final String START_PLAYER_SPRITES = "/PLAYER_SPRITES.png";
