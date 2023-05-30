@@ -52,9 +52,9 @@ public class StaticEnemy extends Enemy{
         InputStream is = getClass().getResourceAsStream(fileName);
         try {
             BufferedImage staticEnemy = ImageIO.read(is);
-            staticEnemyImages = new BufferedImage[5];
+            staticEnemyImages = new BufferedImage[14];
             for (int i = 0; i < staticEnemyImages.length; i++) {
-                staticEnemyImages[i] = staticEnemy.getSubimage(i * 40, 0, 40, 32);
+                staticEnemyImages[i] = staticEnemy.getSubimage(i * 28, 0, 28, 50);
             }
         } catch (IOException e) {
             e.printStackTrace();
