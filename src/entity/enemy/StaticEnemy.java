@@ -40,10 +40,10 @@ public class StaticEnemy extends Enemy{
                 loadAnimations(STEAM_IMAGE);
                 break;
             case FIRE:
-                loadAnimations(FIRE_IMAGE);
+                //loadAnimations(FIRE_IMAGE);
                 break;
             case WATER:
-                loadAnimations(WATER_IMAGE);
+                //loadAnimations(WATER_IMAGE);
                 break;
         }
     }
