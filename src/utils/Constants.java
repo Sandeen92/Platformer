@@ -81,7 +81,7 @@ public class Constants {
         public static final int SEAGULL_HEIGHT_DEFAULT = 16;
         public static final int SEAGULL_WIDTH = (int) (SEAGULL_WIDTH_DEFAULT * SCALE);
         public static final int SEAGULL_HEIGHT = (int) (SEAGULL_HEIGHT_DEFAULT * SCALE);
-        public static final int SEAGULL_HEALTHPOINTS = 10;
+        public static final int SEAGULL_HEALTHPOINTS = 6;
         public static final int SEAGULL_ATTACKDAMAGE = 0;
 
 
@@ -158,8 +158,8 @@ public class Constants {
         public static final float PLAYER_X_DRAW_OFFSET = 24 * SCALE;
         public static final float PLAYER_Y_DRAW_OFFSET = 14 * SCALE;
         public static final float PLAYER_SPEED = 1.2f;
-        public static final float RAT_KNOCKBACK_LEFT = -0.3f;
-        public static final float RAT_KNOCKBACK_RIGHT = 0.3f;
+        public static final float RAT_KNOCKBACK_LEFT = -0.4f;
+        public static final float RAT_KNOCKBACK_RIGHT = 0.4f;
         public static final float SEAGULL_KNOCKBACK_LEFT = -0.6f;
         public static final float SEAGULL_KNOCKBACK_RIGHT = 0.6f;
         public static final int PLAYER_WIDTH = (int) (70 * SCALE);
