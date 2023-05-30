@@ -160,8 +160,8 @@ public class Constants {
         public static final float PLAYER_SPEED = 1.2f;
         public static final float RAT_KNOCKBACK_LEFT = -0.3f;
         public static final float RAT_KNOCKBACK_RIGHT = 0.3f;
-        public static final float SEAGULL_KNOCKBACK_LEFT = -0.2f;
-        public static final float SEAGULL_KNOCKBACK_RIGHT = 0.2f;
+        public static final float SEAGULL_KNOCKBACK_LEFT = -0.3f;
+        public static final float SEAGULL_KNOCKBACK_RIGHT = 0.3f;
         public static final int PLAYER_WIDTH = (int) (70 * SCALE);
         public static final int PLAYER_HEIGTH = (int) (45 * SCALE);
         public static final String START_PLAYER_SPRITES = "/PLAYER_SPRITES.png";

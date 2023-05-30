@@ -701,7 +701,6 @@ public abstract class Player {
      */
     protected void setHorizontalKnockbackSpeed(float knockbackSpeed){
         horizontalSpeed = knockbackSpeed;
-        hitbox.x += horizontalSpeed;
     }
 
     /**
