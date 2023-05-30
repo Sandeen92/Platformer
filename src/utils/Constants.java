@@ -87,7 +87,7 @@ public class Constants {
 
         public static final int STEAM = 2;
         public static final int STEAM_HEALTHPOINTS = 10;
-        public static final int STEAM_ATTACKDAMAGE = 4;
+        public static final int STEAM_ATTACKDAMAGE = 10;
         public static final int STEAM_WIDTH_DEFAULT = 46;
         public static final int STEAM_HEIGHT_DEFAULT = 50;
         public static final int STEAM_WIDTH = (int) (STEAM_WIDTH_DEFAULT * SCALE);
