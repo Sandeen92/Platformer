@@ -50,6 +50,7 @@ public class EnemyManager {
         }
         for(Seagull seagull: seagulls){
             seagull.setPlayer(playing.getPlayer());
+            seagull.setCurrentHealth(SEAGULL_HEALTHPOINTS);
         }
     }
 
@@ -139,6 +140,7 @@ public class EnemyManager {
             g.drawImage(seagull.seagullImage, (int) (seagull.getHitbox().x - levelOffset), (int) seagull.getHitbox().y, SEAGULL_WIDTH, SEAGULL_HEIGHT, null);
             seagull.drawHitbox(g, levelOffset);
             seagull.drawVisionBox(g, levelOffset);
+            seagull.drawAttackBox(g,levelOffset);
         }
         for(StaticEnemy staticEnemy : staticEnemies){
             if(staticEnemy.isActive == true){

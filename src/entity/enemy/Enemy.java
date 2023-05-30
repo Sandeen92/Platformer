@@ -479,7 +479,7 @@ public abstract class Enemy{
         @Override
         public void run() {
             try {
-                Thread.sleep(100);
+                Thread.sleep(500);
                 canAttack = true;
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);

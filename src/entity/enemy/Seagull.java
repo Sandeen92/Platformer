@@ -38,7 +38,7 @@ public class Seagull extends Enemy{
 
     protected void updateEntityPosition(int levelData[][]){
         moveEntity(levelData);
-        updateVisionBox();
+        updateVisionAndAttackBox();
     }
 
     /**
@@ -52,9 +52,10 @@ public class Seagull extends Enemy{
         }
     }
 
-    private void updateVisionBox(){
+    private void updateVisionAndAttackBox(){
         visionBox.x = hitbox.x - SEAGULL_HITBOX_X_OFFSET;
         visionBox.y = hitbox.y - SEAGULL_HITBOX_Y_OFFSET;
+        attackBox = hitbox;
     }
 
     private void updateSeagullPosition(){
@@ -81,6 +82,13 @@ public class Seagull extends Enemy{
         g.setColor(Color.BLACK);
         g.drawRect((int) visionBox.x - levelOffset, (int) visionBox.y, (int) visionBox.width, (int) visionBox.height);
     }
+
+    protected void drawAttackBox(Graphics g, int levelOffset){
+        g.setColor(Color.BLUE);
+        g.drawRect((int) attackBox.x - levelOffset, (int) attackBox.y, (int) attackBox.width, (int) attackBox.height);
+    }
+
+
 
     public void setPlayer(Player player) {
         this.player = player;
