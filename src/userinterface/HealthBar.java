@@ -63,7 +63,12 @@ public class HealthBar {
      * @param health the current health value
      */
     public void updateCurrentHealth(int health) {
-        rowIndex = 10 - health;
+        if ((10 - health) < 0 || (10 - health) > 10){
+            rowIndex = 10;
+        }
+        else {
+            rowIndex = 10 - health;
+        }
     }
 
     /**
