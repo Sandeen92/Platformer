@@ -156,9 +156,6 @@ public class EnemyManager {
         }
         for(Seagull seagull: seagulls){
             g.drawImage(seagull.seagullAnimation[seagull.animationIndex], (int) (seagull.getHitbox().x - levelOffset + seagull.getFlipX()), (int) seagull.getHitbox().y, SEAGULL_WIDTH * seagull.getFlipW(), SEAGULL_HEIGHT, null);
-            seagull.drawHitbox(g, levelOffset);
-            seagull.drawVisionBox(g, levelOffset);
-            seagull.drawAttackBox(g,levelOffset);
         }
         for(StaticEnemy staticEnemy : staticEnemies){
             if(staticEnemy.isActive == true){
