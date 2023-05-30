@@ -40,10 +40,10 @@ public class StaticEnemy extends Enemy{
                 loadAnimations(STEAM_IMAGE);
                 break;
             case FIRE:
-                loadAnimations(FIRE_IMAGE);
+                //loadAnimations(FIRE_IMAGE);
                 break;
             case WATER:
-                loadAnimations(WATER_IMAGE);
+                //loadAnimations(WATER_IMAGE);
                 break;
         }
     }
@@ -52,9 +52,9 @@ public class StaticEnemy extends Enemy{
         InputStream is = getClass().getResourceAsStream(fileName);
         try {
             BufferedImage staticEnemy = ImageIO.read(is);
-            staticEnemyImages = new BufferedImage[5];
+            staticEnemyImages = new BufferedImage[14];
             for (int i = 0; i < staticEnemyImages.length; i++) {
-                staticEnemyImages[i] = staticEnemy.getSubimage(i * 40, 0, 40, 32);
+                staticEnemyImages[i] = staticEnemy.getSubimage(i * 28, 0, 28, 50);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -80,7 +80,7 @@ public class StaticEnemy extends Enemy{
         if (animationTick >= animationSpeed) {
             animationTick = 0;
             animationIndex++;
-            if (animationIndex >= 5) {
+            if (animationIndex >= 14) {
                 animationIndex = 0;
             }
         }
@@ -99,6 +99,7 @@ public class StaticEnemy extends Enemy{
                 }
                 if(isActive == false){
                     isActive = true;
+                    animationIndex = 0;
                 } else {
                     isActive = false;
                 }
