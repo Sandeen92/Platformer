@@ -20,6 +20,7 @@ public class LoadSave {
 
     public static final String LEVEL_ATLAS = "LEVEL_ONE_TILESET_SPRITES.png";
     public static final String RAT_ENEMY = "ENEMY_RAT_BROWN.png";
+    public static final String SEAGULL_IMAGE = "/SeagullSprite.png";
     public static final String STARTMENU_BACKGROUND = "STARTMENU_BACKGROUND.png";
     public static final String DEATHSCREEN = "src/resources/DEATHSCREEN.gif";
     public static final String DEATHSCREEN_YOUDIED = "youded.png";

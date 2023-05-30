@@ -155,7 +155,7 @@ public class EnemyManager {
             //c.drawHitbox(g, levelOffset);
         }
         for(Seagull seagull: seagulls){
-            g.drawImage(seagull.seagullImage, (int) (seagull.getHitbox().x - levelOffset), (int) seagull.getHitbox().y, SEAGULL_WIDTH, SEAGULL_HEIGHT, null);
+            g.drawImage(seagull.seagullAnimation[seagull.animationIndex], (int) (seagull.getHitbox().x - levelOffset + seagull.getFlipX()), (int) seagull.getHitbox().y, SEAGULL_WIDTH * seagull.getFlipW(), SEAGULL_HEIGHT, null);
             seagull.drawHitbox(g, levelOffset);
             seagull.drawVisionBox(g, levelOffset);
             seagull.drawAttackBox(g,levelOffset);

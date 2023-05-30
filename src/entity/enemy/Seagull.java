@@ -3,18 +3,25 @@ package entity.enemy;
 import entity.player.Player;
 import utils.LoadSave;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 
+import static utils.Constants.Directions.LEFT;
+import static utils.Constants.Directions.RIGHT;
 import static utils.Constants.EnemyConstants.*;
 import static utils.Constants.GameConstants.SCALE;
+import static utils.LoadSave.SEAGULL_IMAGE;
 
 public class Seagull extends Enemy{
    private Rectangle2D.Float visionBox;
    private Player player;
    private float xSpeed;
    private float ySpeed;
-   public Image seagullImage;
+   public BufferedImage[] seagullAnimation;
    private boolean patrolDirection;
    private PatrolChanger patrolChanger;
     /**
@@ -37,7 +44,7 @@ public class Seagull extends Enemy{
         patrolDirection = false;
         patrolChanger = new PatrolChanger();
         patrolChanger.start();
-        seagullImage = LoadSave.GetImage(SEAGULL_IMAGE);
+        loadAnimations(SEAGULL_IMAGE);
     }
 
     protected void updateEntityPosition(int levelData[][]){
@@ -56,10 +63,13 @@ public class Seagull extends Enemy{
         } else {
             if(patrolDirection == false){
                 hitbox.x += SEAGULL_X_SPEED;
+                walkDirection = RIGHT;
             } else if(patrolDirection == true){
                 hitbox.x -= SEAGULL_X_SPEED;
+                walkDirection = LEFT;
             }
         }
+        changeFacingDirection();
     }
 
 
@@ -81,12 +91,50 @@ public class Seagull extends Enemy{
         } else if(hitbox.y > player.getHitbox().y){
             ySpeed = -SEAGULL_Y_SPEED;
         }
-        if(hitbox.x < player.getHitbox().x){
+        if(hitbox.x < player.getHitbox().x ){
             xSpeed = SEAGULL_X_SPEED;
+            walkDirection = RIGHT;
         } else if(hitbox.x > player.getHitbox().x){
             xSpeed = -SEAGULL_X_SPEED;
+            walkDirection = LEFT;
         }
     }
+
+
+    private void loadAnimations(String fileName){
+        InputStream is = getClass().getResourceAsStream(fileName);
+        try {
+            BufferedImage staticEnemy = ImageIO.read(is);
+            seagullAnimation = new BufferedImage[8];
+            for (int i = 0; i < seagullAnimation.length; i++) {
+                seagullAnimation[i] = staticEnemy.getSubimage(i * 18, 0, 16, 16);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    /**
+     * This method updates the animationtick to keep track of the animation
+     */
+    protected void updateAnimationTick(){
+        animationTick++;
+        if (animationTick >= animationSpeed) {
+            animationTick = 0;
+            animationIndex++;
+            if (animationIndex >= 8) {
+                animationIndex = 0;
+            }
+        }
+    }
+
 
     //For Debugging hitbox
     protected void drawVisionBox(Graphics g, int levelOffset){
@@ -108,7 +156,7 @@ public class Seagull extends Enemy{
         public void run() {
            while(true){
                try {
-                   Thread.sleep(6000);
+                   Thread.sleep(4500);
                } catch (InterruptedException e) {
                    throw new RuntimeException(e);
                }
