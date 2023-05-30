@@ -162,6 +162,20 @@ public class Playing extends State implements StateMethods {
         }
     }
 
+    public void muteAudio(){
+        if (clip != null && clip.isRunning()){
+            FloatControl volumeController = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            volumeController.setValue(volumeController.getMinimum());
+        }
+    }
+
+    public void unmuteAudio(){
+        if (clip != null && clip.isRunning()){
+            FloatControl volumeController = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            volumeController.setValue(-19.0f);
+        }
+    }
+
     /**
      * Loads the level data to the player.
      */
@@ -337,6 +351,15 @@ public class Playing extends State implements StateMethods {
             case KeyEvent.VK_O:
                 //Developer function - FINISH LEVEL
                 Gamestate.state = Gamestate.LEVELCOMPLETED;
+                break;
+
+            case KeyEvent.VK_F5:
+                muteAudio();
+                break;
+
+            case KeyEvent.VK_F6:
+                unmuteAudio();
+                break;
         }
     }
 
