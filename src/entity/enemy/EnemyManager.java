@@ -160,7 +160,7 @@ public class EnemyManager {
         for(StaticEnemy staticEnemy : staticEnemies){
             if(staticEnemy.isActive == true){
                 g.drawImage(staticEnemy.getStaticEnemyImages()[staticEnemy.getAnimationIndex()], (int) staticEnemy.getHitbox().x - levelOffset, (int) staticEnemy.getHitbox().y, STEAM_WIDTH, STEAM_HEIGHT, null);
-                staticEnemy.drawHitbox(g,levelOffset);
+                //staticEnemy.drawHitbox(g,levelOffset);
             }
 
         }
