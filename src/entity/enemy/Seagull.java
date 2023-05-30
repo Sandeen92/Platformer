@@ -24,6 +24,8 @@ public class Seagull extends Enemy{
    public BufferedImage[] seagullAnimation;
    private boolean patrolDirection;
    private PatrolChanger patrolChanger;
+   private Rectangle2D.Float startPoint;
+   private boolean onStartPoint;
     /**
      * Constructor for enemy
      *
@@ -39,8 +41,10 @@ public class Seagull extends Enemy{
         visionBox = new Rectangle2D.Float(x,y,1200,500);
         initialiseHitbox(x,y,20 * SCALE,15*SCALE);
         initialiseAttackBox(x,y,20 * SCALE,15 * SCALE);
+        startPoint = new Rectangle2D.Float(x,y,20*SCALE, 15 * SCALE);
         this.xSpeed = 0;
         this.ySpeed = 0;
+        this.onStartPoint = true;
         patrolDirection = false;
         patrolChanger = new PatrolChanger();
         patrolChanger.start();
@@ -60,16 +64,42 @@ public class Seagull extends Enemy{
     protected void moveEntity(int[][] levelData) {
         if (player.getHitbox().intersects(visionBox)){
             updateSeagullPosition();
+            onStartPoint = false;
         } else {
-            if(patrolDirection == false){
-                hitbox.x += SEAGULL_X_SPEED;
-                walkDirection = RIGHT;
-            } else if(patrolDirection == true){
-                hitbox.x -= SEAGULL_X_SPEED;
-                walkDirection = LEFT;
+            if(onStartPoint == false){
+                returnToSpawnPoint();
+            } else {
+                if(patrolDirection == false){
+                    hitbox.x += SEAGULL_X_SPEED;
+                    walkDirection = RIGHT;
+                } else if(patrolDirection == true){
+                    hitbox.x -= SEAGULL_X_SPEED;
+                    walkDirection = LEFT;
+                }
             }
+
         }
         changeFacingDirection();
+    }
+
+    private void returnToSpawnPoint() {
+        if(hitbox.intersects(startPoint)){
+            onStartPoint = true;
+            return;
+        }
+
+        if(hitbox.x < startPoint.x + 3){
+            hitbox.x += SEAGULL_X_SPEED;
+            walkDirection = RIGHT;
+        } else if(hitbox.x > startPoint.x){
+            hitbox.x -= SEAGULL_X_SPEED;
+            walkDirection = LEFT;
+        }
+        if(hitbox.y < startPoint.y){
+            hitbox.y += SEAGULL_Y_SPEED;
+        } else if(hitbox.y > startPoint.y){
+            hitbox.y -= SEAGULL_Y_SPEED;
+        }
     }
 
 
