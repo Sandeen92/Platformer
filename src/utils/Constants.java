@@ -72,7 +72,7 @@ public class Constants {
 
     public static class EnemyConstants{
         public static final int SEAGULL = 1;
-        public static final float SEAGULL_X_SPEED = 0.7f;
+        public static final float SEAGULL_X_SPEED = 0.55f;
         public static final float SEAGULL_Y_SPEED = 0.25f;
         public static final float SEAGULL_HITBOX_X_OFFSET = 600;
         public static final float SEAGULL_HITBOX_Y_OFFSET = 250;
