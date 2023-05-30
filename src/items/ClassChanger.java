@@ -29,7 +29,7 @@ public class ClassChanger {
      * Initializes the hitbox of the object.
      */
     private void initialiseHitbox(){
-        hitbox = new Rectangle2D.Float(3000,707,50,50);
+        hitbox = new Rectangle2D.Float(4700,450,50,50);
     }
 
     /**

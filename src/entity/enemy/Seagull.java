@@ -96,9 +96,9 @@ public class Seagull extends Enemy{
             walkDirection = LEFT;
         }
         if(hitbox.y < startPoint.y){
-            hitbox.y += SEAGULL_Y_SPEED;
+            hitbox.y += SEAGULL_Y_SPEED + 1;
         } else if(hitbox.y > startPoint.y){
-            hitbox.y -= SEAGULL_Y_SPEED;
+            hitbox.y -= SEAGULL_Y_SPEED + 1;
         }
     }
 

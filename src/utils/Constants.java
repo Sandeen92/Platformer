@@ -185,7 +185,7 @@ public class Constants {
     }
 
     public static class GunManConstants{
-        public static final String GUN_MAN_CHANGER = "/GUN_MAN_CHANGER.png";
+        public static final String GUN_MAN_CHANGER = "/GUNMANCHANGER.png";
         public static final String GUN_MAN_SPRITES = "/GUN_MAN.png";
     }
 
