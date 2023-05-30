@@ -81,7 +81,7 @@ public class Constants {
         public static final int SEAGULL_HEIGHT_DEFAULT = 16;
         public static final int SEAGULL_WIDTH = (int) (SEAGULL_WIDTH_DEFAULT * SCALE);
         public static final int SEAGULL_HEIGHT = (int) (SEAGULL_HEIGHT_DEFAULT * SCALE);
-        public static final int SEAGULL_HEALTHPOINTS = 10;
+        public static final int SEAGULL_HEALTHPOINTS = 4;
         public static final int SEAGULL_ATTACKDAMAGE = 1;
 
 
