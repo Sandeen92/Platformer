@@ -8,6 +8,8 @@ package entity.player;
 //Imports from within project
 import entity.enemy.Enemy;
 import entity.enemy.EnemyManager;
+import entity.enemy.EnemyRat;
+import entity.enemy.Seagull;
 import utils.LoadSave;
 //Imports from Javas library
 import javax.imageio.ImageIO;
@@ -324,10 +326,19 @@ public abstract class Player {
      * @param enemy
      */
     protected void getKnockbackDirection(Enemy enemy){
+        if (enemy instanceof EnemyRat){
         if(hitbox.x < enemy.getHitbox().x){
-            setHorizontalKnockbackSpeed(PLAYER_KNOCKBACK_LEFT);
-        } else if (hitbox.x > enemy.getHitbox().x){
-            setHorizontalKnockbackSpeed(PLAYER_KNOCKBACK_RIGHT);
+            setHorizontalKnockbackSpeed(RAT_KNOCKBACK_LEFT);
+        } else if (hitbox.x > enemy.getHitbox().x) {
+            setHorizontalKnockbackSpeed(RAT_KNOCKBACK_RIGHT);
+        }
+        }
+        else if (enemy instanceof Seagull){
+            if(hitbox.x < enemy.getHitbox().x){
+                setHorizontalKnockbackSpeed(SEAGULL_KNOCKBACK_LEFT);
+            } else if (hitbox.x > enemy.getHitbox().x) {
+                setHorizontalKnockbackSpeed(SEAGULL_KNOCKBACK_RIGHT);
+            }
         }
     }
 
@@ -563,7 +574,12 @@ public abstract class Player {
         }
     }
 
-    public void loadJumpSoundEffect(){
+    /**
+     * Loads and initializes the jump sound effect.
+     * The sound effect file is retrieved from the LoadSave class.
+     * Adjusts the volume of the sound effect.
+     */
+    public void loadJumpSoundEffect() {
         audioFiles[0] = new File(LoadSave.JUMP_SOUND_EFFECT);
         try {
             if (audioFiles[0] != null) {
@@ -578,7 +594,12 @@ public abstract class Player {
         }
     }
 
-    public void loadGunshotSoundEffect(){
+    /**
+     * Loads and initializes the gunshot sound effect.
+     * The sound effect file is retrieved from the LoadSave class.
+     * Adjusts the volume of the sound effect.
+     */
+    public void loadGunshotSoundEffect() {
         audioFiles[1] = new File(LoadSave.GUNSHOT_SOUND_EFFECT);
         try {
             if (audioFiles[1] != null) {
@@ -593,7 +614,12 @@ public abstract class Player {
         }
     }
 
-    public void loadHitSoundEffect(){
+    /**
+     * Loads and initializes the hit sound effect.
+     * The sound effect file is retrieved from the LoadSave class.
+     * Adjusts the volume of the sound effect.
+     */
+    public void loadHitSoundEffect() {
         audioFiles[2] = new File(LoadSave.HIT_SOUND_EFFECT);
         try {
             if (audioFiles[2] != null) {
@@ -659,7 +685,7 @@ public abstract class Player {
             boxAttackBox.y = hitbox.y;
         } else if (facingDirection == 1){
             //Höger
-            boxAttackBox.x = hitbox.x + xOffset;
+            boxAttackBox.x = hitbox.x - (xOffset + 500);
             boxAttackBox.y = hitbox.y;
         }
     }
