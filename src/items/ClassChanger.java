@@ -39,7 +39,7 @@ public class ClassChanger {
      */
     public boolean checkIfPlayerCollides(){
         if(hitbox.intersects(playing.getPlayer().getHitbox())){
-            playing.changeClass("GunMan", playing.getPlayer().getHitbox().x, playing.getPlayer().getHitbox().y);
+            playing.changeClass("GunMan", playing.getPlayer().getHitbox().x, playing.getPlayer().getHitbox().y, playing.getPlayer().getFacingDirection());
             playing.getEnemyManager().initlalisePlayerToseagulls();
             return true;
         }

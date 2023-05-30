@@ -256,7 +256,7 @@ public abstract class Player {
     /**
      * This method flips the player to the left
      */
-    protected void flipPlayerLeft(){
+    public void flipPlayerLeft(){
         if (!isPushing) {
             horizontalSpeed = leftPlayerSpeed;
         }
@@ -277,7 +277,7 @@ public abstract class Player {
     /**
      * This method flips the player to the rigth
      */
-    protected void flipPlayerRight(){
+    public void flipPlayerRight(){
         if (!isPushing) {
             horizontalSpeed = rightPlayerSpeed;
         }
@@ -891,6 +891,13 @@ public abstract class Player {
 
     public boolean isHit(){
         return isHit;
+    }
+
+    public int getFacingDirection(){
+        return  facingDirection;
+    }
+    public void setMovingDirection(MovingDirection movingDirection){
+        this.movingDirection = movingDirection;
     }
 
     /**

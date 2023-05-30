@@ -176,16 +176,22 @@ public class Playing extends State implements StateMethods {
      * @param x the X position of the new player
      * @param y the Y position of the new player
      */
-    public void changeClass(String className, float x, float y){
+    public void changeClass(String className, float x, float y, int walkingDirection){
         switch (className){
             case "StartPlayer":
                 player = new Start_Player(x,y, (PLAYER_WIDTH),(PLAYER_HEIGTH), 10, 2, enemyManager);
                 loadLevelDataToPlayer();
+                if(walkingDirection == 1){
+                    player.flipPlayerRight();
+                } else {
+                    player.flipPlayerLeft();
+                }
                 interactablesManager.loadBoxes(levelManager.getCurrentLevel());
                 break;
             case "GunMan":
                 player = new Gun_Player(x,y, (PLAYER_WIDTH),(PLAYER_HEIGTH), 10, 2, enemyManager, projectileManager);
                 loadLevelDataToPlayer();
+                player.setFacingDirection(walkingDirection);
                 interactablesManager.loadBoxes(levelManager.getCurrentLevel());
                 break;
         }
@@ -309,12 +315,12 @@ public class Playing extends State implements StateMethods {
 
             case KeyEvent.VK_G:
                 //Developer function
-                changeClass("GunMan", getPlayer().getHitbox().x, getPlayer().getHitbox().y);
+                //changeClass("GunMan", getPlayer().getHitbox().x, getPlayer().getHitbox().y);
                 enemyManager.initlalisePlayerToseagulls();
                 break;
             case KeyEvent.VK_H:
                 //Developer function
-                changeClass("StartPlayer", getPlayer().getHitbox().x, getPlayer().getHitbox().y);
+                //changeClass("StartPlayer", getPlayer().getHitbox().x, getPlayer().getHitbox().y);
                 enemyManager.initlalisePlayerToseagulls();
                 break;
 
