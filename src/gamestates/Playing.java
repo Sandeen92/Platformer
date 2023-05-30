@@ -310,10 +310,12 @@ public class Playing extends State implements StateMethods {
             case KeyEvent.VK_G:
                 //Developer function
                 changeClass("GunMan", getPlayer().getHitbox().x, getPlayer().getHitbox().y);
+                enemyManager.initlalisePlayerToseagulls();
                 break;
             case KeyEvent.VK_H:
                 //Developer function
                 changeClass("StartPlayer", getPlayer().getHitbox().x, getPlayer().getHitbox().y);
+                enemyManager.initlalisePlayerToseagulls();
                 break;
 
             case KeyEvent.VK_F2:

@@ -48,9 +48,15 @@ public class EnemyManager {
             rat.setCurrentHealth(6);
             rat.setMoving(true);
         }
+        initlalisePlayerToseagulls();
         for(Seagull seagull: seagulls){
-            seagull.setPlayer(playing.getPlayer());
             seagull.setCurrentHealth(SEAGULL_HEALTHPOINTS);
+        }
+    }
+
+    public void initlalisePlayerToseagulls(){
+        for(Seagull seag: seagulls){
+            seag.setPlayer(playing.getPlayer());
         }
     }
 
