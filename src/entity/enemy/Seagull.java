@@ -15,7 +15,8 @@ public class Seagull extends Enemy{
    private float xSpeed;
    private float ySpeed;
    public Image seagullImage;
-
+   private boolean patrolDirection;
+   private PatrolChanger patrolChanger;
     /**
      * Constructor for enemy
      *
@@ -33,6 +34,9 @@ public class Seagull extends Enemy{
         initialiseAttackBox(x,y,20 * SCALE,15 * SCALE);
         this.xSpeed = 0;
         this.ySpeed = 0;
+        patrolDirection = false;
+        patrolChanger = new PatrolChanger();
+        patrolChanger.start();
         seagullImage = LoadSave.GetImage(SEAGULL_IMAGE);
     }
 
@@ -49,8 +53,15 @@ public class Seagull extends Enemy{
     protected void moveEntity(int[][] levelData) {
         if (player.getHitbox().intersects(visionBox)){
             updateSeagullPosition();
+        } else {
+            if(patrolDirection == false){
+                hitbox.x += SEAGULL_X_SPEED;
+            } else if(patrolDirection == true){
+                hitbox.x -= SEAGULL_X_SPEED;
+            }
         }
     }
+
 
     private void updateVisionAndAttackBox(){
         visionBox.x = hitbox.x - SEAGULL_HITBOX_X_OFFSET;
@@ -65,7 +76,7 @@ public class Seagull extends Enemy{
     }
 
     private void checkWhichWayToMove(){
-        if(hitbox.y < player.getHitbox().y){
+        if(hitbox.y < player.getHitbox().y + 10){
             ySpeed = SEAGULL_Y_SPEED;
         } else if(hitbox.y > player.getHitbox().y){
             ySpeed = -SEAGULL_Y_SPEED;
@@ -88,9 +99,26 @@ public class Seagull extends Enemy{
         g.drawRect((int) attackBox.x - levelOffset, (int) attackBox.y, (int) attackBox.width, (int) attackBox.height);
     }
 
-
-
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    private class PatrolChanger extends Thread{
+        @Override
+        public void run() {
+           while(true){
+               try {
+                   Thread.sleep(6000);
+               } catch (InterruptedException e) {
+                   throw new RuntimeException(e);
+               }
+               if(patrolDirection == false){
+                   patrolDirection = true;
+               } else {
+                   patrolDirection = false;
+               }
+           }
+
+        }
     }
 }

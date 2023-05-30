@@ -97,6 +97,15 @@ public class EnemyManager {
                 return true;
             }
         }
+        for(Seagull seagull: seagulls){
+            if(bullet.getHitbox().intersects(seagull.hitbox) == true && bullet.canDoDamage && seagull.getEntityState() != DEAD){
+                bullet.canDoDamage = false;
+                seagull.enemyTakeDamage(2);
+                checkIfEnemyIsDead(seagull);
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -121,6 +130,9 @@ public class EnemyManager {
     public void checkIfEnemyIsDead(Enemy enemy){
         if(enemy.isEntityDead() == true && enemy instanceof EnemyRat rat){
             rat.setMoving(false);
+        }
+        if(enemy.isEntityDead() == true && enemy instanceof Seagull seagull){
+            seagulls.remove(seagull);
         }
     }
 
