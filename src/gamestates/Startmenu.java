@@ -98,7 +98,7 @@ public class Startmenu extends State implements StateMethods{
         menuBackground = LoadSave.GetSpriteAtlas(LoadSave.STARTMENU_BACKGROUND);
         menuWidth = (int) (menuBackground.getWidth() - SCALE);
         menuHeight = (int) (menuBackground.getHeight() - SCALE);
-        menuX =  30;
+        menuX =  1;
         menuY =  0;
     }
 
